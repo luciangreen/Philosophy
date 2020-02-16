@@ -1,0 +1,6 @@
+%% mensicus.pl
+%% https://lucianpedia.fandom.com/wiki/About_Breathsonings_Theory 19
+
+%% reading(Type,Top,Bottom,Reading).
+reading(concave,_Top,Bottom,Bottom).
+reading(convex,Top,_Bottom,Top).
