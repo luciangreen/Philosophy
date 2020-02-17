@@ -26,7 +26,7 @@ where filename is the name of the file.
 
 * To run a specific test:
 `test1(off,TestNumber,Passed).`
-where TestNumber is the test number from lpiverify4.pl in List Prolog.
+where TestNumber is the test number from <a href="lpiverify4.pl">lpiverify4.pl</a> in List Prolog.
 
 # Authors
 
