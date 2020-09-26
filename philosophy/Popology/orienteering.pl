@@ -11,7 +11,7 @@
 %% The point 6,15 goes on an angle 243 degrees for 6.7 units to 3,9, etc.
 
 orienteering(List1) :-
-	generate_points(3,Points1),
+	generate_points(10,Points1),
 	choose_starting_point(Points1,Point1,Points2),
 	find_first_point(Point1,Points2,Point2,Points3),
 	%%trace,
