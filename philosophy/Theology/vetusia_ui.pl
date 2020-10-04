@@ -80,8 +80,10 @@ location(Z,_X,Y,"Underwater Maze") :-
 	(Z=5->true;Z=6),Y<11,!.
 location(Z,X,Y,"Underwater Maze") :-
 	(Z=7->true;Z=8),X=<13,Y=<9,!.
-location(Z,X,Y,"Rainforest Canopy") :-
-	(Z=7->true;Z=8),X>13,Y>9,!.
+location(7,_X,_Y,"Rainforest Canopy") :- !.
+location(8,_X,_Y,"Rainforest Canopy") :- !.
+%%	(Z=7->true;Z=8),X>13,Y>9,!.
+location(6,_X,_Y,"Rainforest Canopy") :- !.
 location(9,_X,_Y,"Rainforest Canopy") :- !.
 location(_,_,_,"Unknown") :- !.
 
