@@ -205,7 +205,7 @@ This is where:
 * b4 box 4 to c crystal statuette -> e exit
 
 # Vetusia User Interface
-Multiple levels (Vetusia) in which it is the goal of the human player to find the exit, using.
+Multiple levels (Vetusia) in which it is the goal of the human player to find the exit.
 * Enter:
 `['vetusia_ui.pl'].`
 `vetusia.`
