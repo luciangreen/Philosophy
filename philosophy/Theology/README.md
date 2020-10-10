@@ -8,7 +8,7 @@ After downloading this repository and navigating to the Philosophy/philosophy/Th
 * Download and run swipl.
 
 # Rainforest
-A single level (not Vetusia) which eventually finds the exit.
+A single level (not Vetusia) in which the algorithm eventually finds the exit.
 * Enter:
 `['theology3.7.1.pl'].`
 `traverse(2,6).`
@@ -33,7 +33,7 @@ This is where:
 * machete to vine->exit
 
 # Rainforest 3D
-Multiple levels (not Vetusia) which eventually finds the exit.
+Multiple levels (not Vetusia) in which the algorithm eventually finds the exit.
 * Enter:
 `['theology3.7.1.2.pl'].`
 `traverse(2,2,6).`
@@ -72,7 +72,7 @@ Game Over
 This is where the items are the same as above.
 
 # Vetusia Verifier
-Multiple levels (Vetusia) which eventually finds the exit.
+Multiple levels (Vetusia) in which the algorithm eventually finds the exit.
 * Enter:
 `['theology3.7.1.3_vetusia3d.pl'].`
 `traverse(5,14,16).`
@@ -205,7 +205,7 @@ This is where:
 * b4 box 4 to c crystal statuette -> e exit
 
 # Vetusia User Interface
-Multiple levels (Vetusia) which in which it is the goal of the human player to find the exit.
+Multiple levels (Vetusia) in which it is the goal of the human player to find the exit, using.
 * Enter:
 `['vetusia_ui.pl'].`
 `vetusia.`
