@@ -2,6 +2,8 @@
 
 :-include('quizmaze.pl').
 
+%% Reference: Peanuts Encyclopaedia of Science
+
 /**
 
 ?- quizmaze.
