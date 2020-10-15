@@ -26,8 +26,8 @@ where filename is the name of the file.
 * Enter `name_of_predicate(Input,Output).` where name_of_predicate is the main predicate of the algorithm, and the input and output arguments are given.
 
 * If the algorithm is a List Prolog algorithm, run it in List Prolog.
-* In the SWI-Prolog environment, enter:
-`['listprolog'].`    
+* In the SWI-Prolog environment in the Philosophy folder, enter:
+`['../listprologinterpreter/listprolog'].`    
 
 * To run a specific test:
 `test1(off,TestNumber,Passed).`
