@@ -1,3 +1,7 @@
+% ["Fundamentals of Pedagogy and Pedagogy Indicators","FUNDAMENTALS OF PEDAGOGY by Lucian Green Two Uses 4 of 4.txt",0,algorithms,"ALEXIS: The subject should state that he desires the warm space."]
+
+% Sort the list.
+
 sort1([],List,List) :- !.
 sort1(List1,List2,List3) :-
 	maximum1(List1,Item,List4),
