@@ -1,0 +1,11 @@
+tt(Result):-findall(C,(member(V1,[0,1]),true1(or(V1,(not(V1))),C)),Result).
+true1(or(A,B),C):-true1(A,A1),true1(B,B1),or1(A1,B1,C).
+true1(not(A),C):-true1(A,A1),not1(A1,C).
+or1(1,1,1).
+or1(1,0,1).
+or1(0,1,1).
+or1(0,0,0).
+not1(0,1).
+not1(1,0).
+true1(1,1).
+true1(0,0).
