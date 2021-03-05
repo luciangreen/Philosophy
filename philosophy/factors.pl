@@ -19,7 +19,7 @@ F = [2, 2, 2].
 F = [2, 2, 3].
 **/
 
-:-include('../../../GitHub/listprologinterpreter/la_maths.pl').
+:-include('../../listprologinterpreter/la_maths.pl').
 factors(1,_,[1]) :- !.
 factors(N1,F1,F2) :-
 	numbers1(N1,N2),

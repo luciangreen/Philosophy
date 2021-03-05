@@ -7,8 +7,8 @@
 %%use_module(library(pio)).
 
 :- use_module(library(date)).
-:- include('../../listprologinterpreter/mindreader/texttobr2qb').
-:- include('../../listprologinterpreter/mindreader/mindreadtestshared').
+:- include('../../mindreader/texttobr2qb').
+:- include('../../mindreader/mindreadtestshared').
 :-include('../../listprologinterpreter/la_strings.pl').
 :-include('../../listprologinterpreter/la_strings_string.pl').
 

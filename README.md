@@ -9,6 +9,15 @@ List of Philosophy Algorithms
 Please read the following instructions on how to install the project on your computer for running algorithms.
 
 
+# Prerequisites
+
+* <a href="https://github.com/luciangreen/listprologinterpreter">listprologinterpreter</a>
+* <a href="https://github.com/luciangreen/Languages">Languages</a>
+* <a href="https://github.com/luciangreen/culturaltranslationtool">Cultural Translation Tool</a>. Requires Translation Shell (you may need to install gawk using Homebrew. Install <a href="https://github.com/soimort/translate-shell">Translation Shell</a> on Mac, etc.
+Change line in culturaltranslationtool/ctt.pl
+`concat_list(["../../../trans ",FromLang,":",ToLang," '",Input1,"'"],F),` to correct location of <a href="https://github.com/soimort/translate-shell">trans</a>).
+* <a href="https://github.com/luciangreen/mindreader">mindreader</a>
+
 # Installation from List Prolog Package Manager (LPPM)
 
 * Optionally, you can install from LPPM by installing <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine, downloading the <a href="https://github.com/luciangreen/List-Prolog-Package-Manager">LPPM Repository</a>,

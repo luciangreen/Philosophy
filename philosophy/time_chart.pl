@@ -14,8 +14,8 @@ c     ******
 
 **/
 
-:-include('../../../GitHub/listprologinterpreter/la_strings.pl').
-:-include('../../../GitHub/listprologinterpreter/la_maths.pl').
+:-include('../../listprologinterpreter/la_strings.pl').
+:-include('../../listprologinterpreter/la_maths.pl').
 
 time_chart(Data,Chart) :-
 

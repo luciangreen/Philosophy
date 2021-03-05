@@ -5,8 +5,8 @@
 %% vetusia user interface
 
 :-include('Theology/theology3.7.1.3_vetusia3d.pl').
-:-include('../../../GitHub/listprologinterpreter/la_strings.pl').
-:-include('../../../GitHub/listprologinterpreter/la_strings_string.pl').
+:-include('../../listprologinterpreter/la_strings.pl').
+:-include('../../listprologinterpreter/la_strings_string.pl').
 
 vetusia :-
 	rainforest(Map),
