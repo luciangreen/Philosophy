@@ -2,7 +2,22 @@
 
 multi_choice_character([[1,[[2,"a"],[-,"b"],[-,"c"],[-,"d"]]],[2,[[-,"a"],[-,"b"],[-,"c"],[-,"d"]]]],1,[],Choices).
 
-Choices=["b","c"]
+1	a
+2	b
+3	c
+4	d
+
+Please choose from menu items 1-4, or q to quit
+|: 1
+
+1	a
+2	b
+3	c
+4	d
+
+Please choose from menu items 1-4, or q to quit
+|: q
+Choices = ["a"].
 
 **/
 

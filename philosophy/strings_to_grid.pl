@@ -8,7 +8,7 @@ strings_to_grid([
 "* * *** ***",
 "* *       *",
 "***********"
-],Grid).
+],Grid),writeln1(Grid).
 
 ***********
 *         *
