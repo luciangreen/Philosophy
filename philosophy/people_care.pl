@@ -24,3 +24,18 @@ subset_record(Subset,Subset_record,Record) :-
 
 place_record(Place,Place_record,Record) :-
 	member([Place,Record],Place_record).
+
+%viral_plans(["professor","job","sale","bot","high distinction"],Viral_plan).
+
+viral_plans(Viral_plans,Viral_plan) :-
+	member(Viral_plan,Viral_plans).
+	
+professor("given viral plans").
+
+job("your reasonings").
+
+sale("people pouring in").
+
+bot("synthesis of interests").
+
+high_distinction("careful planning").
