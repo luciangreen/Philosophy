@@ -60,3 +60,18 @@ print_grid(Grid,X,Y) :-
 	member([X1,Y1,Pixel1],Grid),
 	(Pixel1=[*]->Pixel="*";Pixel=" "),
 	write(Pixel)),_).
+	
+print_grid(Grid,X,Y,Z) :-
+	numbers(Y,1,[],YN),
+	numbers(X,1,[],XN),
+	numbers(Z,1,[],ZN),
+
+	findall(_,(member(Z1,ZN),
+	nl,nl,
+	member(Y1,YN),
+	nl,
+	member(X1,XN),
+	member([Z1,X1,Y1,Pixel1],Grid),
+	(Pixel1=[*]->Pixel="*";Pixel=" "),
+	write(Pixel)),_).
+	
