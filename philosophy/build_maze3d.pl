@@ -1,6 +1,6 @@
 /**
 
-build_maze3d(5, 5, 5, _1442) ? skip
+build_maze3d(5, 5, 5, _).
 
 
 
