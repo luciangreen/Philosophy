@@ -52,11 +52,11 @@ rpg_game_player_autorun2D :-
 	retractall(map(_)),
 	assertz(map(Map4)),
 
-	writeln("Enter X co-ordinate of starting position):"),
+	writeln("Enter X co-ordinate of starting position:"),
 	read_string(user_input, "\n", "\r", _End1, X1),
 	number_string(X,X1),
 
-	writeln("Enter Y co-ordinate of starting position):"),
+	writeln("Enter Y co-ordinate of starting position:"),
 	read_string(user_input, "\n", "\r", _End2, Y1),
 	number_string(Y,Y1),
 
