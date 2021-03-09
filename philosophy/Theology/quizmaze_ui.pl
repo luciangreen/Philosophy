@@ -49,7 +49,7 @@ Game Over
 quizmaze :-
 	make_maze,
 	maze2(Map),
-	traverse(1,1,1,[],_,[],_,Map,_).
+	traverse(1,1,1,[],_,[],_,Map,_),!.
 
 traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	member([Z,X,Y,Cell],Map1),
@@ -65,7 +65,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	
 	%% Find, accept only available directions
 	
-	(member("e",Inventory1)->(writeln("Game Over"),abort);true),
+	(member("e",Inventory1)->(writeln("Game Over"),true);true),
 	%%append(Explored1,[[Z,X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,

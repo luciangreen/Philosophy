@@ -31,7 +31,14 @@ rpg_game_player3D :-
 	read_string(user_input, "\n", "\r", _End3, Z1),
 	number_string(Z,Z1),
 
-	traverse(X,Y,Z,[],_,[],_,Map,_).
+	writeln("Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:"),
+	read_string(user_input, "\n", "\r", _End5, Applys),
+	atom_to_term(Applys,Applys_atom,[]),
+	retractall(apply1(_)),
+	findall(_,(member(Apply_atom,Applys_atom),
+	assertz(apply1(Apply_atom))),_),
+	
+	traverse(X,Y,Z,[],_,[],_,Map,_),!.
 
 	
 traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
@@ -48,7 +55,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	
 	%% Find, accept only available directions
 	
-	(member("e",Inventory1)->(writeln("Game Over"),abort);true),
+	(member("e",Inventory1)->(writeln("Game Over"),true);true),
 	%%append(Explored1,[[Z,X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,
@@ -80,7 +87,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 (Input2=["drop",Item_to_drop],((%%atom_string(Item_to_drop_a,Item_to_drop),
 member(Item_to_drop,Inventory1),delete(Inventory1,Item_to_drop,Inventory3),append(Cell,[Item_to_drop],Cell2),delete(Map1,[Z,X,Y,_],Map3),append(Map3,[[Z,X,Y,Cell2]],Map4))->(writeln(["You have dropped",Item_to_drop]),traverse(Z,X,Y,Explored3,Explored2,Inventory3,Inventory2,Map4,Map2));(writeln(["You can't drop",Item_to_drop]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 
-%(Input2=["apply",First_item,"to",Second_item],((member(First_item,Inventory1),member(Second_item,Inventory1),atom_string(First_item_a,First_item),atom_string(Second_item_a,Second_item),apply(First_item_a,Second_item_a,Third_item_a),atom_string(Third_item_a,Third_item),append(Cell,[Third_item],Cell2),delete(Map1,[Z,X,Y,_],Map3),append(Map3,[[Z,X,Y,Cell2]],Map4))->(writeln(["You have applied",First_item,"to",Second_item,"producing",Third_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map4,Map2));(writeln(["You can't apply",First_item,"to",Second_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
+(Input2=["apply",First_item,"to",Second_item],((member(First_item,Inventory1),member(Second_item,Inventory1),atom_string(First_item_a,First_item),atom_string(Second_item_a,Second_item),apply1([First_item_a,Second_item_a,Third_item_a]),atom_string(Third_item_a,Third_item),append(Cell,[Third_item],Cell2),delete(Map1,[Z,X,Y,_],Map3),append(Map3,[[Z,X,Y,Cell2]],Map4))->(writeln(["You have applied",First_item,"to",Second_item,"producing",Third_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map4,Map2));(writeln(["You can't apply",First_item,"to",Second_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 
 /**
 (Input2=["write",First_item],((%member(First_item,Inventory1),member(Second_item,Inventory1),

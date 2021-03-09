@@ -2,14 +2,16 @@
 
 ?- rpg_game_player_autorun3D.
 This algorithm automatically tests 3D maps.  Uses apply(s1,c,e). so edit the map to include s1,c before running.
-Enter filename (to be loaded from saved_games/-):
+Enter filename (to be loaded from saved_games/*):
 |: a
-Enter X co-ordinate of starting position):
+Enter X co-ordinate of starting position:
 |: 14
-Enter Y co-ordinate of starting position):
+Enter Y co-ordinate of starting position:
 |: 16
-Enter Z co-ordinate of starting position):
+Enter Z co-ordinate of starting position:
 |: 5
+Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:
+|: [[s1,r,b1],[b1,m,b2],[b2,s2,b3],[b3,k,b4],[b4,c,e]]
 [5,14,16][a]
 [5,13,16][a]
 [5,12,16][a]
@@ -124,9 +126,9 @@ Enter Z co-ordinate of starting position):
 [5,12,17][a,r,m,s2,k,c]
 [5,12,18][a,r,m,s2,k,c]
 [5,11,18][a,r,m,s2,k,c]
-[5,13,18][a,r,m,s2,k,c,s1,e]
+[5,13,18][a,r,m,s2,k,c,s1,b1,b2,b3,b4,e]
 Game Over
-% Execution Aborted
+true.
 
 **/
 
@@ -158,7 +160,14 @@ rpg_game_player_autorun3D :-
 	read_string(user_input, "\n", "\r", _End4, Z1),
 	number_string(Z,Z1),
 
-	traverse(Z,X,Y).
+	writeln("Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:"),
+	read_string(user_input, "\n", "\r", _End5, Applys),
+	atom_to_term(Applys,Applys_atom,[]),
+	retractall(apply1(_)),
+	findall(_,(member(Apply_atom,Applys_atom),
+	assertz(apply1(Apply_atom))),_),
+	
+	traverse(Z,X,Y),!.
 
 
 traverse(Z,X,Y) :-
@@ -177,7 +186,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 		(Cell=[Item],append(Inventory1,[Item],Inventory3),
 		apply_all_to_all(Inventory3,Inventory4),Inventory4a=Inventory4)),
 	writeln(Inventory4a),
-	(member(e,Inventory4a)->(writeln("Game Over"),abort);true),
+	(member(e,Inventory4a)->(writeln("Game Over"),true);true),
 	append(Explored1,[[Z,X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,
@@ -195,7 +204,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 apply_all_to_all(Inventory1,Inventory2) :-
 	findall(Item3,(member(Item1,Inventory1),
 	member(Item2,Inventory1),not(Item1=Item2),
-	apply(Item1,Item2,Item3),
+	apply1([Item1,Item2,Item3]),
 	not(member(Item3,Inventory1))),
 	AddedItems),
 	(AddedItems=[]->Inventory1=Inventory2;

@@ -5,14 +5,15 @@
 /**
 
 ?- rpg_game_player_autorun2D.
-
 This algorithm automatically tests 2D maps.  Uses apply(k,c,m). and apply(m,v,e). so edit the map to include k,c,v before running.
-Enter filename (to be loaded from saved_games2d/*):
+Enter filename (to be loaded from saved_games2d/-):
 |: e
-Enter X co-ordinate of starting position):
+Enter X co-ordinate of starting position:
 |: 2
-Enter Y co-ordinate of starting position):
+Enter Y co-ordinate of starting position:
 |: 2
+Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:
+|: [[a,b,e]]
 [2,2][]
 [3,2][]
 [4,2][]
@@ -28,11 +29,10 @@ Enter Y co-ordinate of starting position):
 [4,6][]
 [3,6][]
 [2,6][]
-[5,6][]
-[6,6][e]
+[5,6][b]
+[6,6][b,a,e]
 Game Over
 % Execution Aborted
-
 
 **/
 
@@ -60,7 +60,14 @@ rpg_game_player_autorun2D :-
 	read_string(user_input, "\n", "\r", _End2, Y1),
 	number_string(Y,Y1),
 
-	traverse(X,Y).
+	writeln("Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:"),
+	read_string(user_input, "\n", "\r", _End5, Applys),
+	atom_to_term(Applys,Applys_atom,[]),
+	retractall(apply1(_)),
+	findall(_,(member(Apply_atom,Applys_atom),
+	assertz(apply1(Apply_atom))),_),
+	
+	traverse(X,Y),!.
 
 traverse(X,Y) :-
 	traverse(X,Y,[],_,[],_).
@@ -78,7 +85,7 @@ traverse(X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 		(Cell=[Item],append(Inventory1,[Item],Inventory3),
 		apply_all_to_all(Inventory3,Inventory4),Inventory4a=Inventory4)),
 	writeln(Inventory4a),
-	(member(e,Inventory4a)->(writeln("Game Over"),abort);true),
+	(member(e,Inventory4a)->(writeln("Game Over"),true);true),
 	append(Explored1,[[X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,
@@ -92,7 +99,7 @@ traverse(X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 apply_all_to_all(Inventory1,Inventory2) :-
 	findall(Item3,(member(Item1,Inventory1),
 	member(Item2,Inventory1),not(Item1=Item2),
-	apply(Item1,Item2,Item3),
+	apply1([Item1,Item2,Item3]),
 	not(member(Item3,Inventory1))),
 	AddedItems),
 	(AddedItems=[]->Inventory1=Inventory2;

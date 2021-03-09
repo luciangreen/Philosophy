@@ -31,7 +31,7 @@ Game Over
 **/
 
 traverse(Z,X,Y) :-
-	traverse(Z,X,Y,[],_,[],_).
+	traverse(Z,X,Y,[],_,[],_),!.
 traverse(Z,X,Y,Explored,Explored,Inventory,Inventory) :-
 	fire_lab(Map),
 	member([Z,X,Y,Cell],Map),
@@ -46,7 +46,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 		(Cell=[Item],append(Inventory1,[Item],Inventory3),
 		apply_all_to_all(Inventory3,Inventory4),Inventory4a=Inventory4)),
 	writeln(Inventory4a),
-	(member(fcre,Inventory4a)->(writeln("Game Over"),abort);true),
+	(member(fcre,Inventory4a)->(writeln("Game Over"),true);true),
 	append(Explored1,[[Z,X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,

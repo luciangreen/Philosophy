@@ -4,7 +4,7 @@
 
 vetusia :-
 	rainforest(Map),
-	traverse(5,14,16,[],_,[],_,Map,_).
+	traverse(5,14,16,[],_,[],_,Map,_),!.
 	
 
 	
@@ -22,7 +22,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	
 	%% Find, accept only available directions
 	
-	(member("e",Inventory1)->(writeln("Game Over"),abort);true),
+	(member("e",Inventory1)->(writeln("Game Over"),true);true),
 	%%append(Explored1,[[Z,X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,
