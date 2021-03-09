@@ -18,7 +18,7 @@ strings_to_grid([
 * *       *
 ***********
 
-change to maze format
+change to maze format v
 **/
 
 :-include('../../listprologinterpreter/la_strings.pl').
@@ -74,4 +74,114 @@ print_grid(Grid,X,Y,Z) :-
 	member([Z1,X1,Y1,Pixel1],Grid),
 	(Pixel1=[*]->Pixel="*";Pixel=" "),
 	write(Pixel)),_).
+	
+% 8 3 21
+
+/**
+
+strings_to_grid3d([
+[
+"***********",
+"***********",
+"***********",
+"***********",
+"***********",
+"***********",
+"***********"
+],
+[
+"***********",
+"*         *",
+"*** *** ***",
+"*         *",
+"* * *** ***",
+"* *       *",
+"***********"
+],
+[
+"***********",
+"*         *",
+"*** **  ***",
+"*    *    *",
+"* * **  ***",
+"* *       *",
+"***********"
+],
+[
+"***********",
+"***********",
+"***********",
+"***********",
+"***********",
+"***********",
+"***********"
+]
+]
+,_).
+
+***********
+***********
+***********
+***********
+***********
+***********
+***********
+
+
+***********
+*         *
+*** *** ***
+*         *
+* * *** ***
+* *       *
+***********
+
+
+***********
+*         *
+*** **  ***
+*    *    *
+* * **  ***
+* *       *
+***********
+
+
+***********
+***********
+***********
+***********
+***********
+***********
+***********
+
+**/
+
+strings_to_grid3d(Strings,Grid) :-
+	length(Strings,Levels),
+	numbers(Levels,1,[],LN),
+	
+	Strings=[Strings_1|_],
+	length(Strings_1,Y),
+	Strings_1=[String_2|_],
+	string_length(String_2,X),
+
+	findall(Grid2,(member(Level,LN),
+	get_item_n(Strings,Level,String),
+	process_strings(String,Strings2),
+	length(Strings2,Y),
+	Strings2=[String1|_],
+	length(String1,X),
+	numbers(Y,1,[],YN),
+	numbers(X,1,[],XN),
+	findall([Level,X1,Y1,String3],(member(Y1,YN),
+	get_item_n(Strings2,Y1,String4),
+	member(X1,XN),
+	get_item_n(String4,X1,String2),
+	(String2="*"->String3=[*];String3=[])
+	),Grid2)%,
+	%print_grid(Grid2,X,Y)
+	),Grid3),
+	%trace,
+	maplist(append,[Grid3],[Grid]),
+	print_grid(Grid,X,Y,Levels).
 	
