@@ -29,9 +29,10 @@ strings_to_grid(Strings,Grid) :-
 	length(Strings2,Y),
 	Strings2=[String1|_],
 	length(String1,X),
-	numbers(Y,1,[],YN),
+	numbers(Y,1,[],YN1),
+	reverse(YN1,YN),
 	numbers(X,1,[],XN),
-	findall([X1,Y1,String3],(member(Y1,YN),
+	findall([X1,Y11,String3],(member(Y1,YN),Y11 is Y-Y1+1,
 	get_item_n(Strings2,Y1,String),
 	member(X1,XN),
 	get_item_n(String,X1,String2),
@@ -51,7 +52,8 @@ process_strings1(String,String1,String2) :-
 	process_strings1(String4,String5,String2).
 
 print_grid(Grid,X,Y) :-
-	numbers(Y,1,[],YN),
+	numbers(Y,1,[],YN1),
+	reverse(YN1,YN),
 	numbers(X,1,[],XN),
 
 	findall(_,(member(Y1,YN),
@@ -62,9 +64,12 @@ print_grid(Grid,X,Y) :-
 	write(Pixel)),_).
 	
 print_grid(Grid,X,Y,Z) :-
-	numbers(Y,1,[],YN),
+	numbers(Y,1,[],YN1),
+	reverse(YN1,YN),
 	numbers(X,1,[],XN),
-	numbers(Z,1,[],ZN),
+	numbers(Z,1,[],ZN1),
+	reverse(ZN1,ZN),
+
 
 	findall(_,(member(Z1,ZN),
 	nl,nl,
@@ -234,7 +239,8 @@ strings_to_grid3d([
 
 strings_to_grid3d(Strings,Grid) :-
 	length(Strings,Levels),
-	numbers(Levels,1,[],LN),
+	numbers(Levels,1,[],LN1),
+	reverse(LN1,LN),
 	
 	Strings=[Strings_1|_],
 	length(Strings_1,Y),
@@ -247,9 +253,11 @@ strings_to_grid3d(Strings,Grid) :-
 	length(Strings2,Y),
 	Strings2=[String1|_],
 	length(String1,X),
-	numbers(Y,1,[],YN),
+	numbers(Y,1,[],YN1),
+	reverse(YN1,YN),
 	numbers(X,1,[],XN),
-	findall([Level,X1,Y1,String3],(member(Y1,YN),
+	findall([Level1,X1,Y11,String3],(member(Y1,YN),Y11 is Y-Y1+1,
+	Level1 is Levels-Level+1,
 	get_item_n(Strings2,Y1,String4),
 	member(X1,XN),
 	get_item_n(String4,X1,String2),

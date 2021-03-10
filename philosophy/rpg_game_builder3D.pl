@@ -23,7 +23,7 @@ rpg_game_builder3D :-
 
 	**/
 
-	writeln("Enter 3D map e.g. [[\"***\",\"***\"],[\"***\",\"***\"]]:"),
+	writeln("Enter 3D map e.g. [[\"***\",\"***\"],[\"***\",\"***\"]] top-down:"),
 	read_string(user_input, "\n", "\r", _End1, Strings1),
 	term_to_atom(Term,Strings1),
 	
