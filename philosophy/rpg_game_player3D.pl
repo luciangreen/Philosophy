@@ -2,11 +2,153 @@
 
 % I mind filmed the setting, saving notes.
 
+/**
+
+[debug]  ?- rpg_game_player3D.                                                  Enter filename (to be loaded from saved_games/*):
+|: a
+Enter X co-ordinate of starting position:
+|: 14
+Enter Y co-ordinate of starting position:
+|: 16
+Enter Z co-ordinate of starting position:
+|: 5
+Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:
+|: [[s1,r,b1],[b1,m,b2],[b2,s2,b3],[b3,k,b4],[b4,c,e]]
+
+*****
+
+[At,Unknown]
+[Go,[w,s],or take,[a],or drop,[],map, or apply an object to an object]
+|: load b
+Enter X co-ordinate of starting position:
+|: 2
+Enter Y co-ordinate of starting position:
+|: 3
+Enter Z co-ordinate of starting position:
+|: 4
+Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:
+|: []
+[You have loaded,b]
+[At,Unknown]
+[Go,[s,e,n,u],or take,[],or drop,[],map, or apply an object to an object]
+|: map
+
+
+
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[]	[*]	[]	[]	[]	[*]	
+[*]	[]	[*]	[]	[*]	[]	[*]	
+[*]	[]	[*]	[]	[*]	[]	[*]	
+[*]	[]	[*]	[]	[*]	[]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[]	[*]	[]	[]	[]	[*]	
+[*]	[]	[*]	[]	[*]	[*]	[*]	
+[*]	[]	[*]	[]	[*]	[*]	[*]	
+[*]	[]	[*]	[]	[*]	[*]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[]	[*]	[]	[]	[]	[*]	
+[*]	[]	[*]	[]	[]	[]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[+]	[]	[]	[]	[]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[]	[*]	[]	[]	[]	[*]	
+[*]	[]	[*]	[*]	[*]	[]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[*]	[*]	[*]	[*]	[]	[*]	
+[*]	[]	[*]	[*]	[*]	[]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[]	[*]	[*]	[*]	[]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[*]	[*]	[]	[]	[]	[*]	
+[*]	[]	[]	[]	[]	[]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	[*]	[*]	
+
+
+*****
+
+[At,Unknown]
+[Go,[s,e,n,u],or take,[],or drop,[],map, or apply an object to an object]
+|: load d
+Enter X co-ordinate of starting position:
+|: 2
+Enter Y co-ordinate of starting position:
+|: 2
+Enter Z co-ordinate of starting position:
+|: 2
+Enter apply a to b giving c, in the form [[a1,b1,c1],[a2,b2,c2]]:
+|: []
+[You have loaded,d]
+[At,Unknown]
+[Go,[],or take,[],or drop,[],map, or apply an object to an object]
+|: map
+
+
+
+[*]	[*]	[*]	
+[*]	[*]	[*]	
+[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	
+[*]	[+]	[*]	
+[*]	[*]	[*]	
+
+
+
+[*]	[*]	[*]	
+[*]	[*]	[*]	
+[*]	[*]	[*]	
+
+
+**/
+
 %% vetusia user interface
 
 :-include('Theology/theology3.7.1.3_vetusia3d.pl').
 :-include('../../listprologinterpreter/la_strings.pl').
 :-include('../../listprologinterpreter/la_strings_string.pl').
+:-include('strings_to_grid.pl').
 
 rpg_game_player3D :-
 	writeln("Enter filename (to be loaded from saved_games/*):"),
@@ -18,6 +160,13 @@ rpg_game_player3D :-
 		atom_to_term(String02b,Map,[]),
 	retractall(map(_)),
 	assertz(map(Map)),
+
+	get_params(Map,X,Y,Z),
+
+	traverse(Z,X,Y,[],_,[],_,Map,_),!.
+
+get_params(Map,X,Y,Z) :-
+	get_map_dimensions(Map),
 
 	writeln("Enter X co-ordinate of starting position:"),
 	read_string(user_input, "\n", "\r", _End1, X1),
@@ -36,10 +185,7 @@ rpg_game_player3D :-
 	atom_to_term(Applys,Applys_atom,[]),
 	retractall(apply1(_)),
 	findall(_,(member(Apply_atom,Applys_atom),
-	assertz(apply1(Apply_atom))),_),
-	
-	traverse(X,Y,Z,[],_,[],_,Map,_),!.
-
+	assertz(apply1(Apply_atom))),_).	
 	
 traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	member([Z,X,Y,Cell],Map1),
@@ -69,11 +215,17 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	check(Z,X,Yp1,"n",Directions3,Directions4,Map1),
 	check(Zm1,X,Y,"d",Directions4,Directions5,Map1),
 	check(Zp1,X,Y,"u",Directions5,Directions6,Map1),
-	writeln(["Go",Directions6,"or take",Cell,"or drop",Inventory1,"or apply an object to an object"]),
+	writeln(["Go",Directions6,"or take",Cell,"or drop",Inventory1,"map, or apply an object to an object"]),
 	read_string(user_input, "\n", "\r", _End,Input1),downcase_atom(Input1,Input1a),atom_string(Input1a,Input1b),%%trace,
 	split_string(Input1b, ", ", ", ", Input2),
 	(((Input2=["go","n"]->true;Input2=["n"]),(member("n",Directions6)->traverse(Z,X,Yp1,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go n"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
-	((Input2=["go","e"]->true;Input2=["e"]),(member("e",Directions6)->traverse(Z,Xp1,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go e"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
+		
+		((Input2=["map"]->true;Input2=["m"]),((
+	%trace,
+	map_dimensions([X2,Y2,Z2]),print_map(Map1,X2,Y2,Z2,X,Y,Z))->true;
+;(writeln(["You can't view the map."]))),traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2))->true;
+
+((Input2=["go","e"]->true;Input2=["e"]),(member("e",Directions6)->traverse(Z,Xp1,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go e"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 	((Input2=["go","s"]->true;Input2=["s"]),(member("s",Directions6)->traverse(Z,X,Ym1,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go s"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 
 ((Input2=["go","w"]->true;Input2=["w"]),(member("w",Directions6)->traverse(Z,Xm1,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go w"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
@@ -112,7 +264,9 @@ delete(Cell,First_item,Cell2a),append(Cell2a,[Note],Cell2),delete(Map1,[Z,X,Y,_]
 delete(Cell,First_item,Cell2),
 delete(Map1,[Z,X,Y,_],Map3),append(Map3,[[Z,X,Y,Cell2]],Map4))->(writeln(["You have deleted",First_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map4,Map2));(writeln(["Error 3."]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 **/
-(Input2=["load",First_item],((%member(First_item,Inventory1),member(Second_item,Inventory1),
+(Input2=["load",First_item],
+%trace,
+((%member(First_item,Inventory1),member(Second_item,Inventory1),
 %atom_string(First_item_a,First_item),%atom_string(Second_item_a,Second_item),apply(First_item_a,Second_item_a,Third_item_a),atom_string(Third_item_a,Third_item),
 %(writeln(["Please edit the note",First_item]),
 %read_string(user_input, "\n", "\r", _End2, Note),
@@ -121,11 +275,13 @@ delete(Map1,[Z,X,Y,_],Map3),append(Map3,[[Z,X,Y,Cell2]],Map4))->(writeln(["You h
 string_concat("saved_games/",First_item,Game_path),
 phrase_from_file_s(string(String00a),Game_path),
 		string_codes(String02b,String00a),
-		atom_to_term(String02b,Map4,[])
+		atom_to_term(String02b,Map4,[]),
+		
+		get_params(Map4,X1,Y1,Z1)
 
 %delete(Cell,First_item,Cell2),
 %delete(Map1,[Z,X,Y,_],Map3),append(Map3,[[Z,X,Y,Cell2]],Map4)
-)->(writeln(["You have loaded",First_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map4,Map2));(writeln(["Error 4."]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
+)->(writeln(["You have loaded",First_item]),traverse(Z1,X1,Y1,Explored3,Explored2,Inventory1,Inventory2,Map4,Map2));(writeln(["Error 4."]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 
 (Input2=["save",First_item],((%member(First_item,Inventory1),member(Second_item,Inventory1),
 %atom_string(First_item_a,First_item),%atom_string(Second_item_a,Second_item),apply(First_item_a,Second_item_a,Third_item_a),atom_string(Third_item_a,Third_item),

@@ -95,15 +95,17 @@ print_map(Grid1,X,Y,X2,Y2) :-
 	delete(Grid1,[X2,Y2,_],Grid2),
 	append(Grid2,[[X2,Y2,Pixel2]],Grid),
 	
-	numbers(Y,1,[],YN),
-	numbers(X,1,[],XN),
+	numbers(Y,0,[],YN1),
+	reverse(YN1,YN),
+	numbers(X,0,[],XN),
 
 	findall(_,(member(Y1,YN),
 	nl,
 	member(X1,XN),
 	member([X1,Y1,Pixel],Grid),
 	%(Pixel1=[*]->Pixel="*";Pixel=" "),
-	write(Pixel),write("\t")),_).
+	write(Pixel),write("\t")),_),
+	nl.
 	
 % X2, Y2, Z2 are person co-ords
 
@@ -133,9 +135,11 @@ print_map(Grid1,X,Y,Z,X2,Y2,Z2) :-
 	delete(Grid1,[Z2,X2,Y2,_],Grid2),
 	append(Grid2,[[Z2,X2,Y2,Pixel2]],Grid),
 
-	numbers(Y,1,[],YN),
-	numbers(X,1,[],XN),
-	numbers(Z,1,[],ZN),
+	numbers(Y,0,[],YN1),
+	reverse(YN1,YN),
+	numbers(X,0,[],XN),
+	numbers(Z,0,[],ZN1),
+	reverse(ZN1,ZN),
 
 	findall(_,(member(Z1,ZN),
 	nl,nl,
@@ -144,7 +148,8 @@ print_map(Grid1,X,Y,Z,X2,Y2,Z2) :-
 	member(X1,XN),
 	member([Z1,X1,Y1,Pixel],Grid),
 	%(Pixel1=[*]->Pixel="*";Pixel=" "),
-	write(Pixel),write("\t")),_).
+	write(Pixel),write("\t")),_),
+	nl.
 		
 % 8 3 21
 
@@ -256,3 +261,12 @@ strings_to_grid3d(Strings,Grid) :-
 	maplist(append,[Grid3],[Grid]),
 	print_grid(Grid,X,Y,Levels).
 	
+get_map_dimensions(Map) :- %,X3,Y3,Z3) :-
+	findall(X,member([_Z1,X,_Y1,_],Map),X1),
+	sort(X1,X2),reverse(X2,[X3|_]),
+	findall(Y,member([_Z2,_X1,Y,_],Map),Y1),
+	sort(Y1,Y2),reverse(Y2,[Y3|_]),
+	findall(Z,member([Z,_X2,_Y2,_],Map),Z1),
+	sort(Z1,Z2),reverse(Z2,[Z3|_]),
+	retractall(map_dimensions(_)),
+	assertz(map_dimensions([X3,Y3,Z3])).

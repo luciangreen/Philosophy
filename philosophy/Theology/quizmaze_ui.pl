@@ -1,6 +1,7 @@
 %% chemical_cascade_fire user interface
 
 :-include('quizmaze.pl').
+:-include('../strings_to_grid.pl').
 
 %% Reference: Peanuts Encyclopaedia of Science
 
@@ -44,11 +45,34 @@
 Game Over
 % Execution Aborted
 
+?- quizmaze.
+[At,Maze]
+["go",["e"],"take",["t"],"drop",[],"map, or apply an object to an object."]
+[Type e.g. ["<command>","<object>"]]
+|    ["map"]
+
+
+
+[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	
+
+
+[*]	[*]	[*]	[*]	[*]	
+[*]	[t,+]	[f]	[A human heart beats 100 000 times daily.]	[*]	
+[*]	[*]	[*]	[*]	[*]	
+
+
+[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	
+[*]	[*]	[*]	[*]	[*]	
+
 **/
 
 quizmaze :-
 	make_maze,
 	maze2(Map),
+	get_map_dimensions(Map),
 	traverse(1,1,1,[],_,[],_,Map,_),!.
 
 traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
@@ -79,14 +103,20 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	check(Z,X,Yp1,"n",Directions3,Directions4,Map1),
 	check(Zm1,X,Y,"d",Directions4,Directions5,Map1),
 	check(Zp1,X,Y,"u",Directions5,Directions6,Map1),
-	writeln1(["go",Directions6,"take",Cell,"drop",Inventory1,"or apply an object to an object."]),
+	writeln1(["go",Directions6,"take",Cell,"drop",Inventory1,"map, or apply an object to an object."]),
 	writeln(["Type e.g. [\"<command>\",\"<object>\"]"]),
 	read_string(user_input, "\n", "\r", _End,Input1),
 	term_to_atom(Input2,Input1),
 	%%downcase_atom(Input1,Input1a),atom_string(Input1a,Input1b),%%trace,
 	%%split_string(Input1b, ", ", ", ", Input2),
 	(((Input2=["go","n"]->true;Input2=["n"]),(member("n",Directions6)->traverse(Z,X,Yp1,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go n"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
-	((Input2=["go","e"]->true;Input2=["e"]),(member("e",Directions6)->traverse(Z,Xp1,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go e"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
+	
+		((Input2=["map"]->true;Input2=["m"]),((
+	%trace,
+	map_dimensions([X2,Y2,Z2]),print_map(Map1,X2,Y2,Z2,X,Y,Z))->true;
+;(writeln(["You can't view the map."]))),traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2))->true;
+
+((Input2=["go","e"]->true;Input2=["e"]),(member("e",Directions6)->traverse(Z,Xp1,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go e"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 	((Input2=["go","s"]->true;Input2=["s"]),(member("s",Directions6)->traverse(Z,X,Ym1,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go s"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 
 ((Input2=["go","w"]->true;Input2=["w"]),(member("w",Directions6)->traverse(Z,Xm1,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2);(writeln(["You can't go w"]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;

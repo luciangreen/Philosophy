@@ -167,6 +167,7 @@ rpg_game_player_autorun3D :-
 	findall(_,(member(Apply_atom,Applys_atom),
 	assertz(apply1(Apply_atom))),_),
 	
+	%writeln([Z,X,Y]),
 	traverse(Z,X,Y),!.
 
 
