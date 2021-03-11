@@ -5,7 +5,7 @@
 /**
 
 ?- rpg_game_player_autorun2D.
-This algorithm automatically tests 2D maps.  Uses apply(k,c,m). and apply(m,v,e). so edit the map to include k,c,v before running.
+This algorithm automatically tests 2D maps.
 Enter filename (to be loaded from saved_games2d/-):
 |: e
 Enter X co-ordinate of starting position:
@@ -41,7 +41,7 @@ Game Over
 :-include('strings_to_grid.pl').
 
 rpg_game_player_autorun2D :-
-	writeln("This algorithm automatically tests 2D maps.  Uses apply(k,c,m). and apply(m,v,e). so edit the map to include k,c,v before running."),
+	writeln("This algorithm automatically tests 2D maps."),
 
 	writeln("Enter filename (to be loaded from saved_games2d/*):"),
 	read_string(user_input, "\n", "\r", _End3, First_item),

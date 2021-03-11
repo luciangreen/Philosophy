@@ -1,7 +1,7 @@
 /**
 
 ?- rpg_game_player_autorun3D.
-This algorithm automatically tests 3D maps.  Uses apply(s1,c,e). so edit the map to include s1,c before running.
+This algorithm automatically tests 3D maps.
 Enter filename (to be loaded from saved_games/-):
 |: a
 Enter X co-ordinate of starting position:
@@ -137,7 +137,7 @@ true.
 :-include('strings_to_grid.pl').
 
 rpg_game_player_autorun3D :-
-	writeln("This algorithm automatically tests 3D maps.  Uses apply(s1,c,e). so edit the map to include s1,c before running."),
+	writeln("This algorithm automatically tests 3D maps."),
 
 	writeln("Enter filename (to be loaded from saved_games/*):"),
 	read_string(user_input, "\n", "\r", _End3, First_item),
