@@ -38,6 +38,7 @@ Game Over
 
 :-include('../../listprologinterpreter/la_strings.pl').
 :-include('../../listprologinterpreter/la_strings_string.pl').
+:-include('strings_to_grid.pl').
 
 rpg_game_player_autorun2D :-
 	writeln("This algorithm automatically tests 2D maps.  Uses apply(k,c,m). and apply(m,v,e). so edit the map to include k,c,v before running."),
@@ -51,6 +52,8 @@ rpg_game_player_autorun2D :-
 		atom_to_term(String02b,Map4,[]),
 	retractall(map(_)),
 	assertz(map(Map4)),
+
+	get_map_dimensions2d(Map4),	
 
 	writeln("Enter X co-ordinate of starting position:"),
 	read_string(user_input, "\n", "\r", _End1, X1),
@@ -66,8 +69,13 @@ rpg_game_player_autorun2D :-
 	retractall(apply1(_)),
 	findall(_,(member(Apply_atom,Applys_atom),
 	assertz(apply1(Apply_atom))),_),
+
+	retractall(path(_)),
+	%assertz(path([]))),_),
+
+	traverse(X,Y),
 	
-	traverse(X,Y),!.
+	!.
 
 traverse(X,Y) :-
 	traverse(X,Y,[],_,[],_).
@@ -81,11 +89,12 @@ traverse(X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 	map(Map),
 	member([X,Y,Cell],Map),
 	write([X,Y]),
+	assertz(path([X,Y])),
 	(Cell=[]->Inventory4a=Inventory1;
 		(Cell=[Item],append(Inventory1,[Item],Inventory3),
 		apply_all_to_all(Inventory3,Inventory4),Inventory4a=Inventory4)),
 	writeln(Inventory4a),
-	(member(e,Inventory4a)->(writeln("Game Over"),true);true),
+	(member(e,Inventory4a)->(writeln("Game Over"),map_dimensions([X2,Y2]),print_map_path(Map,X2,Y2,X,Y));true),
 	append(Explored1,[[X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,

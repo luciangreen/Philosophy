@@ -111,7 +111,37 @@ print_map(Grid1,X,Y,X2,Y2) :-
 	%(Pixel1=[*]->Pixel="*";Pixel=" "),
 	write(Pixel),write("\t")),_),
 	nl.
+
+print_map_path(Grid1,X,Y,X2,Y2) :-
+	member([X2,Y2,Pixel1],Grid1),
+	append(Pixel1,[+],Pixel2),
+	delete(Grid1,[X2,Y2,_],Grid2),
+	append(Grid2,[[X2,Y2,Pixel2]],Grid3),
 	
+	findall([X3,Y3],path([X3,Y3]),Path),
+	print_map_path1(Grid3,Grid,Path),
+	
+	numbers(Y,0,[],YN1),
+	reverse(YN1,YN),
+	numbers(X,0,[],XN),
+
+	findall(_,(member(Y1,YN),
+	nl,
+	member(X1,XN),
+	member([X1,Y1,Pixel],Grid),
+	%(Pixel1=[*]->Pixel="*";Pixel=" "),
+	write(Pixel),write("\t")),_),
+	nl.
+	
+print_map_path1(Grid,Grid,[]) :- !.
+print_map_path1(Grid1,Grid,Path) :-
+	Path=[[X,Y]|Path2],
+	member([X,Y,Pixel1],Grid1),
+	append(Pixel1,[-],Pixel2),
+	delete(Grid1,[X,Y,_],Grid2),
+	append(Grid2,[[X,Y,Pixel2]],Grid3),
+	print_map_path1(Grid3,Grid,Path2).
+
 % X2, Y2, Z2 are person co-ords
 
 /**
@@ -268,6 +298,14 @@ strings_to_grid3d(Strings,Grid) :-
 	%trace,
 	maplist(append,[Grid3],[Grid]),
 	print_grid(Grid,X,Y,Levels).
+	
+get_map_dimensions2d(Map) :- %,X3,Y3,Z3) :-
+	findall(X,member([X,_Y1,_],Map),X1),
+	sort(X1,X2),reverse(X2,[X3|_]),
+	findall(Y,member([_X1,Y,_],Map),Y1),
+	sort(Y1,Y2),reverse(Y2,[Y3|_]),
+	retractall(map_dimensions(_)),
+	assertz(map_dimensions([X3,Y3])).
 	
 get_map_dimensions(Map) :- %,X3,Y3,Z3) :-
 	findall(X,member([_Z1,X,_Y1,_],Map),X1),
