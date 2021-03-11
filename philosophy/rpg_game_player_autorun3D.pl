@@ -2,7 +2,7 @@
 
 ?- rpg_game_player_autorun3D.
 This algorithm automatically tests 3D maps.  Uses apply(s1,c,e). so edit the map to include s1,c before running.
-Enter filename (to be loaded from saved_games/*):
+Enter filename (to be loaded from saved_games/-):
 |: a
 Enter X co-ordinate of starting position:
 |: 14
@@ -134,6 +134,7 @@ true.
 
 :-include('../../listprologinterpreter/la_strings.pl').
 :-include('../../listprologinterpreter/la_strings_string.pl').
+:-include('strings_to_grid.pl').
 
 rpg_game_player_autorun3D :-
 	writeln("This algorithm automatically tests 3D maps.  Uses apply(s1,c,e). so edit the map to include s1,c before running."),
@@ -148,6 +149,8 @@ rpg_game_player_autorun3D :-
 	retractall(map(_)),
 	assertz(map(Map4)),
 
+	get_map_dimensions(Map4),
+	
 	writeln("Enter X co-ordinate of starting position:"),
 	read_string(user_input, "\n", "\r", _End1, X1),
 	number_string(X,X1),
@@ -167,6 +170,8 @@ rpg_game_player_autorun3D :-
 	findall(_,(member(Apply_atom,Applys_atom),
 	assertz(apply1(Apply_atom))),_),
 	
+	retractall(path(_)),
+
 	%writeln([Z,X,Y]),
 	traverse(Z,X,Y),!.
 
@@ -183,11 +188,12 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 	map(Map),
 	member([Z,X,Y,Cell],Map),
 	write([Z,X,Y]),
+	assertz(path([Z,X,Y])),
 	(Cell=[]->Inventory4a=Inventory1;
 		(Cell=[Item],append(Inventory1,[Item],Inventory3),
 		apply_all_to_all(Inventory3,Inventory4),Inventory4a=Inventory4)),
 	writeln(Inventory4a),
-	(member(e,Inventory4a)->(writeln("Game Over"),true);true),
+	(member(e,Inventory4a)->(writeln("Game Over"),map_dimensions([X2,Y2,Z2]),print_map_path3d(Map,X2,Y2,Z2,X,Y,Z));true),
 	append(Explored1,[[Z,X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,

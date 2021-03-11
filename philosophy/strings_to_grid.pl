@@ -185,6 +185,40 @@ print_map(Grid1,X,Y,Z,X2,Y2,Z2) :-
 	%(Pixel1=[*]->Pixel="*";Pixel=" "),
 	write(Pixel),write("\t")),_),
 	nl.
+
+print_map_path3d(Grid1,X,Y,Z,X2,Y2,Z2) :-
+	member([Z2,X2,Y2,Pixel1],Grid1),
+	append(Pixel1,[+],Pixel2),
+	delete(Grid1,[Z2,X2,Y2,_],Grid2),
+	append(Grid2,[[Z2,X2,Y2,Pixel2]],Grid3),
+	
+	findall([Z3,X3,Y3],path([Z3,X3,Y3]),Path),
+	print_map_path3d1(Grid3,Grid,Path),
+	
+	numbers(Y,0,[],YN1),
+	reverse(YN1,YN),
+	numbers(X,0,[],XN),
+	numbers(Z,0,[],ZN1),
+	reverse(ZN1,ZN),
+
+	findall(_,(member(Z1,ZN),
+	nl,nl,
+	member(Y1,YN),
+	nl,
+	member(X1,XN),
+	member([Z1,X1,Y1,Pixel],Grid),
+	%(Pixel1=[*]->Pixel="*";Pixel=" "),
+	write(Pixel),write("\t")),_),
+	nl.
+	
+print_map_path3d1(Grid,Grid,[]) :- !.
+print_map_path3d1(Grid1,Grid,Path) :-
+	Path=[[Z,X,Y]|Path2],
+	member([Z,X,Y,Pixel1],Grid1),
+	append(Pixel1,[-],Pixel2),
+	delete(Grid1,[Z,X,Y,_],Grid2),
+	append(Grid2,[[Z,X,Y,Pixel2]],Grid3),
+	print_map_path3d1(Grid3,Grid,Path2).
 		
 % 8 3 21
 
