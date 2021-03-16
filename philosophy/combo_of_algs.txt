@@ -1,0 +1,1 @@
+[["Lecturer","Meditation.txt",1,1,"v(o1),mp,mat"],["Lecturer","Meditation.txt",1,1,"v(o2),mp,fragrance"],["Lecturer","Meditation.txt",1,2,"v(o3),here,now"]]
