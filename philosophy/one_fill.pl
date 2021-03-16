@@ -2,6 +2,11 @@
 
 % Not time travelling, I walked to the end of the line.
 
+/**
+?- one_fill("           ",Ones1).
+Ones1 = "11111111111".
+**/
+
 :-include('../../listprologinterpreter/la_strings.pl').
 :-include('../../listprologinterpreter/la_maths.pl').
 

@@ -1,5 +1,28 @@
 % ["Lecturer","Meditation.txt",0,algorithms,"7. *I substantiated my claims with logic.  I wrote a meditation breasoning per day on my discussion.  I discussed the work in terms of my previous work.  I made future plans.  I connected through my plans."]
 
+/**
+
+?- n_level_argument.
+What is your conclusion?
+|: 1
+What is evidence for this?
+|: 1
+What is evidence for this?
+|: 2
+What is evidence for this?
+|: 3
+What is evidence for this?
+|: 4
+What is evidence for this?
+|: 5
+What is evidence for this?
+|: 6
+1
+[1,2,3,4,5,6]
+true.
+
+**/
+
 n_level_argument :-
 	writeln("What is your conclusion?"),
 	read_string(user_input,"\n","\r",_,C1),

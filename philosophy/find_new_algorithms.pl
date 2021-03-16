@@ -12,6 +12,65 @@ how it will work
 
 data
 
+
+?- find_new_algorithms.
+Computational English
+Creating and Helping Pedagogues
+Fundamentals of Meditation and Meditation Indicators
+Fundamentals of Pedagogy and Pedagogy Indicators
+Medicine
+Lecturer
+Short Arguments
+Mind Reading
+Time Travel
+Delegate workloads, Lecturer, Recordings
+Enter Book of algorithm:
+|: Lecturer
+Meditation.txt
+Lecturer 2.txt
+Computer Science.txt
+Lecturer Communication.txt
+Medicine.txt
+Lecturer - Pedagogy Helper.txt
+Lecturer Metaphysics.txt
+Lecturer Societology.txt
+Lecturer - Lecturer Pedagogy.txt
+Lecturer - Pedagogy.txt
+Lecturer Simulated Intelligence cont'd 2.txt
+Lecturer Hermeneutics.txt
+Lecturer Simulated Intelligence cont'd.txt
+Lecturer - Simulated Intelligence.txt
+Lecturer Lucianism.txt
+Lecturer Culturology.txt
+Lecturer.txt
+Lecturer Rhetoric 2.txt
+Lecturer Gay Studies.txt
+Politics.txt
+Lecturer - Comments.txt
+People Values.txt
+English.txt
+Linguistics.txt
+Lecturer - Recordings Pedagogy.txt
+History.txt
+Lecturer Rhetoric.txt
+Philosophy:Computational English.txt
+Psychology.txt
+Lecturer Popology.txt
+Lecturer - Simulated Intelligence 2.txt
+Lecturer - Simulated Intelligence 3.txt
+Enter Essay of algorithm:
+|: Meditation.txt
+1
+Enter paragraph number of algorithm :
+|: 1
+1
+Enter sentence number of algorithm :
+|: 2
+Enter what the algorithm is (verb(object)), how it will work and its data:
+|: v(o3),here,now
+true.
+
+
 **/
 
 :-include('../../Lucian-Academy/folders.pl').

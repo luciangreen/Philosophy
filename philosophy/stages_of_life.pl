@@ -1,3 +1,148 @@
+% ["Fundamentals of Pedagogy and Pedagogy Indicators","PEDAGOGY INDICATORS by Lucian Green Aigs for Pedagogy Helper 1 of 3.txt",0,algorithms,"7.    *I experienced the stages of life.  I did this by observing that the meditator pedagogy professor coordinated the Aigs, then stopped and looked at the images and was given images of the rest of the Aigs.  First, I found the Aig.  Second, I looked at it.  Third, I was given the rest of them."]
+
+
+/**
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: n
+L = "Not started yet".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: n
+L = "Spiritual meditation".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: n
+L = "80 breasonings".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: y
+Have you definitely breasoned out the lecturer argument, allowing you to choose breasonings, not have breasonings chosen for you (y/n)?
+|: n
+L = "Meditation arguments".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: y
+Have you definitely breasoned out the lecturer argument, allowing you to choose breasonings, not have breasonings chosen for you (y/n)?
+|: y
+Have you definitely breasoned out the recordings argument, allowing you to mentally duplicate and project breasonings (y/n)?
+|: n
+L = "Lecturer argument".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: y
+Have you definitely breasoned out the lecturer argument, allowing you to choose breasonings, not have breasonings chosen for you (y/n)?
+|: y
+Have you definitely breasoned out the recordings argument, allowing you to mentally duplicate and project breasonings (y/n)?
+|: y
+Have you definitely breasoned out medicine arguments, allowing you to definitely prevent a headache with spiritual means (y/n)?
+|: n
+L = "Recordings argument".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: y
+Have you definitely breasoned out the lecturer argument, allowing you to choose breasonings, not have breasonings chosen for you (y/n)?
+|: y
+Have you definitely breasoned out the recordings argument, allowing you to mentally duplicate and project breasonings (y/n)?
+|: y
+Have you definitely breasoned out medicine arguments, allowing you to definitely prevent a headache with spiritual means (y/n)?
+|: y
+Have you definitely developed a set of algorithms that you have written down (y/n)?
+|: n
+L = "Medicine arguments".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: y
+Have you definitely breasoned out the lecturer argument, allowing you to choose breasonings, not have breasonings chosen for you (y/n)?
+|: y
+Have you definitely breasoned out the recordings argument, allowing you to mentally duplicate and project breasonings (y/n)?
+|: y
+Have you definitely breasoned out medicine arguments, allowing you to definitely prevent a headache with spiritual means (y/n)?
+|: y
+Have you definitely developed a set of algorithms that you have written down (y/n)?
+|: y
+Have you definitely breasoned out the right number of breasonings for honours/masters/PhD (y/n)?
+|: n
+L = "Developed algorithms".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: y
+Have you definitely breasoned out the lecturer argument, allowing you to choose breasonings, not have breasonings chosen for you (y/n)?
+|: y
+Have you definitely breasoned out the recordings argument, allowing you to mentally duplicate and project breasonings (y/n)?
+|: y
+Have you definitely breasoned out medicine arguments, allowing you to definitely prevent a headache with spiritual means (y/n)?
+|: y
+Have you definitely developed a set of algorithms that you have written down (y/n)?
+|: y
+Have you definitely breasoned out the right number of breasonings for honours/masters/PhD (y/n)?
+|: y
+Have you written 6/16/50 algorithms per day for Master/PhD/Professor (y/n)?
+|: y
+L = "written 6/16/50 algorithms per day for Master/PhD/Professor".
+
+?- stages_of_life(L).
+Have you learnt spiritual meditation (y/n)?
+|: y
+Have you breasoned out 80 breasonings that definitely worked (y/n)?
+|: y
+Have you definitely breasoned out meditation arguments (y/n)?
+|: y
+Have you definitely breasoned out the lecturer argument, allowing you to choose breasonings, not have breasonings chosen for you (y/n)?
+|: y
+Have you definitely breasoned out the recordings argument, allowing you to mentally duplicate and project breasonings (y/n)?
+|: y
+Have you definitely breasoned out medicine arguments, allowing you to definitely prevent a headache with spiritual means (y/n)?
+|: y
+Have you definitely developed a set of algorithms that you have written down (y/n)?
+|: y
+Have you definitely breasoned out the right number of breasonings for honours/masters/PhD (y/n)?
+|: y
+Have you written 6/16/50 algorithms per day for Master/PhD/Professor (y/n)?
+|: n
+L = "Breasoned out the right number of breasonings for honours/masters/PhD.".
+
+**/
+
 stages_of_life(L) :-
 	(writeln("Have you learnt spiritual meditation (y/n)?"),
 	read_string(user_input,"\n","\r",_,S1),
