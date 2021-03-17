@@ -1,3 +1,7 @@
+% ["Short Arguments","Competition 8.txt",0,algorithms,"80. *It was to breason it out, and more.  I recommended competencies in competitors to be conceived.  The competency practicum was written before the competitor was conceived.  It was breasoned out.  The competitor was conceived."]
+
+% rectangle world
+
 :-include('build_maze2d.pl').
 % rectangles(5,5,[[[1,1],[2,2]],[[3,3],[4,4]]],Grid).
 /**
