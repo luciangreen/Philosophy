@@ -4,8 +4,6 @@
 
 # Insert a long file into file.txt or increase M
 
-['texttobr.pl'].
-['texttobr2qb.pl'].
-['la_strings'].
-['texttobrall2_reading'].
+['../Text-to-Breasonings/text_to_breasonings.pl'].
+
 time((M is 1,W is 50*4,texttobr2(M,u,u,u,false,false,false,false,false,false,W),texttobr(M,u,u,u))).
