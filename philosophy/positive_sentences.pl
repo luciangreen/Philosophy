@@ -1,5 +1,3 @@
-% Move to Text-to-Breasonings folder
-
 % ["Lecturer","Lecturer - Lecturer Pedagogy.txt",0,algorithms,"5. I had something that was good about the writing.  I could help others with A.  I approximated the number of breasonings.  I approximated the number of algorithms.  I matched them."]
 
 % Find the positive sentences.
@@ -18,8 +16,8 @@ a b.
 Sentences = ["Hello World!"].
 **/
 
-:-include('../listprologinterpreter/la_strings.pl').
-:-include('../listprologinterpreter/la_strings_string.pl').
+:-include('../../listprologinterpreter/la_strings.pl').
+:-include('../../listprologinterpreter/la_strings_string.pl').
 
 positive_sentences(Sentences) :-
 	
@@ -32,7 +30,7 @@ positive_sentences(Sentences) :-
 	split_string(String1,SepandPad1,SepandPad1,String2),
 
 	% get negative terms
-	phrase_from_file_s(string(BrDict0), "brdict1.txt"),
+	phrase_from_file_s(string(BrDict0), "../../Text-to-Breasonings/brdict1.txt"),
 	splitfurther(BrDict0,Term),
 	findall(Word1,(member([Word1,Word2],Term),
 	Word2="minus"),Negative_terms2),
@@ -40,7 +38,7 @@ positive_sentences(Sentences) :-
 		
 	% find positive sentences
 	
-	trace,
+	%trace,
 	findall(Sentence3,(member(Sentence1a,String2),
 	string_atom(Sentence1,Sentence1a),
 	split_string_onnonletter(Sentence1,".!?",Sentence2),
