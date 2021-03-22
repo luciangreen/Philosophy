@@ -1,10 +1,8 @@
-% Move to Text-to-Breasonings folder
-
 % ["Creating and Helping Pedagogues","CREATE AND HELP PEDAGOGUES by Lucian Green Daily Professional Requirement of the Pedagogy Helper 2 of 5.txt",0,algorithms,"19.    *I observed that an Aig containing an infinary (sic) number of breasonings was given to the writer, where infinary means an infinite-like number where one can see all the numbers.  I did this by stating that the pedagogy helper helped Aigs to be somewhere.  First, I observed the writer.  Second, I observed the reader.  Third, I observed that everyone was happy""]"]
 
 % Picture to pixel per line of text.
 
-:-include("../listprologinterpreter/la_strings.pl").
+:-include("../../listprologinterpreter/la_strings.pl").
 
 /**
 pixels(
