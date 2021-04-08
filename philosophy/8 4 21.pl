@@ -50,3 +50,74 @@ agree(with_person_a,about_me).
 % 5.
 
 volume(L,W,H,V) :- V is L*W*H.
+
+% ["Short Arguments","Room.txt",0,algorithms,"5. I prepared to write another A.  *I did this by examining the egg and sperm when they became the zygote.  First, I found the egg.  Second, I inserted the sperm in it.  Third, I observed the zygote."]
+
+% 6. 
+
+fertilise(egg,sperm,zygote).
+
+% ["Medicine","MEDICINE by Lucian Green Grains, Nuts, Fruits and Vegetables 2 of 4.txt",0,algorithms,"20. I prepared to be a leader.  I did this by stating that I am the person around here.  First, *I bought the computer to work without paper.  Second, I worked on it.  Third, I worked with similar people.  In this way, I prepared to be a leader by stating that I am the person around here."]
+
+% 7.
+
+% thought only computer - programming
+% autocomplete queries
+% get queries, autocomplete them (as split [,word) x
+
+% See wp.pl
+
+% ["Fundamentals of Pedagogy and Pedagogy Indicators","FUNDAMENTALS OF PEDAGOGY by Lucian Green Time to Finish 2 of 2.txt",0,algorithms,"15. The train cleaner prepared to hose the train. He did this by hosing the top of his head. First, he moved the shower head so that its x co-ordinate was equal to its initial position, plus the x co-ordinate of the centre of the person's head minus the x co-ordinate of the initial position of the centre of the shower head. Second, he moved the shower head so that its y co-ordinate was equal to its initial position, plus the y co-ordinate of the centre of the person's head minus the y co-ordinate of the initial position of the centre of the shower head. Third, he adjusted the shower head so that it was perpendicular to the walls. *In this way, the train cleaner prepared to hose the train by hosing the top of his head."]
+
+% 8. See string_to_pbm.pl
+
+% ["Mind Reading","mind reading as medicine 1.txt",0,algorithms,"12. *I mind evolved research by connecting the idea to research."]
+
+% 9. See la.ppm
+
+% ["Medicine","MEDICINE by Lucian Green Lucianic Pedagogical Medicine 3 of 4.txt",0,algorithms,"22.   I prepared to arrest the offender. I did this by providing English service as breasonings currency. First, I observed her schapzazzure (sic) her way forward. Second, I helped saplings. Third, I co-blessed (wrote) my way forward. In this way, I prepared to arrest the offender by providing English service as breasonings currency."]
+
+% 10. I prepared to arrest the offender.
+
+arrest :- evidence, warrant.
+evidence.
+warrant.
+
+% 11. I did this by providing English service.
+
+tell_story :- believable, enjoyable.
+believable.
+enjoyable.
+
+% 12. breasonings currency
+
+writing :- well, good.
+well.
+good.
+
+% 13. schapzazzure
+
+life_support :- meditation, medicine.
+meditation.
+medicine.
+
+% 14. saplings
+
+plant_tree :- water, seed, earth.
+water.
+seed.
+earth.
+
+% 15. blessed
+
+bless(conception).
+bless(grades).
+bless(job_applications).
+bless(sales).
+
+% 16. co-write
+
+co_write :- agree, write.
+agree.
+write.
+
