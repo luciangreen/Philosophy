@@ -8,31 +8,50 @@ List of Philosophy Algorithms
 
 Please read the following instructions on how to install the project on your computer for running algorithms.
 
-
 # Prerequisites
 
+* Please download and install SWI-Prolog for your machine at `https://www.swi-prolog.org/build/`.
+
+* You may need to install gawk using Homebrew.
+
+* Install <a href="https://github.com/soimort/translate-shell">Translation Shell</a> on Mac, etc.
+Change line in
+```
+culturaltranslationtool/ctt.pl
+concat_list(["../../../trans ",FromLang,":",ToLang," '",Input1,"'"],F),
+```
+to correct location of <a href="https://github.com/soimort/translate-shell">trans</a>.
+
+# 1. Install manually
+
+* Download:
+* <a href="https://github.com/luciangreen/Philosophy">this repository</a>
 * <a href="https://github.com/luciangreen/listprologinterpreter">listprologinterpreter</a>
 * <a href="https://github.com/luciangreen/Languages">Languages</a>
 * <a href="https://github.com/luciangreen/culturaltranslationtool">Cultural Translation Tool</a>. Requires Translation Shell (you may need to install gawk using Homebrew. Install <a href="https://github.com/soimort/translate-shell">Translation Shell</a> on Mac, etc.
 Change line in culturaltranslationtool/ctt.pl
 `concat_list(["../../../trans ",FromLang,":",ToLang," '",Input1,"'"],F),` to correct location of <a href="https://github.com/soimort/translate-shell">trans</a>).
-* <a href="https://github.com/luciangreen/mindreader">mindreader</a>
+* <a href="https://github.com/luciangreen/mindreader">mindreader</a>.  (Caution: Before running texttobr/mindreader, think of two radio buttons put on recordings, put through with prayer, nut and bolt, quantum box prayer 1, 1, 0.5 cm and 1, 1, 0.5 cm.  Follow instructions in <a href="https://github.com/luciangreen/Text-to-Breasonings/blob/master/Instructions_for_Using_texttobr(2).pl.txt">Instructions for Using texttobr(2)</a> when using texttobr, texttobr2 or mind reader to avoid medical problems).
 
-# Installation from List Prolog Package Manager (LPPM)
+# 2. Or Install from List Prolog Package Manager (LPPM)
 
-* Optionally, you can install from LPPM by installing <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine, downloading the <a href="https://github.com/luciangreen/List-Prolog-Package-Manager">LPPM Repository</a>,
+* Download the <a href="https://github.com/luciangreen/List-Prolog-Package-Manager">LPPM Repository</a>:
+
 ```
 git clone https://github.com/luciangreen/List-Prolog-Package-Manager.git
 cd List-Prolog-Package-Manager
 swipl
+['lppm'].
+lppm_install("luciangreen","Philosophy")
+halt
 ```
-loading LPPM with `['lppm'].` then installing the package by running `lppm_install("luciangreen","Philosophy").`.
 
-# Prerequisites
+# Running
 
-Install List Prolog Interpreter Repository (https://github.com/luciangreen/listprologinterpreter) first.
+* In Shell:
+`cd Philosophy/philosophy`
+`swipl`
 
-* Download this repository.
 * If the algorithm is a Prolog algorithm, in SWI-Prolog, in the relevant folder, enter:
 ```
 ['filename.pl'].
