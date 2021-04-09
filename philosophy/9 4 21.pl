@@ -47,19 +47,14 @@ algebra_finder(A-B,C,A,C+B).
 algebra_finder(A*B,C,B,C/A).
 algebra_finder(A*B,C,A,C/B).
 algebra_finder(A/B,C,B,A/C).
-algebra_finder(A/B,C,A,C*B).
+algebra_finder(A/B,C,A,C*B). 
 
-% 5. 
-
-% log_finder2(log(3,(y^(1/3))/(2^3)),(1/3)*log(3,y)-3*log(3,2)).
-% log_finder2(log(10,(x^5)),5*log(10,x)).
-% log_finder2(2*log(e,2)+3*log(e,n),log(e, 4*n^3)).
-% log_finder1(log(3,27^(1/4)),x,B,A).
-% log_finder14(log(2,x)+log(2,y),1,y,A).
+% 5.log_finder2(log(3,(y^(1/3))/(2^3)),(1/3)*log(3,y)-3*log(3,2)).
+% 6. log_finder2(log(10,(x^5)),5*log(10,x)).
+% 7. log_finder2(2*log(e,2)+3*log(e,n),log(e, 4*n^3)).
+% 8. log_finder1(log(3,27^(1/4)),x,B,A).
+% 9. log_finder14(log(2,x)+log(2,y),1,y,A).
 log_finder1(A,B,C,D) :-
-	%log_finder(A,B,E,F),
-	%log_finder3(E,F,C,G),
-	%trace,
 	log_finder3(A,D,_,_).
 log_finder1(A,B,C,D) :-
 	log_finder(A,B,C,D),!.
@@ -105,7 +100,7 @@ log_finder(B^M*B^N,B^(M+N),log(B,M)+log(B,N),log(B,M*N)).
 log_finder(B^M/B^N,B^(M-N),log(B,X)-log(B,Y),log(B,(X/Y))).
 log_finder((B^M)^N,B^(M*N),N*log(B,X),log(B,X^N)).
 log_finder(B^1,B,1,log(B,B)).
-log_finer(B^0,1,0,log(B,1)).
+log_find6er(B^0,1,0,log(B,1)).
 log_finder(log(B,A),X,B^X,A).
 log_finder3(_,_,log(B,C),log(B,X^N)) :-
 	number(X),number(N),C is X^N.
@@ -123,3 +118,39 @@ log_finder3(A^B,C,_,_) :-
 	number(A),number(B),C is A^B.
 
 % https://www.intmath.com/exponential-logarithmic-functions/3-logarithm-laws.php
+
+% 10. ["Mind Reading","mr spiritual screen 2.txt",0,algorithms,"34. *I cast the actor by checking his face matched the character's appearance on the spiritual screen."]
+
+actor(a,["fat elf"]).
+actor(b,["thin elf"]).
+
+% ["Medicine","MEDICINE by Lucian Green Get in Touch with God about Breasonings Details to see High Quality Imagery and Earn H1 4 of 4.txt",0,algorithms,"40. I prepared to pen laws into existence. I did this by writing the The Anti-Nuclear Bomb song argument. First, I avoided softening it. Second, I rejected L, the famous warring lecturer (supported unity). Third, I hated war (liked peace). In this way, I prepared to pen laws into existence by writing the The Anti-Nuclear Bomb song argument."]
+
+% 11. I prepared to pen laws into existence.
+
+law :- safety.
+law :- necessity.
+
+% 12. I did this by writing the The Anti-Nuclear Bomb song argument.
+
+safety :- not(bomb).
+bomb :- false.
+
+% 13. First, I avoided softening it.
+
+% agree_at_time([1,2,3,4,5],Agree_at_times).
+agree_at_time(Agree_at_times,Agree_at_times).
+
+% 14. Second, I rejected L, the famous warring lecturer (supported unity).
+
+% append1([1,2],[3,4],C).
+% C = [1, 2, 3, 4].
+append1(A,B,C) :-
+	append(A,B,C).
+
+% 15. Third, I hated war (liked peace).
+
+peace :- not(negative),positive.
+negative :- fail.
+positive.
+
