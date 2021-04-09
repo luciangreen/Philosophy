@@ -49,11 +49,11 @@ algebra_finder(A*B,C,A,C/B).
 algebra_finder(A/B,C,B,A/C).
 algebra_finder(A/B,C,A,C*B). 
 
-% 5.log_finder2(log(3,(y^(1/3))/(2^3)),(1/3)*log(3,y)-3*log(3,2)).
+% 5. log_finder2(log(3,(y^(1/3))/(2^3)),(1/3)*log(3,y)-3*log(3,2)).
 % 6. log_finder2(log(10,(x^5)),5*log(10,x)).
 % 7. log_finder2(2*log(e,2)+3*log(e,n),log(e, 4*n^3)).
-% 8. log_finder1(log(3,27^(1/4)),x,B,A).
-% 9. log_finder14(log(2,x)+log(2,y),1,y,A).
+% 8. log_finder1(log(3,27^(1/4)),x,B,0.7499999999999999).
+% 9. log_finder1(log(2,x)+log(2,y),1,y,2/x).
 log_finder1(A,B,C,D) :-
 	log_finder3(A,D,_,_).
 log_finder1(A,B,C,D) :-
@@ -61,7 +61,7 @@ log_finder1(A,B,C,D) :-
 log_finder1(A,B,C,D) :-
 	log_finder(A,B,E,F),
 	log_finder1(E,F,C,D).
-log_finder14(A,B,C,D) :- % (log(2,X)+log(2,Y),1,x,A). 
+log_finder1(A,B,C,D) :- % (log(2,X)+log(2,Y),1,x,A). 
 	log_finder(_,_,A,E), % (_,_,log(2,X)+log(2,Y),log(2,X*Y))
 	log_finder(E,B,F,H),
 	log_finder3(F,G,_,_),
@@ -113,9 +113,13 @@ log_finder3(A^(C/B),D,_,_) :-
 	number(A),number(C),number(B),
 	D is A^(C/B).
 log_finder3(log(B,A),D,_,_) :-
-	D is log(A)/log(B).
+	number(A),number(B),D is log(A)/log(B).
+log_finder3(log(B,A^(F/G)),D,_,_) :-
+	number(A),number(B),number(F),number(G),D is log(A^(F/G))/log(B).
 log_finder3(A^B,C,_,_) :-
 	number(A),number(B),C is A^B.
+log_finder3(C,A^(B/D),_,_) :-
+	number(A),number(B),number(D),C is A^(B/D).
 
 % https://www.intmath.com/exponential-logarithmic-functions/3-logarithm-laws.php
 
