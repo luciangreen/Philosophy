@@ -51,25 +51,75 @@ algebra_finder(A/B,C,A,C*B).
 
 % 5. 
 
-% log_finder2(log(3,(Y^(1/3))/(2^3)),(1/3)*log(3,Y)-3*log(3,2)).
+% log_finder2(log(3,(y^(1/3))/(2^3)),(1/3)*log(3,y)-3*log(3,2)).
+% log_finder2(log(10,(x^5)),5*log(10,x)).
+% log_finder2(2*log(e,2)+3*log(e,n),log(e, 4*n^3)).
+% log_finder1(log(3,27^(1/4)),x,B,A).
+% log_finder14(log(2,x)+log(2,y),1,y,A).
+log_finder1(A,B,C,D) :-
+	%log_finder(A,B,E,F),
+	%log_finder3(E,F,C,G),
+	%trace,
+	log_finder3(A,D,_,_).
 log_finder1(A,B,C,D) :-
 	log_finder(A,B,C,D),!.
 log_finder1(A,B,C,D) :-
 	log_finder(A,B,E,F),
 	log_finder1(E,F,C,D).
+log_finder14(A,B,C,D) :- % (log(2,X)+log(2,Y),1,x,A). 
+	log_finder(_,_,A,E), % (_,_,log(2,X)+log(2,Y),log(2,X*Y))
+	log_finder(E,B,F,H),
+	log_finder3(F,G,_,_),
+	algebra_finder1(H,G,C,D).
+log_finder(log(B,A),X,B^X,A).
 
 % log_finder(
 %log_finder2(A,B,C,D) :-
 %	log_finder(A,B,C,D),!.
+%log_finder2(D,J) :-
+%	log_finder3(_,_,J,D).
+	%log_finder(_,_,K,J).
+log_finder2(D,J) :-
+	log_finder(_,_,D,K),
+	log_finder3(_,_,J,K),!.
+log_finder2(D,J) :-
+	log_finder(_,_,D,J).
+log_finder2(D,J) :-
+	log_finder(_,_,J,D).
+%log_finder2(D,J) :-
+%	log_finder3(_,_,J,K),
+%	log_finder(_,_,D,J).
 log_finder2(D,J-K) :-
 	log_finder(_,_,G-H,D),
 	log_finder(_,_,J,G),
 	log_finder(_,_,K,H).
+log_finder2(D+E,H) :-
+	log_finder2(D,F),
+	log_finder2(E,G),
+	log_finder2(F+G,H).
+log_finder2(D,J) :-
+	log_finder(_,_,G+H,D),
+	log_finder(_,_,J,G+H).
 
 log_finder(B^M*B^N,B^(M+N),log(B,M)+log(B,N),log(B,M*N)).
 log_finder(B^M/B^N,B^(M-N),log(B,X)-log(B,Y),log(B,(X/Y))).
 log_finder((B^M)^N,B^(M*N),N*log(B,X),log(B,X^N)).
 log_finder(B^1,B,1,log(B,B)).
 log_finer(B^0,1,0,log(B,1)).
+log_finder(log(B,A),X,B^X,A).
+log_finder3(_,_,log(B,C),log(B,X^N)) :-
+	number(X),number(N),C is X^N.
+log_finder3((A^B)^C,D,_,_) :-
+	number(A),number(B),number(C),D is (A^B)^C.
+log_finder3(A^C,D,_,_) :-
+	number(A),number(C),
+	D is A^C.
+log_finder3(A^(C/B),D,_,_) :-
+	number(A),number(C),number(B),
+	D is A^(C/B).
+log_finder3(log(B,A),D,_,_) :-
+	D is log(A)/log(B).
+log_finder3(A^B,C,_,_) :-
+	number(A),number(B),C is A^B.
 
 % https://www.intmath.com/exponential-logarithmic-functions/3-logarithm-laws.php
