@@ -164,7 +164,7 @@ render_pbm_file(Grid1,X2,Y2,Grid2) :-
 		
 	maplist(append,[Grid2a],[Grid2b]),
 	
-	concat_list(Grid2b,Grid2),
+	concat_list(Grid2b,Grid2).
 	%writeln1(Grid2).
 	%(Pixel1=[*]->Pixel="*";Pixel=" "),
 	%write(Pixel),write("\t")
