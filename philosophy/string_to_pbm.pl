@@ -52,7 +52,7 @@ changegrid2(_Prevstate,[1,-],Grid1,Grid2,X1,Y1,C2,_C4,N2,Stroke1,States)),
  	%prettyprint1A(Grid2,Y),
  	!. %% 2
  	
-string_to_pbm1(_,_,40,24,_,File_contents,File_contents) :- !.
+%%string_to_pbm1(_,_,40,24,_,File_contents,File_contents) :- !.
 string_to_pbm1(_,_,_,_,"",File_contents,File_contents) :- !.
 string_to_pbm1(X_lim,Y_lim,_X,Y,String,File_contents1,File_contents2) :-
 	string_concat(Char,String2,String),
