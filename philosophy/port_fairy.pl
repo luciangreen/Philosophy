@@ -108,7 +108,7 @@ location(8,_X,_Y,"Rainforest Canopy") :- !.
 location(6,_X,_Y,"Rainforest Canopy") :- !.
 location(9,_X,_Y,"Rainforest Canopy") :- !.
 **/
-location(_,_,_,"Port Fairy") :- !.
+location(_,_,"Port Fairy") :- !.
 
 apply(pinecone,beachball,box1).
 apply(box1,lighthouse,box2).
