@@ -77,4 +77,4 @@ login_graph(Option) :-
 	(Option=work->
 	(findall(_,(member([Year,Month,Day,_Alg_n,_Phil_exp_n,_Phil_n,Work],String02a),writeln([Year,Month,Day,Work])),_)))))).
 	
-% 4. 	
+
