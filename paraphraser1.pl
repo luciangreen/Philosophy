@@ -64,7 +64,7 @@ paraphrase1(File_list,File_list1,File_list2,Synonym_list,Synonym_list2) :-
 	phrase(word1(File_list5_c),_),
 	(member([File_list3,Synonym],Synonym_list)->
 	append(File_list1,[Synonym],File_list6);
-	(concat_list(["What is a synonym for: ",File_list3,"\n","or <Return> for skip."],Notification),writeln(Notification),
+	(concat_list(["What is a synonym for: ",File_list3,"\n","or <Return> to skip."],Notification),writeln(Notification),
 	read_string(user_input, "\n", "\r", _End, Input),
 	(Input=""->(Synonym2=File_list3,Synonym_list=Synonym_list1);(Synonym2=Input,
 	append(Synonym_list,[[File_list3,Synonym2]],Synonym_list1))),
