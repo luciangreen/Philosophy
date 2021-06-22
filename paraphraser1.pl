@@ -2,7 +2,7 @@
 
 % Tries to paraphrase each non-trivial word
 
-% Uses formatting preserver x splits on space, return x needs formatting - use lpi 116
+% Uses formatting preserver x splits on space, return x needs formatting - use lpi 117
 
 :- include('../listprologinterpreter/listprolog').
 
