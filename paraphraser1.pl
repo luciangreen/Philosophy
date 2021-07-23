@@ -17,11 +17,11 @@ paraphraser.
 paraphraser :-
 	phrase_from_file_s(string(Codes), "file.txt"),
 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
-	string_codes(String1,Codes),
+	%string_codes(String1,Codes),
 	%string_to_list2(SepandPad,[],SepandPad1),
 	string_codes(SepandPad,SepandPad1),
 	%split_string2(String1,SepandPad1,File_list),
-	split_on_substring117(Codes,SepandPad1,"",File_list),
+	split_on_substring117(Codes,SepandPad1,[],File_list),
 	%split_string(String1,SepandPad,SepandPad,File_list),
 	
 	phrase_from_file_s(string(Codes2), "thesaurus.txt"),
@@ -72,7 +72,8 @@ paraphrase1(File_list,File_list1,File_list2,Synonym_list,Synonym_list2) :-
 	%letters(File_list5),
 	string_codes(File_list5,File_list5_c),
 	phrase(word1(File_list5_c),_),
-	(member([File_list3,Synonym],Synonym_list)->
+	((member([File_list3,Synonym],Synonym_list)->true;
+	member([Synonym,File_list3],Synonym_list))->
 	(append(File_list1,[Synonym],File_list6),
 	Synonym_list=Synonym_list1);
 	(concat_list(["What is a synonym for: ",File_list3,"\n","or <Return> to skip."],Notification),writeln(Notification),
