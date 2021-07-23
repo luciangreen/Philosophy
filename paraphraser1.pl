@@ -4,14 +4,24 @@
 
 % Uses formatting preserver x splits on space, return x needs formatting - use lpi 117
 
+/*
+% place text to be paraphrased in file.txt
+cd Dropbox/GitHub/private2/Philosophy/
+swipl
+['paraphraser1.pl'].
+paraphraser.
+*/
+
 :- include('../listprologinterpreter/listprolog').
 
 paraphraser :-
 	phrase_from_file_s(string(Codes), "file.txt"),
 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
 	string_codes(String1,Codes),
-	string_to_list2(SepandPad,[],SepandPad1),
-	split_string2(String1,SepandPad1,File_list),
+	%string_to_list2(SepandPad,[],SepandPad1),
+	string_codes(SepandPad,SepandPad1),
+	%split_string2(String1,SepandPad1,File_list),
+	split_on_substring117(Codes,SepandPad1,"",File_list),
 	%split_string(String1,SepandPad,SepandPad,File_list),
 	
 	phrase_from_file_s(string(Codes2), "thesaurus.txt"),
