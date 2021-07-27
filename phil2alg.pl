@@ -82,6 +82,39 @@ phil2alg :-
 
  enter: walk from the start to the goal
  add v,a from the v,b to the v,c in dict entry
+ 
+ 
+ 
+correspondences.txt:
+[]
+
+connectives.txt:
+["a","an","and","by","for","from","i","in","my","of","on","out","the","to","was","were","with"]
+
+connections.txt:
+[]
+
+p2a_file.txt:
+["fetch diary"]
+
+?- phil2alg.
+What is a corresponding word for: fetch in the pair: (fetch, diary)?
+or <Return> to skip.
+|: get
+What is a corresponding word for: diary in the pair: (fetch, diary)?
+or <Return> to skip.
+|: goal
+What is a list of connective sentences from: (get to goal)?
+e.g. get map for goal,walk from start to goal
+|: get map for goal,walk from start to goal
+What is the verb in : "get map for goal" ?
+|: get
+What are the nouns in : ["map","goal"]
+apart from [] ?
+|: map,goal
+
+[[["get","map","for","goal"],[1,2,"for",3]]]
+
  */
  
  	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
