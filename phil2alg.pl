@@ -97,23 +97,27 @@ connections.txt:
 p2a_file.txt:
 ["fetch diary"]
 
-?- phil2alg.
-What is a corresponding word for: fetch in the pair: (fetch, diary)?
+?- phil2alg.                                                                    What is a corresponding word for: fetch in the pair: (fetch, diary)?
 or <Return> to skip.
-|: get
+|    get
 What is a corresponding word for: diary in the pair: (fetch, diary)?
 or <Return> to skip.
-|: goal
+|    goal
 What is a list of connective sentences from: (get to goal)?
 e.g. get map for goal,walk from start to goal
-|: get map for goal,walk from start to goal
+|    get map for goal,walk from start to goal
 What is the verb in : "get map for goal" ?
-|: get
-What are the nouns in : ["map","goal"]
+|    get
+What are the nouns in : ["map","for","goal"]
 apart from [] ?
-|: map,goal
-
+|    map,goal
+What is the verb in : "walk from start to goal" ?
+|    walk
+What are the nouns in : ["from","start","to"]
+apart from ["goal"] ?
+|    start
 [[["get","map","for","goal"],[1,2,"for",3]]]
+true.
 
  */
  
