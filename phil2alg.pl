@@ -197,9 +197,10 @@ apart from [] ?
 
 %****
 
-process_sentences(N,N,_Sentences1,_List2,Connections,Connections,Connectives,Connectives,Correspondences,Correspondences) :- !.
+process_sentences(N1,N2,_Sentences1,_List2,Connections,Connections,Connectives,Connectives,Correspondences,Correspondences) :- 
+N1 is N2+1, !.
 
-process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a, Connectives,Connectives1a,Correspondences3,Correspondences2a) :-
+process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a1, Connectives,Connectives1a11,Correspondences3,Correspondences2a) :-
 	
 	%findall(*,(member(Item,N),
 	get_item_n(Sentences1,N,Item1),
@@ -259,6 +260,8 @@ process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a, Connectives
 	% v1 c1 w1 c2 c2
 	% [1,c1,2,cw,3]
 	
+	% get map for Goal
+	% [1,2,for,3]
 	%append([Verb1],)
 	length(Item2,Length2),
 	numbers(Length2,1,[],N2),
@@ -282,10 +285,10 @@ process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a, Connectives
 
 
 	
-	
+%trace,	
 
 NA3 is N+1,
-process_sentences(NA3,NA2,Sentences1,List2,Connections2,Connections2a,Connectives1,Connectives1a,Correspondences3,Correspondences2a),!.
+process_sentences(NA3,NA2,Sentences1,List2,Connections2,Connections2a1,Connectives1,Connectives1a11,Correspondences3,Correspondences2a),!.
 
 path(Goal,Map,Map,
 	Goal,Path,Path) :- !.

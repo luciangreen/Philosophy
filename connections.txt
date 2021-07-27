@@ -1,1 +1,1 @@
-[[["get","map","for","goal"],[1,2,"for",3]]]
+[[["get","map","for","goal"],[1,2,"for",3]],[["walk","from","start","to","goal"],[1,"from",2,"to",3]]]
