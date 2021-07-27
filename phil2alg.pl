@@ -1,6 +1,6 @@
 /* 
 
-phil automater
+phil automator
 - triangulate topic and idea with connection
 - build these triangles into sentences
 
