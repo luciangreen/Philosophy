@@ -1,0 +1,1 @@
+["a","an","and","by","for","from","i","in","my","of","on","out","the","to","was","were","with"]
