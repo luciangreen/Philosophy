@@ -183,6 +183,7 @@ process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a, Connectives
 	
 	% * don't forget to add to connectives v	
 	% * ask if agree with corr,Connections x
+	%  - helps ensure algs are different
 	
 		%trace,
 
