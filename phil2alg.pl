@@ -146,11 +146,11 @@ true.
 	(Input1=""->(Word1b=Word1);(Word1b=Input1)),append(Correspondences,[[Word1,Word1b]],Correspondences2)
 	)),
 	
-	(member([Word2,Word2a],Correspondences2)->(Word2b=Word2a;
-	Correspondences3=Correspondences2);
+	(member([Word2,Word2a],Correspondences2)->(Word2b=Word2a,
+	Correspondences2a=Correspondences2);
 	(concat_list(["What is a corresponding word for: ",Word2," in the pair: (",Word1,", ",Word2,")?\n","or <Return> to skip."],Notification2),writeln(Notification2),
 	read_string(user_input, "\n", "\r", _End2, Input2),
-	(Input2=""->(Word2b=Word2);(Word2b=Input2)),append(Correspondences2,[[Word2,Word2b]],Correspondences3)
+	(Input2=""->(Word2b=Word2);(Word2b=Input2)),append(Correspondences2,[[Word2,Word2b]],Correspondences2a)
 	)),
 	
 
@@ -159,8 +159,8 @@ true.
 	atom_to_term(String3,Connections,_),
 	
 	(path(Word1b,Connections,_Map,
-	Word2b,[],Path)->(true;
-	Connections2a=Connections);
+	Word2b,[],Path)->(Connections2a=Connections,
+	Connectives=Connectives1a);
 	(%repeat,%trace,
 	concat_list(["What is a list of connective sentences from: (",Word1b," to ",Word2b,")?\n","e.g. get map for goal,walk from start to goal"],Notification3),writeln(Notification3),
 	read_string(user_input, "\n", "\r", _End3, Input3),
@@ -172,7 +172,7 @@ true.
 	%numbers(Length,1,[],N),
 	
 	%trace,
-	process_sentences(1,Length,Sentences1,List2,Connections,Connections2a,Connectives,Connectives1a,Correspondences3,Correspondences2a),
+	process_sentences(1,Length,Sentences1,List2,Connections,Connections2a,Connectives,Connectives1a),
 	
 	path(Word1b,Connections2a,_Map,
 	Word2b,[],Path))),
@@ -201,10 +201,10 @@ true.
 
 %****
 
-process_sentences(N1,N2,_Sentences1,_List2,Connections,Connections,Connectives,Connectives,Correspondences,Correspondences) :- 
+process_sentences(N1,N2,_Sentences1,_List2,Connections,Connections,Connectives,Connectives) :- 
 N1 is N2+1, !.
 
-process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a1, Connectives,Connectives1a11,Correspondences3,Correspondences2a) :-
+process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a1, Connectives,Connectives1a11) :-
 	
 	%findall(*,(member(Item,N),
 	get_item_n(Sentences1,N,Item1),
@@ -270,7 +270,7 @@ process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a1, Connective
 	length(Item2,Length2),
 	numbers(Length2,1,[],N2),
 %trace,
-	append([-],Word7ab,Word7ab1),
+	%append([-],Word7ab,Word7ab1),
 	findall(Item4,(member(N3,N2),get_item_n(Item2,N3,Item3),
 	(Item3=Verb1->%Verb
 	Item4=1;	
@@ -278,7 +278,7 @@ process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a1, Connective
 	Item4=Item3);
 	(%trace,
 	member(Item3,Word7ab)->%Noun
-	(get_n_item(Word7ab1,Item3,N4),
+	(get_n_item(Item2,Item3,N4),
 	Item4=N4)))),Item5),
 	
 	%trace,
@@ -292,7 +292,7 @@ process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a1, Connective
 %trace,	
 
 NA3 is N+1,
-process_sentences(NA3,NA2,Sentences1,List2,Connections2,Connections2a1,Connectives1,Connectives1a11,Correspondences3,Correspondences2a),!.
+process_sentences(NA3,NA2,Sentences1,List2,Connections2,Connections2a1,Connectives1,Connectives1a11),!.
 
 path(Goal,Map,Map,
 	Goal,Path,Path) :- !.
