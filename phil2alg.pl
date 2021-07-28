@@ -75,7 +75,7 @@ true.
 	atom_to_term(String3,Connections,_),
 	
 	(path(Word1b,Connections,_Map,
-	Word2b,[],Path)->(Connections2a=Connections,
+	Word2b,[],Path,[],Trail)->(Connections2a=Connections,
 	Connectives=Connectives1a);
 	(%repeat,%trace,
 	concat_list(["What is a list of connective sentences from: (",Word1b," to ",Word2b,")?\n","e.g. get map for goal,walk from start to goal"],Notification3),writeln(Notification3),
@@ -91,12 +91,37 @@ true.
 	process_sentences(1,Length,Sentences1,List2,Connections,Connections2a,Connectives,Connectives1a),
 	
 	path(Word1b,Connections2a,_Map,
-	Word2b,[],Path))),
+	Word2b,[],Path,[],Trail))),
 	
-
 	writeln1(Path), %***
 	
-	%** Phil, Alg ***
+	%trace,
+	
+	% Phil
+	
+	findall(A_I,(member([[A_A|A_B],_],Path),
+	string_concat(A_C,A_D,A_A),
+	string_length(A_C,1),
+	upcase_atom(A_C,A_E),
+	string_concat(A_E,A_D,A_F),
+	findall([A_G," "],(member(A_G,A_B)),A_H),
+	%trace,
+	reverse(A_H,A_K),A_K=[[A_L," "]|A_M],
+	reverse([[A_L]|A_M],A_N),
+	%string_concat(A_K," ",A_H),
+	maplist(append,[A_N],[A_O]),
+	concat_list(A_O,A_P),
+	concat_list([A_F," ",A_P,". "],A_I)),A_J),
+	%trace,
+	maplist(append,[[A_J]],[[A_K]]),
+	
+	writeln(A_K),
+
+	%** Alg ***
+
+	alg(Trail,Alg),	
+		
+	writeln(Alg),
 		
 	term_to_atom(Connections2a,Connections12a1),
 	(open_s("connections.txt",write,Stream1),
@@ -222,9 +247,9 @@ NA3 is N+1,
 process_sentences(NA3,NA2,Sentences1,List2,Connections2,Connections2a1,Connectives1,Connectives1a11),!.
 
 path(Goal,Map,Map,
-	Goal,Path,Path) :- !.
+	Goal,Path,Path,Trail,Trail) :- !.
 path(D,Map1,Map2,
-	Goal,Path1,Path2) :-
+	Goal,Path1,Path2,Trail1,Trail2) :-
 	%trace,
 	member([[D2|D1],[E2|E]],Map1),
 	length(D1,L),
@@ -238,14 +263,17 @@ path(D,Map1,Map2,
 	get_item_n(E,N2,D3),
 	number(D3),
 	delete(Map1,[[D2|D1],[E2|E]],Map2),
-	append(Path1,[[[D2|D1],[E2|E]]],Path2),!.
+	append(Path1,[[[D2|D1],[E2|E]]],Path2),
+	append(Trail1,[[D,Goal]],Trail2),!.
 path(D,Map1,Map2,
-	Goal,Path1,Path2) :-
+	Goal,Path1,Path2,Trail1,Trail2) :-
 	%trace,
 	member([[D2|D1],[E2|E]],Map1),
 
 	delete(Map1,[[D2|D1],[E2|E]],Map3),
 	append(Path1,[[[D2|D1],[E2|E]]],Path3),
+
+	append(Trail1,[[D,Goal]],Trail3),
 	
 	length(D1,L),
 	numbers(L,1,[],N),
@@ -257,18 +285,45 @@ path(D,Map1,Map2,
 	delete(D1,D,D4),get_n_item(D1,D,N4),
 	delete_item_n(E,N4,E4),
 	length(D4,L2),
-	path2(1,L2,D4,E4,Goal,Map3,Map2,_Goal6,Path3,Path2),!.
+	path2(1,L2,D4,E4,Goal,Map3,Map2,_Goal6,Path3,Path2,Trail3,Trail2),!.
 
-path2(L3,L2,_D4,_E4,_Goal4,Map,Map,_Goal6,Path,Path) :-
+path2(L3,L2,_D4,_E4,_Goal4,Map,Map,_Goal6,Path,Path,Trail,Trail) :-
 	L3 is L2+1,!.
-path2(N3,L2,D4,E4,Goal,Map1,Map2,_Goal6,Path1,Path2) :-
+path2(N3,L2,D4,E4,Goal,Map1,Map2,_Goal6,Path1,Path2,Trail1,Trail2) :-
 	((get_item_n(D4,N3,Goal4),
 	get_item_n(E4,N3,Goal5),
 	number(Goal5))->
-	path(Goal4,Map1,Map3,Goal,Path1,Path3);(Map1=Map3,Path1=Path3,Goal4=Goal)),
+	path(Goal4,Map1,Map3,Goal,Path1,Path3,Trail1,Trail3);(Map1=Map3,Path1=Path3,Goal4=Goal)),
 	N4 is N3+1,
-	path2(N4,L2,D4,E4,Goal4,Map3,Map2,_Goal61,Path3,Path2),!.
+	path2(N4,L2,D4,E4,Goal4,Map3,Map2,_Goal61,Path3,Path2,Trail3,Trail2),!.
 	
+	
+%c([a,b],[b,c],a,B3).
+%B3=c
 
+%c(A1,A2,B1,B3) :-
+%A1=[B1,B2],
+%A2=[B2,B3].
+	
+alg(Trail,Alg) :-
+	Trail=[[A,_]|_],
+	reverse(Trail,[[_,C]|_]),
+	length(Trail,Length),
+	Length2 is Length+1,
+	numbers(Length,1,[],N),
+	findall(L,(member(N1,N),N2 is N1+1,concat_list(["A",N1,"=[B",N1,",B",N2,"],"],L)),L2),
+	findall(["A",N3,","],member(N3,N),L5),%trace,
+	maplist(append,[L5],[L8]),append(L9,[","],L8),%string_concat(L5,",",L6),
+	concat_list(L9,L7),
+	%concat_list(L6,L5),
+	%maplist(append,[L2],[L4]),
+	concat_list(L2,L4),
+	string_concat(L4,"!.",L3),
+	term_to_atom(Trail,Trail2),
+	concat_list(["anone(",Trail2,",\"",A,"\",B",Length2,").\n","B",Length2,"=\"",C,"\"\n\n",
+	"anone(",L7,",B1,B",Length2,"):-\n",
+	L3],Alg).
+
+	
 
 
