@@ -1,89 +1,9 @@
-/* 
-
-phil automator
-- triangulate topic and idea with connection
-- build these triangles into sentences
-
-- connect words in topic, then new ones from brdict
-
-store diary, came as goal, start, conn from each of diary, came
-with diary, came as words given in sentence, can 
-- start at where I came from
-- goal is in diary
-- walk from start to goal
-
-- 
-
-alg
-- simple version of alg eg qadb.pl + tree algs *
-- two points of triangle 
- - ways (groups of preds) as words in sentences
- - an xml var get and put fn
- - vars have xml tags to state that they are required with and to pass vars through fn'al parts
- - data->rule or vv producers
- - where to modify fns to others fns (eg games) eg instead of words in crossword, *ordered (could be unordered, or tree) sentences given story
- 
- - new data is additional (file2.txt) thing x all automated
-
- dec tree :
- +
-  1
-   1
-    2
- *
-  2
-   3
-   	6
- ^
-  1 
-   1
-   	1
-   	
- walk
- 	start
-		goal
-
-learns sentence from I walked from the start to the goal
-- walk from start to goal
-	- uses this pattern for this verb or if any are synonyms
-	- exceptions, entered when correct sentence, are displayed as menu options 
-	
- use (multiple levels in) thesaurus to find other options
-
- 
-*/
 :- include('../listprologinterpreter/listprolog').
 
 phil2alg :-
 	
 	/* 
-	1. 
- came,start
- diary,goal
- 
- in dict:
- walk (in thes.),travel - start,origin (in thesaurus) - goal, finish (in thes.)
- 
- walk(["start","goal"],"start",C).
- walk(A,B,C) :-
- 	member([B,C],A).
- 	,member([A,D],A1) etc
- ,* ^ finds conjunctions of words (applies to any words, not just last in sequence)
-  	- ,member BC A, member DC E
-  	^ where get map for goal, walk from start to goal - [type this in response to key terms, filters out connectives], asks which word (resolving ambiguities) correspond to which, confirms sent from db are correct, asks for connections, converts to alg
-  	
-  	x searches corrs for words A A1, (confirms if ambiguous x), asks for corr if not found, conns for links, A1 B1 (* from start to goal), choose first / xx randomise x from possible combinations, asks for missing links
-  	
- ** find conns bw finished sent systems later
- 
- * enter rules where 
- () display
- walk from start to goal
 
- enter: walk from the start to the goal
- add v,a from the v,b to the v,c in dict entry
- 
- 
  
 correspondences.txt:
 []
@@ -95,28 +15,24 @@ connections.txt:
 []
 
 p2a_file.txt:
-["fetch diary"]
+["chart diary"]
 
-?- phil2alg.                                                                    What is a corresponding word for: fetch in the pair: (fetch, diary)?
+[debug]  ?- phil2alg.
+What is a corresponding word for: chart in the pair: (chart, diary)?
 or <Return> to skip.
-|    get
-What is a corresponding word for: diary in the pair: (fetch, diary)?
+|: map
+What is a corresponding word for: diary in the pair: (chart, diary)?
 or <Return> to skip.
-|    goal
-What is a list of connective sentences from: (get to goal)?
+|: goal
+What is a list of connective sentences from: (map to goal)?
 e.g. get map for goal,walk from start to goal
-|    get map for goal,walk from start to goal
+|: get map for goal
 What is the verb in : "get map for goal" ?
-|    get
-What are the nouns in : ["map","for","goal"]
+|: get
+What are the nouns in : ["map","goal"]
 apart from [] ?
-|    map,goal
-What is the verb in : "walk from start to goal" ?
-|    walk
-What are the nouns in : ["from","start","to"]
-apart from ["goal"] ?
-|    start
-[[["get","map","for","goal"],[1,2,"for",3]]]
+|: map,goal
+[[["get","map","for","goal"],[1,2,"for",4]]]
 true.
 
  */
@@ -291,6 +207,17 @@ process_sentences(N,NA2,Sentences1,List2,Connections1,Connections2a1, Connective
 	
 %trace,	
 
+/*
+path(b,[[[a,b,c,d],[1,2,c,4]]],M,d,[],P).
+M = [],
+P = [[[a, b, c, d], [1, 2, c, 4]]].
+
+path(b,[[[a,b,c,d],[1,2,c,4]],[[e,d,f],[1,2,3]]],M,f,[],P).
+M = [],
+P = [[[a, b, c, d], [1, 2, c, 4]], [[e, d, f], [1, 2, 3]]].
+*/
+
+
 NA3 is N+1,
 process_sentences(NA3,NA2,Sentences1,List2,Connections2,Connections2a1,Connectives1,Connectives1a11),!.
 
@@ -299,24 +226,49 @@ path(Goal,Map,Map,
 path(D,Map1,Map2,
 	Goal,Path1,Path2) :-
 	%trace,
-	member([D1,E],Map1),
-	member(Goal,D1),member(D,D1),
-	delete(Map1,[D1,E],Map2),
-	append(Path1,[[D1,E]],Path2),!.
+	member([[D2|D1],[E2|E]],Map1),
+	length(D1,L),
+	numbers(L,1,[],N),
+	member(N1,N),
+	get_item_n(D1,N1,Goal),
+	get_item_n(E,N1,Goal3),
+	number(Goal3),
+	member(N2,N),
+	get_item_n(D1,N2,D),
+	get_item_n(E,N2,D3),
+	number(D3),
+	delete(Map1,[[D2|D1],[E2|E]],Map2),
+	append(Path1,[[[D2|D1],[E2|E]]],Path2),!.
 path(D,Map1,Map2,
 	Goal,Path1,Path2) :-
-	((member([[A,B,C],E],Map1),delete(Map1,[[A,B,C],E],Map3),
-	append(Path1,[[[A,B,C],E]],Path3),
-	(D=B->path(C,Map3,Map2,Goal,Path3,Path2);
-	(D=C->path(B,Map3,Map2,Goal,Path3,Path2))))->true;
+	%trace,
+	member([[D2|D1],[E2|E]],Map1),
+
+	delete(Map1,[[D2|D1],[E2|E]],Map3),
+	append(Path1,[[[D2|D1],[E2|E]]],Path3),
 	
-	% for e.g. + 1 1 2
-	(member([[A,B,C,F],E],Map1),delete(Map1,[[A,B,C,F],E],Map3),
-	append(Path1,[[[A,B,C,F],E]],Path3),
-	(D=B->(path(C,Map3,Map2,Goal,Path3,Path2)->true;
-	path(F,Map3,Map2,Goal,Path3,Path2));
-	(D=B->(path(C,Map3,Map2,Goal,Path3,Path2)->true;
-	path(F,Map3,Map2,Goal,Path3,Path2));
-	(D=F->(path(B,Map3,Map2,Goal,Path3,Path2)->true;
-	path(C,Map3,Map2,Goal,Path3,Path2))))))).
+	length(D1,L),
+	numbers(L,1,[],N),
+	member(N1,N),
+	get_item_n(D1,N1,D),
+	get_item_n(E,N1,Goal3),
+	number(Goal3),
+	member(D,D1),
+	delete(D1,D,D4),get_n_item(D1,D,N4),
+	delete_item_n(E,N4,E4),
+	length(D4,L2),
+	path2(1,L2,D4,E4,Goal,Map3,Map2,_Goal6,Path3,Path2),!.
+
+path2(L3,L2,_D4,_E4,_Goal4,Map,Map,_Goal6,Path,Path) :-
+	L3 is L2+1,!.
+path2(N3,L2,D4,E4,Goal,Map1,Map2,_Goal6,Path1,Path2) :-
+	((get_item_n(D4,N3,Goal4),
+	get_item_n(E4,N3,Goal5),
+	number(Goal5))->
+	path(Goal4,Map1,Map3,Goal,Path1,Path3);(Map1=Map3,Path1=Path3,Goal4=Goal)),
+	N4 is N3+1,
+	path2(N4,L2,D4,E4,Goal4,Map3,Map2,_Goal61,Path3,Path2),!.
 	
+
+
+

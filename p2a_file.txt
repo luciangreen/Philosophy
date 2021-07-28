@@ -1,1 +1,1 @@
-["fetch diary"]
+["chart diary"]
