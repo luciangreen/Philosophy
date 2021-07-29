@@ -326,7 +326,7 @@ alg(Trail,Alg) :-
 	string_concat(L4,"!.",L3),
 	concat_list(["anone(",C2,",\"",A,"\",B",Length2,").\n","B",Length2,"=\"",C,"\"\n\n",
 	"anone(",L7,",B1,B",Length2,"):-\n",
-	L3],Alg).
+	L3],Alg),!.
 
 	
 
