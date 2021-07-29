@@ -311,6 +311,11 @@ alg(Trail,Alg) :-
 	length(Trail,Length),
 	Length2 is Length+1,
 	numbers(Length,1,[],N),
+	
+	term_to_atom(Trail,Trail2),
+	string_concat("[",C1,Trail2),
+	string_concat(C2,"]",C1),
+	
 	findall(L,(member(N1,N),N2 is N1+1,concat_list(["A",N1,"=[B",N1,",B",N2,"],"],L)),L2),
 	findall(["A",N3,","],member(N3,N),L5),%trace,
 	maplist(append,[L5],[L8]),append(L9,[","],L8),%string_concat(L5,",",L6),
@@ -319,8 +324,7 @@ alg(Trail,Alg) :-
 	%maplist(append,[L2],[L4]),
 	concat_list(L2,L4),
 	string_concat(L4,"!.",L3),
-	term_to_atom(Trail,Trail2),
-	concat_list(["anone(",Trail2,",\"",A,"\",B",Length2,").\n","B",Length2,"=\"",C,"\"\n\n",
+	concat_list(["anone(",C2,",\"",A,"\",B",Length2,").\n","B",Length2,"=\"",C,"\"\n\n",
 	"anone(",L7,",B1,B",Length2,"):-\n",
 	L3],Alg).
 
