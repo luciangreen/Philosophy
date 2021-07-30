@@ -82,8 +82,9 @@ true.
 	read_string(user_input, "\n", "\r", _End3, Input3),
 	(Input3=""->(fail);(
 	
-	split_string(Input3,".,",".,",Sentences1))),
-	findall(List1,(member(Sentences,Sentences1),split_string(Sentences,SepandPad,SepandPad,List1)),List2),
+	split_string(Input3,".",".",Sentences1))),
+	SepandPad2=" ",
+	findall(List1,(member(Sentences,Sentences1),split_string(Sentences,SepandPad2,SepandPad2,List1)),List2),
 	length(List2,Length),
 	%numbers(Length,1,[],N),
 	
