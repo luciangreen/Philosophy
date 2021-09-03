@@ -1,1 +1,1 @@
-[[2,5,[["b","e"]]],[2,4,[["b","d"]]],[4,5,[["d","e"]]]]
+[[2,3,[[["like","andrew"],"I like Andrew"]]],[3,4,[[["andrew","likes","sally"],"  Andrew likes Sally"]]],[3,5,[[["andrew","likes","sally"],"  Andrew likes Sally"]]],[4,5,[[["andrew","likes","sally"],"  Andrew likes Sally"]]],[3,6,[[["andrew","likes","you"],"  Andrew likes you"]]],[4,6,[[["andrew","likes","you"],"  Andrew likes you"]]],[5,6,[[["sally","likes","you"]," Sally likes you"]]]]

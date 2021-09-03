@@ -43,12 +43,14 @@ find_db :-
 		phrase_from_file_s(string(String00a), Filex),
 		string_codes(String02b,String00a),
 		
-		downcase_atom(String02b,String00a1),
+		%downcase_atom(String02b,String00a1),
+		String02b=String00a1,
 		
 	split_string(String00a1, ".\n\r", ".\n\r", String02cb),
 
-	findall(String02cd,(member(H,String02cb),
-		split_string(H, " ", " ", String02cd)),
+	findall([String02cd,H],(member(H,String02cb),
+	downcase_atom(H,H1),
+		split_string(H1, " ", " ", String02cd)),
 	Texts3)
 	%maplist(append,[Texts3],[Texts31])
 		
@@ -64,7 +66,7 @@ find_db :-
 	string_codes(String_cve,Codes_cve),
 	atom_to_term(String_cve,Connectives,_),
 
-	findall(A,(member(B,Texts2),subtract(B,Connectives,A)),C),
+	findall([A,WC],(member([B,WC],Texts2),subtract(B,Connectives,A)),C),
 
 % a b d->1 2 3->12 s1,13 s1,23 s1 where s1=a b d
 
@@ -76,7 +78,7 @@ find_db :-
 	retractall(word_num(_)),
 	assertz(word_num(0)),
 
-	findall([D,E],(member(E,C),
+	findall([D,E,With_conn],(member([E,With_conn],C),
 	findall(N,(member(E1,E),
 	word_nums(WN),((member([E1,N],WN)->true;
 	(word_num(N1),N is N1+1,
@@ -88,8 +90,8 @@ find_db :-
 
 % find combination pairs
 
-	findall(D2,(member([D3,E],D1),
-	findall([D5,D6,E],(member(D5,D3),
+	findall(D2,(member([D3,E,WC],D1),
+	findall([D5,D6,E,WC],(member(D5,D3),
 	member(D6,D3),not(D5=D6)),D2)),D71),
 
 %trace,
@@ -120,13 +122,13 @@ find_db :-
 	
 process([],D,D) :- !.
 process(D1,D2,D3) :-
-	D1=[[D4,D5,DD]|D6],%sort(DD1,DD),
-	delete(D6,[D5,D4,_],D82),
+	D1=[[D4,D5,DD,WC]|D6],%sort(DD1,DD),
+	delete(D6,[D5,D4,_,_],D82),
 	%delete(D81,[D4,D5,DD],D82),
-	append(D82,[[D4,D5,DD]],D83),
-	findall(E,(member([D4,D5,E],D83)),E3),
+	append(D82,[[D4,D5,DD,WC]],D83),
+	findall([E,WC],(member([D4,D5,E,WC],D83)),E3),
 	sort(E3,E2),
-	delete(D82,[D4,D5,_],D84),
+	delete(D82,[D4,D5,_,_],D84),
 	append(D2,[[D4,D5,E2]],D9),
 	process(D84,D9,D3),!.
 	
@@ -177,15 +179,19 @@ not(C=D),
 
 %trace,
 
-findall(Chain2,dfs(C51,D51,Sent,DB,_,0,[],Chain2),F)
+findall(Chain3,(dfs(C51,D51,Sent,DB,_,0,[],Chain2),
+sort(Chain2,Chain3)),F),
+
+sort(F,F1)
 
 ), 
 
-random_member(Chain3,F),
+%member(P,F1)
 
 %trace,
-pp(Chain3,P),writeln1(P)%,Chain2)
-,!.
+%pp(Chain3,P)
+writeln1(F1),!%,Chain2)
+.
 
 % max sentences=3, retry others from a b c
 
@@ -195,7 +201,7 @@ dfs(C1,D1,_Sent,DB,DB,_N,Chain1,Chain2) :-
 	%word_nums(WN),
 	%member([C,C1],WN),	member([D,D1],WN),
 	symmetrical_member([C1,D1,E],DB),%not(member(Sent,E)),
-	member(E1,E),
+	member([_,E1],E),
 	append(Chain1,[E1],%[[D,E]],
 	Chain2).
 dfs(C51,D,Sent,DB,DB3,N,Chain1,Chain2) :-
@@ -210,7 +216,7 @@ dfs(C51,D,Sent,DB,DB3,N,Chain1,Chain2) :-
 	(C2=[]->fail;%delete_last(Chain1,Chain2);
 	(member([C3,C31],C2),%|C4],
 	N1 is N+1,
-	member(C32,C31),
+	member([_,C32],C31),
 	%member([C3,C32],WN),
 	append(Chain1,[%[C32,
 	C32],Chain3),
@@ -218,6 +224,7 @@ dfs(C51,D,Sent,DB,DB3,N,Chain1,Chain2) :-
 	%dfs1(C4,D,Sent,DB4,DB3,N1,Chain4,Chain2))).%,
 	%!.
 	
+	/*
 dfs1([],_D,_Sent,DB,DB,_,Chain,Chain) :- !.
 dfs1(_,_D,_Sent,_DB,_,6,Chain,Chain) :- fail, !.
 dfs1(C2,D,Sent,DB,DB1,N,Chain1,Chain2) :-
@@ -225,12 +232,13 @@ dfs1(C2,D,Sent,DB,DB1,N,Chain1,Chain2) :-
 	%member([C2,C51],WN),
 	member([C3,C31],C2),%|C4],
 	N1 is N+1,
-	member(C32,C31),
+	member([_,C32],C31),
 	append(Chain1,[C32],%,C31]],
 	Chain3),
 	dfs(C3,D,Sent,DB,DB1,N1,Chain3,Chain2).
 	%dfs1(C4,D,Sent,DB2,DB1,N1,Chain4,Chain2).
 	%!.
+	*/
 
 %delete_last(A,B) :-
 %	reverse(A,C),
@@ -241,6 +249,7 @@ symmetrical_member([A,B,C],D) :-
 symmetrical_member([A,B,C],D) :-
 	member([B,A,C],D).
 
+/*
 pp(C,N1) :-
 	findall(N,(member(B,C),B=[D|E],string_concat(F,H,D),
 	string_length(F,1),upcase_atom(F,G),concat_list([G,H," "],J),
@@ -248,3 +257,4 @@ pp(C,N1) :-
 	string_length(M2,1),
 	concat_list([J,M1,". "],N)),P),
 	concat_list(P,N1),!.
+*/
