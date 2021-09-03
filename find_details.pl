@@ -12,10 +12,10 @@
 % find synth
 % randomly choose a b from a b c
 % find 1 2 from above
-% find s1 with bfs, etc until link from a-b
+% find s1 with dfs, etc until link from a-b
 % max sentences=3, retry others from a b c
 
-% last step is too complex - alg xx bfs
+% last step is too complex - alg xx dfs
 
 %:-include('../Lucian-Academy/folders.pl').
 :-include('folders1.pl').
@@ -107,7 +107,15 @@ find_db :-
 
 	(open_s("find_details_db.txt",write,Stream1),
 	write(Stream1,D83),
-	close(Stream1)),!.
+	close(Stream1)),
+
+	word_nums(WN1),
+	term_to_atom(WN1,D84),
+	string_atom(D85,D84),
+
+	(open_s("find_details_wn.txt",write,Stream2),
+	write(Stream2,D85),
+	close(Stream2)),!.
 	
 	
 process([],D,D) :- !.
@@ -127,6 +135,13 @@ process(D1,D2,D3) :-
 find_synth :-%(Chain2) :-
 
 % randomly choose a b from a b c
+
+		phrase_from_file_s(string(String00awn), "find_details_wn.txt"),
+		string_codes(String02bwn,String00awn),
+		atom_to_term(String02bwn,WN,[]),
+
+	retractall(word_nums(_)),
+	assertz(word_nums(WN)),
 
 		phrase_from_file_s(string(String00a), "find_details_db.txt"),
 		string_codes(String02b,String00a),
@@ -154,63 +169,77 @@ find_synth :-%(Chain2) :-
 member(C,B),member(D,B),
 not(C=D),
 
-% find s1 with bfs, etc until link from a-b
+% find s1 with dfs, etc until link from a-b
 
 	word_nums(WN),
 	member([C,C51],WN),
 	member([D,D51],WN),
 
-bfs(C51,D51,Sent,DB,0,[],Chain2)
+%trace,
+
+findall(Chain2,dfs(C51,D51,Sent,DB,_,0,[],Chain2),F)
 
 ), 
-trace,
-pp(Chain2,P),writeln1(P)%,Chain2)
+
+random_member(Chain3,F),
+
+%trace,
+pp(Chain3,P),writeln1(P)%,Chain2)
 ,!.
 
 % max sentences=3, retry others from a b c
 
 
-bfs(_,_D,_Sent,_DB,6,Chain,Chain) :- fail, !.
-bfs(C1,D1,_Sent,DB,_N,Chain1,Chain2) :-
+dfs(_,_D,_Sent,_DB,_,6,Chain,Chain) :- fail, !.
+dfs(C1,D1,_Sent,DB,DB,_N,Chain1,Chain2) :-
 	%word_nums(WN),
 	%member([C,C1],WN),	member([D,D1],WN),
 	symmetrical_member([C1,D1,E],DB),%not(member(Sent,E)),
 	member(E1,E),
 	append(Chain1,[E1],%[[D,E]],
-	Chain2),!.
-bfs(C51,D,Sent,DB,N,Chain1,Chain2) :-
+	Chain2).
+dfs(C51,D,Sent,DB,DB3,N,Chain1,Chain2) :-
 	%word_nums(WN),
 	%member([C,C51],WN),
-	findall([C1,E],(member([C51,C1,E],DB)),%not(member(Sent,E)),
+	findall([C1,E],(symmetrical_member([C51,C1,E],DB)),
 	C2),
-	C2=[[C3,C31]|C4],
+	delete(DB,[C51,_,_],DB1),
+	delete(DB1,[_,C51,_],DB2),
+		%->C11=C1;
+	%(member([C1,C51,E],DB),C11=C1))),%not(member(Sent,E)),
+	(C2=[]->fail;%delete_last(Chain1,Chain2);
+	(member([C3,C31],C2),%|C4],
 	N1 is N+1,
 	member(C32,C31),
 	%member([C3,C32],WN),
 	append(Chain1,[%[C32,
 	C32],Chain3),
-	bfs(C3,D,Sent,DB,N1,Chain3,Chain4),
-	bfs1(C4,D,Sent,DB,N1,Chain4,Chain2),
-	!.
+	dfs(C3,D,Sent,DB2,DB3,N1,Chain3,Chain2))).
+	%dfs1(C4,D,Sent,DB4,DB3,N1,Chain4,Chain2))).%,
+	%!.
 	
-bfs1([],_D,_Sent,_DB,_,Chain,Chain) :- !.
-bfs1(_,_D,_Sent,_DB,6,Chain,Chain) :- fail, !.
-bfs1(C2,D,Sent,DB,N,Chain1,Chain2) :-
+dfs1([],_D,_Sent,DB,DB,_,Chain,Chain) :- !.
+dfs1(_,_D,_Sent,_DB,_,6,Chain,Chain) :- fail, !.
+dfs1(C2,D,Sent,DB,DB1,N,Chain1,Chain2) :-
 	%word_nums(WN),
 	%member([C2,C51],WN),
-	C2=[[C3,C31]|C4],
+	member([C3,C31],C2),%|C4],
 	N1 is N+1,
 	member(C32,C31),
 	append(Chain1,[C32],%,C31]],
 	Chain3),
-	bfs(C3,D,Sent,DB,N1,Chain3,Chain4),
-	bfs1(C4,D,Sent,DB,N1,Chain4,Chain2),
-	!.
+	dfs(C3,D,Sent,DB,DB1,N1,Chain3,Chain2).
+	%dfs1(C4,D,Sent,DB2,DB1,N1,Chain4,Chain2).
+	%!.
 
+%delete_last(A,B) :-
+%	reverse(A,C),
+%	(C=[B|_E]->true;(C=[],B=[])).
+	
 symmetrical_member([A,B,C],D) :-
-	member([A,B,C],D),!.
+	member([A,B,C],D).
 symmetrical_member([A,B,C],D) :-
-	member([B,A,C],D),!.
+	member([B,A,C],D).
 
 pp(C,N1) :-
 	findall(N,(member(B,C),B=[D|E],string_concat(F,H,D),
