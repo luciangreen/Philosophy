@@ -17,6 +17,8 @@
 
 % last step is too complex - alg xx dfs
 
+% ["     I prepared to enjoy being rewarded for answering the question correctly","  In this way, I prepared to enjoy being rewarded for answering the question correctly by eating the lolly snake","  I did this by eating the lolly snake","  I did this by eating the lolly centipede","  First, I ate the head of the lolly centipede","  First, I ate the head of the lolly snake","  First, I ate the head of the lolly millipede","  I did this by eating the lolly millipede","  I did this by stating that 190 breasonings were written for the musical composition"]
+
 %:-include('../Lucian-Academy/folders.pl').
 :-include('folders1.pl').
 :-include('../listprologinterpreter/la_files.pl').
@@ -38,6 +40,8 @@ find_db :-
 	string_concat(Dept,"/",Dept1),
 	directory_files(Dept1,F),
 	delete_invisibles_etc(F,G),
+ 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
+
 	findall(Texts3,(member(Filex1,G),
 	string_concat(Dept1,Filex1,Filex),
 		phrase_from_file_s(string(String00a), Filex),
@@ -50,7 +54,7 @@ find_db :-
 
 	findall([String02cd,H],(member(H,String02cb),
 	downcase_atom(H,H1),
-		split_string(H1, " ", " ", String02cd)),
+	split_string(H1, SepandPad,SepandPad, String02cd)),
 	Texts3)
 	%maplist(append,[Texts3],[Texts31])
 		
@@ -179,29 +183,33 @@ not(C=D),
 
 %trace,
 
-findall(Chain3,(dfs(C51,D51,Sent,DB,_,0,[],Chain2),
-sort(Chain2,Chain3)),F),
+%findall(Chain3,(
+dfs(C51,D51,Sent,DB,_,0,[],Chain2)
+),
+%sort(Chain2,Chain3)
+%Chain2=Chain3),F),
 
-sort(F,F1)
-
-), 
+%sort(F,F1)
+%F=F1
+%), 
 
 %member(P,F1)
 
 %trace,
 %pp(Chain3,P)
-writeln1(F1),!%,Chain2)
+writeln1(Chain2),!%,Chain2)
 .
 
 % max sentences=3, retry others from a b c
 
 
-dfs(_,_D,_Sent,_DB,_,6,Chain,Chain) :- fail, !.
+dfs(_,_D,_Sent,_DB,_,1,Chain,Chain) :- fail, !.
 dfs(C1,D1,_Sent,DB,DB,_N,Chain1,Chain2) :-
 	%word_nums(WN),
 	%member([C,C1],WN),	member([D,D1],WN),
 	symmetrical_member([C1,D1,E],DB),%not(member(Sent,E)),
 	member([_,E1],E),
+	not(member(E1,Chain1)),
 	append(Chain1,[E1],%[[D,E]],
 	Chain2).
 dfs(C51,D,Sent,DB,DB3,N,Chain1,Chain2) :-
@@ -217,6 +225,8 @@ dfs(C51,D,Sent,DB,DB3,N,Chain1,Chain2) :-
 	(member([C3,C31],C2),%|C4],
 	N1 is N+1,
 	member([_,C32],C31),
+	not(member(C32,Chain1)),
+
 	%member([C3,C32],WN),
 	append(Chain1,[%[C32,
 	C32],Chain3),
