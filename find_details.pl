@@ -37,7 +37,8 @@ find_db :-
 	folders(Folders),
 	
 	findall(Texts11,(member(Dept,Folders),
-	string_concat(Dept,"/",Dept1),
+	%concat_list(["../Lucian-Academy/",Dept,"/"],Dept1),
+	concat_list([Dept,"/"],Dept1),
 	directory_files(Dept1,F),
 	delete_invisibles_etc(F,G),
  	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
@@ -157,10 +158,12 @@ find_synth :-%(Chain2) :-
 		string_codes(String02b1,String00a1),
 		downcase_atom(String02b1,String02b12),
 		
+ 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
+
 	split_string(String02b12, ".\n\r", ".\n\r", String02cb),
 
 	findall([String02cd,H],(member(H,String02cb),
-		split_string(H, " ", " ", String02cd)),
+		split_string(H, SepandPad,SepandPad, String02cd)),
 	Texts3),
 
 % find 1 2 from above
@@ -169,23 +172,12 @@ find_synth :-%(Chain2) :-
 
 %findnsols(1,Chain,%member(A,[1,2,3]),B).
 
-%findall(*,
+findall([Sent,Chain4],
 (member([B,Sent]
 ,Texts3),
-member(C,B),member(D,B),
-not(C=D),
 
-% find s1 with dfs, etc until link from a-b
-
-	word_nums(WN),
-	member([C,C51],WN),
-	member([D,D51],WN),
-
-%trace,
-
-%findall(Chain3,(
-dfs(C51,D51,Sent,DB,_,0,[],Chain2)
-),
+%findnsols(1,Chain2,(%member(A,[1,2,3]),B).
+findnsols1(B,WN,Sent,DB,Chain4)),T),
 %sort(Chain2,Chain3)
 %Chain2=Chain3),F),
 
@@ -197,10 +189,41 @@ dfs(C51,D51,Sent,DB,_,0,[],Chain2)
 
 %trace,
 %pp(Chain3,P)
-writeln1(Chain2),!%,Chain2)
+writeln1(T),!%,Chain2)
 .
 
+findnsols1(B,WN,Sent,DB,T) :-
+
+%member(A,[1,2,3]),B).
+
+(member(C,B),member(D,B),
+not(C=D),
+
+% find s1 with dfs, etc until link from a-b
+
+	word_nums(WN),
+	%member(C,D,C51,D51,WN),
+	member([C,C51],WN),
+	member([D,D51],WN),
+
+%trace,
+
+%findall(Chain3,(
+dfs1(C51,D51,Sent,DB,_,0,[],T)),!.
+%member1(A,B):-
+%	member(A,B),!.
+	
+/*
+member(C,D,C51,D51,WN) :-
+	member([C,C51],WN),
+	member([D,D51],WN),!.
+*/
+
+
 % max sentences=3, retry others from a b c
+
+dfs1(C51,D51,Sent,DB,_,A,[],Chain2) :-
+ dfs(C51,D51,Sent,DB,_,A,[],Chain2),!.
 
 
 dfs(_,_D,_Sent,_DB,_,1,Chain,Chain) :- fail, !.
