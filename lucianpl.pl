@@ -15,6 +15,14 @@ Lucian Prolog
 L:load("test.lp").
 L:a(1,1,A).
 A=2.
+
+[debug]  ?- lucianpl.                                                                 Lucian Prolog
+L:member([1,2],2).
+true.
+L:member([1,2],A).
+A=1.
+L:halt.
+
 */
 
 :-include('../Prolog-to-List-Prolog/p2lpconverter.pl').
@@ -38,18 +46,25 @@ lucianpl :-
 loop(Algorithm1,Algorithm2) :-
 	write("L:"),
 	read_string(user_input, "\n", "\r", _, Input),
-	catch(p2lpconverter([string,Input],[Input1]),
-	_,
-	(writeln("Error."),
-	loop(Algorithm1,Algorithm2))),
+	%catch(
+	(p2lpconverter([string,Input],Input1)->true;
+	%_,
+	%(catch(
+	(trace,
+	string_concat("a:-",Input,Input2),
+	p2lpconverter([string,Input2],Input3),
+	Input3=[[[n,a],":-",Input1]])),
+	%_,
+	%(writeln("Error."),
+	%loop(Algorithm1,Algorithm2),
 	
-	(Input1=[[n, trace]]->
+	(Input1=[[[n, trace]]]->
 	(retractall(lp_trace(_)),
 	assertz(lp_trace(on)),
 	loop(Algorithm1,Algorithm2));
 	
 	(%Input="notrace."->
-	Input1=[[n, notrace]]->
+	Input1=[[[n, notrace]]]->
 	(retractall(lp_trace(_)),
 	assertz(lp_trace(off)),
 	loop(Algorithm1,Algorithm2));
@@ -62,13 +77,13 @@ loop(Algorithm1,Algorithm2) :-
 	loop(Algorithm1,Algorithm2));
 	*/
 	
-	(Input1=[[n, halt]]->
+	(Input1=[[[n, halt]]]->
 	%Input1=lang(Lang)->
 	(true);
 	
 	(%term_to_atom(Input1,Input),
 	%p2lpconverter([string,Input],Input1)
-	Input1=[[n, load], [File]]->
+	Input1=[[[n, load], [File]]]->
 	%Input1=load(File)
 	(p2lpconverter([file,File],Algorithm3),
 	append(Algorithm1,Algorithm3,Algorithm4),
