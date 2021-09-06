@@ -34,6 +34,8 @@ Change line in culturaltranslationtool/ctt2.pl
 * <a href="https://github.com/luciangreen/mindreader">mindreader</a>.  (Caution: Before running texttobr/mindreader, think of two radio buttons put on recordings, put through with prayer, nut and bolt, quantum box prayer 1, 1, 0.5 cm and 1, 1, 0.5 cm.  Follow instructions in <a href="https://github.com/luciangreen/Text-to-Breasonings/blob/master/Instructions_for_Using_texttobr(2).pl.txt">Instructions for Using texttobr(2)</a> when using texttobr, texttobr2 or mind reader to avoid medical problems).
 * <a href="https://github.com/luciangreen/LuciansHandBitMap-Font">LuciansHandBitMap-Font</a>
 * <a href="https://github.com/luciangreen/Lucian-Academy">Lucian-Academy</a>
+* <a href="https://github.com/luciangreen/Prolog-to-List-Prolog">Prolog-to-List-Prolog</a>
+* <a href="https://github.com/luciangreen/List-Prolog-to-Prolog-Converter">List-Prolog-to-Prolog-Converter</a>
 
 # 2. Or Install from List Prolog Package Manager (LPPM)
 
