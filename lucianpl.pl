@@ -50,7 +50,7 @@ loop(Algorithm1,Algorithm2) :-
 	(p2lpconverter([string,Input],Input1)->true;
 	%_,
 	%(catch(
-	(trace,
+	(%trace,
 	string_concat("a:-",Input,Input2),
 	p2lpconverter([string,Input2],Input3),
 	Input3=[[[n,a],":-",Input1]])),
