@@ -97,8 +97,8 @@ loop(Algorithm1,Algorithm2) :-
 	(Result2=[]->writeln("false.");
 	(Result2=[Result1],
 	%trace,
-	findall([V,"=",R,",","\n"],(member([V1,R],Result1),
-	interpretstatementlp2p3(V1,V)
+	findall([V,"=",R,",","\n"],(member([V1,R1],Result1),
+	interpretstatementlp2p3(V1,V),term_to_atom(R1,R)
 	%interpretstatementlp2p2(A,"",[V,R])
 	),C),
 	maplist(append,[C],[D]),append(E1,[",","\n"],D),
