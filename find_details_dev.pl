@@ -241,6 +241,7 @@ member(C,D,C51,D51,WN) :-
 	member([D,D51],WN),!.
 */
 
+max_depth(3).
 
 % max sentences=3, retry others from a b c
 
@@ -248,8 +249,10 @@ dfs1(C51,D51,Sent,DB,_,A,[],Chain2) :-
  dfs(C51,D51,Sent,DB,_,A,[],Chain2),!.
 
 
-dfs(_,_D,_Sent,_DB,_,1,Chain,Chain) :- fail, !.
-dfs(C1,D1,_Sent,DB,DB,_N,Chain1,Chain2) :-
+%dfs(_,_D,_Sent,_DB,_,1,Chain,Chain) :- fail, !.
+dfs(C1,D1,_Sent,DB,DB,N,Chain1,Chain2) :-
+	max_depth(N0),
+	N<N0,
 	%word_nums(WN),
 	%member([C,C1],WN),	member([D,D1],WN),
 	symmetrical_member([C1,D1,E],DB),%not(member(Sent,E)),
@@ -258,6 +261,8 @@ dfs(C1,D1,_Sent,DB,DB,_N,Chain1,Chain2) :-
 	append(Chain1,[E1],%[[D,E]],
 	Chain2).
 dfs(C51,D,Sent,DB,DB3,N,Chain1,Chain2) :-
+	max_depth(N0),
+	N<N0,
 	%word_nums(WN),
 	%member([C,C51],WN),
 	findall([C1,E],(symmetrical_member([C51,C1,E],DB)),
