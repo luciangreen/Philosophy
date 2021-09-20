@@ -46,3 +46,4 @@ colour(green,   [0,   255, 0]).
 colour(blue,    [0,   0,   255]).
 colour(purple,  [128, 0,   128]).
 colour(orange,  [255, 128, 0]).
+colour(brown,   [128, 64,  0]).
