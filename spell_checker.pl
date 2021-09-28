@@ -1,3 +1,19 @@
+%% Spell Checker
+
+/**
+
+[debug]  ?- spell_checker0.                                                     Please choose the correction to "Abple":
+1 - Apple
+
+|: 1
+Please choose the correction to "applef":
+1 - apple
+
+|: 1
+true.
+
+**/
+
 %:- include('../listprologinterpreter/listprolog').
 :- include('../listprologinterpreter/la_strings').
 :- include('../listprologinterpreter/la_strings_string').
@@ -6,7 +22,7 @@
 
 spell_checker0 :-
 	phrase_from_file_s(string(Codes), "file.txt"),
-	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789",	
+	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789",	 % No '
 	string_codes(SepandPad,SepandPad1),
 
 	split_on_substring117(Codes,SepandPad1,[],File_list),
