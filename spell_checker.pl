@@ -27,13 +27,13 @@ spell_checker0 :-
 	string_codes(SepandPad,SepandPad1),
 
 	split_on_substring117(Codes,SepandPad1,[],File_list),
-	phrase_from_file_s(string(Codes2), "../Text-to-Breasonings/brdict1.txt"),
-	%phrase_from_file_s(string(Codes2), "brdict1.txt"),
+	%phrase_from_file_s(string(Codes2), "../Text-to-Breasonings/brdict1.txt"),
+	phrase_from_file_s(string(Codes2), "brdict1.txt"),
 	
-	splitfurther(Codes2,Dictionary),
+	%splitfurther(Codes2,Dictionary),
 
-	%string_codes(String2,Codes2),
-	%atom_to_term(String2,Dictionary,_),
+	string_codes(String2,Codes2),
+	atom_to_term(String2,Dictionary,_),
 
 	findall(A,(member([A1,_],Dictionary),atom_string(A1,A)),String_dict),
 
