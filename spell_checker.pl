@@ -214,7 +214,7 @@ findall([N,CString5a11],(member(N,List1),get_item_n(Suggestions,N,CString5a11)%,
 maplist(append,[CStrings1],[CStrings111]),
 concat_list(CStrings111,CStrings12),
 
-concat_list(["Please choose the correction to \"",File_list3,"\":"],Note1),
+concat_list(["Please choose the correction to \"",File_list3,"\" or type a replacement word:"],Note1),
 writeln(Note1),
 writeln(CStrings12),
 try_reading_number(CStrings2,Choice).
@@ -227,7 +227,8 @@ try_reading_number(CStrings2,Choice) :-
 read_string(user_input, "\n", "\r", _, String2aa),
 ((number_string(Number,String2aa),
 	member([Number,Choice],CStrings2))->true;
-	try_reading_number(CStrings2,Choice)).
+	String2aa=Choice).
+	%try_reading_number(CStrings2,Choice)).
 	
 	capitalise_if_necessary(File_list302,Word,Choice211) :-
 	string_concat(File_list5,_E,File_list302),
