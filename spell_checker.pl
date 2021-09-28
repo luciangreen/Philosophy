@@ -183,8 +183,10 @@ number_menu(File_list3,Suggestions,Choice) :-
 	length(Suggestions,LCritique3),
 	numbers(LCritique3,1,[],List1),
 %trace,
-findall([N," - ",CString5a12,"\n"],(member(N,List1),get_item_n(Suggestions,N,CString5a11),%append(CString5a11,["0","1"],CString5a1)***,%reverse(CString5a1,CString5a11),
-concat_list(CString5a11,CString5a12)),CStrings1),
+findall([N," - ",CString5a13,"\n"],(member(N,List1),get_item_n(Suggestions,N,CString5a11),
+%append(CString5a11,["0","1"],CString5a1)***,%reverse(CString5a1,CString5a11),
+concat_list(CString5a11,CString5a12),
+capitalise_if_necessary(File_list3,CString5a12,CString5a13)),CStrings1),
 %trace,
 findall([N,CString5a11],(member(N,List1),get_item_n(Suggestions,N,CString5a11)%,reverse(CString5a1,CString5a11)
 ),CStrings2),
@@ -206,3 +208,12 @@ read_string(user_input, "\n", "\r", _, String2aa),
 ((number_string(Number,String2aa),
 	member([Number,Choice],CStrings2))->true;
 	try_reading_number(CStrings2,Choice)).
+	
+	capitalise_if_necessary(File_list302,Word,Choice211) :-
+	string_concat(File_list5,_E,File_list302),
+	string_length(File_list5,1),
+	string_concat(Word1,E1,Word),
+	string_length(Word1,1),
+	%string_codes(File_list5,File_list5_c),
+	%phrase(word1(File_list5_c),_),
+	(is_upper(File_list5)->(upcase_atom(Word1,Word11),string_concat(Word11,E1,Choice211));Choice211=Word).
