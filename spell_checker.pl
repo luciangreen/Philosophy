@@ -81,35 +81,54 @@ spell_check1(Dictionary2,Reversed_dictionary2,Word1,Suggestions) :-
 
 %trace,
 	A2=[Letter0|Rest],
-	downcase_atom(Letter0,Letter01),atom_string(Letter01,Letter),
-	((%trace,
-	member([1,Letter,State2],Dictionary2),
-	
-	spell_check2(d,Dictionary2,State2,Rest,[Letter],_Word2,[],Suggestions1))->true;
+	((Letter0=Letter)->
+	true;(downcase_atom(Letter0,Letter01),atom_string(Letter01,Letter))),
+	(%trace,
+	(findall(Suggestions1A,
+	((member([1,Letter_a,State2],Dictionary2),
+		((Letter_a=Letter)->
+	true;(downcase_atom(Letter_a,Letter01),atom_string(Letter01,Letter))),
+
+	spell_check2(d,Dictionary2,State2,Rest,[Letter_a],_Word2,[],Suggestions1A))),Suggestions1B),
+	maplist(append,[Suggestions1B],[Suggestions1]))->true;
 	(Suggestions1=[])),
 	
 	%trace,
 	
 	reverse(A2,A3),
 	A3=[Letter10|Rest1],
-		downcase_atom(Letter10,Letter101),atom_string(Letter101,Letter1),
+		((Letter10=Letter1)->	true;(downcase_atom(Letter10,Letter101),atom_string(Letter101,Letter1))),
 
-	((%trace,
-	member([3,Letter1,State21],Reversed_dictionary2),
-	%writeln1(spell_check2(r,Reversed_dictionary2,State21,Rest1,[Letter1],_Word21,[],Suggestions11)),
-spell_check2(r,Reversed_dictionary2,State21,Rest1,[Letter1],_Word21,[],Suggestions11))->true;(Suggestions11=[])),
 %trace,
-	length(Suggestions1,L_Word2),
-	length(Suggestions11,L_Word21),
+	(
+	(findall(Suggestions2A,
+
+	((member([3,Letter_a1,State21],Reversed_dictionary2),
+			((Letter_a1=Letter1)->
+	true;(downcase_atom(Letter_a1,Lettera01),atom_string(Lettera01,Letter1))),
+%writeln1(spell_check2(r,Reversed_dictionary2,State21,Rest1,[Letter1],_Word21,[],Suggestions11)),
+spell_check2(r,Reversed_dictionary2,State21,Rest1,[Letter_a1],_Word21,[],Suggestions2A))),Suggestions2B),
+	maplist(append,[Suggestions2B],[Suggestions11]))
+->true;(Suggestions11=[])),
+%trace,
+	%length(Suggestions1,L_Word2),
+	%length(Suggestions11,L_Word21),
 	
-	(L_Word2>L_Word21->Suggestions=Suggestions1;
-	Suggestions=Suggestions11).
-	
+	%(L_Word2>L_Word21->Suggestions=Suggestions1;
+	%Suggestions=Suggestions11).
+	append(Suggestions1,Suggestions11,Suggestions_a),
+	sort(Suggestions_a,Suggestions).
 
 %spell_check2(_Dictionary2,State2,[],Word2,Word2,Suggestions1,Suggestions1) :- !.
 spell_check2(Direction,Dictionary2,State2,A2,Word2,_Word3,Suggestions1,Suggestions2) :-
-	((A2=[Letter|_Rest],
-	not(member([State2,Letter,_State3],Dictionary2)))->true;
+	((A2=[Letter100|_Rest],
+	((Letter100=Letter)->	true;(downcase_atom(Letter100,Letter101),atom_string(Letter101,Letter))),
+	not((member([State2,Letter_b,_State3],Dictionary2),
+	
+			((Letter_b=Letter)->
+	true;(downcase_atom(Letter_b,Letter01),atom_string(Letter01,Letter)))
+
+	)))->true;
 	A2=[]),
 	%trace,
 	%writeln1(	suggestions(Direction,Dictionary2,State2,Word2,_,Suggestions1,Suggestions3)),
@@ -128,9 +147,15 @@ spell_check2(Direction,Dictionary2,State2,A2,Word2,_Word3,Suggestions1,Suggestio
 	%B2]],[C])),Suggestions2).
 	
 spell_check2(Direction,Dictionary2,State2,A2,Word2,Word3,Suggestions1,Suggestions2) :-
-	A2=[Letter|Rest],
-	member([State2,Letter,State3],Dictionary2),
-	append(Word2,[Letter],Word4),
+	A2=[Letter100|Rest],
+	((Letter100=Letter)->	true;(downcase_atom(Letter100,Letter101),atom_string(Letter101,Letter))),
+
+	member([State2,Letter_c,State3],Dictionary2),
+	
+		(Letter_c=Letter->true;(downcase_atom(Letter_c,Letterc01),atom_string(Letterc01,Letter))),
+
+	
+	append(Word2,[Letter_c],Word4),
 	spell_check2(Direction,Dictionary2,State3,Rest,Word4,Word3,Suggestions1,Suggestions2).
 
 suggestions(Direction,Dictionary2,State2,Word2,_Word21,Suggestions1,Suggestions2) :-
@@ -182,7 +207,7 @@ spell_check(File_list,File_list1,File_list2,String_dict,Dictionary,Reversed_dict
 	string_codes(File_list5,File_list5_c),
 	phrase(word1(File_list5_c),_),
 	
-	downcase_atom(File_list302,File_list301),atom_string(File_list301,File_list3),
+	(File_list302=File_list3->true;(downcase_atom(File_list302,File_list301),atom_string(File_list301,File_list3))),
 	
 	(%trace,
 		
