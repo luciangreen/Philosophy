@@ -41,7 +41,7 @@ spell_checker0 :-
 	dictionary_to_decision_tree(Dictionary,Dictionary2),
 
 %trace,	
-	findall([A4,_],(member([B1,_],Dictionary),string_concat(B1,"01",B),
+	findall([A4,_],(member([B,_],Dictionary),%string_concat(B1,"01",B)
 	string_to_list21(B,[],A2),
 	reverse(A2,A3),maplist(append,[[A3]],[A]),
 	concat_list(A,A4)),Dictionary3),
@@ -103,7 +103,7 @@ spell_check1(Dictionary2,Reversed_dictionary2,Word1,Suggestions) :-
 	(
 	(findall(Suggestions2A,
 
-	((member([3,Letter_a1,State21],Reversed_dictionary2),
+	((member([1,Letter_a1,State21],Reversed_dictionary2),
 			((Letter_a1=Letter1)->
 	true;(downcase_atom(Letter_a1,Lettera01),atom_string(Lettera01,Letter1))),
 %writeln1(spell_check2(r,Reversed_dictionary2,State21,Rest1,[Letter1],_Word21,[],Suggestions11)),
