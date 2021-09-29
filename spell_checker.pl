@@ -38,8 +38,8 @@ spell_checker_dict_setup :- %% run this first
 
 
 %trace,
-	split_into_sets(Dictionary_c,2
-	%50% ***
+	split_into_sets(Dictionary_c,%2
+	50% ***
 	,Dictionary_a),
 
 	length(Dictionary_a,L),
