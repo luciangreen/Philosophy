@@ -85,7 +85,8 @@ spell_check1(Dictionary2,Reversed_dictionary2,Word1,Suggestions) :-
 	((%trace,
 	member([1,Letter,State2],Dictionary2),
 	
-	spell_check2(d,Dictionary2,State2,Rest,[Letter],_Word2,[],Suggestions1))->true;(Suggestions1=[])),
+	spell_check2(d,Dictionary2,State2,Rest,[Letter],_Word2,[],Suggestions1))->true;
+	(Suggestions1=[])),
 	
 	%trace,
 	
@@ -115,8 +116,12 @@ spell_check2(Direction,Dictionary2,State2,A2,Word2,_Word3,Suggestions1,Suggestio
 	findall(Suggestions31,suggestions(Direction,Dictionary2,State2,Word2,_,Suggestions1,Suggestions31),Suggestions32),
 	maplist(append,Suggestions32,Suggestions22),
 	%trace,
-	findall(Suggestions21,(member(A4,Suggestions22),append(Suggestions21,["0","1"],A4)),Suggestions2).
-	%writeln1(Suggestions3),
+	findall(Suggestions21,(member(A4,Suggestions22),
+	(Direction=d->append(Suggestions21,["0","1"],A4);
+	append(["1","0"],Suggestions21,A4))
+	),Suggestions2).
+	
+%writeln1(Suggestions3),
 	%notrace,
 	%findall(C,(member(B,Suggestions3), B=[_|B2],% ****
 	%maplist(append,[[Word2,
@@ -133,8 +138,8 @@ suggestions(Direction,Dictionary2,State2,Word2,_Word21,Suggestions1,Suggestions2
 	reverse(Word2,Word22),
 	Word22=[_Letter1|_Rest],
 	%(
-	(Direction=d
-	%true
+	(%Direction=d
+	true
 	->(S1=State2,S2=_);(S1=_,S2=State2)),
 	not(member([S1,_Letter,S2],Dictionary2)),%->true;notrace),
 	%not(member([S2,Letter,S1],Dictionary2))),%->true;notrace),
@@ -142,14 +147,15 @@ suggestions(Direction,Dictionary2,State2,Word2,_Word21,Suggestions1,Suggestions2
 %trace,
 	(Direction=d->Word24=Word2;
 	(%string_to_list21(Word2,[],Word23),
-	reverse(Word2,Word231),concat_list(Word231,Word232),string_concat(Word24,"01",Word232))),
+	reverse(Word2,Word24))),%concat_list(Word231,Word232),
+	%append(["1","0"],Word24,Word232))),
 	append(Suggestions1,[Word24],Suggestions2).%,notrace.
 	 %notrace.
 suggestions(Direction,Dictionary2,State2,Word2,Word21,Suggestions1,Suggestions2) :-
 	reverse(Word2,Word22),
 	Word22=[_Letter1|_Rest],
-	(Direction=d
-	%true
+	(%Direction=d
+	true
 	->(S1=State2,S2=State3);(S1=State3,S2=State2)),
 	member([S1,Letter2,S2],Dictionary2),
 	append(Word2,[Letter2],Word4),
@@ -182,13 +188,15 @@ spell_check(File_list,File_list1,File_list2,String_dict,Dictionary,Reversed_dict
 		
 
 	member(File_list3,String_dict)->Choice=File_list3;
-	(spell_check1(Dictionary,Reversed_dictionary2,File_list302,Suggestions),
+	(%trace,
+	spell_check1(Dictionary,Reversed_dictionary2,File_list302,Suggestions),
 	%repeat,
 	number_menu(File_list302,Suggestions,Choice2),
 	%string_concat(Choice2,"01",Choice3),
 	(%trace,
-	is_upper(File_list5_c)->(%concat_list(Choice2,Choice211),
-	string_concat(Choice4,E1,Choice2),
+	is_upper(File_list5_c)->(
+	(string(Choice2)->Choice2=Choice211;concat_list(Choice2,Choice211)),
+	string_concat(Choice4,E1,Choice211),
 	string_length(Choice4,1),upcase_atom(Choice4,Choice5),string_concat(Choice5,E1,Choice)
 	);Choice2=Choice
 	))),
