@@ -158,9 +158,9 @@ spell_check2(d,Dictionary2_a,State2,Rest,[Letter_a],_Word2,[],Suggestions1A))),S
 %trace,
 	(
 	(findall(Suggestions2A,
-		member(Reversed_dictionary2_a,Reversed_dictionary2),
+		(member(Reversed_dictionary2_a,Reversed_dictionary2),
 
-	((member([1,Letter_a1,State21],Reversed_dictionary2_a),
+	(member([1,Letter_a1,State21],Reversed_dictionary2_a),
 			((Letter_a1=Letter1)->
 	true;(downcase_atom(Letter_a1,Lettera01),atom_string(Lettera01,Letter1))),
 
