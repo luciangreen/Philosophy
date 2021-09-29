@@ -187,7 +187,8 @@ spell_check(File_list,File_list1,File_list2,String_dict,Dictionary,Reversed_dict
 	number_menu(File_list302,Suggestions,Choice2),
 	%string_concat(Choice2,"01",Choice3),
 	(%trace,
-	is_upper(File_list5_c)->(concat_list(Choice2,Choice211),string_concat(Choice4,E1,Choice211),
+	is_upper(File_list5_c)->(%concat_list(Choice2,Choice211),
+	string_concat(Choice4,E1,Choice2),
 	string_length(Choice4,1),upcase_atom(Choice4,Choice5),string_concat(Choice5,E1,Choice)
 	);Choice2=Choice
 	))),
@@ -214,10 +215,12 @@ findall([N,CString5a11],(member(N,List1),get_item_n(Suggestions,N,CString5a11)%,
 maplist(append,[CStrings1],[CStrings111]),
 concat_list(CStrings111,CStrings12),
 
-concat_list(["Please choose the correction to \"",File_list3,"\" or type a replacement word:"],Note1),
+concat_list(["Please choose the correction to \"",File_list3,"\", <return> for no correction or type a replacement word:"],Note1),
 writeln(Note1),
 writeln(CStrings12),
-try_reading_number(CStrings2,Choice).
+try_reading_number(CStrings2,Choice1),
+%trace,
+(Choice1=""->Choice=File_list3;Choice=Choice1).
 %read_string(user_input, "\n", "\r", _, String2aa),
 %number_string(Number,String2aa),
 %trace,
@@ -230,7 +233,7 @@ read_string(user_input, "\n", "\r", _, String2aa),
 	String2aa=Choice).
 	%try_reading_number(CStrings2,Choice)).
 	
-	capitalise_if_necessary(File_list302,Word,Choice211) :-
+capitalise_if_necessary(File_list302,Word,Choice211) :-
 	string_concat(File_list5,_E,File_list302),
 	string_length(File_list5,1),
 	string_concat(Word1,E1,Word),
