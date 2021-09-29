@@ -126,7 +126,7 @@ dictionary_to_decision_tree(Dictionary,Dictionary2) :-
 	findall(A,(member([A1,_],Dictionary),string_concat(A1,"01",A)),B),
 	string_to_list1(B,1,_,[],Options2),
 	maplist(append,[Options2],[Tree]),
-	merge_lists_a([1],Tree,[],Dictionary2).
+	merge_lists_a([1],Tree,[],Dictionary2),!.
 
 spell_check1(Dictionary2,Reversed_dictionary2,Word1,Suggestions) :-
 	string_to_list21(Word1,[],A2),
@@ -335,18 +335,19 @@ capitalise_if_necessary(File_list302,Word,Choice211) :-
 	%phrase(word1(File_list5_c),_),
 	(is_upper(File_list5)->(upcase_atom(Word1,Word11),string_concat(Word11,E1,Choice211));Choice211=Word).
 
-split_into_sets(Dictionary,Number,Dictionary_a) :-
+split_into_sets(Dictionary,L1,Dictionary_a) :-
 	length(Dictionary,N1),
-	L1 is div(N1,Number), % 2 is div(5,2)
+	Number is div(N1,L1),
+	%L1 is div(N1,Number), % 2 is div(5,2)
 	L2 is mod(N1,Number), % 1 is mod(5,2)
 	L3 is L1*Number,	% 4 is 2*2
 	length(A,L3),
 	append(A,_,Dictionary),
 	%split_into_sets1(A,Number,L1)
-	numbers(L1,1,[],Nums),
+	numbers(Number,1,[],Nums),
 	findall(C,(member(N2,Nums),B1 is (N2-1)*L1, length(B,B1),length(C,L1),append(B,D,Dictionary),append(C,_,D)),Dict2),
 	length(E,L2),
 	append(_,E,Dictionary),
-	(E=[]->Dictionary_a=Dict2;append(Dict2,[E],Dictionary_a)).
+	(E=[]->Dictionary_a=Dict2;append(Dict2,[E],Dictionary_a)),!.
 
 	
