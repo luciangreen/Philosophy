@@ -19,36 +19,88 @@ true.
 :- include('../listprologinterpreter/la_strings_string').
 :- include('../listprologinterpreter/la_maths').
 :- include('../mindreader/make_mind_reading_tree4 working1.pl').
-:- include("../Text-to-Breasonings/texttobrall2_reading.pl").
+:- include('../Text-to-Breasonings/texttobrall2_reading.pl').
 
-spell_checker0 :-
+spell_checker_dict_setup :- %% run this first
+	%SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789",	 % No '
+
+	%phrase_from_file_s(string(Codes2), "brdict1.txt"),
+	
+	
+	phrase_from_file_s(string(Codes2), "../Text-to-Breasonings/brdict1.txt"),
+
+	%string_codes(String2,Codes2),
+	%atom_to_term(String2,Dictionary_c,_),
+
+	splitfurther(Codes2,Dictionary_c),
+
+	findall(A,(member([A1,_],Dictionary_c),atom_string(A1,A)),String_dict),
+
+
+%trace,
+	split_into_sets(Dictionary_c,2
+	%50% ***
+	,Dictionary_a),
+
+	length(Dictionary_a,L),
+	numbers(L,1,[],NN),
+
+	findall(Dictionary2,(member(NN1,NN),
+	get_item_n(Dictionary_a,NN1,Dictionary_b),
+	writeln([dictionary,NN1,of,L]),
+	%member(Dictionary_b,Dictionary_a),
+	dictionary_to_decision_tree(Dictionary_b,Dictionary2)),Dictionary_d),
+
+%trace,	
+	findall(Reversed_dictionary2_a,(member(NN1,NN),
+	get_item_n(Dictionary_a,NN1,Dictionary_b),
+	writeln([reversed,dictionary,NN1,of,L]),
+	findall([A4,_],(member([B,_],Dictionary_b),%string_concat(B1,"01",B)
+	string_to_list21(B,[],A2),
+	reverse(A2,A3),maplist(append,[[A3]],[A]),
+	concat_list(A,A4)),Dictionary3),
+
+	dictionary_to_decision_tree(Dictionary3,Reversed_dictionary2_a)),
+	Reversed_dictionary2),
+%trace,
+
+	term_to_atom(String_dict,String_dict1),
+	(open_s("string_dict.txt",write,Stream1),
+	write(Stream1,String_dict1),
+	close(Stream1)),
+
+	term_to_atom(Dictionary_d,Dictionary_d1),
+	(open_s("dict.txt",write,Stream2),
+	write(Stream2,Dictionary_d1),
+	close(Stream2)),
+
+	term_to_atom(Reversed_dictionary2,Reversed_dictionary21),
+	(open_s("reversed_dict.txt",write,Stream3),
+	write(Stream3,Reversed_dictionary21),
+	close(Stream3)),!.
+
+spell_check0 :- %% run this second
+
 	phrase_from_file_s(string(Codes), "file.txt"),
 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789",	 % No '
 	string_codes(SepandPad,SepandPad1),
 
 	split_on_substring117(Codes,SepandPad1,[],File_list),
-	%phrase_from_file_s(string(Codes2), "../Text-to-Breasonings/brdict1.txt"),
-	phrase_from_file_s(string(Codes2), "brdict1.txt"),
 	
-	%splitfurther(Codes2,Dictionary),
+		phrase_from_file_s(string(String_dict2), "string_dict.txt"),
+	string_codes(String_dict1,String_dict2),
+	atom_to_term(String_dict1,String_dict,_),
 
-	string_codes(String2,Codes2),
-	atom_to_term(String2,Dictionary,_),
+	phrase_from_file_s(string(Dictionary_d2), "dict.txt"),
+	string_codes(Dictionary_d1,Dictionary_d2),
+	atom_to_term(Dictionary_d1,Dictionary_d,_),
 
-	findall(A,(member([A1,_],Dictionary),atom_string(A1,A)),String_dict),
+	phrase_from_file_s(string(Reversed_dictionary22), "reversed_dict.txt"),
+	string_codes(Reversed_dictionary21,Reversed_dictionary22),
+	atom_to_term(Reversed_dictionary21,Reversed_dictionary2,_),
 
-%trace,
-	dictionary_to_decision_tree(Dictionary,Dictionary2),
 
-%trace,	
-	findall([A4,_],(member([B,_],Dictionary),%string_concat(B1,"01",B)
-	string_to_list21(B,[],A2),
-	reverse(A2,A3),maplist(append,[[A3]],[A]),
-	concat_list(A,A4)),Dictionary3),
-
-	dictionary_to_decision_tree(Dictionary3,Reversed_dictionary2),
-%trace,
-	spell_check(File_list,[],File_list2a,String_dict,Dictionary2,Reversed_dictionary2),
+spell_check(File_list,[],File_list2a,String_dict,Dictionary_d,Reversed_dictionary2),
 	%trace,
 	%maplist(append,[File_list2a],File_list2a2),
 	%[File_list_a]=File_list2a,
@@ -85,12 +137,16 @@ spell_check1(Dictionary2,Reversed_dictionary2,Word1,Suggestions) :-
 	true;(downcase_atom(Letter0,Letter01),atom_string(Letter01,Letter))),
 	(%trace,
 	(findall(Suggestions1A,
-	((member([1,Letter_a,State2],Dictionary2),
+	((	member(Dictionary2_a,Dictionary2),
+
+	member([1,Letter_a,State2],Dictionary2_a),
 		((Letter_a=Letter)->
 	true;(downcase_atom(Letter_a,Letter01),atom_string(Letter01,Letter))),
 
-	spell_check2(d,Dictionary2,State2,Rest,[Letter_a],_Word2,[],Suggestions1A))),Suggestions1B),
-	maplist(append,[Suggestions1B],[Suggestions1]))->true;
+spell_check2(d,Dictionary2_a,State2,Rest,[Letter_a],_Word2,[],Suggestions1A))),Suggestions1B),
+	maplist(append,[Suggestions1B],[Suggestions1])
+	%maplist(append,[Suggestions1_a],[Suggestions1])
+	)->true;
 	(Suggestions1=[])),
 	
 	%trace,
@@ -102,13 +158,17 @@ spell_check1(Dictionary2,Reversed_dictionary2,Word1,Suggestions) :-
 %trace,
 	(
 	(findall(Suggestions2A,
+		member(Reversed_dictionary2_a,Reversed_dictionary2),
 
-	((member([1,Letter_a1,State21],Reversed_dictionary2),
+	((member([1,Letter_a1,State21],Reversed_dictionary2_a),
 			((Letter_a1=Letter1)->
 	true;(downcase_atom(Letter_a1,Lettera01),atom_string(Lettera01,Letter1))),
+
 %writeln1(spell_check2(r,Reversed_dictionary2,State21,Rest1,[Letter1],_Word21,[],Suggestions11)),
-spell_check2(r,Reversed_dictionary2,State21,Rest1,[Letter_a1],_Word21,[],Suggestions2A))),Suggestions2B),
-	maplist(append,[Suggestions2B],[Suggestions11]))
+spell_check2(r,Reversed_dictionary2_a,State21,Rest1,[Letter_a1],_Word21,[],Suggestions2A))),Suggestions2B),
+	maplist(append,[Suggestions2B],[Suggestions11])
+	%maplist(append,[Suggestions11_a],[Suggestions11])
+	)
 ->true;(Suggestions11=[])),
 %trace,
 	%length(Suggestions1,L_Word2),
@@ -274,3 +334,19 @@ capitalise_if_necessary(File_list302,Word,Choice211) :-
 	%string_codes(File_list5,File_list5_c),
 	%phrase(word1(File_list5_c),_),
 	(is_upper(File_list5)->(upcase_atom(Word1,Word11),string_concat(Word11,E1,Choice211));Choice211=Word).
+
+split_into_sets(Dictionary,Number,Dictionary_a) :-
+	length(Dictionary,N1),
+	L1 is div(N1,Number), % 2 is div(5,2)
+	L2 is mod(N1,Number), % 1 is mod(5,2)
+	L3 is L1*Number,	% 4 is 2*2
+	length(A,L3),
+	append(A,_,Dictionary),
+	%split_into_sets1(A,Number,L1)
+	numbers(L1,1,[],Nums),
+	findall(C,(member(N2,Nums),B1 is (N2-1)*L1, length(B,B1),length(C,L1),append(B,D,Dictionary),append(C,_,D)),Dict2),
+	length(E,L2),
+	append(_,E,Dictionary),
+	(E=[]->Dictionary_a=Dict2;append(Dict2,[E],Dictionary_a)).
+
+	
