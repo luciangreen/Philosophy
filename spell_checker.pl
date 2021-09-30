@@ -2,15 +2,28 @@
 
 /**
 
-[debug]  ?- spell_checker0.                                                     Please choose the correction to "Abple":
-1 - Apple
-
-|: 1
-Please choose the correction to "applef":
-1 - apple
-
-|: 1
-true.
+?- spell_check0.
+Please choose the correction to "testee", <return> for no correction or type a replacement word:
+1 - (6) - testees
+2 - (4) - testtube
+3 - (4) - testtrace
+4 - (4) - tests
+5 - (4) - testopen
+6 - (4) - testnumber
+7 - (3) - tee
+8 - (3) - settee
+9 - (3) - selectee
+10 - (3) - mentee
+11 - (3) - guarantee
+12 - (3) - delegatee
+13 - (3) - committee
+14 - (2) - tree
+15 - (2) - trainee
+16 - (2) - toffee
+17 - (2) - three
+18 - (2) - tenrectangle
+19 - (2) - tenor
+20 - (2) - tennis
 
 **/
 
