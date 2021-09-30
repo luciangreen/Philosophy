@@ -177,7 +177,12 @@ spell_check2(r,Reversed_dictionary2_a,State21,Rest1,[Letter_a1],_Word21,[],Sugge
 	%(L_Word2>L_Word21->Suggestions=Suggestions1;
 	%Suggestions=Suggestions11).
 	append(Suggestions1,Suggestions11,Suggestions_a),
-	sort(Suggestions_a,Suggestions).
+	sort(Suggestions_a,Suggestions_b),
+	reverse(Suggestions_b,Suggestions_c),
+	length(Suggestions_c,Suggestions_c_l),
+	(Suggestions_c_l<20->Sugg_l=Suggestions_c_l;Sugg_l=20),
+	length(Suggestions,Sugg_l),
+	append(Suggestions,_,Suggestions_c).
 
 %spell_check2(_Dictionary2,State2,[],Word2,Word2,Suggestions1,Suggestions1) :- !.
 spell_check2(Direction,Dictionary2,State2,A2,Word2,_Word3,Suggestions1,Suggestions2) :-
@@ -192,12 +197,16 @@ spell_check2(Direction,Dictionary2,State2,A2,Word2,_Word3,Suggestions1,Suggestio
 	A2=[]),
 	%trace,
 	%writeln1(	suggestions(Direction,Dictionary2,State2,Word2,_,Suggestions1,Suggestions3)),
+	length(Word2,Word2_l),
+	
 	findall(Suggestions31,suggestions(Direction,Dictionary2,State2,Word2,_,Suggestions1,Suggestions31),Suggestions32),
 	maplist(append,Suggestions32,Suggestions22),
 	%trace,
 	findall(Suggestions21,(member(A4,Suggestions22),
-	(Direction=d->append(Suggestions21,["0","1"],A4);
-	append(["1","0"],Suggestions21,A4))
+	(Direction=d->(append(Suggestions211,["0","1"],A4),
+	Suggestions21=[Word2_l,Suggestions211]);
+	(append(["1","0"],Suggestions211,A4),
+	Suggestions21=[Word2_l,Suggestions211]))
 	),Suggestions2).
 	
 %writeln1(Suggestions3),
@@ -297,12 +306,15 @@ number_menu(File_list3,Suggestions,Choice) :-
 	length(Suggestions,LCritique3),
 	numbers(LCritique3,1,[],List1),
 %trace,
-findall([N," - ",CString5a13,"\n"],(member(N,List1),get_item_n(Suggestions,N,CString5a11),
+findall([N," - ",CString5a12,"\n"],(member(N,List1),get_item_n(Suggestions,N,CString5a11),
 %append(CString5a11,["0","1"],CString5a1)***,%reverse(CString5a1,CString5a11),
-concat_list(CString5a11,CString5a12),
-capitalise_if_necessary(File_list3,CString5a12,CString5a13)),CStrings1),
+CString5a11=[Rank,CString5a111],
+concat_list(CString5a111,CString5a112),
+capitalise_if_necessary(File_list3,CString5a112,CString5a13),
+concat_list(["(",Rank,") - ",CString5a13],CString5a12)
+),CStrings1),
 %trace,
-findall([N,CString5a11],(member(N,List1),get_item_n(Suggestions,N,CString5a11)%,reverse(CString5a1,CString5a11)
+findall([N,CString5a11],(member(N,List1),get_item_n(Suggestions,N,[_,CString5a11])%,reverse(CString5a1,CString5a11)
 ),CStrings2),
 %trace, %% *****
 maplist(append,[CStrings1],[CStrings111]),
