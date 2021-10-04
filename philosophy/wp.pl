@@ -1,4 +1,4 @@
-include:-('../../listprologinterpreter/la_maths.pl').
+:-include:-('../../listprologinterpreter/la_maths.pl').
 
 wp(T) :- writeln(["ESC to Quit"]),wp("",T).
 wp(C,T) :-
