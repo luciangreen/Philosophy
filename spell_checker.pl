@@ -289,9 +289,10 @@ spell_check(File_list,File_list1,File_list2,String_dict,Dictionary,Reversed_dict
 	string_codes(File_list5,File_list5_c),
 	phrase(word1(File_list5_c),_),
 	
-	(File_list302=File_list3->true;(downcase_atom(File_list302,File_list301),atom_string(File_list301,File_list3))),
+	(false%File_list302=File_list3
+	->true;(downcase_atom(File_list302,File_list301),atom_string(File_list301,File_list3))),
 	
-	(%trace,
+	(trace,
 		
 
 	member(File_list3,String_dict)->Choice=File_list3;
@@ -311,7 +312,10 @@ spell_check(File_list,File_list1,File_list2,String_dict,Dictionary,Reversed_dict
 	%(Choice=[Choice_b]->true;Choice_b=Choice),
 	(string(Choice)->Choice_a=Choice;
 	concat_list(Choice,Choice_a)),
-	append(File_list1,[Choice_a],File_list6),
+	
+	capitalise_if_necessary(File_list302,Choice_a,Choice_a1),
+
+	append(File_list1,[Choice_a1],File_list6),
 		spell_check(File_list4,File_list6,File_list2,String_dict,Dictionary,Reversed_dictionary2).
 
 	
