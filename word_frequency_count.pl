@@ -6,7 +6,7 @@
 % word_frequency_count(["string","a b c"],Freq).
 % Freq = [["a", 1], ["b", 1], ["c", 2]]
 
-word_frequency_count([Type,String1],Words) :-
+word_frequency_count([Type,String1],Freq) :-
 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!'0123456789",
 
 	(Type="file"->
@@ -17,6 +17,6 @@ word_frequency_count([Type,String1],Words) :-
 	%length(String3,Words),
 	
 	sort(String3,String4),
-	findall([A,A2],(member(A,String4),findall(A,(member(A,String3)),A1),length(A1,A2)),Words).
+	findall([A,A2],(member(A,String4),findall(A,(member(A,String3)),A1),length(A1,A2)),Freq).
 	
 
