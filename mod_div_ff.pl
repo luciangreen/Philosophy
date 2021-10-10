@@ -1,3 +1,5 @@
+%  ["Medicine","MEDICINE by Lucian Green 250 Breasonings 1 of 4.txt",0,algorithms,"5. I prepared to listen to the classical music, which had an expanse of 50 As.  I did this by listening to classical music.  First, I found the record.  Second, I played it on the gramophone.  *Third, I listened to the classical music.  In this way, I prepared to listen to the classical music, which had an expanse of 50 As by listening to classical music."]
+
 % mod_div_ff(mod,[[5,1],[6,0]],Mod).
 % Mod=[2].
 
