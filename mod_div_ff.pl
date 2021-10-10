@@ -1,4 +1,4 @@
-% mod_div_aff(mod,[[5,1],[6,0]],Mod).
+% mod_div_ff(mod,[[5,1],[6,0]],Mod).
 % Mod=[2].
 
 % mod_div_ff(mod,[[5,2],[6,0]],Mod).
