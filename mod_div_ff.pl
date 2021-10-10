@@ -4,11 +4,11 @@
 % mod_div_ff(mod,[[5,2],[6,0]],Mod).
 % Mod=[3].
 
-% mod_div_ff(div,[[5,2],[6,3]],Mod).
-% Mod=[2].
+% mod_div_ff(div,[[5,2],[6,3]],Div).
+% Div=[2].
 
-% mod_div_ff(div,[[7,2],[6,2]],Mod).
-% Mod=[3].
+% mod_div_ff(div,[[7,2],[6,2]],Div).
+% Div=[3].
 
 :-include('../listprologinterpreter/la_maths.pl').
 
