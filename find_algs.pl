@@ -16,7 +16,9 @@ find_algs(T4) :-
 		split_string(H, SepandPad,SepandPad, String02cd)),
 	Texts3),
 
-	findall([_A,B,C,D],test(24,B,C,D),E),
+	findall([_A,B,C,D],test(A%24
+	%26%24
+	,B,C,D),E),
 	%findall([A,B,C,D],test_types_cases(A,B,_,_,C,D),F),
 	F=[],
 	append(E,F,G),
@@ -30,14 +32,18 @@ find_first_working_alg(T3,G,[T2,QueryB,C3,D3]) :-
 	not(A1=A2),
 	
 	random_member([_A,B,C,D],G),
+	%writeln([a,A]),
 	%trace,
 	B=[[n,N],Args1],
 	
 	%trace,
-	member(B1,Args1),not(B1=[v,_]),
+	member_117(B1,Args1),not(B1=[v,_]),
+	%string(B1),
 	[D1]=D,
-	member([[v, _], B2],D1),%not(B2=[v,_]),
-	
+	%member([[v, _], B2],D1),%not(B2=[v,_]),
+	member_117(B2,D1),%not(B2=[v,_]),
+	%string(B2),
+
 	replace_a_word(A1,B1,Args1,[],Args2),
 	replace_a_word(A2,B2,Args2,[],Args3),
 	
@@ -48,7 +54,7 @@ find_first_working_alg(T3,G,[T2,QueryB,C3,D3]) :-
 
 	replace_a_word(A1,B1,D1,[],D2),
 	replace_a_word(A2,B2,D2,[],D4),
-	trace,
+	%trace,
 	[D4]=D3,
 	%trace,
 	%writeln1(interpret(off,QueryB,C3,D3)),
@@ -120,6 +126,13 @@ replace_a_word1(A1,List1,List2,List3) :-
 	concat_list(List51,List5),
 	replace_a_word1(A1,Ls,[List5],List3))).
 
-	
-	
+member_117(L,List)	 :-
+	term_to_atom(List,A21),
+	string_codes(A21,Args21),
+	string_codes("[]\"',",Codes1),
+	split_on_substring117(Args21,Codes1,[],List2),
+	member(L,List2),
+	string(L),
+	not((L="["->true;(L="]"->true;(L="\""->true;(L="'"->true;(L=","->true;L="v")))))).
+
 
