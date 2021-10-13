@@ -15,8 +15,8 @@ find_db :-
 
 	folders(Folders),
 	
-	findall(Texts11,(member(Dept,Folders), % Dept2->Dept
-	%concat_list(["../Lucian-Academy/",Dept2,"/"],Dept),
+	findall(Texts11,(member(Dept2,Folders), % Dept2->Dept
+	concat_list(["../Lucian-Academy/",Dept2,"/"],Dept),
 	concat_list([Dept,"/"],Dept1),
 	directory_files(Dept1,F),
 	delete_invisibles_etc(F,G),
@@ -86,7 +86,7 @@ find_details3 :-
 	Texts3),
 
 %findall([Sent,Chain4],
-trace,
+%trace,
 member([B,Sent]
 ,Texts3),
 
@@ -100,7 +100,7 @@ dfs(C,_D,Sent,DB,_,1,[],T),%Chain4))),T1),
 writeln1([Sent,T]),!.
 
 
-max_depth(1).
+max_depth(7).
 
 
 dfs(C1,_D1,Sent,DB,DB2,N,Chain1,Chain2) :-
@@ -126,10 +126,10 @@ dfs(C1,_D1,Sent,DB,DB2,N,Chain1,Chain2) :-
 	*/
 	delete(DB,[E3,E],DB3),
 	N1 is N+1,
-	not(member(C22,Chain1)),
+	not(member(E,Chain1)),
 
 	append(Chain1,[
-	C22],Chain3),
+	E],Chain3),
 	dfs(C22,_D12,Sent,DB3,DB2,N1,Chain3,Chain2))).
 
 
