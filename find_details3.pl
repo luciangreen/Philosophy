@@ -93,7 +93,7 @@ member([B,Sent]
 member(C,B),%member(D,B),
 %not(C=D),
 %trace,
-dfs(C,_D,Sent,DB,_,1,[],T),%Chain4))),T1),
+dfs(C,_D,Sent,DB,_,1,Connectives,[],T),%Chain4))),T1),
 
 %T1=[T|_],
 
@@ -103,19 +103,22 @@ writeln1([Sent,T]),!.
 max_depth(7).
 
 
-dfs(C1,_D1,Sent,DB,DB2,N,Chain1,Chain2) :-
+dfs(C1,_D1,Sent,DB,DB2,N,Connectives,Chain1,Chain2) :-
 	max_depth(N0),
 	N=<N0,
 	((N is N0,member([E3,E],DB),
 	member(C1,E3),	%member(_D1,E3),
 	not(member(E,Chain1)),
-	append(Chain1,[E],
+	not(member(E,Connectives)),
+	append(Chain1,[[E,C1]],
 	Chain2),
 	DB=DB2)->true;
 	(member([E3,E],DB),
 	member(C1,E3),
 	member(C22,E3),
 	not(C1=C22),
+	not(member(C22,Connectives)),
+
 	/* 
 	findall([C22,E],(
 	member(C1,E3),
@@ -128,9 +131,9 @@ dfs(C1,_D1,Sent,DB,DB2,N,Chain1,Chain2) :-
 	N1 is N+1,
 	not(member(E,Chain1)),
 
-	append(Chain1,[
-	E],Chain3),
-	dfs(C22,_D12,Sent,DB3,DB2,N1,Chain3,Chain2))).
+	append(Chain1,[[
+	E,C22]],Chain3),
+	dfs(C22,_D12,Sent,DB3,DB2,N1,Connectives,Chain3,Chain2))).
 
 
 	
