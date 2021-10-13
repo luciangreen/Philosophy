@@ -106,19 +106,21 @@ max_depth(7).
 dfs(C1,_D1,Sent,DB,DB2,N,Connectives,Chain1,Chain2) :-
 	max_depth(N0),
 	N=<N0,
-	((N is N0,member([E3,E],DB),
+	((N is N0,
+	findall([E,C1],(member([E3,E],DB),
 	member(C1,E3),	%member(_D1,E3),
 	not(member(E,Chain1)),
-	not(member(E,Connectives)),
+	not(member(E,Connectives))),C3),
+	random_member([E,C1],C3),
 	append(Chain1,[[E,C1]],
 	Chain2),
 	DB=DB2)->true;
-	(member([E3,E],DB),
+	(findall([E,C22],(member([E3,E],DB),
 	member(C1,E3),
 	member(C22,E3),
 	not(C1=C22),
-	not(member(C22,Connectives)),
-
+	not(member(C22,Connectives))),C3),
+	random_member([E,C22],C3),
 	/* 
 	findall([C22,E],(
 	member(C1,E3),
