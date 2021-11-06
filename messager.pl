@@ -56,12 +56,13 @@ Data=[%%debug='off',%%Debug1,
 message=Message%,submit=_
 ],
 
+string_atom(Message1,Message),
 %writeln(Data),
 
 open_file_s("messager.txt",Messages_term),
 %writeln(here1),
 %term_to_atom(Messages_term,Messages),
-append(Messages_term,[Message],Messages_term2),
+append(Messages_term,[Message1],Messages_term2),
 %writeln(here2),
 save_file_s("messager.txt",Messages_term2),
 %writeln(here3),
