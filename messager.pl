@@ -1,3 +1,5 @@
+% ["Fundamentals of Pedagogy and Pedagogy Indicators","FUNDAMENTALS OF PEDAGOGY by Lucian Green Professor Algorithm 2 of 4.txt",0,algorithms,"15.   *I prepared to gingerly go up to the Queen and say, 'I love you'.  I did this by turning off the breasonings before and after breasoning them out, then wore the top hat, for a stress-free head.  First, I liked the breasonings.  Second, I didn't hide them using the top hat.  Third, I had a calm head.  In this way, I prepared to gingerly go up to the Queen and say, 'I love you' by turning off the breasonings before and after breasoning them out, then wore the top hat, for a stress-free head."]
+
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_error)).
