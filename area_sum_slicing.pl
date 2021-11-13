@@ -23,3 +23,24 @@ slices(Bounds_list,Slice_width,Slices) :-
 	
 length(X1,X2,D) :-
 	D is X2-X1.
+	
+% area2([[4,5],[3,6],[2,7],[1,6],[0,8]],3,A).
+% A = 15
+	
+% area2([[4,5],[3,6],[2,7],[1,6],[0,8]],2,A).
+% A = 16
+	
+% area2([[4,5],[3,6],[2,7],[1,6],[0,8]],1,A).
+% A = 22
+
+area2(Bounds_list,Slice_width,Area) :-
+	length(Bounds_list,Bounds_list_length),
+	Height is %Bounds_list_length/
+	Slice_width,
+	
+	slices(Bounds_list,Slice_width,Slices),
+	findall(D1,(member([B,C],Slices),
+	length(B,C,D),area(Height,D,D1)),Areas),
+	foldl(sum,Areas,0,Area).
+
+	
