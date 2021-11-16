@@ -164,11 +164,11 @@ enroll_with_quota(Students_to_enroll,Enrollments1,Enrollments2) :-
 	%trace,
 	
 	% add students
-	foldr(append,New_students1,[],New_students3),
+	foldl(append,New_students1,[],New_students3),
 	
 	%(New_students1=[]->Enrollments1=Enrollments2;
 	%([New_students3]=New_students1,
-	foldr(enroll2,New_students3,Enrollments1,Enrollments2).%%)).
+	foldl(enroll2,New_students3,Enrollments1,Enrollments2).%%)).
 
 enroll([First,Second,Subject],Enrollments1,Enrollments2) :-
 	enroll(First,Second,Subject,Enrollments1,Enrollments2).
