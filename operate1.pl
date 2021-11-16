@@ -24,6 +24,7 @@ Outputs = [[/, 1, 1, 1], [/, 1, 2, 0.5], [/, 1, 3, 0.3333333333333333], [/, 1, 4
 */
 
 :-include('../listprologinterpreter/la_maths.pl').
+:-include('../listprologinterpreter/la_strings.pl').
 
 number_generator(Min,Max,N) :-
 	numbers(Max,Min,[],Ns),
@@ -75,6 +76,12 @@ enroll(First,Second,Subject,Enrollments1,Enrollments2) :-
 	delete(Enrollments1,[Subject,Enrollments3],Enrollments5),
 	append(Enrollments5,[[Subject,Enrollments4]],Enrollments2).
 
+enroll2(First,Second,Subject,Enrollments1,Enrollments2) :-
+	member([Subject,Q,Enrollments3],Enrollments1),
+	append(Enrollments3,[[First,Second]],Enrollments4),
+	delete(Enrollments1,[Subject,Q,Enrollments3],Enrollments5),
+	append(Enrollments5,[[Subject,Q,Enrollments4]],Enrollments2).
+
 % I did this by writing that the intensive part of the verb was given by the example, 'The subject is full'.
 
 % v, o matched with base meanings
@@ -101,4 +108,74 @@ meaning_to_algorithm([V, "equals", A, "plus", B],Algorithm) :-
 	number_string(B1,B),
 	operate3(+,[A1,B1],1,Output),
 	Algorithm=[V, "equals", Output].
+
+/*
+?- foldr(unenroll,[[a,b,m],[c,d,m]],[[m,[[e,f],[a,b]]]],A).
+A = [[m, [[e, f]]]].
+*/
+
+unenroll(First,Second,Subject,Enrollments1,Enrollments2) :-
+	member([Subject,Enrollments3],Enrollments1),
+	delete(Enrollments3,[First,Second],Enrollments4),
+	delete(Enrollments1,[Subject,Enrollments3],Enrollments5),
+	append(Enrollments5,[[Subject,Enrollments4]],Enrollments2).
+
+number_of_students(Subject,Enrollments,Number_of_students) :-
+	member([Subject,Enrollments2],Enrollments),
+	length(Enrollments2,Number_of_students).
+
+% enroll_with_quota([[first1,last1,"Mathematics"],[first1,last1,"Mathematics"]],[["Mathematics",1, [["Joan", "Clemens"]]]],Enrollments2).
+
+/*
+
+enroll_with_quota([[a,b,m],[c,d,m]],[[m,1,[[e,f]]]],A).
+A = [[m, 1, [[e, f]]]].
+
+enroll_with_quota([[a,b,m],[c,d,m]],[[m,0,[]]],A).
+A = [[m, 0, []]].
+
+enroll_with_quota([[a,b,m],[c,d,m]],[[m,5,[[e,f]]]],A).
+A = [[m, 5, [[e, f], [c, d], [a, b]]]].
+
+enroll_with_quota([[a,b,m],[c,d,m]],[[m,2,[[e,f]]]],A).
+A = [[m, 2, [[e, f], [a, b]]]].
+
+*/
+
+enroll_with_quota(Students_to_enroll,Enrollments1,Enrollments2) :-
+	% find list of subjects in demand
+	findall(Subject,(member([_,_,Subject],Students_to_enroll)),Subjects1),
+	sort(Subjects1,Subjects2),
+	
+	% find list of quota limits for each subject, number of students currently in each subject and the number of places available
+	findall([Subject,_Quota1,_Number_of_current_students1,Places_available],(member(Subject,Subjects2),member([Subject,Quota,Current_students],Enrollments1),length(Current_students,Number_of_current_students),Places_available is Quota-Number_of_current_students,Places_available>=1),Data),
+	
+	% find lists of new students for each subject
+	findall(New_students2,(member([Subject,_Quota,_Number_of_current_students2,Places_available],Data),length(New_students,Places_available),
+	findall([First,Last,Subject],member([First,Last,Subject],Students_to_enroll),Students_demanding_enrollment),
+	
+	%trace,
+	length(Students_demanding_enrollment,Number_of_students_demanding_enrollment),
+	(Places_available>Number_of_students_demanding_enrollment->
+	New_students2=Students_demanding_enrollment;
+	(append(New_students,_,Students_demanding_enrollment),
+	New_students=New_students2))),New_students1),
+	
+	%trace,
+	
+	% add students
+	foldr(append,New_students1,[],New_students3),
+	
+	%(New_students1=[]->Enrollments1=Enrollments2;
+	%([New_students3]=New_students1,
+	foldr(enroll2,New_students3,Enrollments1,Enrollments2).%%)).
+
+enroll([First,Second,Subject],Enrollments1,Enrollments2) :-
+	enroll(First,Second,Subject,Enrollments1,Enrollments2).
+
+unenroll([First,Second,Subject],Enrollments1,Enrollments2) :-
+	unenroll(First,Second,Subject,Enrollments1,Enrollments2).
+
+enroll2([First,Second,Subject],Enrollments1,Enrollments2) :-
+	enroll2(First,Second,Subject,Enrollments1,Enrollments2).
 
