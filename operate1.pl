@@ -179,3 +179,38 @@ unenroll([First,Second,Subject],Enrollments1,Enrollments2) :-
 enroll2([First,Second,Subject],Enrollments1,Enrollments2) :-
 	enroll2(First,Second,Subject,Enrollments1,Enrollments2).
 
+% ["Creating and Helping Pedagogues","CREATE AND HELP PEDAGOGUES by Lucian Green Pedagogy Helper - Write on Breasoning - Politics 3 of 3.txt",0,algorithms,"21.    Rural area residents wrote pedagogies."]
+
+% grade_book
+
+/*
+
+enter_grade(f,s,m,"a1",60,[[m,1,[[f,s,[]]]]],A),writeln1(A).
+A=[[m,1,[[f,s,[["a1",60],["Overall_grade",60]]]]]]
+
+enter_grade(f,s,m,"a2",70,[[m,1,[[f,s,[[a1,60],[Overall_grade,60]]]]]],A),writeln1(A).
+A=[[m,1,[[f,s,[["a1",60],["a2",70],["Overall_grade",65]]]]]]
+
+*/
+
+enter_grade(First,Second,Subject,Assignment_name,Grade,Enrollments1,Enrollments2) :-
+	member([Subject,Q,Enrollments3],Enrollments1),
+	member([First,Second,Grades1],Enrollments3),
+	delete(Grades1,[Assignment_name,_],Grades2),
+	append(Grades2,[[Assignment_name,Grade]],Grades3),
+	delete(Grades3,["Overall_grade",_],Grades4),
+	%trace,
+	findall(Grade2,(member([_,Grade2],Grades4)),Grades6),
+	find_overall_grade(Grades6,Overall_grade),
+	append(Grades4,[["Overall_grade",Overall_grade]],Grades5),
+	delete(Enrollments3,[First,Second,Grades1],Enrollments4),
+	append(Enrollments4,[[First,Second,Grades5]],Enrollments5),
+	delete(Enrollments1,[Subject,Q,Enrollments3],Enrollments6),
+	append(Enrollments6,[[Subject,Q,Enrollments5]],Enrollments2).
+
+% find overall grade
+
+find_overall_grade(List,Overall_grade) :-
+	foldl(sum,[List],0,Sum),
+	length(List,Length),
+	Overall_grade is floor(Sum/Length).
