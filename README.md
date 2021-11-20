@@ -71,6 +71,18 @@ where filename is the name of the file.
 `test1(off,TestNumber,Passed).`
 where TestNumber is the test number from <a href="lpiverify4.pl">lpiverify4.pl</a> in List Prolog.
 
+# paint.pl - Vector to Paint
+
+* In `swipl`: `['paint.pl'].`
+
+* The following `file_paint.txt` file contains the width and height of the image and a description of a text box, with number of columns (x_bounds) and rows (y_bounds), the x and y offsets, size (1,2,3 etc.), text colour and text to draw ("."):
+
+```
+["width",6,"height",10,
+[
+["text","x_bounds",1,"y_bounds",1,"x",0,"y",0,"size",1,"colour",black,"."]]]
+```
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
