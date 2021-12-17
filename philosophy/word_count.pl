@@ -10,7 +10,7 @@
 % Words = 3.
 
 word_count([Type,String1],Words) :-
-	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!'0123456789",
+	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % without '
 
 	(Type="file"->
 	(phrase_from_file_s(string(String2), String1));
