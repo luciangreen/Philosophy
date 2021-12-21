@@ -17,6 +17,6 @@ word_frequency_count([Type,String1],Freq) :-
 	%length(String3,Words),
 	
 	sort(String3,String4),
-	findall([A,A2],(member(A,String4),findall(A,(member(A,String3)),A1),length(A1,A2)),Freq).
+	findall([A2,A],(member(A,String4),findall(A,(member(A,String3)),A1),length(A1,A2)),Freq).
 	
 
