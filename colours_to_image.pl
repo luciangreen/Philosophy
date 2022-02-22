@@ -8,6 +8,8 @@
 
 :-include('../listprologinterpreter/la_strings.pl').
 
+%:-include('../listprologinterpreter/la_strings.pl').
+
 colours_to_image :-
 	writeln("Enter pixel colours for image as e.g. \"[[red,yellow],[yellow,red]]\"."),
 	read_string(user_input, "\n", "\r", _, Input),

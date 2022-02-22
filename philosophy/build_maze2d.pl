@@ -113,6 +113,7 @@
 **/
 
 :-include('../../listprologinterpreter/la_strings.pl').
+%:-include('../../listprologinterpreter/la_strings.pl').
 :-include('../../listprologinterpreter/la_maths.pl').
 :-include('strings_to_grid.pl').
 

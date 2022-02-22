@@ -2,6 +2,8 @@
 
 :-include('../listprologinterpreter/la_strings.pl').
 
+%:-include('../listprologinterpreter/la_strings.pl').
+
 % [[b],"Hello"] -> <b>Hello</b>
 % [[p],[[b],"Hello"]] -> <p><b>Hello</b></p>
 
