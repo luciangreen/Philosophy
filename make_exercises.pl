@@ -1,4 +1,4 @@
-% fill the gap, multi choice fill the gap, matching
+% fill the gap, multi choice fill the gap, ()matching, multi-choice matching
 % - ignore words starting with _, connectives, duplicate answers
 
 % (split on space), split and keep punctuation and space except '-
@@ -7,14 +7,11 @@
 :-include('../listprologinterpreter/la_strings_string.pl').
 :-include('../listprologinterpreter/la_maths.pl').
 
-% ?- trace,split_into_sentences("a b c. d e f.",2, E).
+% ?- trace,split_into_sentences("a b c. d e f.",*,2, E). * run with make_exercises
 % E = [["a b _____.", "c"], [" _____ e f.", "d"]].
 
-split_into_sentences(Text,Number_of_questions,Exercises) :-
+split_into_sentences(Text,Connectives,Number_of_questions,Exercises) :-
 
- 	phrase_from_file_s(string(Codes_cve), "connectives.txt"),
-string_codes(String_cve,Codes_cve),
-	atom_to_term(String_cve,Connectives,_),
 	split_string(Text,".\n\r",".\n\r",Sentences2),
 		findall(Sentences3,(member(Sentence2,Sentences2),
 	foldr(string_concat,[Sentence2,"."],"",Sentences3)),Sentences),
