@@ -1,4 +1,4 @@
-% replace_pred_names1([[n,function],[[v,a],[v,c]],":-",[[[n,+],[[v,b],[v,d]]]]],L,[+],sum),,writeln1(L).
+% replace_pred_names1([[n,function],[[v,a],[v,c]],":-",[[[n,+],[[v,b],[v,d]]]]],L,[+],sum),writeln1(L).
 % [[n,function],[[v,a],[v,c]],":-",[[n,sum],[[v,b],[v,d]]]]
 
 replace_pred_names1([],[],_,_) :- !.
