@@ -12,13 +12,13 @@
 
 delete_duplicate_clauses([],List,List) :- !.
 delete_duplicate_clauses(List1,List2,List3) :-
- List1=[[[n,N]|Item1]|List4],
+ List1=[[[[n,N]|Item1],VT]|List4],
  findall(N1,member([[n,N1]|Item1],List4),N2),
- delete(List4,[[n,_]|Item1],List5),
+ delete(List4,[[[n,_]|Item1],_],List5),
  ((
- Item1=[])->append(List2,[[[n,N]]],List6);
- append(List2,[[[n,N]|Item1]],List6)),
- findall(List7,(member(List8,List5),replace_pred_names1(List8,List7,N2,N)),List9),
+ Item1=[])->append(List2,[[[[n,N]],VT]],List6);
+ append(List2,[[[[n,N]|Item1],VT]],List6)),
+ findall([List7,L10],(member([List8,L10],List5),replace_pred_names1(List8,List7,N2,N)),List9),
  delete_duplicate_clauses(List9,List6,List3),!.
  
 % with state machine, going backwards from base cases, minimises sm - like minimise decision tree, do groups of clauses together x join clauses together first [x minimise decision tree doesn't have cycles - account for incoming stems (if same inc. stems etc. then delete) and delete references to deleted branches] nd branches have no condition
@@ -37,15 +37,15 @@ delete_duplicate_clauses(List1,List2,List3) :-
 
 minimise_alg(Algorithm1,Algorithm2) :-
  findall([Algorithm3,Var_table],(member(Algorithm0,Algorithm1),replace_vars1(Algorithm0,Algorithm3,1,_,[],Var_table)),Algorithm4),
- findall(Algorithm,member([Algorithm,_],Algorithm4),Algorithm4a),
- delete_duplicate_clauses(Algorithm4a,[],Algorithm5),
+ %findall(Algorithm,member([Algorithm,_],Algorithm4),Algorithm4a),
+ delete_duplicate_clauses(Algorithm4,[],Algorithm5),
 length(Algorithm5,L),
  numbers(L,1,[],Ns),
  findall(Algorithm7,(member(N,Ns),
  %trace,
- get_item_n(Algorithm5,N,Algorithm6),
+ %get_item_n(Algorithm5,N,Algorithm6),
  
-get_item_n(Algorithm4,N,[_,Var_table2]),
+get_item_n(Algorithm5,N,[Algorithm6,Var_table2]),
 findall([B,A],member([A,B],Var_table2),Var_table3),
 replace_vars1(Algorithm6,Algorithm7,1,_,Var_table3,_)),Algorithm8), 
  (Algorithm1=Algorithm8->Algorithm8=Algorithm2;
