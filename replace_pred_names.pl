@@ -137,12 +137,12 @@ get_lang_word("n",Dbw_n),
 	Arguments2=[[Dbw_n,Name2],Arguments]
 
 	)->true;
-	(Statement=[[Dbw_n,Name]],
+	(Statement=[[[Dbw_n,Name]]],
 	
 		
 (member(Name,To_replace)->Name2=Replace_with;Name2=Name),
 
-	Arguments2=[[Dbw_n,Name2]]%Arguments2,
+	Arguments2=[[[Dbw_n,Name2]]]%Arguments2,
 	))
 	
 

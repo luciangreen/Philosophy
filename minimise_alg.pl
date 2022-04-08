@@ -7,8 +7,8 @@
 
 % Processes a list of clauses, removing the same clauses with different names, and replaces instances of the old names of the removed clauses with the name of the remaining clause.
 
-% delete_duplicate_clauses([[[n,a],":-",[[[n,b]]]],[[n,c],":-",[[[n,b]]]],[[n,d],":-",[[[n,c]]]]],[],L),writeln1(L).
-% L = [[[n, a], ":-", [[[n, b]]]], [[n, d], ":-", [[n, a]]]].
+% delete_duplicate_clauses([[[[n,a],":-",[[[n,b]]]],[]],[[[n,c],":-",[[[n,b]]]],[]],[[[n,d],":-",[[[n,c]]]],[]]],[],L),writeln1(L).
+% [[[[n,a],":-",[[[n,b]]]],[]],[[[n,d],":-",[[[n,c]]]],[]]]
 
 delete_duplicate_clauses([],List,List) :- !.
 delete_duplicate_clauses(List1,List2,List3) :-
