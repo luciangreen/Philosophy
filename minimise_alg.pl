@@ -33,7 +33,8 @@ delete_duplicate_clauses(List1,List2,List3) :-
 % do with sm x
 
 % minimise_alg([[[n,function],[[v,a],[v,b]],":-",[[[n,+],[[v,a],[v,b]]]]],[[n,function],[[v,b],[v,a]],":-",[[[n,+],[[v,b],[v,a]]]]]],A),writeln1(A).
-% [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
+% [[[n,function],[[v,a],[v,b]],":-",[[[n,+],[[v,a],[v,b]]]]]]
+
 
 minimise_alg(Algorithm1,Algorithm2) :-
  findall([Algorithm3,Var_table],(member(Algorithm0,Algorithm1),replace_vars1(Algorithm0,Algorithm3,1,_,[],Var_table)),Algorithm4),
