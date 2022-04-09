@@ -82,7 +82,9 @@ where TestNumber is the test number from <a href="lpiverify4.pl">lpiverify4.pl</
 [
 ["text","x_bounds",1,"y_bounds",1,"x",0,"y",0,"size",1,"colour",black,"."]]]
 ```
-# minimise_alg.pl - Delete duplicate predicates, no matter what their name or variable names
+# minimise_alg.pl
+
+* Delete duplicate predicates, no matter what their name or variable names.
 
 * In `swipl`: `['minimise_alg.pl'].`
 
