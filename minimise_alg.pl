@@ -38,6 +38,33 @@ delete_duplicate_clauses(List1,List2,List3) :-
 %  minimise_alg([[[n,function],[[v,a],[v,b]],":-",[[[n,+],[[v,a],[v,b]]],[[n,-],[[v,c],[v,d]]]]]],A),writeln1(A).
 % [[[n,function],[[v,a],[v,b]],":-",[[[n,+],[[v,a],[v,b]]],[[n,-],[[v,c],[v,d]]]]]]
 
+/*
+minimise_alg([[[n,function],[[v,a],[v,b],[v,c]],":-",[[[[n,+],[[v,a],[v,b],[v,d]]],[[n,+],[[v,d],[v,d],[v,e]]]],[[n,-],[[v,e],[v,e],[v,c]]]]]],A),writeln1(A).
+
+[[[n,function],[[v,a],[v,b],[v,c]],":-",[[[[n,+],[[v,a],[v,b],[v,d]]],[[n,+],[[v,d],[v,d],[v,e]]]],[[n,-],[[v,e],[v,e],[v,c]]]]]]
+
+
+[debug]  ?- minimise_alg([[[n,function],":-",[[[n,not],[[[[n,false]],[[n,false]]]]],[[n,true]]]]],A),writeln1(A).
+
+[[[n,function],":-",[[[n,not],[[[[n,false]],[[n,false]]]]],[[n,true]]]]]
+
+
+minimise_alg([[[n,function],":-",[[[n,or],[[[n,false]],[[n,true]]]],[[n,true]]]]],A),writeln1(A).
+
+[[[n,function],":-",[[[n,or],[[[n,false]],[[n,true]]]],[[n,true]]]]]
+
+
+minimise_alg([[[n,function],":-",[[[n,"->"],[[[n,true]],[[n,true]]]],[[n,true]]]]],A),writeln1(A).
+
+[[[n,function],":-",[[[[n,"->"]],[[[n,true]],[[n,true]]]],[[n,true]]]]]
+
+
+minimise_alg([[[n,function],":-",[[[n,"->"],[[[n,true]],[[n,true]],[[n,true]]]],[[n,true]]]]],A),writeln1(A).
+
+[[[n,function],":-",[[[n,"->"],[[[n,true]],[[n,true]],[[n,true]]]],[[n,true]]]]]
+
+*/
+
 minimise_alg(Algorithm1,Algorithm2) :-
  findall([Algorithm3,Var_table],(member(Algorithm0,Algorithm1),replace_vars1(Algorithm0,Algorithm3,1,_,[],Var_table)),Algorithm4),
  %findall(Algorithm,member([Algorithm,_],Algorithm4),Algorithm4a),

@@ -30,10 +30,15 @@ replace_pred_names(Body1,Body2,Body3,To_replace,Replace_with) :-
 	
 		not(predicate_or_rule_name(Statements1)),
 			  %Number1a is Number1+1,
-replace_pred_names([Statements1],Body2,Body4,To_replace,Replace_with), %% 2->1
+replace_pred_names([Statements1],[],Body4,To_replace,Replace_with), %% 2->1
 
-	replace_pred_names(Statements1a,Body4,Body5,To_replace,Replace_with),
-        replace_pred_names(Statements2,Body5,Body3,To_replace,Replace_with),
+	replace_pred_names(Statements1a,[],Body5,To_replace,Replace_with),
+        
+        append(Body4,Body5,Body6),
+        replace_pred_names(Statements2,[],Body7,To_replace,Replace_with),
+    	
+    	foldr(append,[Body2,Body6],[],Body8),
+    	Body3=[Body8|Body7],
     	!.
 
 
@@ -49,7 +54,7 @@ get_lang_word("not",Dbw_not),
         replace_pred_names([Statement],[],Body4,To_replace,Replace_with),
         replace_pred_names(Statements2,[],Body3a,To_replace,Replace_with),
 
-                		  append(Body2,[[[[Dbw_n,Dbw_not]],Body4]|Body3a],Body3),
+                		  append(Body2,[[[Dbw_n,Dbw_not]|Body4]|Body3a],Body3),
 		  %append([Number1,%%*,
 		  %[n,not]],Body3,Body5),
 		  %append([Body5],Body4
@@ -69,7 +74,8 @@ get_lang_word("or",Dbw_or),
         replace_pred_names([Statements2],[],Body5,To_replace,Replace_with),
         replace_pred_names(Statements3,[],Body3a,To_replace,Replace_with),
         
-                        		  append(Body2,[[[[Dbw_n,Dbw_or]],Body4,Body5]|Body3a],Body3),
+        append(Body4,Body5,Body6),
+                        		  append(Body2,[[[Dbw_n,Dbw_or],Body6]|Body3a],Body3),
 
         %append(Body3,Body4,Body34),
         %Body6=[Number1,[n,or],Body34
@@ -87,8 +93,10 @@ get_lang_word("n",Dbw_n),
     	  replace_pred_names([Statements2],[],Body5,To_replace,Replace_with),
 
         replace_pred_names(Statements3,[],Body3a,To_replace,Replace_with),
-        
-                        		  append(Body2,[[[[Dbw_n,"->"]],Body4,Body5]|Body3a],Body3),
+
+                append(Body4,Body5,Body6),
+
+                        		  append(Body2,[[[[Dbw_n,"->"]],Body6]|Body3a],Body3),
 
         %append(Body3,Body4,Body34),
         %Body6=[Number1,[n,"->"],Body34
@@ -110,7 +118,8 @@ get_lang_word("n",Dbw_n),
                 replace_pred_names([Statements2a],[],Body6,To_replace,Replace_with),
         replace_pred_names(Statements3,[],Body3a,To_replace,Replace_with),
         
-                                		  append(Body2,[[[[Dbw_n,"->"]],Body4,Body5,Body6]|Body3a],Body3),
+               foldr(append,[Body4,Body5,Body6],[],Body7),
+                                		  append(Body2,[[[Dbw_n,"->"],Body7]|Body3a],Body3),
 
         %append_list2([Body3,Body4,Body5],Body345),
         %Body7=[Number1,[n,"->"],Body345],        
@@ -134,7 +143,7 @@ get_lang_word("n",Dbw_n),
 	%recursive_replace_pred_names(Arguments,Arguments1,Arguments3,To_replace,Replace_with)
 	
 (member(Name,To_replace)->Name2=Replace_with;Name2=Name),
-	append(Arguments1,[[[Dbw_n,Name2],Arguments]],Arguments2),
+	append(Arguments1,[[[Dbw_n,Name2],Arguments]],Arguments2)
 
 	)->true;
 	(Statement=[[Dbw_n,Name]],

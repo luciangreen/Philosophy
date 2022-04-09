@@ -31,11 +31,17 @@ replace_vars(Body1,Body2,Body3,Var_index1,Var_index2,Var_table1,Var_table2) :-
 	
 		not(predicate_or_rule_name(Statements1)),
 			  %Number1a is Number1+1,
-replace_vars([Statements1],Body2,Body4,Var_index1,Var_index3,Var_table1,Var_table3), %% 2->1
+replace_vars([Statements1],[],Body4,Var_index1,Var_index3,Var_table1,Var_table3), %% 2->1
 
-	replace_vars(Statements1a,Body4,Body5,Var_index3,Var_index4,Var_table3,Var_table4),
-        replace_vars(Statements2,Body5,Body3,Var_index4,Var_index2,Var_table4,Var_table2),
-    	!.
+	replace_vars(Statements1a,[],Body5,Var_index3,Var_index4,Var_table3,Var_table4),
+       
+               append(Body4,Body5,Body6),
+ replace_vars(Statements2,[],Body7,Var_index4,Var_index2,Var_table4,Var_table2),
+  
+      	foldr(append,[Body2,Body6],[],Body8),
+      	
+      	Body3=[Body8|Body7],
+  	!.
 
 
 
@@ -49,7 +55,7 @@ get_lang_word("not",Dbw_not),
 		  %Number1a is Number1+1,
         replace_vars([Statement],[],Body4,Var_index1,Var_index3,Var_table1,Var_table3),
         replace_vars(Statements2,[],Body3a,Var_index3,Var_index2,Var_table3,Var_table2),
-		  append(Body2,[[[[Dbw_n,Dbw_not]],Body4]|Body3a],Body3),
+		  append(Body2,[[[Dbw_n,Dbw_not]|Body4]|Body3a],Body3),
 		 
 	!.
 	
@@ -65,7 +71,8 @@ get_lang_word("or",Dbw_or),
         replace_vars([Statements2],[],Body5,Var_index3,Var_index4,Var_table3,Var_table4),
         replace_vars(Statements3,[],Body3a,Var_index4,Var_index2,Var_table4,Var_table2),
         
-        		  append(Body2,[[[[Dbw_n,Dbw_or]],Body4,Body5]|Body3a],Body3),
+        append(Body4,Body5,Body6),
+        		  append(Body2,[[[Dbw_n,Dbw_or],Body6]|Body3a],Body3),
 
         %append(Body3,Body4,Body34),
         %Body6=[Number1,[n,or],Body34
@@ -84,7 +91,9 @@ get_lang_word("n",Dbw_n),
 
         replace_vars(Statements3,[],Body3a,Var_index4,Var_index2,Var_table4,Var_table2),
         
-                		  append(Body2,[[[[Dbw_n,"->"]],Body4,Body5]|Body3a],Body3),
+                append(Body4,Body5,Body6),
+
+                		  append(Body2,[[[[Dbw_n,"->"]],Body6]|Body3a],Body3),
 
         %append(Body3,Body4,Body34),
         %Body6=[Number1,[n,"->"],Body34
@@ -106,7 +115,8 @@ get_lang_word("n",Dbw_n),
                 replace_vars([Statements2a],[],Body6,Var_index3a,Var_index4,Var_table3a,Var_table4),
         replace_vars(Statements3,[],Body3a,Var_index4,Var_index2,Var_table4,Var_table2),
         
-                		  append(Body2,[[[[Dbw_n,"->"]],Body4,Body5,Body6]|Body3a],Body3),
+               foldr(append,[Body4,Body5,Body6],[],Body7),
+                		  append(Body2,[[[Dbw_n,"->"],Body7]|Body3a],Body3),
         
         %append_list2([Body3,Body4,Body5],Body345),
         %Body7=[Number1,[n,"->"],Body345],        
