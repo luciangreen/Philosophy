@@ -56,7 +56,7 @@ minimise_alg([[[n,function],":-",[[[n,or],[[[n,false]],[[n,true]]]],[[n,true]]]]
 
 minimise_alg([[[n,function],":-",[[[n,"->"],[[[n,true]],[[n,true]]]],[[n,true]]]]],A),writeln1(A).
 
-[[[n,function],":-",[[[[n,"->"]],[[[n,true]],[[n,true]]]],[[n,true]]]]]
+[[[n,function],":-",[[[n,"->"],[[[n,true]],[[n,true]]]],[[n,true]]]]]
 
 
 minimise_alg([[[n,function],":-",[[[n,"->"],[[[n,true]],[[n,true]],[[n,true]]]],[[n,true]]]]],A),writeln1(A).

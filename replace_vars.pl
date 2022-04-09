@@ -93,7 +93,7 @@ get_lang_word("n",Dbw_n),
         
                 append(Body4,Body5,Body6),
 
-                		  append(Body2,[[[[Dbw_n,"->"]],Body6]|Body3a],Body3),
+                		  append(Body2,[[[Dbw_n,"->"],Body6]|Body3a],Body3),
 
         %append(Body3,Body4,Body34),
         %Body6=[Number1,[n,"->"],Body34
