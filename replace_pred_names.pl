@@ -126,7 +126,7 @@ replace_pred_names(Body1,Body2,Body3,To_replace,Replace_with) :-
    %append_list2([Result1,Result2],Body2),
    !.
    
-replace_pred_names(Statement,_Arguments1,Arguments2,To_replace,Replace_with) :-
+replace_pred_names(Statement,Arguments1,Arguments2,To_replace,Replace_with) :-
 get_lang_word("n",Dbw_n),
 
 	((Statement=[[Dbw_n,Name],Arguments],
@@ -134,15 +134,15 @@ get_lang_word("n",Dbw_n),
 	%recursive_replace_pred_names(Arguments,Arguments1,Arguments3,To_replace,Replace_with)
 	
 (member(Name,To_replace)->Name2=Replace_with;Name2=Name),
-	Arguments2=[[Dbw_n,Name2],Arguments]
+	append(Arguments1,[[[Dbw_n,Name2],Arguments]],Arguments2),
 
 	)->true;
-	(Statement=[[[Dbw_n,Name]]],
+	(Statement=[[Dbw_n,Name]],
 	
 		
 (member(Name,To_replace)->Name2=Replace_with;Name2=Name),
 
-	Arguments2=[[[Dbw_n,Name2]]]%Arguments2,
+	append(Arguments1,[[[Dbw_n,Name2]]],Arguments2)%Arguments2,
 	))
 	
 

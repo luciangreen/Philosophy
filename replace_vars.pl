@@ -127,13 +127,13 @@ get_lang_word("n",Dbw_n),
 
 	((Statement=[[Dbw_n,Name],Arguments],
 	%trace,
-	recursive_replace_vars(Arguments,Arguments1,Arguments3,Var_index1,Var_index2,Var_table1,Var_table2),
+	recursive_replace_vars(Arguments,[],Arguments3,Var_index1,Var_index2,Var_table1,Var_table2),
 	
-	Arguments2=[[[Dbw_n,Name],Arguments3]]
+	append(Arguments1,[[[Dbw_n,Name],Arguments3]],Arguments2)
 
 	)->true;
-	(Statement=[[[Dbw_n,_Name]]],
-	Arguments2=Statement,%Arguments2,
+	(Statement=[[Dbw_n,_Name]],
+	append(Arguments1,[Statement],Arguments2),%Arguments2,
 	Var_index1=Var_index2,Var_table1=Var_table2)).
 	
 recursive_replace_vars([],Arguments,Arguments,Var_index1,Var_index1,Var_table1,Var_table1) :- !.
