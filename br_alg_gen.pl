@@ -17,7 +17,7 @@
 
 br_gen(Raw,Chains) :-
  %phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
- phrase_from_file_s(string(File), "../private2/Text-to-Breasonings/file.txt"),
+ phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
  string_codes(File_string0,File),
  downcase_atom(File_string0,File_string1),
  SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'0123456789",
@@ -90,7 +90,7 @@ not(A=C)),Chains).
 
 br_alg_gen(Raw,Chains,Algorithms) :-
  %phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
- phrase_from_file_s(string(File), "../private2/Text-to-Breasonings/file.txt"),
+ phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
  string_codes(File_string0,File),
  downcase_atom(File_string0,File_string1),
  SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'0123456789",
