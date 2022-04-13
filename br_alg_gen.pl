@@ -20,7 +20,7 @@ br_gen(Raw,Chains) :-
  phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
  string_codes(File_string0,File),
  downcase_atom(File_string0,File_string1),
- SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'0123456789",
+ SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'\"0123456789",
  split_string(File_string1,SepandPad,SepandPad,File_string2),
  
  % truncate file to N words
@@ -93,7 +93,7 @@ br_alg_gen(Raw,Chains,Algorithms) :-
  phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
  string_codes(File_string0,File),
  downcase_atom(File_string0,File_string1),
- SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'0123456789",
+ SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'\"0123456789",
  split_string(File_string1,SepandPad,SepandPad,File_string2),
  
  % truncate file to N words
@@ -189,3 +189,78 @@ words_to_alg(List,Alg1,Alg2,BrDict03) :-
  [[n,Word]]],Alg3)))),
  words_to_alg(Rest5,Alg3,Alg2,BrDict03),!.
  
+% takes too long
+recursive_br_gen(Raw,Chains) :-
+ %phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
+ phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
+ string_codes(File_string0,File),
+ downcase_atom(File_string0,File_string1),
+ SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'\"0123456789",
+ split_string(File_string1,SepandPad,SepandPad,File_string2),
+ 
+ % truncate file to N words
+ Truncate_length=100,
+ length(File_string2,L3),
+ length(File_string2b,L3),
+ (L3>Truncate_length->File_string2=File_string2a;
+ (append(File_string2b,_,File_string2),File_string2b=File_string2a)),
+ 
+ % delete connectives such as and, the
+open_file_s("connectives.txt",Connectives),
+
+subtract(File_string2a,Connectives,Words1),
+
+% recursively finds all new connections
+find_pairs(Words1,Raw),
+
+% find chains
+findall([A,B,C],(member([A,B],Raw),member([B,C],Raw),
+not(A=C)),Chains).
+  
+  
+find_pairs(Words1,Raw2) :-
+
+% finds adjacent combos of words
+length(Words1,L1),
+L2 is L1-1,
+numbers(L2,1,[],N),
+findall([A,B],(member(N1,N),N2 is N1+1,
+get_item_n(Words1,N1,A),
+get_item_n(Words1,N2,B)),Words2),
+
+% finds suggestions for new combos of words, eg a b, a c and d c->d b
+sort(Words2,Words3),
+%trace,
+findall([F1,K1],(member([A,B],Words3),
+findall(E1,(member([A,C],Words3),
+findall([D,B],member([D,C],Words3),E),
+%foldr(append,E,[],E1)
+E=E1),F),
+foldr(append,F,[],F1),
+findall(J1,(member([G,B],Words3),
+findall([A,H],member([G,H],Words3),J),
+%foldr(append,J,[],J1)
+J=J1),K),
+foldr(append,K,[],K1)),L),
+%trace,
+
+% makes this a list of A,B
+foldr(append,L,[],LL1),
+foldr(append,LL1,[],Words4),
+%LL1=L,
+%maplist(append,[LL2],[Words4]),
+
+% remove duplicates
+sort(Words4,Words4b),
+%trace,
+
+% removes pairs with two of the same word
+findall([A,B],(member([A,B],Words4b),not(A=B)),Words4a),
+
+% removes word pairs already at start
+subtract(Words4a,Words3,Raw),
+%trace,
+
+((subtract(Raw,Words1,[])->true;Raw=[])->Raw2=Raw;(writeln1([*,Raw]),find_pairs(Raw,Raw3),
+append(Raw3,Raw,Raw4),sort(Raw4,Raw2))).
+  
