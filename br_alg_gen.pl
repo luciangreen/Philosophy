@@ -1,5 +1,9 @@
 % br_alg_gen.pl
 
+% Hello, I am Lucian Green.  I enjoy programming, writing Philosophy and going for walks.  I also compose songs and do acting.  Programming is on the topic compilers, inductive algorithm finders and philosophy.  I love animals, and secretly wrote songs with about my (human-like) pets.  I also enjoy programming about each of my books, on topics such as meditation.
+
+% Raw=[["green","compose"],["programming","do"],["songs","is"],["songs","writing"]]
+
 % makes graph of essay x
 
 % 10. I added that I could write breasonings by substituting "The algorithm finds the output for an input using similar yet different enough phrases" for the algorithm. For example, the writer can find the complete set of non-synonymous words that take turns with a word. The linguistic algorithm writer attempted to cover the humanities framework with ideas by tying critical terms from the real world to the algorithms in one version. Also, she could impressionably convert algorithms to functionalism and back.  In a way, it was treating old as new. There were existing ideas and recent research in contemporary times.
