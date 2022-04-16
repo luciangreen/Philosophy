@@ -101,13 +101,14 @@ Flag=true
 %Alg_gen_dict2=Alg_gen_dict2c
 )
 ;
-((Alg_gen_dict3b=[]->fail;true),
+(%trace,
+(Alg_gen_dict3b=[]->fail;true),
 findall([Weight,M,Note],(member(M,File_string2),member([Weight,M,Note],Alg_gen_dict2)),M1),
 (M1=[]->
 Flag=fail;
 (sort(M1,M2),
-reverse(M2,[W,Item3,Note],
-Flag=true))))),
+reverse(M2,[[W,Item3,Note]|_]),
+Flag=true)))),
 
 % () * repeat, get A out of [A,B]
 
@@ -125,7 +126,7 @@ member([W,Item3,_],Alg_gen_dict2b),
 delete(Alg_gen_dict2b,[W,Item3,_],Alg_gen_dict2c1),
 append(Alg_gen_dict2c1,[[W,Item3,S4]],Alg_gen_dict2c))
 ;
-true))),
+Alg_gen_dict2b=Alg_gen_dict2c))),
 
 alg_gen1(Rest,Alg_gen_dict1b,Alg_gen_dict1a,Alg_gen_dict2c,Alg_gen_dict2a),!.
 
@@ -150,7 +151,10 @@ File_string2=[Word|Rest],
 
 (member([Word,Words1d],Alg_gen_dict1a)->
 (Alg_gen_dict1a=Alg_gen_dict1c,
-Alg_gen_dict2a=Alg_gen_dict2c,
+member([W,Words1d,Note],Alg_gen_dict2a),
+W1 is W+1,
+delete(Alg_gen_dict2a,[W,Words1d,Note],Alg_gen_dict2a1),
+append(Alg_gen_dict2a1,[[W1,Words1d,Note]],Alg_gen_dict2c),
 append(Alg_gen_dict3a,[Words1d],Alg_gen_dict3c)
 
 )
