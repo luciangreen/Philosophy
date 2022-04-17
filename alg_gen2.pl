@@ -87,7 +87,11 @@ alg_gen1(File_string3,Alg_gen_dict1,Alg_gen_dict1a,Alg_gen_dict2,Alg_gen_dict2a)
 
  repeat,
 
- (length(File_string2,1)->Single=true;Single=false),
+ % if l AC - l AG
+ findall([AA,AB%AD,AB,AF
+ ],(member(AA,File_string2),not(member([AA,AB],Alg_gen_dict1)))%,member([AD,AB,AF],Alg_gen_dict2)
+ ,AC1),
+ (length(AC1,1)->Single=true;Single=false),
  
  alg_gen2(File_string2,Single,Alg_gen_dict11,Alg_gen_dict1b,
  Alg_gen_dict2,Alg_gen_dict2b,
