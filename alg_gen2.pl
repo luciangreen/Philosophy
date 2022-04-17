@@ -2,17 +2,21 @@
 
 /*
 
+f e.e.
+
 ?- alg_gen.
-a is not in dictionary.  Is it computational (y/n)?
+f is not in dictionary.  Is it computational (y/n)?
 |    y
-What is the command name for a (<return> for the same)?
+What is the command name for f (<return> for the same)?
 |    
-The sentence: "a" has the computational terms:
-1 - a
-What is the number of the main computational term?
-|    1
-What is the algorithm note for a?
-|    a=b
+e is not in dictionary.  Is it computational (y/n)?
+|    n
+What is the algorithm note for f?
+|    f
+What is the command name for e (<return> for the same)?
+|    
+What is the algorithm note for e?
+|    e
 true.
 
 */
