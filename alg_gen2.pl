@@ -51,7 +51,9 @@ alg_gen :-
  string_codes(File_string0,File),
  
  downcase_atom(File_string0,File_string1),
- split_string(File_string1,".\n\r",".\n\r",File_string3),
+ split_string(File_string1,".\n\r",".\n\r",File_string31),
+ 
+ delete(File_string31,"",File_string3),
  
  % to delete connectives such as and, the
  % open_file_s("connectives.txt",Connectives),
@@ -75,6 +77,7 @@ alg_gen1(File_string3,Alg_gen_dict1,Alg_gen_dict1a,Alg_gen_dict2,Alg_gen_dict2a)
  %findall(Words1j,(member(File_string3a,File_string3), 
  SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'\"0123456789",
  split_string(File_string3a,SepandPad,SepandPad,File_string2),
+
 
  %trace,
  (findall([AA,AB%AD,AB,AF
