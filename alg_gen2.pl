@@ -72,9 +72,18 @@ alg_gen1(File_string3,Alg_gen_dict1,Alg_gen_dict1a,Alg_gen_dict2,Alg_gen_dict2a)
  SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'\"0123456789",
  split_string(File_string3a,SepandPad,SepandPad,File_string2),
 
+ %trace,
+ (findall([AA,AB%AD,AB,AF
+ ],(member(AA,File_string2),member([AA,AB],Alg_gen_dict1)%,member([AD,AB,AF],Alg_gen_dict2)
+ ),AC),
+ findall(-,(member([_,-],AC)),AG),
+ ((length(AG,LA),length(AC,LA))->
+ subtract(Alg_gen_dict1,AC,Alg_gen_dict11);
+ Alg_gen_dict1=Alg_gen_dict11)),
+
  repeat,
 
- alg_gen2(File_string2,Alg_gen_dict1,Alg_gen_dict1b,
+ alg_gen2(File_string2,Alg_gen_dict11,Alg_gen_dict1b,
  Alg_gen_dict2,Alg_gen_dict2b,
  [],Alg_gen_dict3b,New_flag
  ),
