@@ -83,7 +83,9 @@ alg_gen1(File_string3,Alg_gen_dict1,Alg_gen_dict1a,Alg_gen_dict2,Alg_gen_dict2a)
 
  repeat,
 
- alg_gen2(File_string2,Alg_gen_dict11,Alg_gen_dict1b,
+ (length(File_string2,1)->Single=true;Single=false),
+ 
+ alg_gen2(File_string2,Single,Alg_gen_dict11,Alg_gen_dict1b,
  Alg_gen_dict2,Alg_gen_dict2b,
  [],Alg_gen_dict3b,New_flag
  ),
@@ -93,6 +95,9 @@ alg_gen1(File_string3,Alg_gen_dict1,Alg_gen_dict1a,Alg_gen_dict2,Alg_gen_dict2a)
 ((not(var(New_flag)),New_flag=true)->
 (
 term_to_atom(File_string3a,File_string3a1),
+
+(length(Alg_gen_dict3b,1)->S11=1;
+(
 length(Alg_gen_dict3b,L),
 numbers(L,1,[],N),
 findall([N1," - ",Item,"\n"],(member(N1,N),get_item_n(Alg_gen_dict3b,N1,Item)),List),foldr(append,List,[],Item2a),
@@ -103,7 +108,8 @@ foldr(string_concat,["The sentence: ",File_string3a1," has the computational ter
 repeat,
 writeln(Prompt1),
 read_string(user_input,"\n","\r",_,S1),
-number_string(S11,S1),
+number_string(S11,S1)
+)),
 get_item_n(Alg_gen_dict3b,S11,Item3),
 Flag=true
 %
@@ -142,13 +148,13 @@ alg_gen1(Rest,Alg_gen_dict1b,Alg_gen_dict1a,Alg_gen_dict2c,Alg_gen_dict2a),!.
  %alg_gen1(Rest,Alg_gen_dict1a,Alg_gen_dict1b,Alg_gen_dict2a,Alg_gen_dict2b).
  
 
-alg_gen2([],Alg_gen_dict1,Alg_gen_dict1,
+alg_gen2([],_,Alg_gen_dict1,Alg_gen_dict1,
  Alg_gen_dict2,Alg_gen_dict2,
  Alg_gen_dict3,Alg_gen_dict3,
  _New_flag
  ) :- !.
 
-alg_gen2(File_string2,Alg_gen_dict1a,Alg_gen_dict1b,
+alg_gen2(File_string2,Single,Alg_gen_dict1a,Alg_gen_dict1b,
  Alg_gen_dict2a,Alg_gen_dict2b,
  Alg_gen_dict3a,Alg_gen_dict3b,
  New_flag
@@ -170,8 +176,11 @@ append(Alg_gen_dict3a,[Words1d],Alg_gen_dict3c)
 ;
 (foldr(string_concat,[Word," is not in dictionary.  Is it computational (y/n)?"],"",Prompt1),
 %repeat,
-writeln(Prompt1),
-read_string(user_input,"\n","\r",_,S1),
+
+(Single=true->S1="y";
+(writeln(Prompt1),
+read_string(user_input,"\n","\r",_,S1))),
+
 (S1="y"->
 (%trace,
 foldr(string_concat,["What is the command name for ",Word," (<return> for the same)?"],"",Prompt2),
@@ -189,7 +198,7 @@ Alg_gen_dict2a=Alg_gen_dict2c,
 Alg_gen_dict3a=Alg_gen_dict3c)
 ))),
 
-alg_gen2(Rest,Alg_gen_dict1c,Alg_gen_dict1b,
+alg_gen2(Rest,Single,Alg_gen_dict1c,Alg_gen_dict1b,
 Alg_gen_dict2c,Alg_gen_dict2b,
 Alg_gen_dict3c,Alg_gen_dict3b,
 New_flag
