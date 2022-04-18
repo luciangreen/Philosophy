@@ -191,7 +191,7 @@ numbers(L,1,[],N),
 )
 ;
 (
-term_to_atom(File_string22,File_string3a1),
+term_to_atom(File_string2,File_string3a1),
 
 (length(Alg_gen_dict4a,1)->SS=[1];
 (
