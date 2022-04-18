@@ -1,3 +1,5 @@
+% 3, total 20
+
 % a b word c automate -> (word->word,automate->recurse) -> recurse(word)
 
 % - word or automate used if only a b or c present (or same with another sent), otherwise asks which words to use * x

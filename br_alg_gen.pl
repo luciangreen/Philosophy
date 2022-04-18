@@ -1,6 +1,6 @@
 % br_alg_gen.pl
 
-% #1-3
+% #1-6
 
 % Hello, I am Lucian Green.  I enjoy programming, writing Philosophy and going for walks.  I also compose songs and do acting.  Programming is on the topic compilers, inductive algorithm finders and philosophy.  I love animals, and secretly wrote songs with about my (human-like) pets.  I also enjoy programming about each of my books, on topics such as meditation.
 
