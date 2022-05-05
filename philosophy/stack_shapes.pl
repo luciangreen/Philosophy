@@ -8,28 +8,34 @@ angles([0,90,180,270]).
 
 % number of extra shapes
 
-numbers_of_shapes([0%1%,2,3,4,5,6,7,8,9,10
-]).
+%numbers_of_shapes([1%,2,3,4,5,6,7,8,9,10
+%]).
 
 % duplicate, rotate, reflect and stack shapes within certain sized containers
 
 % get up to n shapes, modify them, stack them
 
-stack_shapes(Box_X,Box_Y,Box_Z,Grid2) :-
+stack_shapes(%Box_X,Box_Y,Box_Z,
+ Grid2) :-
  shapes(Shapes),
  convert_to_coords(Shapes,
  Shapes_coords1),
 
- numbers_of_shapes(Numbers),
+ %numbers_of_shapes(Numbers),
  
- member(Number,Numbers),
- numbers(Number,0,[],Ns),
+ %member(Number,Numbers),
+ %numbers(Number,0,[],Ns),
  
  %trace,
  
+ /*
  findall(Shape_coords3,(member(Shape_coords1,Shapes_coords1),
  member(N,Ns),numbers(N,1,[],Ns1),findall(Shape_coords2,(member(_,Ns1),
  duplicate_shape(Shapes_coords1,Shape_coords1,Shape_coords2)),Shape_coords3)),Shape_coords4),
+ */
+ %Shape_coords1=
+ Shape_coords4=[],
+ 
  %trace,
  foldr(append,Shape_coords4,Shapes_coords1,Shape_coords5),
  
@@ -71,7 +77,7 @@ stack_shapes(Box_X,Box_Y,Box_Z,Grid2) :-
  %grid(0,0,0,Box_X,Box_Y,Box_Z,Grid1),
  Grid1=[],
 
- place3(Box_X,Box_Y,Box_Z,Grid1,Grid2,Shape_coords12).
+ place3(_Box_X,_Box_Y,_Box_Z,Grid1,Grid2,Shape_coords12).
 
 %grid([0,0,0])
 /*
@@ -89,6 +95,16 @@ shapes(
 [
 %[1,
 
+/*
+[
+
+[
+[*,*]
+]
+
+
+],
+*/
 [
 
 [
@@ -159,13 +175,15 @@ Shapes_coords) :-
 
 % duplicate shape Shape_coords1
 
+/*
 duplicate_shape(Shapes_coords,Shape_coords1,Shape_coords2) :-
- findall(ID1,member([ID1,_],Shapes_coords),IDs1),
+ %findall(ID1,member([ID1,_],Shapes_coords),IDs1),
  sort(IDs1,IDs2),
  reverse(IDs2,[ID2|_]),
  ID3 is ID2+1,
  Shape_coords1=[_,S],
  Shape_coords2=[ID3,S].
+ */
  
 % rotate shape
 
