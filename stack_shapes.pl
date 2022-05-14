@@ -2,6 +2,8 @@
 
 % rotate, reflect and stack shapes within certain sized containers
 
+% 23, total 48
+
 :-include('philosophy/build_maze3d.pl').
 
 angles([0,90,180,270]).
