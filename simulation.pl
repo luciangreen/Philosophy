@@ -9,7 +9,7 @@
 :-include('../listprologinterpreter/la_maths.pl').
 
 simulation(X,Y,N_people,N_frames,Simulation,Meetings,Person1,Person2) :-
- Spaces is X*Y,(N_people>Spaces->(writeln(["Error: N_people",N_people,">",X*Y,"Spaces"]),abort);true),
+ Spaces is X*Y,(N_people>Spaces->(writeln(["Error: N_people",N_people,">Spaces",X*Y]),abort);true),
 % size, number of people, number of frames
 % random starting positions
  random_starting_positions(X,Y,N_people,Frame1),
