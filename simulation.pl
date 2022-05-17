@@ -6,7 +6,10 @@
 
 % simulation(20,20,5,20,Simulation,Meetings,1,2).
 
+:-include('../listprologinterpreter/la_maths.pl').
+
 simulation(X,Y,N_people,N_frames,Simulation,Meetings,Person1,Person2) :-
+ Spaces is X*Y,(N_people>Spaces->(writeln(["Error: N_people",N_people,">",X*Y,"Spaces"]),abort);true),
 % size, number of people, number of frames
 % random starting positions
  random_starting_positions(X,Y,N_people,Frame1),
@@ -31,13 +34,18 @@ random_starting_positions1(X,Y,N_people1,N_people2,Frame1,Frame2) :-
 random_starting_positions2(X,Y,X1,Y1,Frame1) :-%,Frame2) :-
  random_starting_positions3(X,Y,X2,Y2),
  (member([_,[X2,Y2]],Frame1)->
- random_starting_positions2(X,Y,X1,Y1,Frame1);%,Frame2);
+ fail%random_starting_positions2(X,Y,X1,Y1,Frame1)
+ ;%,Frame2);
  (X1=X2,Y1=Y2)).%Frame2=[X2,Y2]).
 
 random_starting_positions3(X,Y,X1,Y1) :-
-	random(X2),X1 is ceiling(X*X2),
-	random(Y2),Y1 is ceiling(Y*Y2).
-
+	%random(X2),X1 is ceiling(X*X2),
+	%random(Y2),Y1 is ceiling(Y*Y2).
+%repeat,
+numbers(X,1,[],X2),
+numbers(Y,1,[],Y2),
+member(X1,X2),
+member(Y1,Y2).
 % finds list of new positions, retries if deadlocked
 
 % need to move from old pos, check in curr frame
@@ -52,16 +60,17 @@ random_movements(X_bounds,Y_bounds,Frame1,N_frames1,N_frames2,Simulation1,Simula
 % if it fails, retry () *
 
 random_movements1(_,_,_,[],Frame,Frame) :- !.
-random_movements1(X_bounds,Y_bounds,Frame,Frame1,Frame11,Frame2) :-
+random_movements1(X_bounds,Y_bounds,_,Frame1,Frame11,Frame2) :-
  Frame1=[[N,[X,Y]]|Rest],
- random_starting_positions3(X_bounds,Y_bounds,X,Y,X1,Y1,Frame),
+ random_starting_positions3(X_bounds,Y_bounds,X,Y,X1,Y1,Frame11),
  append(Frame11,[[N,[X1,Y1]]],Frame3),
- random_movements1(X_bounds,Y_bounds,Frame3,Rest,Frame3,Frame2).
+ random_movements1(X_bounds,Y_bounds,_,Rest,Frame3,Frame2).
 
 random_starting_positions3(X_bounds,Y_bounds,X,Y,X1,Y1,Frame1) :-%,Frame2) :-
  random_starting_positions31(X_bounds,Y_bounds,X,Y,X2,Y2),
  (member([_,[X2,Y2]],Frame1)->
- random_starting_positions3(X_bounds,Y_bounds,X,Y,X1,Y1,Frame1);%,Frame2);
+ fail%random_starting_positions3(X_bounds,Y_bounds,X,Y,X1,Y1,Frame1)
+ ;%,Frame2);
  (X1=X2,Y1=Y2)).%Frame2=[X2,Y2]).
 
 random_starting_positions31(X_bounds,Y_bounds,X,Y,X2,Y2) :-
@@ -70,7 +79,8 @@ random_starting_positions31(X_bounds,Y_bounds,X,Y,X2,Y2) :-
  (Y=1->delete(Choices2,up,Choices3);Choices2=Choices3),
  (X=X_bounds->delete(Choices3,right,Choices4);Choices3=Choices4),
  (Y=Y_bounds->delete(Choices4,down,Choices5);Choices4=Choices5),
- random_member(Direction,Choices5),
+ %repeat,
+ member(Direction,Choices5),
  random_starting_positions32(Direction,X,Y,X2,Y2).
 
 random_starting_positions32(stay,X,Y,X,Y) :- !.
