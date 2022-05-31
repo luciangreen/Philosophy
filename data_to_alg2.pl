@@ -2,7 +2,7 @@
 
 % data to alg - with recursion
 
-% finds all in format, or recog subformat
+% finds all in format, () or recog subformat
 
 :-include('data_to_alg.pl').
 
