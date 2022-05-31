@@ -6,6 +6,7 @@
 
 % as [A,B] is to [[B],A], [c,d] is to X
 
+% test1(off,1,A).
 
 % data_to_alg([a,b],[[b],a],[c,d],A2).
 % A2=[[d],c]
