@@ -1,3 +1,6 @@
+% check_types_e4_match4([1,"a"],[[t,number],[t,string]],[],V).	     
+% check_types_e4_match4([[1, 1]], [[[t, number], [t, number]]], [], V).
+
 :- include('../listprologinterpreter/listprolog.pl').
 
 check_types_e4_getvalue_match(Variable1,Value1,Vars1) :-
@@ -40,8 +43,8 @@ not(member("|",Variable1)),
 	append([Value1a],Value1b,Value1),!.
 	
 	/*
-check_types_e4_getvalue_match_pipe([],[],_Vars1) :- !.
-check_types_e4_getvalue_match_pipe(Variable1,Value1,Vars1) :-
+check_types_e4_getvalue_match_pipe([],[],_Vars1) : !.
+check_types_e4_getvalue_match_pipe(Variable1,Value1,Vars1) :
 	variable_name(Variable1),
 	check_types_e4_getvalue(Variable1,Value1,Vars1),
 	not(Value1=empty),!.
@@ -90,7 +93,7 @@ check_types_e4_getvalue_match_pipe(Variable1,Value1,Vars1) :- %%,Top_flag
 	%%trace,
 	append([Value12a],Value12c,Value1)),!.
 
-check_types_e4_getvalue_match_pipe([Variable1|Variable1b],Value1,Vars1) :-
+check_types_e4_getvalue_match_pipe([Variable1|Variable1b],Value1,Vars1) :
 %%variable_name(Variable1),
 	(variable_name(Variable1)->
 	(check_types_e4_getvalue(Variable1,Value1,Vars1),
@@ -378,11 +381,13 @@ check_types_e4_single_item(A) :- A="|",fail,!.
 check_types_e4_single_item(A) :- string(A),!.
 check_types_e4_single_item(A) :- number(A),!.
 	     
+%variable_name([t,_]).
+
+check_types_e4_getvalue(Variable1,Value1,Vars1) :- 
+ getvalue(Variable1,Value1,Vars1).
 	     % 1=[[t,number]]
 	     
-	     
-% check_types_e4_match4([1,"a"],[[t,number],[t,string]],[],V).	     
-	             
+
 	             check_types_item(Value1,[t,number]) :- number(Value1).
 	             check_types_item(Value1,[t,string]) :- string(Value1).
 	             check_types_item(Value1,[t,predicatename]) :- Value1=[n,_].
