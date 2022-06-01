@@ -1,6 +1,10 @@
 % check_types_e4_match4([1,"a"],[[t,number],[t,string]],[],V).	     
 % check_types_e4_match4([[1, 1]], [[[t, number], [t, number]]], [], V).
 
+% check_types_e4_match4_list1([1,1],{[t,number]},[],V,{[t,number]}).
+
+% {} is a repeating list
+
 :- include('../listprologinterpreter/listprolog.pl').
 
 check_types_e4_getvalue_match(Variable1,Value1,Vars1) :-
@@ -280,6 +284,95 @@ check_types_e4_split_by_number_of_items(List,N2,List10,List2) :-
 	append(List1,List2,List),
 	(List1=[_] -> List1=[List10] ; List1=List10),!.
 	
+
+curly_head_tail([t,A],List1,List2) :- append(List1,[t,A],List2),!.
+
+curly_head_tail(Head1,Head1a,Head1b) :-
+
+ Head1 =.. [{}, Round_bracket_list],
+ 
+ curly_head_tail1(Round_bracket_list,[],[Head1a|Head1b]).
+% numbers(20,1,[],N),
+ 	
+ %findall(A,(member(N1,N),arg(N1,Round_bracket_list,A)),[Head1a|Head1b]).
+
+/*
+curly_head_tail1(Round_bracket_list,List1,List2) :-
+
+ Round_bracket_list =.. [t,A],
+ append(List1,[[t,A]],List2),!.
+*/
+
+curly_head_tail1([t,A],List1,List2) :- append(List1,[[t,A]],List2),!.
+
+
+curly_head_tail1(Round_bracket_list,List1,List2) :-
+
+ Round_bracket_list =.. [',', [t,A],  B],
+ append(List1,[[t,A]],List3),
+ curly_head_tail1(B,List3,List2),!.
+
+
+	
+	
+check_types_e4_match4_list1([],[],Vars,Vars,_) :- !.
+
+%                           1  {num}               num
+check_types_e4_match4_list1(Head1,[],Vars1,Vars2,Head3a) :-
+	not(variable_name(Head1)),
+	%not(variable_name(Head2)),
+
+
+Head1=[Head1a|Head1b],	
+
+curly_head_tail(Head3a,Head2a,Head2b),
+
+
+%Head1=[Head1a|Head1b],
+
+	%Head2=[Head2a|Head2b],
+	not(Head1a="|"),
+	not(Head2a="|"),
+	check_types_e4_match4(Head1a,Head2a,Vars1,Vars3%%,false
+	),
+	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,Head3a),!.
+
+check_types_e4_match4_list1(Head1,Head2,Vars1,Vars2,Head3a) :-
+	not(variable_name(Head1)),
+	not(variable_name(Head2)),
+
+Head1=[Head1a|Head1b],	
+
+%Head1=[Head1a|Head1b],
+
+curly_head_tail(Head2,Head2a,Head2b),	
+	%Head2=[Head2a|Head2b],
+	not(Head1a="|"),
+	not(Head2a="|"),
+	check_types_e4_match4(Head1a,Head2a,Vars1,Vars3%%,false
+	),
+	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,Head3a),!.
+
+check_types_e4_match4_list([],[],Vars,Vars) :- !.
+
+check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
+	not(variable_name(Head1)),
+	not(variable_name(Head2)),
+
+curly_head_tail(Head1,Head1a,Head1b),	
+
+%Head1=[Head1a|Head1b],
+
+Head2=[Head2a|Head2b],	
+	%Head2=[Head2a|Head2b],
+	not(Head1a="|"),
+	not(Head2a="|"),
+	check_types_e4_match4(Head1a,Head2a,Vars1,Vars3%%,false
+	),
+	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,Head2),!.
+
+
+
 check_types_e4_match4_list([],[],Vars,Vars) :- !.
 
 check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
