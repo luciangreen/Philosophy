@@ -5,6 +5,17 @@
 
 % {} is a repeating list
 
+% check_types_e4_match4([[["a"]]],[[t,any]],[],V).
+
+% check_types_e4_match4([1,["a"]],[[t,number],"|",[t,any]],[],V).
+
+% check_types_e4_match4([1,"a"],[[t,number],"|",[[t,string]]],[],V).
+
+% check_types_e4_match4([[1,1],"a"],[{[t,number]},"|",[[t,string]]],[],V).
+
+% check_types_e4_match4([1,"a","b"],[[t,number],"|",{[t,string]}],[],V).
+
+
 :- include('../listprologinterpreter/listprolog.pl').
 
 check_types_e4_getvalue_match(Variable1,Value1,Vars1) :-
