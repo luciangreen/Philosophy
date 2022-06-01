@@ -1,7 +1,7 @@
 % check_types_e4_match4([1,"a"],[[t,number],[t,string]],[],V).	     
 % check_types_e4_match4([[1, 1]], [[[t, number], [t, number]]], [], V).
 
-% check_types_e4_match4_list1([1,1],{[t,number]},[],V,{[t,number]}).
+% check_types_e4_match4([1,1],{[t,number]},[],V).
 
 % {} is a repeating list
 
