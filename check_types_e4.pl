@@ -359,11 +359,11 @@ check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
 	not(variable_name(Head1)),
 	not(variable_name(Head2)),
 
-curly_head_tail(Head1,Head1a,Head1b),	
+Head1=[Head1a|Head1b],	
 
 %Head1=[Head1a|Head1b],
 
-Head2=[Head2a|Head2b],	
+curly_head_tail(Head2,Head2a,Head2b),	
 	%Head2=[Head2a|Head2b],
 	not(Head1a="|"),
 	not(Head2a="|"),
