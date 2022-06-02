@@ -15,6 +15,9 @@
 
 % check_types_e4_match4([1,"a","b"],[[t,number],"|",{[t,string]}],[],V).
 
+% check_types_e4_match4(1,([t,string],[t,string]),[],V).
+
+% (A,B) = A v B
 
 :- include('../listprologinterpreter/listprolog.pl').
 
@@ -381,6 +384,43 @@ curly_head_tail(Head2,Head2a,Head2b),
 	check_types_e4_match4(Head1a,Head2a,Vars1,Vars3%%,false
 	),
 	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,Head2),!.
+
+
+% round brackets for (A,B) = A v B
+
+check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
+	not(variable_name(Head1)),
+	not(variable_name(Head2)),
+
+%Head1=[Head1a|Head1b],	
+
+%()Head1=[Head1a|Head1b],
+
+curly_head_tail1(Head2,[],[Head3,Head4]),	
+
+%Head3=[Head3a|Head3b],	
+
+%Head4=[Head4a|Head4b],	
+	%()Head2=[Head2a|Head2b],
+	%not(Head1a="|"),
+	%not(Head3a="|"),
+	%not(Head4a="|"),
+
+	(check_types_e4_match4(Head1,Head3,Vars1,Vars2%%,false
+	)%,
+	%check_types_e4_match4_list(Head1b,Head3b,Vars3,Vars2))
+	->true;
+	check_types_e4_match4(Head1,Head4,Vars1,Vars2%%,false
+	)),
+	%check_types_e4_match4_list(Head1b,Head4b,Vars3,Vars2)))
+
+/*	((check_types_e4_match4(Head1a,Head3a,Vars1,Vars3%%,false
+	),
+	check_types_e4_match4_list(Head1b,Head3b,Vars3,Vars2))->true;
+	(check_types_e4_match4(Head1a,Head4a,Vars1,Vars3%%,false
+	),
+	check_types_e4_match4_list(Head1b,Head4b,Vars3,Vars2)))
+*/	!.
 
 
 
