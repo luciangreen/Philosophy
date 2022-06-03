@@ -15,7 +15,7 @@
 
 % check_types_e4_match4([1,"a","b"],[[t,number],"|",{[t,string]}],[],V).
 
-% check_types_e4_match4(1,([t,string],[t,string]),[],V).
+% check_types_e4_match4(1,([t,string],[t,number]),[],V).
 
 % (A,B) = A v B
 
