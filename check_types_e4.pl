@@ -299,7 +299,12 @@ check_types_e4_split_by_number_of_items(List,N2,List10,List2) :-
 	(List1=[_] -> List1=[List10] ; List1=List10),!.
 	
 
-curly_head_tail([t,A],List1,List2) :- append(List1,[t,A],List2),!.
+t_or_empty([t,_]).
+t_or_empty([]).
+t_or_empty("|").
+t_or_empty([_,"v",_]).
+
+curly_head_tail(T,List1,List2) :- t_or_empty(T),append(List1,T,List2),!.
 
 curly_head_tail(Head1,Head1a,Head1b) :-
 
@@ -317,15 +322,18 @@ curly_head_tail1(Round_bracket_list,List1,List2) :-
  append(List1,[[t,A]],List2),!.
 */
 
-curly_head_tail1([t,A],List1,List2) :- append(List1,[[t,A]],List2),!.
+curly_head_tail1(T,List1,List2) :- t_or_empty(T),append(List1,[T],List2),!.
+
+curly_head_tail1([T],List1,List2) :- t_or_empty(T),append(List1,[[T]],List2),!.
 
 
 curly_head_tail1(Round_bracket_list,List1,List2) :-
+ 
+ t_or_empty(T),
 
- Round_bracket_list =.. [',', [t,A],  B],
- append(List1,[[t,A]],List3),
+ Round_bracket_list =.. [',', T,  B],
+ append(List1,[T],List3),
  curly_head_tail1(B,List3,List2),!.
-
 
 	
 	
@@ -396,7 +404,7 @@ check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
 
 %()Head1=[Head1a|Head1b],
 
-curly_head_tail1(Head2,[],[Head3,Head4]),	
+Head2=[Head3,"v",Head4],	
 
 %Head3=[Head3a|Head3b],	
 
@@ -411,7 +419,7 @@ curly_head_tail1(Head2,[],[Head3,Head4]),
 	%check_types_e4_match4_list(Head1b,Head3b,Vars3,Vars2))
 	->true;
 	check_types_e4_match4(Head1,Head4,Vars1,Vars2%%,false
-	)),
+	))
 	%check_types_e4_match4_list(Head1b,Head4b,Vars3,Vars2)))
 
 /*	((check_types_e4_match4(Head1a,Head3a,Vars1,Vars3%%,false
@@ -420,7 +428,7 @@ curly_head_tail1(Head2,[],[Head3,Head4]),
 	(check_types_e4_match4(Head1a,Head4a,Vars1,Vars3%%,false
 	),
 	check_types_e4_match4_list(Head1b,Head4b,Vars3,Vars2)))
-*/	!.
+*/	.
 
 
 
@@ -537,4 +545,4 @@ check_types_e4_getvalue(Variable1,Value1,Vars1) :-
 	             check_types_item(Value1,[t,predicatename]) :- Value1=[n,_].
 	             check_types_item(_,[t,any]).
 	             check_types_item(Value1,[t,number]) :- number(Value1).
-
+	             
