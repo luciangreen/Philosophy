@@ -30,6 +30,7 @@
 % check_types_e4_match4([1,"a"],{[t,number],"|",[[t,string]]},[],V).
 
 :- include('../listprologinterpreter/listprolog.pl').
+:- include('simplify_curly.pl').
 
 check_types_e4_getvalue_match(Variable1,Value1,Vars1) :-
 %trace,
@@ -336,6 +337,9 @@ curly_head_tail1(T,List1,List2) :- t_or_empty(T),append(List1,[T],List2),!.
 
 curly_head_tail1([T],List1,List2) :- t_or_empty(T),append(List1,[[T]],List2),!.
 
+curly_head_tail1(Round_bracket_list,List1,List2) :-
+ curly_head_tail(Round_bracket_list,List3,List4),
+ append(List1,[[List3|List4]],List2).
 
 curly_head_tail1(Round_bracket_list,List1,List2) :-
  
@@ -408,13 +412,20 @@ Head1c=[Head1a|Head1b],
 %trace,
 curly_head_tail(Head2,Head2a1,Head2b1),	
 
-simplify([Head2a1|Head2b1],[Head2a|Head2b]),
+simplify([Head2a1|Head2b1],[Head2a2|Head2b2]),
+
+% a|{b} = a b, a b b etc until length of Head1
+% a|{b|{c}} = a b c, a b c c etc
 	%Head2=[Head2a|Head2b],
+length(Head1c,Head1c_length),
+
+simplify_curly0([Head2a2|Head2b2],Head1c_length,Head2c),
 	not(Head1a="|"),
-	not(Head2a="|"),
+	
+findall(Vars21,(member([Head2a|Head2b],Head2c),	not(Head2a="|"),
 	check_types_e4_match4(Head1a,Head2a,Vars1,Vars3%%,false
 	),
-	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,[Head2a|Head2b]),!.
+	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars21,[Head2a|Head2b])),[Vars2|_]),!.
 
 
 % round brackets for (A,B) = A v B
