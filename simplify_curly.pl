@@ -7,8 +7,9 @@
 
 % A = [[[[t,b]],[[t,b],[t,c]],[[t,b],[t,c],[t,c]],[[t,b],[t,c],[t,c],[t,c]]]]
 
+% simplify_curly0([[t, number], "|", [[], "v", [[t, string]]]], 1, A).
 
-
+% A = [[[[t, number]], [[t, number], [t, string]]]].
 
 repeat(_Item,0,Repeated_item,Repeated_item) :- !.
 repeat(Item,N1,Repeated_item1,Repeated_item2) :-
@@ -34,6 +35,12 @@ simplify_curly([A,"|",B],L,C)	:-
 	
 */
 	
+simplify_curly([A,"|",[B1,"v",B2]],L,[[A11|B11],[A11|B21]])	:-
+	simplify_curly(A,L,A11),
+	simplify_curly(B1,L,B11),
+	simplify_curly(B2,L,B21),!.
+
+
 simplify_curly([A,"|",B],L,C)	:-
 	simplify_curly(A,L,A11),
 	simplify_curly(B,L,B11),

@@ -35,8 +35,12 @@
 
 % check_types_e4_match4([1,"a"],{[t,number],"|",{[[t,number],"v",[t,string]]}},[],V).
 
+% check_types_e4_match4([1],[[t,number],"|",[[],"v",[[t,string]]]],[],V).
+% check_types_e4_match4([1],{[t,number],"|",[[],"v",[[t,string]]]},[],V).
+
 :- include('../listprologinterpreter/listprolog.pl').
 :- include('simplify_curly.pl').
+:- include('simplify2.pl').
 
 check_types_e4_getvalue_match(Variable1,Value1,Vars1) :-
 %trace,
@@ -80,14 +84,14 @@ not(member("|",Variable1)),
 	/*
 check_types_e4_getvalue_match_pipe([],[],_Vars1) : !.
 check_types_e4_getvalue_match_pipe(Variable1,Value1,Vars1) :
-	variable_name(Variable1),
+	variable_name_t(Variable1),
 	check_types_e4_getvalue(Variable1,Value1,Vars1),
 	not(Value1=empty),!.
 
 
 check_types_e4_getvalue_match_pipe(Variable1,Value1,Vars1) :- %%,Top_flag
 
-	(variable_name(Variable1)->
+	(variable_name_t(Variable1)->
 	(check_types_e4_getvalue(Variable1,Value1,Vars1),
 	not(Value1=empty))),
 
@@ -129,12 +133,12 @@ check_types_e4_getvalue_match_pipe(Variable1,Value1,Vars1) :- %%,Top_flag
 	append([Value12a],Value12c,Value1)),!.
 
 check_types_e4_getvalue_match_pipe([Variable1|Variable1b],Value1,Vars1) :
-%%variable_name(Variable1),
-	(variable_name(Variable1)->
+%%variable_name_t(Variable1),
+	(variable_name_t(Variable1)->
 	(check_types_e4_getvalue(Variable1,Value1,Vars1),
 	not(Value1=empty))),
 	
-	(variable_name(Variable1b)->
+	(variable_name_t(Variable1b)->
 	(check_types_e4_getvalue(Variable1b,Value1b,Vars1),
 	not(Value1b=empty))),
 
@@ -156,7 +160,7 @@ check_types_e4_match4_10(Variable1,Variable2,Vars1,Vars2) :-
 	%%interpretpart(match4,Variable1,[v,sys2],Vars1,Vars3,_),
 %%	getvalue([v,sys2],Value1,Vars3))),
 
-	not(variable_name(Variable2)),
+	not(variable_name_t(Variable2)),
 	is_list(Variable2),
 	%%findall(Value2,(member(A,Variable2),getvalue(A,Value2,Vars1)),X),
 	check_types_e4_getvalue_match(Variable2,X,Vars1),
@@ -166,7 +170,7 @@ check_types_e4_match4_10(Variable1,Variable2,Vars1,Vars2) :-
 	
 check_types_e4_match4_10(Variable1,Variable2,Vars1,Vars2) :-
 %%trace,
-	not(variable_name(Variable1)),
+	not(variable_name_t(Variable1)),
 	is_list(Variable1),
 	%%findall(Value1,(
 	
@@ -181,9 +185,9 @@ check_types_e4_match4_10(Variable1,Variable2,Vars1,Vars2) :-
 
 check_types_e4_match4(Variable1,Variable2,Vars1,Vars2) :-
 %%trace,
-	variable_name(Variable2),
+	variable_name_t(Variable2),
 	check_types_e4_getvalue(Variable2,Value2,Vars1),
-	not(variable_name(Variable1)),
+	not(variable_name_t(Variable1)),
 	is_list(Variable1),
 	%%findall(Value1,(
 	
@@ -197,9 +201,9 @@ check_types_e4_match4(Variable1,Variable2,Vars1,Vars2) :-
 	putvalue(Variable2,X,Vars1,Vars2),
 	length(Variable1,L),length(X,L),!.
 check_types_e4_match4(Variable1,Variable2,Vars1,Vars2) :-
-	variable_name(Variable1),
+	variable_name_t(Variable1),
 	check_types_e4_getvalue(Variable1,Value1,Vars1),
-	not(variable_name(Variable2)),
+	not(variable_name_t(Variable2)),
 	is_list(Variable2),
 	%%findall(Value2,(member(A,Variable2),getvalue(A,Value2,Vars1)),X),
 	check_types_e4_getvalue_match(Variable2,X,Vars1),
@@ -260,7 +264,7 @@ check_types_e4_match4(Variable1,Variable2,Vars1,Vars2%%,Top_flag
 check_types_e4_split_into_head_and_tail(Variable,Head1c,Tail1c,Pipe,Head_is_list_of_lists) :-
 %writeln1(split_into_head_and_tail(Variable,Head1c,Tail1c,Pipe,Head_is_list_of_lists)),
 
-not(variable_name(Variable)),
+not(variable_name_t(Variable)),
 	(findall(_FA,member("|",Variable),FA2),length(FA2,FA3),FA3=<1),
 	%%Variable=[[v, a], "|", [v, d]]->trace,%%((
 	(((
@@ -270,7 +274,7 @@ not(variable_name(Variable)),
 		Head2=Head1)),%%trace,
 		Tail2=[Tail1],Pipe=true)->true;
 	%%(
-	((is_list(Variable),not(variable_name(Variable)),
+	((is_list(Variable),not(variable_name_t(Variable)),
 	Variable=[Head1|Tail1],Pipe=false,check_types_e4_head_is_list_of_lists(Head1,Head_is_list_of_lists))->true;
 	(Head1=Variable,Tail1=[],Pipe=false,check_types_e4_head_is_list_of_lists(Head1,Head_is_list_of_lists)))),
 	(Head1=empty->Head1c=[];Head1=Head1c),
@@ -361,8 +365,8 @@ check_types_e4_match4_list1([],[],Vars,Vars,_) :- !.
 
 %                           1  {num}               num
 check_types_e4_match4_list1(Head1,[],Vars1,Vars2,Head3a) :-
-	not(variable_name(Head1)),
-	%not(variable_name(Head2)),
+	not(variable_name_t(Head1)),
+	%not(variable_name_t(Head2)),
 
 
 Head1=[Head1a|Head1b],	
@@ -381,8 +385,8 @@ Head3a=[Head2a|Head2b],
 	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,Head3a),!.
 
 check_types_e4_match4_list1(Head1,Head2,Vars1,Vars2,Head3a) :-
-	not(variable_name(Head1)),
-	not(variable_name(Head2)),
+	not(variable_name_t(Head1)),
+	not(variable_name_t(Head2)),
 
 Head1=[Head1a|Head1b],	
 
@@ -400,8 +404,8 @@ Head2=[Head2a|Head2b],
 check_types_e4_match4_list([],[],Vars,Vars) :- !.
 
 check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
-	not(variable_name(Head1)),
-	not(variable_name(Head2)),
+	not(variable_name_t(Head1)),
+	not(variable_name_t(Head2)),
 
 
  %interpretpart(match4,Alg3,Alg1,[],Vars2,_),
@@ -418,14 +422,14 @@ Head1c=[Head1a|Head1b],
 %trace,
 curly_head_tail(Head2,Head2a1,Head2b1),	
 
-simplify([Head2a1|Head2b1],[Head2a2|Head2b2]),
+simplify2([Head2a1|Head2b1],[Head2a2|Head2b2]),
 
 % a|{b} = a b, a b b etc until length of Head1
 % a|{b|{c}} = a b c, a b c c etc
 	%Head2=[Head2a|Head2b],
 length(Head1c,Head1c_length),
 
-simplify_curly0([Head2a2|Head2b2],Head1c_length,Head2c),
+simplify_curly0([Head2a2|Head2b2],Head1c_length,[Head2c]),
 	not(Head1a="|"),
 	
 findall(Vars21,(member([Head2a|Head2b],Head2c),	not(Head2a="|"),
@@ -437,8 +441,8 @@ findall(Vars21,(member([Head2a|Head2b],Head2c),	not(Head2a="|"),
 % round brackets for (A,B) = A v B
 
 check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
-	not(variable_name(Head1)),
-	not(variable_name(Head2)),
+	not(variable_name_t(Head1)),
+	not(variable_name_t(Head2)),
 
 %Head1=[Head1a|Head1b],	
 
@@ -475,8 +479,8 @@ Head2=[Head3,"v",Head4],
 check_types_e4_match4_list([],[],Vars,Vars) :- !.
 
 check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
-	not(variable_name(Head1)),
-	not(variable_name(Head2)),
+	not(variable_name_t(Head1)),
+	not(variable_name_t(Head2)),
 	Head1=[Head1a|Head1b],
 	Head2=[Head2a|Head2b],
 	not(Head1a="|"),
@@ -493,20 +497,20 @@ check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
 
 
 check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
-	variable_name(Head1),
-	not(variable_name(Head2)),
+	variable_name_t(Head1),
+	not(variable_name_t(Head2)),
 	not(Head2="|"),
 	check_types_e4_getvalue(Head1,Value1,Vars1),not(Value1=empty),
 	check_types_e4_match4(Value1,Head2,Vars1,Vars2),!.
 check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
-	not(variable_name(Head1)),
+	not(variable_name_t(Head1)),
 	not(Head1="|"),
-	variable_name(Head2),
+	variable_name_t(Head2),
 	check_types_e4_getvalue(Head2,Value2,Vars1),not(Value2=empty),
 	check_types_e4_match4(Head1,Value2,Vars1,Vars2),!.
 check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
-	variable_name(Head1),
-	variable_name(Head2),
+	variable_name_t(Head1),
+	variable_name_t(Head2),
 	check_types_e4_getvalue(Head1,Value1,Vars1),not(Value1=empty),
 	check_types_e4_getvalue(Head2,Value2,Vars1),not(Value2=empty),
 	check_types_e4_match4(Value1,Value2,Vars1,Vars2),!.
@@ -568,12 +572,12 @@ getvalue(Variable1,Value1,Vars1),
 
 check_types_e4_single_item([t,_]) :- !.
 check_types_e4_single_item(A) :- predicate_or_rule_name(A),!.
-check_types_e4_single_item(A) :- variable_name(A),!.
+check_types_e4_single_item(A) :- variable_name_t(A),!.
 check_types_e4_single_item(A) :- A="|",fail,!.
 check_types_e4_single_item(A) :- string(A),!.
 check_types_e4_single_item(A) :- number(A),!.
 	     
-%variable_name([t,_]).
+%variable_name_t([t,_]).
 
 check_types_e4_getvalue(Variable1,Value1,Vars1) :- 
  getvalue(Variable1,Value1,Vars1).
@@ -586,3 +590,5 @@ check_types_e4_getvalue(Variable1,Value1,Vars1) :-
 	             check_types_item(_,[t,any]).
 	             check_types_item(Value1,[t,number]) :- number(Value1).
 	             
+	             variable_name_t(A) :- variable_name(A).
+	             variable_name_t([t,_]).
