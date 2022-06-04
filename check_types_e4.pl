@@ -15,9 +15,15 @@
 
 % check_types_e4_match4([1,"a","b"],[[t,number],"|",{[t,string]}],[],V).
 
-% check_types_e4_match4(1,([t,string],[t,number]),[],V).
+% check_types_e4_match4([[1,"a"]],[[[[t,number],[t,string]],"v",[t,number]]],[],V).
 
-% (A,B) = A v B
+% check_types_e4_match4([[1,"a"]],{[[[t,number],[t,string]],"v",[t,number]]},[],V).
+
+% [A,"v",B] = A v B 
+
+% check_types_e4_match4([[1,"a"]],[[[[t,number],"|",[[t,string]]],"v",[t,number]]],[],V).
+
+% check_types_e4_match4([[1,"a"]],{[[[t,number],"|",[[t,string]]],"v",[t,number]]},[],V).
 
 :- include('../listprologinterpreter/listprolog.pl').
 
