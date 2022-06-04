@@ -29,6 +29,12 @@
 
 % check_types_e4_match4([1,"a"],{[t,number],"|",[[t,string]]},[],V).
 
+% check_types_e4_match4([1,"a"],{[[t,number],"v",[t,string]]},[],V).
+
+% check_types_e4_match4([1,"a"],{[t,number],"|",[[[t,number],"v",[t,string]]]},[],V).
+
+% check_types_e4_match4([1,"a"],{[t,number],"|",{[[t,number],"v",[t,string]]}},[],V).
+
 :- include('../listprologinterpreter/listprolog.pl').
 :- include('simplify_curly.pl').
 
