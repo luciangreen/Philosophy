@@ -34,6 +34,12 @@ simplify_curly([A,"|",B],L,C)	:-
 	C=[A1,"|",B1]),!.
 	
 */
+
+simplify_curly([[A, "v", B]], L, [[A11,B11]]) :-
+
+	simplify_curly(A,L,A11),
+	simplify_curly(B,L,B11),!.
+
 	
 simplify_curly([A,"|",[B1,"v",B2]],L,[[A11|B11],[A11|B21]])	:-
 	simplify_curly(A,L,A11),
