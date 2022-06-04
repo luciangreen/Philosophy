@@ -1,3 +1,5 @@
+% run test1(off,1,R). first
+
 % check_types_e4_match4([1,"a"],[[t,number],[t,string]],[],V).	     
 % check_types_e4_match4([[1, 1]], [[[t, number], [t, number]]], [], V).
 
@@ -24,6 +26,8 @@
 % check_types_e4_match4([[1,"a"]],[[[[t,number],"|",[[t,string]]],"v",[t,number]]],[],V).
 
 % check_types_e4_match4([[1,"a"]],{[[[t,number],"|",[[t,string]]],"v",[t,number]]},[],V).
+
+% check_types_e4_match4([1,"a"],{[t,number],"|",[[t,string]]},[],V).
 
 :- include('../listprologinterpreter/listprolog.pl').
 
@@ -353,7 +357,8 @@ check_types_e4_match4_list1(Head1,[],Vars1,Vars2,Head3a) :-
 
 Head1=[Head1a|Head1b],	
 
-curly_head_tail(Head3a,Head2a,Head2b),
+%curly_head_tail(Head3a,Head2a,Head2b),
+Head3a=[Head2a|Head2b],
 
 
 %Head1=[Head1a|Head1b],
@@ -373,7 +378,8 @@ Head1=[Head1a|Head1b],
 
 %Head1=[Head1a|Head1b],
 
-curly_head_tail(Head2,Head2a,Head2b),	
+%curly_head_tail(Head2,Head2a,Head2b),	
+Head2=[Head2a|Head2b],
 	%Head2=[Head2a|Head2b],
 	not(Head1a="|"),
 	not(Head2a="|"),
@@ -387,17 +393,28 @@ check_types_e4_match4_list(Head1,Head2,Vars1,Vars2) :-
 	not(variable_name(Head1)),
 	not(variable_name(Head2)),
 
-Head1=[Head1a|Head1b],	
+
+ %interpretpart(match4,Alg3,Alg1,[],Vars2,_),
+ %                    [[B],A]
+ interpretpart(match4,Head1,[v,sys1],Vars1,Vars4,_),
+ 
+ % finds [[d],c] from [A,B], [[B],A] and [c,d]
+ getvalue([v,sys1],Head1c,Vars4),
+
+
+Head1c=[Head1a|Head1b],	
 
 %Head1=[Head1a|Head1b],
+%trace,
+curly_head_tail(Head2,Head2a1,Head2b1),	
 
-curly_head_tail(Head2,Head2a,Head2b),	
+simplify([Head2a1|Head2b1],[Head2a|Head2b]),
 	%Head2=[Head2a|Head2b],
 	not(Head1a="|"),
 	not(Head2a="|"),
 	check_types_e4_match4(Head1a,Head2a,Vars1,Vars3%%,false
 	),
-	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,Head2),!.
+	check_types_e4_match4_list1(Head1b,Head2b,Vars3,Vars2,[Head2a|Head2b]),!.
 
 
 % round brackets for (A,B) = A v B
