@@ -38,7 +38,7 @@ type(append,[a,b],a:b).
 % C = [[append, [c, d], c:d]].
 
 %induct([c:d,e],(c:d):e,[],C).                                       
-% C = [[append, [[c, d], e],  (c:d):e]]
+% C = [[append, [c:d, e],  (c:d):e]].
 
 
 induct(In,Out,Commands1,Commands2) :-
@@ -91,7 +91,7 @@ get_var(V1) :-
  %In=[In2|In3],
  %data_to_alg4(In2,[],_Vars1,[],Alg3),
  
-data_to_alg5(Data1,Data2,Alg1,Alg2,Alg14) :-
+data_to_alg5(Data1,Data2,Alg1,Alg2,Alg17) :-
  % finds A=a, etc. and [A,B]
  data_to_alg4(Data1,[],_Vars1,[],Alg3),
  data_to_alg4(Data2,[],_Vars3,[],Alg4),
@@ -105,6 +105,10 @@ data_to_alg5(Data1,Data2,Alg1,Alg2,Alg14) :-
  %member(Alg15,Alg11),
  Alg14=[Alg12,Alg13],%,Alg15],
  
+ %trace,
+ list_to_compound(Alg12,[],Alg171),
+ list_to_compound(Alg13,[],Alg172),
+ Alg17=[Alg171,Alg172],%,Alg15],
  %flatten(Alg14,Alg16)
  
  interpretpart(match4,Alg3,Alg14,[],Vars2,_),
@@ -175,7 +179,7 @@ data_to_alg41(Data1,Vars1,Vars2,Alg1,Alg2) :-
  
 list_to_compound([],Compound,Compound) :- !.
 list_to_compound(Data1,Compound1,Compound2) :-
- Data1=[Data3],
+ Data1=Data3,atom(Data3),
  (Compound1=[]->Compound2=Data3;
  Compound2=..[:,Compound1,Data3]),!.
 list_to_compound(Data1,Compound1,Compound2) :-
