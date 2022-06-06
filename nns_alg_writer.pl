@@ -44,22 +44,22 @@ type(append,[a,b],a:b).
 
 
 /*
-
-induct0([[c,d],e],_,[],C).
-C = [[append, [c, d], c:d], [append, [c:d, e],  (c:d):e]].
-
-induct0([[[c,d],e],f],_,[],C).
-C = [[append, [c:d, e],  (c:d):e], [append, [(c:d):e, f],  ((c:d):e):f]].
+                                                              induct0([[[c,d],e],f],_,[],C).
+C = [[append, [(c:d):e, f],  ((c:d):e):f], [append, [c:d, e],  (c:d):e], [append, [c, d], c:d]].
 
 */
 
-induct0([[_, []]],_,C,C) :-!.
+induct0([A,B],_,C1,C2) :- atom(A),atom(B),
+ induct([A,B],_Out,[],Commands2),
+ append(C1,Commands2,C2),
+ !.
 
 induct0(I,O,C1,C2) :-
- I=[I1|I2],
- induct(I1,Out,[],Commands2),
+ %induct0(I1,O,C1,C4),
+ induct(I,_Out,[],Commands2),
  append(C1,Commands2,C3),
- induct0([[Out,I2]],O,C3,C2).
+ I=[I1|_I2],
+ induct0(I1,O,C3,C2).
 
 induct(In,Out,Commands1,Commands2) :-
  %retractall(var1(_)),
