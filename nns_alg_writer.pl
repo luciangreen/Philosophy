@@ -38,16 +38,37 @@ type(append,[a,b],a:b).
 % C = [[append, [c, d], c:d]].
 
 %induct([c:d,e],(c:d):e,[],C).                                       
-% C = [[append, [c:d, e],  (c:d):e]].
+% C = [[append, [c:d, e],  (c:d):e], [append, [(c:d):e, f],  ((c:d):e):f]].
 
+
+
+
+/*
+
+induct0([[c,d],e],_,[],C).
+C = [[append, [c, d], c:d], [append, [c:d, e],  (c:d):e]].
+
+induct0([[[c,d],e],f],_,[],C).
+C = [[append, [c:d, e],  (c:d):e], [append, [(c:d):e, f],  ((c:d):e):f]].
+
+*/
+
+induct0([[_, []]],_,C,C) :-!.
+
+induct0(I,O,C1,C2) :-
+ I=[I1|I2],
+ induct(I1,Out,[],Commands2),
+ append(C1,Commands2,C3),
+ induct0([[Out,I2]],O,C3,C2).
 
 induct(In,Out,Commands1,Commands2) :-
  %retractall(var1(_)),
  %assertz(var1(0)),
  %type(Command,In1,Out1),
  interpret_induct(Command,In,Out,Alg14),
- append(Commands1,[[Command,Alg14,Out]],Commands2),!.
+ append(Commands1,[[Command,Alg14,Out]],Commands2).
 
+/*
 induct(In,Out,Commands1,Commands2) :-
  %type(Command,In1,Out1),
  interpret_induct(Command,In,Out1,Alg14),
@@ -61,9 +82,8 @@ induct(In,Out,Commands1,Commands2) :-
  %(O32=[]->Commands4=Commands2;
  %induct(O32,Out2,Commands4,Commands2)),
  
- Out=Out2,
- !.
-
+ Out=Out2.
+*/
 % interpret_induct(Command,[c,d],O).
 
 interpret_induct(Command,In,O,Alg14) :-
@@ -100,10 +120,11 @@ data_to_alg5(Data1,Data2,Alg1,Alg2,Alg17) :-
 
  % finds [[B],A] from A=a etc. and [[b],a]
  %                    [A,B],[c,d]
- member(Alg12,Alg11),
- member(Alg13,Alg11),
+ %member(Alg12,Alg11),
+ %member(Alg13,Alg11),
  %member(Alg15,Alg11),
- Alg14=[Alg12,Alg13],%,Alg15],
+ Alg11=[Alg12,Alg13],%,Alg15],
+ Alg11=Alg14,
  
  %trace,
  list_to_compound(Alg12,[],Alg171),
@@ -184,8 +205,9 @@ list_to_compound(Data1,Compound1,Compound2) :-
  Compound2=..[:,Compound1,Data3]),!.
 list_to_compound(Data1,Compound1,Compound2) :-
  Data1=[Data2|Data3],
- (Compound1=[]->Compound3=Data2;
- Compound3=..[:,Compound1,Data2]),
+ list_to_compound(Data2,[],Data4),
+ (Compound1=[]->Compound3=Data4;
+ Compound3=..[:,Compound1,Data4]),
  list_to_compound(Data3,Compound3,Compound2),!.
 /*
 list_to_compound(Data1,Compound1,Compound2) :-
