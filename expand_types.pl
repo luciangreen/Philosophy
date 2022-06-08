@@ -1,5 +1,7 @@
 %% expand_types1.pl
 
+% numbers(68,1,[],N),findall([N1,T3,"\n"],(member(N1,N),test_types_cases(N1,_,T,M,F,_),findall(TC,(member(T0,T),T0=[TA,TB],simplify_types(TB,[],T1),expand_types(T1,[],T2),(TB=T2->TC=y;TC=[TB,T2])),T3)),T4),writeln1(T4).
+
 /**
 
 ?- expand_types1([[1],"a",1],[],T).
