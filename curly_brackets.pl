@@ -72,9 +72,9 @@ curly_head_tail1a(T,List1,List2) :- t_or_empty(T),append(List1,[T],List2),!.
 
 %curly_head_tail1([T],List1,List2) :- t_or_empty(T),append(List1,%[[T]],List2),!.
 
-curly_head_tail1a(Round_bracket_list,List1,List2) :-
- curly_head_taila(Round_bracket_list,List3,List4),
- append(List1,[[List3|List4]],List2).
+%curly_head_tail1a(Round_bracket_list,List1,List2) :-
+% curly_head_taila(Round_bracket_list,List3,List4),
+% append(List1,[[List3|List4]],List2).
 
 curly_head_tail1a(Round_bracket_list,List1,List2) :-
  
