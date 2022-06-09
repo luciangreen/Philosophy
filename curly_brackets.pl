@@ -1,7 +1,6 @@
 
 t_or_empty([t,_]).
 t_or_empty({[t,_]}).
-t_or_empty([t,_]).
 t_or_empty([]).
 
 /*
