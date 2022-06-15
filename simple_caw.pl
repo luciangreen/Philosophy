@@ -71,7 +71,7 @@ append(Rules1,[[P,[Last_arg,Var1]]],Rules2)%,notrace
 
         (debug(on)->Debug=on;Debug=off),
 
-writeln1([*,Debug,Query,Program2,Result]),
+%writeln1([*,Debug,Query,Program2,Result]),
 %trace,
 	((catch(call_with_time_limit(0.05, 
 		interpret(Debug,Query,Program2,Result)),
