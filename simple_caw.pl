@@ -2,6 +2,10 @@
 
 % simple_caw0(reverse,[[[n,head],1,1],[[n,tail],1,1],[[n,wrap],1,1],[[append],2,1],[[n,reverse],2,1]],[[[n,reverse,[[],[v,a],[v,a]]]]],[[[v,a],[1,2,3]],[[v,b],[]]],[[[v,c],[3,2,1]]],[],P).
 
+% simple_caw0(reverse,[[[n,reverse],2,1]],[[[n,reverse],[[],[v,a],[v,a]]]],[[[v,c],[2,3]],[[v,f],[1]]],[[[v,g],[3,2,1]]],[[[n,head],[[v,a],[v,b]]],[[n,tail],[[v,a],[v,c]]],[[n,wrap],[[v,b],[v,d]]],[[n,append],[[v,d],[v,e],[v,f]]]],P). x
+
+% simple_caw0(reverse,[[[n,reverse],4,1]],[[[n,reverse],[[],[v,a],[v,c],[v,b],[v,a]]]],[[[v,a],[1,2,3]],[[v,b],[]],[[v,c],[2,3]] x only has 1 output,[[v,f],[1]]],[[[v,g],[3,2,1]]],[[[n,head],[[v,a],[v,b]]],[[n,tail],[[v,a],[v,c]]],[[n,wrap],[[v,b],[v,d]]],[[n,append],[[v,d],[v,e],[v,f]]]],P).
+
 % simple_caw0(plus,[[[n,+],2,1]],[],[[[v,a],1],[[v,b],1]],[[[v,c],2]],[],P),writeln1(P).
 
 % P = [[[n,plus],[[v,a],[v,b],[v,c]],":-",[[[n,+],[[v,a],[v,a],[v,c]]]]]]
@@ -23,7 +27,7 @@ simple_caw0(F,Rules,Initial_rules,In,Out,Start_of_predicate,Predicate) :-
  
 simple_caw(F,Query,Result,Rules,Initial_rules,In,Out,Rules1,Predicate) :- 
 
-length(Rules1,L),not(L>=6),
+length(Rules1,L),not(L>=5),
 %trace,
 % Don't repeat a command
 member([P,I,_O],Rules),
@@ -32,24 +36,35 @@ member([P00,_],Rules1),
 not(P=P00))),
 %trace,
 
-get_last_arg(In,Rules1,Last_arg),
+%get_last_arg(In,Rules1,Last_arg),
 
 %trace,
 Out=[[Var1,_]],
 new_var(Var),
 
+% choose n l args 
+%trace,
+findall(Last_arg010,get_last_arg(In,Rules1,Last_arg010),Last_arg0),
+%numbers(I,1,[],N),
+each_combo_last_args1(I,Last_arg0,[],Last_arg1),
+%findall(Last_arg,(member(_,N),member(Last_arg,Last_arg0)),Last_arg1),
+
+foldr(append,[Last_arg1,[Var1]],Last_args),
+
+append(Rules1,[[P,Last_args]],Rules2),
+
+/*
 (I=2->
 (%(member([_P10,Args0],Rules1)->true;(member([Args000,_],In),[Args000]=Args0)),append(_,[Last_arg0],Args0),(member([_P20,Args20],Rules1)->true;member([Args20,_],In)),not(member(Last_arg0,Args20)),
 get_last_arg(In,Rules1,Last_arg0),
+*/
 
 
-append(Rules1,[[P,[Last_arg,Last_arg0,Var1]]],Rules2))
+%;
 
-;
-
-(%trace,
-append(Rules1,[[P,[Last_arg,Var1]]],Rules2)%,notrace
-)),
+%(%trace,
+%append(Rules1,[[P,[Last_arg,Var1]]],Rules2)%,notrace
+%)),
 
 
 %trace,
@@ -71,7 +86,7 @@ append(Rules1,[[P,[Last_arg,Var1]]],Rules2)%,notrace
 
         (debug(on)->Debug=on;Debug=off),
 
-%writeln1([*,Debug,Query,Program2,Result]),
+writeln1([*,Debug,Query,Program2,Result]),
 %trace,
 	((catch(call_with_time_limit(0.05, 
 		interpret(Debug,Query,Program2,Result)),
@@ -81,7 +96,9 @@ append(Rules1,[[P,[Last_arg,Var1]]],Rules2)%,notrace
       )%->true;(length(Rules1,7)->fail;true))
       ->Predicate=Program2;
       
-      (((%trace,
+      (
+      
+      /*((%trace,
       I=2)->
 append(Rules1,[[P,[Last_arg,Last_arg0,[v,Var]]]],Rules2)
 
@@ -89,6 +106,18 @@ append(Rules1,[[P,[Last_arg,Last_arg0,[v,Var]]]],Rules2)
 
 (%trace,
 append(Rules1,[[P,[Last_arg,[v,Var]]]],Rules3))),
+*/
+%trace,
+findall(Last_arg010,get_last_arg(In,Rules1,Last_arg010),Last_arg01),
+
+%numbers(I,1,[],N1),
+%findall(Last_arg02,(member(_,N1),member(Last_arg02,Last_arg01)),Last_arg2),
+
+each_combo_last_args1(I,Last_arg01,[],Last_arg2),
+
+foldr(append,[Last_arg2,[[v,Var]]],Last_args2),
+
+append(Rules1,[[P,Last_args2]],Rules3),
 
 %trace,
 
@@ -119,7 +148,7 @@ get_last_arg(In,Rules1,Last_arg) :-
  %subtract(Args4,Args5,Args6),
  %sort(Args6,Args7),
  
- findall(Args00,member([Args00,_],In),Args02),append(Args02,L,Args01),
+ findall(Args00,(member([Args00,_],In),not(var(Args00))),Args02),append(Args02,L,Args01),
  %trace,
  member(Last_arg,Args01).
  
@@ -130,3 +159,21 @@ get_last_arg(In,Rules1,Last_arg) :-
  (member([_P2,Args2],Rules1)->true;Args2=[]),%append([Args20],Args2,Args02),
  not(member(Last_arg,Args2))
  */
+ 
+ /*
+each_combo_last_args(0,_,_) :- !.
+each_combo_last_args(N,Last_arg0,Last_arg2) :-
+ length(Last_arg0,L),
+ each_combo_last_args1(L,Last_arg0,[],Last_arg3),
+ member(Last_arg2,Last_arg3),
+ N1 is N-1,
+ each_combo_last_args(N1,Last_arg0,Last_arg2).
+*/
+each_combo_last_args1(0,_,Last_arg,Last_arg) :- !.
+each_combo_last_args1(L,Last_arg0,Last_arg1,Last_arg2) :-
+ member(Last_arg3,Last_arg0),
+ %delete(Last_arg0,Last_arg3,Last_arg5),
+ append(Last_arg1,[Last_arg3],Last_arg4),
+ L2 is L-1,
+ each_combo_last_args1(L2,Last_arg0,Last_arg4,Last_arg2).
+ 
