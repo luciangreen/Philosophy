@@ -44,12 +44,17 @@ type(append,[a,b],a:b).
 
 
 /*
-                                                              induct0([[[c,d],e],f],_,[],C).
+                                                              induct01([[[c,d],e],f],_,[],C).
 C = [[append, [(c:d):e, f],  ((c:d):e):f], [append, [c:d, e],  (c:d):e], [append, [c, d], c:d]].
 
 */
 
-induct0([A,B],_,C1,C2) :- atom(A),atom(B),
+induct01(A,_,C1,C2) :- 
+ test1(off,1,_),
+ induct0(A,_,C1,C2),!.
+
+induct0([A,B],_,C1,C2) :- 
+ atom(A),atom(B),
  induct([A,B],_Out,[],Commands2),
  append(C1,Commands2,C2),
  !.
