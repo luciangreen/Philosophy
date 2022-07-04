@@ -3,6 +3,7 @@
 word_game :-
  writeln("Player 1, please enter the word for player 2 to guess without showing them."),
  read_string(user_input,"\n","\r",_,S),
+ nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl, nl,
  string_codes(S,C),
  findall(C2,(member(C1,C),string_codes(C2,[C1])),S2),
  length(S2,N),
