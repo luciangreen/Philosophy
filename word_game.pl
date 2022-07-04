@@ -12,8 +12,8 @@ word_game :-
  word_game1(S1,S2,N2).
  
 %word_game(Numbers,Correct_letters,Tries_left)
-word_game1(_,S,0) :- writeln("You lost!"),write("The word was "),foldr(string_concat,S,"",S1),writeln(S1),!.
-word_game1(S,S,_) :- writeln("You won!"),write("The word was "),foldr(string_concat,S,"",S1),writeln(S1),!.
+word_game1(_,S,0) :- writeln("You lost!"),write("The word was "),foldr(string_concat,S,"",S1),write(S1),writeln("."),!.
+word_game1(S,S,_) :- writeln("You won!"),write("The word was "),foldr(string_concat,S,"",S1),write(S1),writeln("."),!.
 word_game1(S,S1,N) :-
  repeat,
  writeln("Player 2, please enter e.g. 1,a where 1 is the position number and a is the letter."),
