@@ -1,4 +1,7 @@
 :-include('nns_alg_writer.pl').
+
+%** Unfound error: test 42 doesn't work in this file.
+
 %:-include('../SSI/ssi.pl').
 
 % finds append a b (list of a, b) from the overall output a,b
