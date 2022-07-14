@@ -13,7 +13,7 @@ pretty_print_list([A|D],T,B,C) :-
  spaces(T,S),
  (is_list(A)->(pretty_print_list(A,T1,"",G),
   delete_last_n(B,1,B1),
-  delete_last_n(G,2,G1),
+  (G=""->G1=G;delete_last_n(G,2,G1)),
 foldr(string_concat,[B1,"\n",S,"[","\n",G1,"\n",S,"],\n"],F));
  (
  foldr(string_concat,[B,S,A,",\n"],F)
