@@ -4,7 +4,7 @@
 
 % 1. Completing the square
 
-% ax2 + bx + c = 0	a(x+d)2 + e = 0
+% ax^2 + bx + c = 0	a(x+d)^2 + e = 0
 complete_square(A,B,C,D,E) :-
 %	D is B/(2*A),
 %	E is C - (B^2)/(4*A).

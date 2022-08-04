@@ -10,8 +10,13 @@ writing :- speech.
 speech :- thought.
 thought.
 
+% A = [s, w].
+
 puzzle(Solution) :-
-	subtract([[w,s],[s,t],[t]],Solution,[]).
+	append([w,s],[s,t],A),
+	
+	sort(A,B),
+	subtract(B,[t],Solution).
 
 % Second, I liked realism, ironism, to do with text-to-speech.
 

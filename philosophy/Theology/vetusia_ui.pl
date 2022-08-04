@@ -24,7 +24,7 @@ traverse(Z,X,Y,Explored1,Explored2,Inventory1,Inventory2,Map1,Map2) :-
 	
 	%% Find, accept only available directions
 	
-	(member("e",Inventory1)->(writeln("Game Over"),true);true),
+	(member("e",Inventory1)->(writeln("Game Over"),true);(
 	%%append(Explored1,[[Z,X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,
@@ -64,7 +64,7 @@ member(Item_to_drop,Inventory1),delete(Inventory1,Item_to_drop,Inventory3),appen
 
 (Input2=["apply",First_item,"to",Second_item],((member(First_item,Inventory1),member(Second_item,Inventory1),atom_string(First_item_a,First_item),atom_string(Second_item_a,Second_item),apply(First_item_a,Second_item_a,Third_item_a),atom_string(Third_item_a,Third_item),append(Cell,[Third_item],Cell2),delete(Map1,[Z,X,Y,_],Map3),append(Map3,[[Z,X,Y,Cell2]],Map4))->(writeln(["You have applied",First_item,"to",Second_item,"producing",Third_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map4,Map2));(writeln(["You can't apply",First_item,"to",Second_item]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))->true;
 
-(writeln(["I don't understand."]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))).
+(writeln(["I don't understand."]),traverse(Z,X,Y,Explored3,Explored2,Inventory1,Inventory2,Map1,Map2))))).
 
 check(Z,X,Y,Direction,Directions1,Directions2,Map) :-
 	member([Z,X,Y,Cell],Map),

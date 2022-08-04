@@ -45,7 +45,7 @@ health.
 
 % new_radius(2,1.41).
 new_radius(Multiple_of_area,Radius) :-
- Radius is sqrt(((3.14*1^2)*Multiple_of_area)/(3.14)).
+ Radius is sqrt(Multiple_of_area/3.14).
  
 % ["Fundamentals of Pedagogy and Pedagogy Indicators","FUNDAMENTALS OF PEDAGOGY by Lucian Green Breathsonings 1 of 4.txt",0,algorithms,"2. The aircraft manufacturer tested that there was enough room to move around in his seat. He did this by putting his mouth around the spoon. First, he placed the vegan yoghurt on the spoon. Then, he put the centre of the spoon in the middle of his mouth. Finally, he closed his mouth and withdrew the spoon. *In this way, the aircraft manufacturer tested that there was enough room to move around in his seat by putting his mouth around the spoon."]
 

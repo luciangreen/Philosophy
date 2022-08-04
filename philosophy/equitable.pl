@@ -13,7 +13,7 @@ a_because_b(B,C,E) :-
 
 % 3. First, I shared the apple with you.
 
-% a_because_b(B,[ate_with,D],E).
+% a_because_b(B,[[ate_with,D]],E).
 
 % 4. Second, I observed you like me.  
 
@@ -22,7 +22,7 @@ observations(like).
 % 5. Third, I liked you.
 
 % observations_to_reality(like,A).
-observations_to_reality(A,A)
+observations_to_reality(A,A).
 
 % 6. In this way, I prepared to be equitable by liking you because I shared the apple with you.
 
@@ -42,7 +42,7 @@ steps(black_currant_juice,[durum_wheat_semolina]).
 
 % 9. I did this by writing vegan arguments.
 
-member(Vegetarian_meal-day,[m,t,w,th,f,sa,su]).
+member(_Vegetarian_meal_day,[m,t,w,th,f,sa,su]).
 
 % 10. First, I wrote about capricorn, or co-operativity (sic).
 
@@ -78,4 +78,4 @@ swap(A,B,B,A).
 
 % 15. B=<A
 
-B=<A.
+a(B,A):-B=<A.

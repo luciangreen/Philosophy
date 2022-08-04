@@ -8,7 +8,7 @@ construct(Base,Materials,Result) :-
 construct1([],_Materials,Result,Result) :- !.
 construct1(Base,Materials,Result1,Result2) :-
 	Base=[B1|B2],
-	trace,
+	%trace,
 	member([B1,Materials2],Materials),
 	append(Result1,[[B1|Materials2]],Result3),
 	construct1(B2,Materials,Result3,Result2).
