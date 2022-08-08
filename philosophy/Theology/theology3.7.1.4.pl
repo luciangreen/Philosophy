@@ -41,14 +41,21 @@ Game Over
 **/
 
 traverse(X,Y) :-
-	traverse(X,Y,[],_,[],_),!.
-traverse(X,Y,Explored,Explored,Inventory,Inventory) :-
+	traverse(X,Y,[],_,[],_,"n",_),!.
+
+traverse(_X,_Y,Explored,Explored,Inventory,Inventory,E,E) :-
+ (E="e"->!;fail),!.
+	%traverse(_X,_Y,Explored,Explored,Inventory,Inventory,"n",_) :-!.
+
+traverse(X,Y,Explored,Explored,Inventory,Inventory,E,E) :-
 	rainforest(Map),
 	member([X,Y,Cell],Map),
 	Cell=["*"],!.
-traverse(X,Y,Explored,Explored,Inventory,Inventory) :-
+
+ 
+traverse(X,Y,Explored,Explored,Inventory,Inventory,E,E) :-
 	member([X,Y],Explored),!.
-traverse(X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
+traverse(X,Y,Explored1,Explored2,Inventory1,Inventory2,E1,E2) :-
 	rainforest(Map),
 	member([X,Y,Cell],Map),
 	write([X,Y]),
@@ -56,18 +63,20 @@ traverse(X,Y,Explored1,Explored2,Inventory1,Inventory2) :-
 		(Cell=[Item],append(Inventory1,[Item],Inventory3),
 		apply_all_to_all(Inventory3,Inventory4),Inventory4a=Inventory4)),
 	writeln(Inventory4a),
-	(member("e",Inventory4a)->(writeln("Game Over")%,Inventory4a=Inventory2,Explored1=Explored2%
-	,trace
-	);(
+	(member("e",Inventory4a)->(writeln("Game Over"),Inventory4a=Inventory2,Explored1=Explored2,
+	E2="e"%
+	%,!
+	%,trace
+	);(%E1=E2,
 	append(Explored1,[[X,Y]],Explored3),
 	Xm1 is X-1,
 	Ym1 is Y-1,
 	Xp1 is X+1,
 	Yp1 is Y+1,
-	traverse(Xm1,Y,Explored3,Explored4,Inventory4a,Inventory5),
-	traverse(X,Ym1,Explored4,Explored5,Inventory5,Inventory6),
-	traverse(Xp1,Y,Explored5,Explored6,Inventory6,Inventory7),
-	traverse(X,Yp1,Explored6,Explored2,Inventory7,Inventory2))).
+	traverse(Xm1,Y,Explored3,Explored4,Inventory4a,Inventory5,E1,E3),
+	traverse(X,Ym1,Explored4,Explored5,Inventory5,Inventory6,E3,E4),
+	traverse(Xp1,Y,Explored5,Explored6,Inventory6,Inventory7,E4,E5),
+	traverse(X,Yp1,Explored6,Explored2,Inventory7,Inventory2,E5,E2))).
 
 apply_all_to_all(Inventory1,Inventory2) :-
 	findall(Item3,(member(Item1,Inventory1),
