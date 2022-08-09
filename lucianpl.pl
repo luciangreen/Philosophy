@@ -26,7 +26,7 @@ L:halt.
 */
 
 :-include('../Prolog-to-List-Prolog/p2lpconverter.pl').
-:-include('../listprologinterpreter/listprolog').
+:-include('../SSI/ssi.pl').
 :-include('../List-Prolog-to-Prolog-Converter/lp2pconverter.pl').
 
 :- dynamic lp_trace/1.
@@ -92,7 +92,7 @@ loop(Algorithm1,Algorithm2) :-
 	(%Input=run())
 	lp_trace(Debug),%lp_lang(Lang),
 	%p2lpconverter([string,Input],[Query]),
-	international_interpret([lang,"en"],Debug,Input1,Algorithm1,Result2),
+	international_lucianpl([lang,"en"],Debug,Input1,Algorithm1,Result2),
 	(Result2=[[]]->writeln("true.");
 	(Result2=[]->writeln("false.");
 	(Result2=[Result1],
