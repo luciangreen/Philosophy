@@ -27,12 +27,14 @@ A = "a".
 list_to_string(A,B) :-
  list_to_string(A,"",B),!.
  
+/*
 list_to_string("",B,C) :-
  %string(B1),
  %wrap_if_string(B1,B),
  %foldr(string_concat,["[",B,"]"],C),
  concat(B,"\"\"",C),!.
-	
+*/
+
 list_to_string([],B,C) :-
  %string(B1),
  %wrap_if_string(B1,B),
@@ -40,7 +42,7 @@ list_to_string([],B,C) :-
  concat("[",B,"]",C),!.
 
 list_to_string(A,"",C) :-
- (atom(A),atom_string(A,C))	,!.
+ ((atom(A)->true;(number(A))),atom_string(A,C))	,!.
  
 list_to_string(A,B,C) :-
  %wrap_if_string(B1,B),
@@ -76,5 +78,6 @@ wrap_if_string(A,B) :-
 concat(B,G,A,C) :-
  (string(A)->
  foldr(string_concat,[B,G,A],C);
- (atom(A),foldr(atom_concat,[B,G,A],C))),!.
+ ((atom(A)->true;(number(A))),
+ foldr(atom_concat,[B,G,A],C))),!.
  
