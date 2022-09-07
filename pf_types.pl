@@ -14,8 +14,8 @@
 % reverse([[1],[2]],[],A).
 % A = [[2], [1]].
 
-reverse([],A,A).
-reverse([A|D],B,C) :- reverse(D,[A|B],C).
+reverse1([],A,A).
+reverse1([A|D],B,C) :- reverse1(D,[A|B],C).
 
 % a([[1],[2]],[],A).
 % A = [[1], [2]].
