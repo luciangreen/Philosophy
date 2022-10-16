@@ -386,7 +386,7 @@ submit=_],
 %term_to_atom(To,Text2),
 %term_to_atom(Path,Text01),
 
-	Scp="scp -p ",
+	Scp="scp -pr ",
 	%Scp="cp ",
 	concat_list([Scp,From," ",To],Command),
 	shell1_s(Command),
