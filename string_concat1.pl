@@ -1,4 +1,4 @@
-string_concat1(A,B,C):-string_chars1(A,A1),string_chars1(B,B1),string_chars1(C,C1),append1(A1,B1,C1),string_chars1(A,A1),string_chars1(B,B1),string_chars1(C,C1).
+string_concat1(A,B,C):-((var(A),var(C))->fail;(string_chars1(A,A1),string_chars1(B,B1),string_chars1(C,C1),append1(A1,B1,C1),string_chars1(A,A1),string_chars1(B,B1),string_chars1(C,C1))).
 string_chars1(A,B):-var(A),var(B),!.
 %string_chars1(A,B):-var(B),!.
 string_chars1(A,B):-%not(var(A)),not(var(B)),
