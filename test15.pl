@@ -1,4 +1,4 @@
-query_box_2(T):-A="[[\"aa,]\",b,\"c\",[]],1]",string_codes(A,C),findall(G,(member(E,C),char_code(D,E),atom_string(D,G)),F),grammar1(F,T).
+query_box_2(T):-A="[[\"aa,]\",b,\"c\",[]],1]",string_chars(A,C),findall(G,(member(E,C),atom_string(E,G)),F),grammar1(F,T).
 grammar1(U,T):-compound([],T,U,[]),!.
 compound213(U,U,T,T).
 compound(T,U)-->["["],["]"],compound213(T,U).
@@ -22,7 +22,7 @@ word21_atom(T,U)-->[A],{not((=(A,"\""))),not((=(A,"["))),not((=(A,"]"))),stringc
 commaorrightbracketnext-->lookahead([","]).
 commaorrightbracketnext-->lookahead(["]"]).
 quote_next-->lookahead(["\""]).
-lookahead(B,A,A):-append(B,D,A).
+lookahead(B,A,A):-append(B,_D,A).
 
 %grammar_part(A,B,C):-string_concat(A,C,B),string_length(A,1).
 stringconcat(A,B,C):-string_concat(A,B,C).
