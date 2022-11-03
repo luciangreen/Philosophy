@@ -27,3 +27,11 @@ foldl1(_,[],A,A):-!.
 foldl1(Function,[A1|D],B,C) :- 
 functor(A,Function,3),arg(1,A,B),arg(2,A,A1),arg(3,A,A3),
 A, foldl1(Function,D,A3,C),!.
+
+% build this higher order function directly in lp
+
+% test 244 with different modes
+
+% without an initial value, use the first value
+
+% foldr
