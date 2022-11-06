@@ -1,4 +1,3 @@
-%subtract1(A,B,C):-subtract1(A,B,[],C).
 subtract1(C,[],C):-!.
 subtract1(A,[B1|B2],E):-delete1(A,B1,[],D),subtract1(D,B2,E).
 
