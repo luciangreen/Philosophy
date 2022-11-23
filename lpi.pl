@@ -92,7 +92,8 @@ loop(Algorithm1,Algorithm2) :-
 	(%Input=run())
 	lp_trace(Debug),%lp_lang(Lang),
 	%p2lpconverter([string,Input],[Query]),
-	international_interpret([lang,"en"],Debug,Input1,Algorithm1,Result2),
+	international_interpret([lang,"en"],Debug,Input1,%[],[],% enable for types, modes
+	Algorithm1,Result2),
 	(Result2=[[]]->writeln("true.");
 	(Result2=[]->writeln("false.");
 	(Result2=[Result1],
