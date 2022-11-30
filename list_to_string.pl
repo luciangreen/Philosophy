@@ -13,8 +13,8 @@ A = "[]".
 list_to_string("","",A).
 A = "\"\"".
 
-list_to_string("a","",A).
-A = "a".
+list_to_string("a",A).
+A = "\"a\"".
 
 list_to_string("'a'","",A).
 A = "'a'".
@@ -24,6 +24,8 @@ A = "a".
 
 */
 
+list_to_string(A,B) :-
+ (string(A)->wrap_if_string(A,B)),!.
 list_to_string(A,B) :-
  list_to_string(A,"",B),!.
  
