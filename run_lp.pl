@@ -73,7 +73,7 @@ form([action='/landing1', method='POST'], [
 																			  		      ]),
 
 													      		p([], [
-																	  label([for=lp],'*.lp file for 2 or 3:'),
+																	  label([for=lp],'*.lp file for 1, 2 or 3:'),
 																	  		  input([name=lp, type=textarea])
 																			  		      ]),
 																					      		p([], input([name=submit, type=submit, value='Submit'], []))
