@@ -6,7 +6,6 @@
 
 % Later: multiple files
 
-
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_error)).
@@ -97,8 +96,14 @@ form([action='/landing1', method='POST'], [
 																								        
 %/*
 Data=[%%debug='off',%%Debug1,
-input=Input,query=Query,leash=Leash,pl=Pl,lp=Lp,submit=_],
+input=Input,query=Query,leash=Leash,pl=Pl1,lp=Lp1,submit=_],
 %term_to_atom(Hidden1,Hidden),
+
+string_atom(Pl,Pl1),
+string_atom(Lp,Lp1),
+
+working_directory(_CWD,'../Philosophy/'),
+
 
 	(p2lpconverter([string,Query],Query1)->true;
 	%_,
@@ -123,7 +128,8 @@ _,writeln("Error in p2lpconverter.")),
 
 catch(pp0(Test11,Test1),_,writeln("Error in pp0.")),
 
-term_to_atom(Test1,Test2),string_concat(Test2,".",Test3),
+%term_to_atom(Test1,Test2),
+string_concat(Test1,".",Test3),
 
 catch(
 	(open_s(Lp,write,Stream),
@@ -131,9 +137,11 @@ catch(
 	close(Stream))
 	,_,writeln("Error writing to file.")),
 
-%writeln1(international_lucianpl([lang,"en"],off,Query1,Test1,_Result1)),
+%writeln1(international_lucianpl([lang,"en"],Debug,Query1,Test11,_Result1)),
 
-	catch(international_lucianpl([lang,"en"],Debug,Query1,Test11,_Result1),
+	working_directory(_CWD,'../SSI/'),
+
+catch(international_lucianpl([lang,"en"],Debug,Query1,Test11,_Result1),
 	_,writeln("Error in international_lucianpl."))
 
 )->true;
@@ -166,6 +174,8 @@ catch(
 	
 	%term_to_atom(File_term2,File_term1),
 	
+	working_directory(_CWD,'../SSI/'),
+
 	catch(
 	international_lucianpl([lang,"en"],Debug,Query1,File_term1,_Result1),
 	_,writeln("Error in international_lucianpl."))

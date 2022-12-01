@@ -1,7 +1,7 @@
 [
 [[n,test],":-",
 [
-	[[n,member2],[[1,2],[v,a]]],
+	[[n,read_string],[[v,a]]],
 	[[n,writeln],[[v,a]]]
 ]]
 ].

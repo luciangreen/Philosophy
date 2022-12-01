@@ -1,1 +1,1 @@
-test:-member2([1,2],A),writeln(A).
+test:-read_string(A),writeln(A).
