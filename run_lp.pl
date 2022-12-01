@@ -146,7 +146,8 @@ _,writeln("Error in p2lpconverter.")),
 
 catch(pp0(Test11,Test1),_,writeln("Error in pp0.")),
 
-term_to_atom(Test1,Test2),string_concat(Test2,".",Test3),
+%term_to_atom(Test1,Test2),
+string_concat(Test1,".",Test3),
 
 catch(
 	(open_s(Lp,write,Stream),
@@ -163,11 +164,10 @@ catch(
 	close(Stream)),
 	_,writeln("Error reading file.")),
 	
-	term_to_atom(File_term2,File_term1),
-	%term_to_atom(File_term3,File_term2),
+	%term_to_atom(File_term2,File_term1),
 	
 	catch(
-	international_lucianpl([lang,"en"],Debug,Query1,File_term2,_Result1),
+	international_lucianpl([lang,"en"],Debug,Query1,File_term1,_Result1),
 	_,writeln("Error in international_lucianpl."))
 	
 )
