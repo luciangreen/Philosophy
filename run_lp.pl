@@ -103,8 +103,11 @@ input=Input,query=Query,leash=Leash,pl=Pl,lp=Lp,submit=_],
 	p2lpconverter([string,Query2],Query3),
 	Query3=[[[n,a],":-",Query1]])),
 	
+	%writeln1(Leash),
  retractall(leash1(_)),
    assertz(leash1(Leash)), 
+
+(Leash=off->Debug=off;Debug=on),
 
 %catch(
 (Input='1'->
@@ -125,7 +128,7 @@ catch(
 
 %writeln1(international_lucianpl([lang,"en"],off,Query1,Test1,_Result1)),
 
-	catch(international_lucianpl([lang,"en"],off,Query1,Test11,_Result1),
+	catch(international_lucianpl([lang,"en"],Debug,Query1,Test11,_Result1),
 	_,writeln("Error in international_lucianpl."))
 
 )->true;
@@ -159,7 +162,7 @@ catch(
 	%term_to_atom(File_term3,File_term2),
 	
 	catch(
-	international_lucianpl([lang,"en"],off,Query1,File_term2,_Result1),
+	international_lucianpl([lang,"en"],Debug,Query1,File_term2,_Result1),
 	_,writeln("Error in international_lucianpl."))
 	
 )
