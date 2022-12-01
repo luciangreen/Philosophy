@@ -1,0 +1,1 @@
+test:-member2([1,2],A),writeln(A).
