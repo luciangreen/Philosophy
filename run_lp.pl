@@ -35,6 +35,11 @@ run_lp_server(Port) :-
 
 	   run_lp_form(_Request) :-
 
+retractall(html_api_maker_or_terminal(_)),
+assertz(html_api_maker_or_terminal(html
+ %terminal
+ )),
+
 																										              format('Content-type: text/html~n~n', []),
 
 				data(Header,Footer),
