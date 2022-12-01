@@ -110,14 +110,22 @@ input=Input,query=Query,leash=Leash,pl=Pl,lp=Lp,submit=_],
 (Input='1'->
 (
 catch(
-p2lpconverter([file,Pl],Test1),
+p2lpconverter([file,Pl],Test11),
 _,writeln("Error in p2lpconverter.")),
 
-%catch(pp0(Test1,Test2),_,writeln("Error in pp0.")),
+catch(pp0(Test11,Test1),_,writeln("Error in pp0.")),
+
+term_to_atom(Test1,Test2),string_concat(Test2,".",Test3),
+
+catch(
+	(open_s(Lp,write,Stream),
+	write(Stream,Test3),
+	close(Stream))
+	,_,writeln("Error writing to file.")),
 
 %writeln1(international_lucianpl([lang,"en"],off,Query1,Test1,_Result1)),
 
-	catch(international_lucianpl([lang,"en"],off,Query1,Test1,_Result1),
+	catch(international_lucianpl([lang,"en"],off,Query1,Test11,_Result1),
 	_,writeln("Error in international_lucianpl."))
 
 )->true;
@@ -125,10 +133,10 @@ _,writeln("Error in p2lpconverter.")),
 (Input='2'->
 
 catch(
-p2lpconverter([file,Pl],Test1),
+p2lpconverter([file,Pl],Test11),
 _,writeln("Error in p2lpconverter.")),
 
-%catch(pp0(Test1,Test2),_,writeln("Error in pp0.")),
+catch(pp0(Test11,Test1),_,writeln("Error in pp0.")),
 
 term_to_atom(Test1,Test2),string_concat(Test2,".",Test3),
 
@@ -143,12 +151,15 @@ catch(
 (
 	catch(
 	(open_s(Lp,read,Stream),
-	read(Stream,File_term),
+	read(Stream,File_term1),
 	close(Stream)),
 	_,writeln("Error reading file.")),
 	
+	term_to_atom(File_term2,File_term1),
+	%term_to_atom(File_term3,File_term2),
+	
 	catch(
-	international_lucianpl([lang,"en"],off,Query1,File_term,_Result1),
+	international_lucianpl([lang,"en"],off,Query1,File_term2,_Result1),
 	_,writeln("Error in international_lucianpl."))
 	
 )
