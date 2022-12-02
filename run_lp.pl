@@ -39,10 +39,10 @@ assertz(html_api_maker_or_terminal(html
  %terminal
  )),
 
-																										              format('Content-type: text/html~n~n', []),
+																										              %format('Content-type: text/html~n~n', []),
 
-				data(Header,Footer),
-				format(Header,[]),
+%				data_copy(Header,Footer),
+%				format(Header,[]),
 
 
 	   	reply_html_page(
@@ -76,9 +76,10 @@ form([action='/landing1', method='POST'], [
 																	  		  input([name=lp, type=textarea])
 																			  		      ]),
 																					      		p([], input([name=submit, type=submit, value='Submit'], []))
-																								      ])]),
+																								      ])])%,
 																								      
-																								      				format(Footer,[]).
+																								      				%format(Footer,[])
+																								      				.
 
 
 																								      :- http_handler('/landing1', landing_pad1, []).
@@ -89,14 +90,17 @@ form([action='/landing1', method='POST'], [
 				
 
 				format('Content-type: text/html~n~n', []),
-																											      	format('<p>', []),
+																											      	%format('<p>', []),
+
+Data=[%%debug='off',%%Debug1,
+input=Input,query=Query,leash=Leash,pl=Pl1,lp=Lp1,submit=_],
+
 				
-								data(Header,Footer),
+			data_copy(Header,Footer),
+			
 				format(Header,[]),
 																								        
 %/*
-Data=[%%debug='off',%%Debug1,
-input=Input,query=Query,leash=Leash,pl=Pl1,lp=Lp1,submit=_],
 %term_to_atom(Hidden1,Hidden),
 
 string_atom(Pl,Pl1),
@@ -193,7 +197,7 @@ catch(
 
 
 
-data(Header,Footer) :-
+data_copy(Header,Footer) :-
 
 Header='<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html lang="en">
