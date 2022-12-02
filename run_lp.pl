@@ -52,7 +52,7 @@ assertz(html_api_maker_or_terminal(html
 form([action='/landing1', method='POST'], [
 													      		
 													      		p([], [
-																	  label([for=input],'Run List Prolog (1 - Convert test.pl to test.lp and run query. 2 - Convert test.pl to test.lp. 3 - Run query.) Enter 1-3:'),
+																	  label([for=input],'Run List Prolog (1 - Convert *.pl to *.lp and run query. 2 - Convert *.pl to *.lp. 3 - Run query.) Enter 1-3:'),
 																	  		  input([name=input, type=textarea])
 																			  		      ]),
 
