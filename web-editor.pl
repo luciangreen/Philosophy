@@ -7,7 +7,7 @@
 
 % we need this module from the HTTP client library for http_read_data
 :- use_module(library(http/http_client)).
-:- http_handler('/', web_form, []).
+:- http_handler('/', get_pw, []).
 
 :- include('../listprologinterpreter/listprolog.pl').
 
@@ -19,7 +19,57 @@ server(Port) :-
 	This demonstrates handling POST requests
 	   */
 
-	   web_form(_Request) :-
+  get_pw(_Request) :-
+
+
+																										              %format('Content-type: text/html~n~n', []),
+
+%				data_copy(Header,Footer),
+%				format(Header,[]),
+
+
+	   	reply_html_page(
+			    title('Web Editor'),
+			    	    [
+
+form([action='/landing2', method='POST'], [
+													      		
+													      		p([], [
+																	  label([for=pw],'Password:'),
+																	  		  input([name=pw, type=password])
+																			  		      ]),
+
+		
+																					      		p([], input([name=submit, type=submit, value='Submit'], []))
+																								      ])])%,
+																								      
+																								      				%format(Footer,[])
+																								      				.
+
+																								      :- http_handler('/landing2', landing_pad2, []).
+
+																								      landing_pad2(Request) :-
+																								              member(method(post), Request), !,
+																									              http_read_data(Request, Data, []),
+				
+
+				format('Content-type: text/html~n~n', []),
+																											      	%format('<p>', []),
+
+Data=[%%debug='off',%%Debug1,
+pw=Pw,submit=_],
+
+				
+			data(Header,Footer),
+			
+				format(Header,[]),
+				
+				(Pw='apple8'->
+				
+				(
+				
+							
+	   %web_form2(_Request) :-
 %retractall(html_api_maker_or_terminal(_)),
 %assertz(html_api_maker_or_terminal(html
  %terminal
@@ -49,8 +99,9 @@ writeln(String),
 
 */
 
-
-																								      .
+);format('Wrong password.',[])),
+								format(Footer,[])
+																				      .
 
 
 file_browser(Path) :-
