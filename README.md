@@ -53,7 +53,7 @@ halt
 # Running
 
 * In Shell:
-`cd Philosophy/philosophy`
+`cd Philosophy`
 `swipl`
 
 * If the algorithm is a Prolog algorithm, in SWI-Prolog, in the relevant folder, enter:
