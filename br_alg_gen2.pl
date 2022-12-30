@@ -17,12 +17,18 @@
 br_alg_gen2(Br) :-
 
 phrase_from_file_s(string(Codes), "../Text-to-Breasonings/file.txt"),
+
+	string_codes(String,Codes),
+
+br_alg_gen21(String,Br),!.
+
+br_alg_gen21(String,Br) :-
+
 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
 	%string_codes(String1,Codes),
 	%string_to_list2(SepandPad,[],SepandPad1),
 	string_codes(SepandPad,SepandPad1),
 
-	string_codes(String,Codes),
 
 	split_string(String,"\n\r.","\n\r.",Strings),
 
