@@ -43,8 +43,10 @@ findall([A,B1],(member(A,AA),downcase_atom(A,B),atom_string(B,B1)),C)),CC),
 %findall(A,member([_,A],C),D),
 
 % gets join word pairs
-
-br_gen(Raw,_Chains),
+%trace,
+%flatten(CC,CC1),
+%foldr(string_concat,CC1,CC2),
+br_gen2(String,Raw,_Chains),
 
 % finds joined sentences with Aa Bb
 

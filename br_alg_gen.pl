@@ -25,6 +25,12 @@ br_gen(Raw,Chains) :-
  %phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
  phrase_from_file_s(string(File), "../Text-to-Breasonings/file.txt"),
  string_codes(File_string0,File),
+ 
+br_gen2(File_string0,Raw,Chains).
+
+
+br_gen2(File_string0,Raw,Chains) :-
+
  downcase_atom(File_string0,File_string1),
  SepandPad="#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\!'\"0123456789",
  split_string(File_string1,SepandPad,SepandPad,File_string2),
