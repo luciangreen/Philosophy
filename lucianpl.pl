@@ -32,6 +32,16 @@ L:halt.
 :- dynamic lp_trace/1.
 :- dynamic lp_lang/1.
 
+lucianpl(Alg) :-
+	writeln("Lucian Prolog"),
+	
+	retractall(lp_trace(_)),
+	assertz(lp_trace(off)),
+
+	%retractall(lp_lang(_)),
+	%assertz(lp_lang("en")),
+
+	loop(Alg,_).
 lucianpl :-
 	writeln("Lucian Prolog"),
 	
