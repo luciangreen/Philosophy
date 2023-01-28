@@ -106,7 +106,8 @@ data_to_types22([[[1]],[[1,1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),write
 [[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]]]
 
 data_to_types22([[[1,2,3,4]],[[1,2,3,4,1,2,3,4]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]],[[t,list],[[t,brackets],[[t,number,1],[t,number,2],[t,number,3],[t,number,4],[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]]
+Sets2 = [[[t,list],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]
+v the only one checked
 
 x:
 data_to_types22([[[[[1,2,3,4]]]],[[[[1,2,3,4,1,2,3,4]]]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
@@ -253,9 +254,12 @@ get_lang_word("brackets",Dbw_brackets),
 
 find_lists(Sets,Sets1,Sets1) :- maplist(is_empty_list,Sets),!.
 find_lists(Sets0,Sets1,Sets2) :-
-Sets=[Sets0],
+%Sets=[Sets0],
+trace,
+ findall(B,(member(S,Sets0),S=[[t, brackets],B]),Sets),
  findall(Heads3,member([Heads3|_],Sets),Heads),
- findall(Bodies3,member([_|Bodies3],Sets),[Bodies]),
+ %trace,
+ findall(Bodies3,member([_|Bodies3],Sets),Bodies),
  find_lists2(Heads,[],Sets3),
  append(Sets1,[Sets3],Sets4),
  find_lists(Bodies,Sets4,Sets2).
