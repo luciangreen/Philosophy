@@ -59,46 +59,60 @@ result: sort, remove last item
 % try with single v, mult v items, mult sets v with prev, l=5,4, brackets of brackets with prev
 
 
-[[1]] is the list of input lists - of which there is one: [1], i.e. the input: 1.  Without brackets around [1] we can't signify multiple items in the input.
-[[t, number, 1]] just means [t, number, 1], with brackets around it in case there are multiple items.
 
 data_to_types22([[1]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).                                                
-Sets2 = [[t, number, 1]].
+Sets2 = [[[t, brackets], [[t, number, 1]]]]
+
+data_to_types22([[1,1]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
+Sets2 = [[[t, brackets], [[t, number, 1], [t, number, 1]]]].
 
 data_to_types22([[[1,1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, number, 1], [t, number, 1]]]].
+Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]]]
+
+data_to_types22([[[1,1]],[[1,1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
+Sets2=[[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]]]
+
 
 data_to_types22([[[1]],[[2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, list], [[t, number, 1]]]]].
+Sets2 = [[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,2]]]]]
+
 
 data_to_types22([[[1]],[[1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, list], [[t, number, 1]]]]].
+Sets2 = [[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,1]]]]]
+
 
 
 data_to_types22([[[1,"a"]],[[2,"b"]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, list], [[t, number, 1], [t, string, 2]]]]].
+Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,string,2]]]],[[t,list],[[t,brackets],[[t,number,3],[t,string,4]]]]]
+
 
 data_to_types22([[[1]],[[2,2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, list], [[t, number, 1]]]]].
+Sets2 = [[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,2],[t,number,2]]]]]
+
 
 data_to_types22([[[1,1]],[[2,2,2,2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, list], [[t, number, 1], [t, number, 1]]]]].
+Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,2],[t,number,2],[t,number,2],[t,number,2]]]]]
+
 
 data_to_types22([[["1",1]],[["2",2,"2",2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, list], [[t, string, 1], [t, number, 2]]]]].
+Sets2 = [[[t,list],[[t,brackets],[[t,string,1],[t,number,2]]]],[[t,list],[[t,brackets],[[t,string,3],[t,number,4],[t,string,3],[t,number,4]]]]]
+
 
 data_to_types22([[["2",2,"2",2]],[["2",2,"2",2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t,list],[[t,string,1],[t,number,2],[t,string,1],[t,number,2]]]]]
+Sets2 = [[[t,list],[[t,brackets],[[t,string,1],[t,number,2],[t,string,1],[t,number,2]]]],[[t,list],[[t,brackets],[[t,string,1],[t,number,2],[t,string,1],[t,number,2]]]]]
 
 
 data_to_types22([[[1]],[[1,1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2). 
-Sets2 = [[[[t, list], [[t, number, 1]]]]].
+[[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]]]
 
 data_to_types22([[[1,2,3,4]],[[1,2,3,4,1,2,3,4]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t,list],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]]
+Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]],[[t,list],[[t,brackets],[[t,number,1],[t,number,2],[t,number,3],[t,number,4],[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]]
 
+x:
 data_to_types22([[[[[1,2,3,4]]]],[[[[1,2,3,4,1,2,3,4]]]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[[t, list], [[[t, list], [[t|...], [...|...]|...]]]]]].
+Sets2 = [[[t,list],[[[t,list],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]]].
+
+
 
 
 * need data ID(N) to write alg
@@ -119,7 +133,7 @@ data_to_types22(Data,Types4,VD) :-
 data_to_types221([],Types,Types,VD,VD) :- !.
 data_to_types221(Data,Types1,Types2,VD1,VD2) :-
 	Data=[Data1|Data2],
-	data_to_types2(Data1,[],Types3,VD1,VD3),
+	data_to_types20(Data1,[],Types3,VD1,VD3),
 	append(Types1,[Types3],Types4),
 	data_to_types221(Data2,Types4,Types2,VD3,VD2).
 
@@ -130,16 +144,34 @@ get_data_n(N) :-
 	retractall(get_data_n1(_)),
 	assertz(get_data_n1(N)).
 
-data_to_types2([],Types,Types,VD,VD) :- !.
+data_to_types20(Data,Types1,Types2,VD1,VD2) :-
+	(data_to_types21(Data,Types1,Types2,VD1,VD2)->true;
+	data_to_types2(Data,Types1,Types2,VD1,VD2,true)).
+
+/*
+data_to_types20(Data,Types1,Types2,VD1,VD2) :-
+	((data_to_types2(Data,Types3,VD1,VD2),
+	append(Types1,Types3,Types2))->true;
+	(data_to_types2(Data,Types1,Types2,VD1,VD2)->true;
+	data_to_types21(Data,Types1,Types2,VD1,VD2))).
+
 data_to_types2(Data,Types1,Types2,VD1,VD2) :-
+	((data_to_types2(Data,Types3,VD1,VD2),
+	append(Types1,[Types3],Types2))->true;
+	data_to_types2(Data,Types1,Types2,VD1,VD2)).
+*/
+%data_to_types2(Data,Types1,Types2,VD1,VD2) :-
+%	data_to_types2(Data,Types1,Types2,VD1,VD2).
+
+data_to_types21(Data,Types1,Types2,VD1,VD2) :-
 get_lang_word("t",T),
 get_lang_word("number",Dbw_number),
 	number(Data),
 	(member([Dbw_number,Data,N],VD1)->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_number,Data,N]],VD2))),
-	append(Types1,[[T,Dbw_number,N]],Types2),!.
-data_to_types2(Data,Types1,Types2,VD1,VD2) :-
+	append(Types1,[T,Dbw_number,N],Types2),!.
+data_to_types21(Data,Types1,Types2,VD1,VD2) :-
 %trace,
 get_lang_word("t",T),
 get_lang_word("string",Dbw_string),
@@ -147,17 +179,19 @@ get_lang_word("string",Dbw_string),
 	(member([Dbw_string,Data,N],VD1)->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_string,Data,N]],VD2))),
-	append(Types1,[[T,Dbw_string,N]],Types2),!.
-data_to_types2(Data,Types1,Types2,VD1,VD2) :-
+	append(Types1,[T,Dbw_string,N],Types2),!.
+data_to_types21(Data,Types1,Types2,VD1,VD2) :-
 get_lang_word("t",T),
 get_lang_word("atom",Dbw_atom),
 	atom(Data),
 	(member([Dbw_atom,Data,N],VD1)->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_atom,Data,N]],VD2))),
-	append(Types1,[[T,Dbw_atom,N]],Types2),!.
+	append(Types1,[T,Dbw_atom,N],Types2),!.
+/*
 data_to_types2(Data1,Types1,Types2,VD1,VD2) :-
 get_lang_word("t",T),
+
 get_lang_word("brackets",Dbw_brackets),
 	Data1=[[Data2]],
 	data_to_types2(Data2,[],Types4,VD1,VD2),
@@ -171,28 +205,57 @@ get_lang_word("brackets",Dbw_brackets),
 	Types5=[[[T,Dbw_brackets],Types4]],
 	data_to_types2(Data4,[],Types6,VD3,VD2),
 	foldr(append,[Types1,Types5,Types6],Types2),!.
+*/
+/*
 data_to_types2(Data1,Types1,Types2,VD1,VD2) :-
 get_lang_word("t",T),
 get_lang_word("brackets",Dbw_brackets),
-	Data1=[[Data2|Data3]|Data4],
-	data_to_types2(Data2,[],Types3,VD1,VD3),
-	data_to_types2(Data3,Types3,Types4,VD3,VD4),
-	Types5=[[[T,Dbw_brackets],Types4]],
-	data_to_types2(Data4,[],Types6,VD4,VD2),
+	Data1=[[]|Data4],
+	%data_to_types2(Data2,[],Types3,VD1,VD3),
+	%data_to_types2(Data3,Types3,Types4,VD3,VD4),
+	Types5=[[[T,Dbw_brackets],[]]],
+	data_to_types2(Data4,[],Types6,VD1,VD2),
 	foldr(append,[Types1,Types5,Types6],Types2),!.
-data_to_types2(Data1,Types1,Types2,VD1,VD2) :-
+	*/
+data_to_types2([],Types,Types,VD,VD,_) :- !.
+data_to_types2(Data1,Types1,Types7,VD1,VD2,_) :-
+get_lang_word("t",T),
+get_lang_word("brackets",Dbw_brackets),
+%trace,
+	Data1=[[Data2|Data3]|Data4],
+	%not(single_item(Data2)),
+	data_to_types2(Data2,[],Types3,VD1,VD3,true),
+	data_to_types2(Data3,Types3,Types4,VD3,VD4,false),
+	Types5=[[[T,Dbw_brackets],Types4]],
+	data_to_types2(Data4,[],Types6,VD4,VD2,true),
+	foldr(append,[Types1,Types5,Types6],Types2),
+	Types7=[[[T,Dbw_brackets],Types2]],
+	!.
+%*/
+%/*
+data_to_types2(Data1,Types1,Types41,VD1,VD2,Start) :-
+get_lang_word("t",T),
+get_lang_word("brackets",Dbw_brackets),
+%trace,
 	Data1=[Data2|Data3],
+	%not(single_item(Data2)),
 	%trace,
-	data_to_types2(Data2,Types1,Types3,VD1,VD3),
-	data_to_types2(Data3,Types3,Types2,VD3,VD2),!.
-	%%Types2=[Types4].
-
+	data_to_types20(Data2,[],Types3,VD1,VD3),
+	append([],[Types3],Types31),
+	data_to_types2(Data3,Types31,Types4,VD3,VD2,false),
+	%trace,
+	(Start=true->Types42=[[T,Dbw_brackets],Types4];
+	Types42=Types4),
+	append(Types1,Types42,Types41),
+	%Types5=[[[T,Dbw_brackets],Types4]],
+	!.
 %************
 
 find_lists(Sets,Sets1,Sets1) :- maplist(is_empty_list,Sets),!.
-find_lists(Sets,Sets1,Sets2) :-
+find_lists(Sets0,Sets1,Sets2) :-
+Sets=[Sets0],
  findall(Heads3,member([Heads3|_],Sets),Heads),
- findall(Bodies3,member([_|Bodies3],Sets),Bodies),
+ findall(Bodies3,member([_|Bodies3],Sets),[Bodies]),
  find_lists2(Heads,[],Sets3),
  append(Sets1,[Sets3],Sets4),
  find_lists(Bodies,Sets4,Sets2).
@@ -216,22 +279,35 @@ get_lang_word("list",Dbw_list),
  findall(Heads3,member([[Dbw_t, Dbw_brackets],Heads3],Heads),Heads4),
  
  %trace,
- ((forall(member([Head1],Heads4),get_type1(Head1,brackets)),
- findall(Heads451,(member(Heads44,Heads4),findall(Heads43,(member([[Dbw_t, Dbw_brackets],Heads43],Heads44)),Heads45),foldr(append,Heads45,Heads451)),Heads42), not(maplist(is_empty_list,Heads42))
+ ((forall((%trace,
+ member(H,Heads4),%member(H1,H),
+ member(Head1,H)),get_type1(Head1,brackets)),
+ %trace,
+ findall(Heads44%51
+ ,(member(H,Heads4),member(Heads44,H)%findall(Heads43,(member([[Dbw_t, Dbw_brackets],Heads43],Heads44)),Heads45),
+ %foldr(append,Heads44%5
+ %,Heads451)
+ ),Heads42), not(maplist(is_empty_list,Heads42))
  )->
  (%findall(Head1,member([Head1],Heads4),Heads41),
- 
- List_of_lists=true%Heads42=Heads41
+ find_lists2(Heads42,[],Sets4),
+ L2=[[Dbw_t, Dbw_list],Sets4],
+ append(Sets1,L2,Sets31),
+ _List_of_lists=true%Heads42=Heads41
   
-  ); (List_of_lists=false,Heads42=Heads4)),
- (%trace,
+  ); (%trace,
+  List_of_lists=false,Heads42=Heads4),
+ %(%trace,
  %Heads=[[[Dbw_t, Dbw_brackets]|Heads4]|_H5],
  test_lists(Heads42,L,CFLM),%,Heads5
  %trace,
  (CFLM=single%false%length(L,1)
- ->L1=[L];L1=[[[Dbw_t, Dbw_list],L]]),
- (List_of_lists=true->L2=[[[Dbw_t, Dbw_list],L1]];L2=L1),
- append(Sets1,L2,Sets3)))),
+ ->L1=[[Dbw_t, Dbw_brackets],L];L1=[[Dbw_t, Dbw_list],L]),
+ (List_of_lists=true->L2=[[Dbw_t, Dbw_list],L1];L2=L1),
+ append(Sets1,L2,Sets31)),
+ %foldr(append,Sets31,Sets3)
+ Sets31=Sets3
+ )),
  %append(Sets1,[[[Dbw_t, Dbw_list],L]],Sets3))))),
  Sets3=Sets2.
  %find_lists2(Heads2,Sets3,Sets2).
@@ -253,7 +329,7 @@ test_lists(Heads1,L,CFLM%,Heads3
  length(Common_factors,CFL),
  (CFL>1->CFLM=multiple;CFLM=single),
  Common_factors=[CF1|CF2],
- (CF2=[]->Common_factors4=CF1;
+ (%CF2=[]->Common_factors4=CF1;
  (%trace,
  foldr(intersection,CF2,CF1,Common_factors4))),
  reverse(Common_factors4,Common_factors5),
