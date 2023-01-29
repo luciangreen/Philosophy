@@ -61,57 +61,67 @@ result: sort, remove last item
 
 
 data_to_types22([[1]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).                                                
-Sets2 = [[[t, brackets], [[t, number, 1]]]]
+Sets2 = [[t, number, 1]].
 
+*
 data_to_types22([[1,1]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t, brackets], [[t, number, 1], [t, number, 1]]]].
+Sets2 = [[t, number, 1], [t, number, 1]].
 
 data_to_types22([[[1,1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]]]
+Sets2 = [[[t, brackets], [[t, number, 1], [t, number, 1]]]].
+
+data_to_types22([[1],[1]],T1,VD),                                               find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
+Sets2 = [[t, number, 1]].
+v
+
+data_to_types22([[1,1],[1,1]],T1,VD),                                           find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
+Sets2 = [[t, number, 1], [t, number, 1]].
+v
 
 data_to_types22([[[1,1]],[[1,1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2=[[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]]]
+Sets2 = [[[t, list], [[t, number, 1], [t, number, 1]]]].
 
 
 data_to_types22([[[1]],[[2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,2]]]]]
+Sets2 = [[[t, list], [[t, number, 1]]]].
 
 
 data_to_types22([[[1]],[[1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,1]]]]]
+Sets2 = [[[t, list], [[t, number, 1]]]].
 
 
 
 data_to_types22([[[1,"a"]],[[2,"b"]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,string,2]]]],[[t,list],[[t,brackets],[[t,number,3],[t,string,4]]]]]
+Sets2 = [[[t, list], [[t, number, 1], [t, string, 2]]]].
 
 
 data_to_types22([[[1]],[[2,2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,2],[t,number,2]]]]]
+Sets2 = [[[t, list], [[t, number, 1]]]].
 
 
 data_to_types22([[[1,1]],[[2,2,2,2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,2],[t,number,2],[t,number,2],[t,number,2]]]]]
+Sets2 = [[[t, list], [[t, number, 1], [t, number, 1]]]].
 
 
 data_to_types22([[["1",1]],[["2",2,"2",2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,string,1],[t,number,2]]]],[[t,list],[[t,brackets],[[t,string,3],[t,number,4],[t,string,3],[t,number,4]]]]]
+Sets2 = [[[t, list], [[t, string, 1], [t, number, 2]]]].
 
 
 data_to_types22([[["2",2,"2",2]],[["2",2,"2",2]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[t,brackets],[[t,string,1],[t,number,2],[t,string,1],[t,number,2]]]],[[t,list],[[t,brackets],[[t,string,1],[t,number,2],[t,string,1],[t,number,2]]]]]
+Sets2 = [[[t,list],[[t,string,1],[t,number,2],[t,string,1],[t,number,2]]]]
 
 
 data_to_types22([[[1]],[[1,1]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2). 
-[[[t,list],[[t,brackets],[[t,number,1]]]],[[t,list],[[t,brackets],[[t,number,1],[t,number,1]]]]]
+Sets2 = [[[t, list], [[t, number, 1]]]].
 
 data_to_types22([[[1,2,3,4]],[[1,2,3,4,1,2,3,4]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
 Sets2 = [[[t,list],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]
-v the only one checked
 
-x:
+data_to_types22([[[[1,2,3,4]]],[[[1,2,3,4,1,2,3,4]]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
+Sets2 = [[[t,list],[[t,list],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]]
+
 data_to_types22([[[[[1,2,3,4]]]],[[[[1,2,3,4,1,2,3,4]]]]],T1,VD),find_lists(T1,[],Sets2),writeln(T1),writeln(VD),writeln(Sets2).
-Sets2 = [[[t,list],[[[t,list],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]]].
+Sets2 = [[[t,list],[[t,list],[[t,list],[[t,number,1],[t,number,2],[t,number,3],[t,number,4]]]]]]
 
 
 
@@ -227,10 +237,10 @@ get_lang_word("brackets",Dbw_brackets),
 	%not(single_item(Data2)),
 	data_to_types2(Data2,[],Types3,VD1,VD3,true),
 	data_to_types2(Data3,Types3,Types4,VD3,VD4,false),
-	Types5=[[[T,Dbw_brackets],Types4]],
+	Types5=[[[T,Dbw_brackets],[Types4]]],
 	data_to_types2(Data4,[],Types6,VD4,VD2,true),
 	foldr(append,[Types1,Types5,Types6],Types2),
-	Types7=[[[T,Dbw_brackets],Types2]],
+	Types7=[[T,Dbw_brackets],Types2],
 	!.
 %*/
 %/*
@@ -252,17 +262,23 @@ get_lang_word("brackets",Dbw_brackets),
 	!.
 %************
 
-find_lists(Sets,Sets1,Sets1) :- maplist(is_empty_list,Sets),!.
 find_lists(Sets0,Sets1,Sets2) :-
 %Sets=[Sets0],
-trace,
+%trace,
  findall(B,(member(S,Sets0),S=[[t, brackets],B]),Sets),
+ find_lists1(Sets,Sets1,Sets2).
+ 
+find_lists1(Sets,Sets1,Sets1) :- maplist(is_empty_list,Sets),!.
+find_lists1(Sets,Sets1,Sets2) :-
+%Sets=[Sets0],
+%trace,
+ %findall(B,(member(S,Sets0),S=[[t, brackets],B]),Sets),
  findall(Heads3,member([Heads3|_],Sets),Heads),
  %trace,
  findall(Bodies3,member([_|Bodies3],Sets),Bodies),
  find_lists2(Heads,[],Sets3),
  append(Sets1,[Sets3],Sets4),
- find_lists(Bodies,Sets4,Sets2).
+ find_lists1(Bodies,Sets4,Sets2).
 
 is_empty_list([]).
 
@@ -300,7 +316,9 @@ get_lang_word("list",Dbw_list),
  _List_of_lists=true%Heads42=Heads41
   
   ); (%trace,
-  List_of_lists=false,Heads42=Heads4),
+  List_of_lists=false,%Heads42=Heads4),
+  %findall(H2,member([H2],Heads4),Heads42)
+  Heads4=Heads42),
  %(%trace,
  %Heads=[[[Dbw_t, Dbw_brackets]|Heads4]|_H5],
  test_lists(Heads42,L,CFLM),%,Heads5
