@@ -393,7 +393,8 @@ test_lists(Heads1,L,CFLM%,Heads3
  %foldr(append,Common_factors,Common_factors3),
  %sort(Common_factors3,Common_factors4),
  length(Common_factors,CFL),
- (CFL>1->CFLM=multiple;CFLM=single),
+ (CFL>1->CFLM=multiple;(%trace,
+ CFLM=single)),
  Common_factors=[CF1|CF2],
  (%CF2=[]->Common_factors4=CF1;
  (%trace,
@@ -422,6 +423,7 @@ test_lists3(Common_factor,Heads1,L%,Heads3
  Heads1=[Head|_],
  append(L,_Head2,Head),
  %trace,
+ %Heads1=Heads11,%
  if_brackets_tl(Heads1,[],Heads11),
 
  forall(member(Head3,Heads11),types_in(Common_factor,L,Head3)).
@@ -501,7 +503,9 @@ find_lists3(Heads4,Heads51,Heads52) :-
 */
 
 if_brackets_tl(Heads11,H1,Heads1) :-
- if_brackets_tl1(Heads11,H1,[[Heads1]]).
+ if_brackets_tl1(Heads11,H1,%Heads1%
+ [Heads1]
+ ).
 
 if_brackets_tl1([],H,H) :- !.
 if_brackets_tl1(Heads11,H1,Heads1) :-
@@ -510,19 +514,34 @@ if_brackets_tl1(Heads11,H1,Heads1) :-
  %findall(Tail,member([_|Tail],Heads4),Tails7),
 
  Heads11=[Heads2|Heads3],
- get_type1(Heads2,Type),
+ (get_type1(Heads2,Type)->true;Type=multiple),
+ 
  ((Type=brackets,
  Heads2=[[[t,brackets],Heads5]],
- test_lists(Heads5,Heads4,_))->true;
+ test_lists(Heads5,Heads41,_),
+ Heads4=[Heads41]
+ %foldr(append,Heads42,Heads43),
+ %[Heads43]=Heads4
+ )->true;
  
- ((Type=brackets2,
- Heads2=[Heads5],
- test_lists(Heads5,Heads4,_))->true;
+ ((%trace,
+ Type=brackets2,
+ %Heads2=[Heads5], % [_|_]?
+ %trace,
+ test_lists_a(Heads2,[],Heads4))->true;
  
- [Heads2]=Heads4)),
+ (Type=multiple,
+ [Heads2]=Heads4))),
+ 
  append(H1,Heads4,H2),
  if_brackets_tl1(Heads3,H2,Heads1a),
  Heads1=[Heads1a].
 
+test_lists_a([],B,B) :- !.
+test_lists_a(A,B,C) :-
+ A=[D|E],
+ test_lists([[D]],F,_),
+ append(B,[F],G),
+ test_lists_a(E,G,C),!.
  
  

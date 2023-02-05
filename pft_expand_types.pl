@@ -128,6 +128,9 @@ pft_expand_types1(Data1,Types1,Types2,VD1,VD2) :-
 
 pft_expand_types2([],Types,Types,VD,VD) :- !.
 pft_expand_types2(Data1,Types1,Types2,VD1,VD2) :-
+%get_lang_word("t",T),
+%not(Data1=[T,_]),
+
 	Data1=[Data2|Data3],
 	pft_expand_types1([Data2],[],Types61,VD1,VD3),%),Types62),
 	append(Types1,[Types61],Types3),
