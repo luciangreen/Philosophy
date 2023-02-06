@@ -48,6 +48,8 @@ A = [1, [2]].
 [debug]  ?- find_lists1([[1, [2, 2], 1, [2]], [1, [2, 2]]], [],A). 
 A = [1, [2]].
 
+find d2t with find lists and ptf expand types
+
 */
 
 find_lists1(T1T2,L1,L2) :-
