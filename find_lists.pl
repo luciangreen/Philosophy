@@ -126,7 +126,7 @@ cut_into_equals_segments2(L,TL14,TL15,TL16) :-
 
 check_same2(A,[],L1,L2,_Start) :- %trace,
  append(L1,[A],L2),!.
-check_same2(_A,[],L,L,_Start) :- !.%append(L1,[A],L2),!.
+%check_same2(_A,[],L,L,_Start) :- !.%append(L1,[A],L2),!.
 check_same2(TL14,TL17,L1,L2,Start) :-
  %trace,
  TL14=[TL141|TL142],
