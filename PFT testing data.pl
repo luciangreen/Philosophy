@@ -1,6 +1,8 @@
 /*
 
 PFT testing data
+         
+['find_lists.pl'].
                                                         data_to_types22([[1],[1]],T,V),find_lists1(T,[],L,[],S),writeln(T),writeln(V),writeln(S),writeln(L).
 L = [[[t, number, 1]]]
  data_to_types22([[[1]]],T,V),find_lists1(T,[],L,[],S),writeln(T),writeln(V),writeln(S),writeln(L).
