@@ -179,7 +179,7 @@ check_same(A,B,L1,L2,Start,TN1,TN2) :-
  (false%
  %Start=true
  ->
- foldr(append,[L1,[[T,dbw_list2],L3]],L4);
+ foldr(append,[L1,[[T,Dbw_list],L3]],L4);
  foldr(append,[L1,[L3]],L4)),
  append(T12,T22,T12T22),
  find_lists(T12T22,L4,L2,false,TN3,TN2).
