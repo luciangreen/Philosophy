@@ -136,6 +136,10 @@ x
 :- dynamic get_data_n1/1.
 :- include('pft_expand_types.pl').
 
+%data_to_types22(Data,Types4,VD) :-
+%	retractall(get_data_n1(_)),
+%	assertz(get_data_n1(0)),
+
 data_to_types22(Data,Types4,VD) :-
 	retractall(get_data_n1(_)),
 	assertz(get_data_n1(0)),
@@ -226,18 +230,19 @@ get_lang_word("brackets",Dbw_brackets),
 	foldr(append,[Types1,Types42],Types41),
 	%Types5=[[[T,Dbw_brackets],Types4]],
 	!.
-*/
+*
 
 %************
 
-/*
+*
 find_lists(Sets0,Sets1,Sets2) :-
 %Sets=[Sets0],
 %trace,
  findall(B,(member(S,Sets0),S=B%[[[t, brackets],B]]
  ),Sets),
  find_lists1(Sets,Sets1,Sets2).
-*/
+/
+
 
 find_lists(Sets,Sets1,Sets1) :- maplist(is_empty_list,Sets),!.
 find_lists(Sets,Sets1,Sets2) :-
@@ -274,13 +279,7 @@ get_lang_word("list",Dbw_list),
  ),get_type1(Head1,brackets)),
  %trace,
  Heads4=Heads42,
- /*
- findall(Heads44%51
- ,(member(H,Heads4),member(Heads44,H)%findall(Heads43,(member([[Dbw_t, Dbw_brackets],Heads43],Heads44)),Heads45),
- %foldr(append,Heads44%5
- %,Heads451)
- ),Heads42), 
- */
+ 
  not(maplist(is_empty_list,Heads42))
  )->
  (%trace,%findall(Head1,member([Head1],Heads4),Heads41),
@@ -309,7 +308,7 @@ get_lang_word("list",Dbw_list),
  %findall(Heads3,member([Heads3],Heads),Heads4),
  %Heads4=Heads,
  %((%trace,%false,
- %/*
+ %*
  %trace,
  findall(Heads3,member(Heads3,Heads),Heads4),
 
@@ -322,24 +321,9 @@ get_lang_word("list",Dbw_list),
  % replace any top level brackets with lists (1) - here true if no top level brackets - in 2nd consequent (1) x just process them
  
  %find_lists3(Heads4,Sets1,Sets2)
- /*
- forall((%trace,
- member(H,Heads4),
- H=[Head1|_]%member(H1,H),
- %member(Head1,H)
- ),get_type1(Head1,brackets)),
- %trace,
- */
  ((
  Heads4=Heads42,
 
- /*
- %findall(Heads44%51
- ,(member(H,Heads4),member(Heads44,H)%findall(Heads43,(member([[Dbw_t, Dbw_brackets],Heads43],Heads44)),Heads45),
- %foldr(append,Heads44%5
- %,Heads451)
- ),Heads42), 
- */
  % if detects brackets
  
  not(maplist(is_empty_list,Heads42))
@@ -365,7 +349,6 @@ get_lang_word("list",Dbw_list),
  append(Sets1,L2,Sets31))),
  %foldr(append,Sets31,Sets3)
  Sets31=Sets3
- %*/
  )->true
  ;
  (forall(member(Head1,Heads2),get_type1(Head1,Type)),
@@ -458,7 +441,6 @@ types_in2(L,M) :-
 
 % x test and return repeating lists, not 
 % 
-/*
 find_lists3(Heads1,Heads,Heads) :-
  maplist(is_empty_list,Heads1),!.
 find_lists3(Heads4,Heads51,Heads52) :-
@@ -500,7 +482,6 @@ find_lists3(Heads4,Heads51,Heads52) :-
  %append(Sets1,L2,Sets31))),
  foldr(append,[Heads51,L1,Tails11],Heads52)))).
 
-*/
 
 if_brackets_tl(Heads11,H1,Heads1) :-
  if_brackets_tl1(Heads11,H1,%Heads1%
@@ -544,4 +525,4 @@ test_lists_a(A,B,C) :-
  append(B,[F],G),
  test_lists_a(E,G,C),!.
  
- 
+ */

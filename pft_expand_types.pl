@@ -110,7 +110,7 @@ get_lang_word("brackets",Dbw_brackets),
 %trace,
 	Data1=[[Data2|Data3]|Data41],
 
-not([Data2|Data3]=[T,_]),
+%not([Data2|Data3]=[T,_]),
 	pft_expand_types1([Data2],[],Types3,VD1,VD3),
 	pft_expand_types1(Data3,Types3,Types4,VD3,VD4),
 	Types5=[[[T,Dbw_brackets],Types4]],
@@ -133,7 +133,7 @@ pft_expand_types2(Data1,Types1,Types2,VD1,VD2) :-
 
 	Data1=[Data2|Data3],
 	pft_expand_types1([Data2],[],Types61,VD1,VD3),%),Types62),
-	append(Types1,[Types61],Types3),
+	append(Types1,Types61,Types3),
 	pft_expand_types2(Data3,Types3,Types2,VD3,VD2),!.
 
 
