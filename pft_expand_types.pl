@@ -53,7 +53,8 @@ get_lang_word("t",T),
 get_lang_word("number",Dbw_number),
 
 number(Data),%=[T,Dbw_number],	%number(Data),
-	(member([Dbw_number,Data,N],VD1)->VD2=VD1;
+	(false%member([Dbw_number,Data,N],VD1)
+	->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_number,Data,N]],VD2))),
 	append(Types1,[[T,Dbw_number,N]],Types2),!.
@@ -64,7 +65,8 @@ get_lang_word("t",T),
 get_lang_word("string",Dbw_string),
 
 string(Data),%=[T,Dbw_string],	%string(Data),
-	(member([Dbw_string,Data,N],VD1)->VD2=VD1;
+	(false%member([Dbw_string,Data,N],VD1)
+	->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_string,Data,N]],VD2))),
 	append(Types1,[[T,Dbw_string,N]],Types2),!.
@@ -75,7 +77,8 @@ get_lang_word("t",T),
 get_lang_word("atom",Dbw_atom),
 
 atom(Data),%=[T,Dbw_atom],	%string(Data),
-	(member([Dbw_atom,Data,N],VD1)->VD2=VD1;
+	(false%member([Dbw_atom,Data,N],VD1)
+	->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_atom,Data,N]],VD2))),
 	append(Types1,[[T,Dbw_atom,N]],Types2),!.

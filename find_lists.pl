@@ -42,7 +42,9 @@ make
 
 */
 
-:-include('../listprologinterpreter/la_strings.pl').
+:-include('../listprologinterpreter/listprolog.pl').
+:-include('pft.pl').
+%:-include('find_lists.pl').
 
 is_empty_list([]).
 
@@ -68,13 +70,14 @@ find_lists(TT,L1,L2,_Start,TN1,TN2) :-
  %get_lang_word("number",Dbw_number),
 
  %/*
- (is_type(TT,"number",TN1,TN2)->true;
- (is_type(TT,"string",TN1,TN2)->true;
- (is_type(TT,"atom",TN1,TN2)))),
+ (is_type(TT,"number",L1,L2,TN1,TN2)->true;
+ (is_type(TT,"string",L1,L2,TN1,TN2)->true;
+ (is_type(TT,"atom",L1,L2,TN1,TN2)))),
+ !.
  %*/
  %trace,
- TT=[[T,T1,N]|_],
- append(L1,[T,T1,N],L2),!.
+ %TT=[[T,T1,N]|_],
+ %append(L1,[T,T1,N],L2),!.
 find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  get_lang_word("t",T), 
  get_lang_word("brackets",Dbw_brackets), 
@@ -90,8 +93,11 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  
  (T1T22=T1T23,B=not_brackets))),
  sort(T1T23,T1T24),
- T1T24=[T10|_],
-  length(T10,TL10),
+ 
+ findall(J,(member(H,T1T24),length(H,J)),G),
+ sort(G,[TL10|_]),
+ %T1T24=[T10|_],
+  %length(T10,TL10),
 
  %findall(T13,(member(T13,T1T22),length(T13,TL13)),TL11),
  %length(T1,TL1),
@@ -124,8 +130,8 @@ find_lists(T1,T2,L1,L2,Start) :-
 */
 
 
-is_type([],_Type,TN,TN) :- !.
-is_type(TT,Type,TN1,TN2) :-
+is_type([],_Type,L,L,TN,TN) :- !.
+is_type(TT,Type,L1,L2,TN1,TN2) :-
  get_lang_word("t",T), 
  get_lang_word(Type,Dbw_type),
  TT=[[T,Dbw_type,_]|_],
@@ -133,10 +139,10 @@ is_type(TT,Type,TN1,TN2) :-
  findall(N1,(member(T0,TT),T0=[T,Dbw_type,N1]),Ns),
  %TT=[T1|T2],
  %T1=[T,Dbw_type,N],
- put_TN(Dbw_type,Ns,TN1,TN2).
+ put_TN(Dbw_type,Ns,L1,L2,TN1,TN2).
  %is_a_number(T2,Type,TN3,TN2).
 
-put_TN(Dbw_type,Ns,TN1,TN2) :-
+put_TN(Dbw_type,Ns,L1,L2,TN1,TN2) :-
  get_lang_word("t",T), 
  % in [1,2],[3,4] compares 1-3, then 2-4
  
@@ -145,17 +151,20 @@ put_TN(Dbw_type,Ns,TN1,TN2) :-
  
  % puts var into all places of var to replace
  % fails if incompatible
- (Ns=[N]->append(TN1,[[[T,Dbw_type,0 %end
+ (Ns=[N]->(append(TN1,[[[T,Dbw_type,0 %end
  ],[T,Dbw_type,N
- ]]],TN2);
+ ]]],TN2),L1=L3);
  (Ns=[N1,N2|N3]->append(TN1,[[[T,Dbw_type,N1],[T,Dbw_type,N2
  ]]],TN3),
- put_TN2(T,Dbw_type,[N2|N3],TN3,TN2))).
+ put_TN2(T,Dbw_type,[N2|N3],L1,L3,TN3,TN2))),
+ 
+ append(_,[N4],Ns),
+ append(L3,[T,Dbw_type,N4],L2).
 
-put_TN2(_T,_Dbw_type,[],TN,TN) :- !.
-put_TN2(_T,_Dbw_type,[_],TN,TN) :- !.
+put_TN2(_T,_Dbw_type,[],L,L,TN,TN) :- !.
+put_TN2(_T,_Dbw_type,[_],L,L,TN,TN) :- !.
  %append(TN1,[[[T,Dbw_type,N],end]],TN2).
-put_TN2(T,Dbw_type,Ns,TN1,TN2) :-
+put_TN2(T,Dbw_type,Ns,L1,L2,TN1,TN2) :-
  Ns=[N1,N2|Ns2],
  replace_in_term(TN1,
  [[T,Dbw_type,N0],[T,Dbw_type,N1]],
@@ -163,12 +172,16 @@ put_TN2(T,Dbw_type,Ns,TN1,TN2) :-
 
  append(TN3,[[[T,Dbw_type,N1],[T,Dbw_type,N2]]],TN4),
 
- put_TN2(T,Dbw_type,[N2|Ns2],TN4,TN2).
+ replace_in_term(L1,
+ [T,Dbw_type,N1],
+ [T,Dbw_type,N2],L3),
+
+ put_TN2(T,Dbw_type,[N2|Ns2],L3,L2,TN4,TN2).
 
 
 
 check_same([],[],L,L,_,TN,TN) :- !.
-check_same(A,B,L1,L2,Start,TN1,TN2) :-
+check_same(A,B,L1,L2,_Start,TN1,TN2) :-
  get_lang_word("t",T), 
  get_lang_word("list",Dbw_list), 
  A=[T11|T12],
