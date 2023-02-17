@@ -104,7 +104,7 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 # Paraphraser
 
-* Enter synonyms for words in `Philosophy/file.txt` while reading the text in another window and the paraphrased file `file2.txt` will be produced.
+* Enter text to paraphrase in `Philosophy/file.txt` while reading the text in another window and the paraphrased file `file2.txt` will be produced.
 
 * In `swipl`, `['paraphraser1.pl'].` `paraphraser.`
 
