@@ -88,6 +88,12 @@ v_name1([Dbw_v,N]) :-
  
 %is_4([_,_,_,_]).
 
+%generate_alg([],Alg,Alg) :- !.
+%generate_alg(L,Alg1,Alg2) :-
+
+
+%****
+
 generate_alg([],Alg,Alg) :- !.
 generate_alg(L,Alg1,Alg2) :-
  L=[I,O],
