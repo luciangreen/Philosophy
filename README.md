@@ -102,6 +102,12 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * In `swipl`, `['web-editor.pl'].` `server(8000).` Go to <a href="http://localhost:8000">http://localhost:8000</a> or http://***your IP address***:8000 to access files online.
 
+# Paraphraser
+
+* Enter synonyms for words in `Philosophy/file.txt` while reading the text in another window and the paraphrased file `file2.txt` will be produced.
+
+* In `swipl`, `['paraphraser1.pl'].` `paraphraser.`
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>

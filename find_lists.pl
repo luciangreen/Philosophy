@@ -56,7 +56,7 @@ A = [1, [2]].
 [debug]  ?- find_lists1([[1, [2, 2], 1, [2]], [1, [2, 2]]], [],A). 
 A = [1, [2]].
 
-find d2t with find lists and ptf expand types
+find d2t with find lists and pft expand types
 
 */
 
@@ -81,6 +81,7 @@ find_lists(TT,L1,L2,_Start,TN1,TN2) :-
 find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  get_lang_word("t",T), 
  get_lang_word("brackets",Dbw_brackets), 
+ get_lang_word("list",Dbw_list), 
 %trace,
  sort(T1T2,T1T22),
  T1T22=[T1|_],
@@ -88,7 +89,7 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  %trace,
  (T1=[[[T,Dbw_brackets],_]]->(findall(A,(member([[[T,Dbw_brackets],A]],T1T22)),T1T23),B=brackets);(
  
- T1=[[T,Dbw_brackets],_]->(findall(A,(member([[T,Dbw_brackets],A],T1T22)),T1T23),B=brackets);
+ T1=[[T,Dbw_brackets],_]->(findall(A,(member([[T,Dbw_brackets],A],T1T22)),T1T23),B=brackets2);
  %trace,
  
  (T1T22=T1T23,B=not_brackets))),
@@ -110,9 +111,11 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  %trace,
  TL14=[TL15|TL16],
  check_same2(TL15,TL16,[],L3,Start,TN1,TN2),
- (B=brackets->(foldr(append,[[[t,list]],L3],L31),
+ (B=brackets->(foldr(append,[[[T,Dbw_list]],[L3]],L31),
  foldr(append,[L1,[L31]],L2));
- foldr(append,[L1,L3],L2)),
+ (B=brackets2->(foldr(append,[[[T,Dbw_list]],L3],L31),
+ foldr(append,[L1,[L31]],L2));
+ foldr(append,[L1,L3],L2))),
  !.
  %check_same2(A,B,L1,L2,Start),*
  %trace,
@@ -134,9 +137,9 @@ is_type([],_Type,L,L,TN,TN) :- !.
 is_type(TT,Type,L1,L2,TN1,TN2) :-
  get_lang_word("t",T), 
  get_lang_word(Type,Dbw_type),
- TT=[[T,Dbw_type,_]|_],
- forall(member(T0,TT),T0=[T,Dbw_type,_]),
- findall(N1,(member(T0,TT),T0=[T,Dbw_type,N1]),Ns),
+ TT=[[T,Dbw_type,_,_]|_],
+ forall(member(T0,TT),T0=[T,Dbw_type,_,_]),
+ findall([N1,Data],(member(T0,TT),T0=[T,Dbw_type,N1,Data]),Ns),
  %TT=[T1|T2],
  %T1=[T,Dbw_type,N],
  put_TN(Dbw_type,Ns,L1,L2,TN1,TN2).
@@ -151,30 +154,34 @@ put_TN(Dbw_type,Ns,L1,L2,TN1,TN2) :-
  
  % puts var into all places of var to replace
  % fails if incompatible
- (Ns=[N]->(append(TN1,[[[T,Dbw_type,0 %end
+ (Ns=[[N,_Data]]->(append(TN1,[[[T,Dbw_type,0 %end
+ %,end
  ],[T,Dbw_type,N
+ %,Data
  ]]],TN2),L1=L3);
- (Ns=[N1,N2|N3]->append(TN1,[[[T,Dbw_type,N1],[T,Dbw_type,N2
+ (Ns=[[N1,_Data1],[N2,Data2]|N3]->append(TN1,[[[T,Dbw_type,N1%,Data1
+ ],[T,Dbw_type,N2%,Data2
  ]]],TN3),
- put_TN2(T,Dbw_type,[N2|N3],L1,L3,TN3,TN2))),
+ put_TN2(T,Dbw_type,[[N2,Data2]|N3],L1,L3,TN3,TN2))),
  
- append(_,[N4],Ns),
- append(L3,[T,Dbw_type,N4],L2).
+ append(_,[[N4,Data3]],Ns),
+ append(L3,[T,Dbw_type,N4,Data3],L2).
 
 put_TN2(_T,_Dbw_type,[],L,L,TN,TN) :- !.
 put_TN2(_T,_Dbw_type,[_],L,L,TN,TN) :- !.
  %append(TN1,[[[T,Dbw_type,N],end]],TN2).
 put_TN2(T,Dbw_type,Ns,L1,L2,TN1,TN2) :-
- Ns=[N1,N2|Ns2],
+ Ns=[[N1,Data1],[N2,Data2]|Ns2],
  replace_in_term(TN1,
  [[T,Dbw_type,N0],[T,Dbw_type,N1]],
  [[T,Dbw_type,N0],[T,Dbw_type,N2]],TN3),
 
  append(TN3,[[[T,Dbw_type,N1],[T,Dbw_type,N2]]],TN4),
 
+ append(Data1,[Data2],Data3),
  replace_in_term(L1,
- [T,Dbw_type,N1],
- [T,Dbw_type,N2],L3),
+ [T,Dbw_type,N1,Data1],
+ [T,Dbw_type,N2,Data3],L3),
 
  put_TN2(T,Dbw_type,[N2|Ns2],L3,L2,TN4,TN2).
 
@@ -215,8 +222,8 @@ cut_into_equals_segments2(L,TL14,TL15,TL16) :-
 check_same2(A,[],L1,L2,_Start,TN,TN) :- %trace,
  append(L1,[A],L2),!.
 
-check_same2(A,[],L1,L2,_Start,TN,TN) :- %trace,
- append(L1,[A],L2),!.
+%check_same2(A,[],L1,L2,_Start,TN,TN) :- %trace,
+ %append(L1,[A],L2),!.
 
 %check_same2(_A,[],L,L,_Start) :- !.%append(L1,[A],L2),!.
 

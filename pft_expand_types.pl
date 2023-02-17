@@ -57,7 +57,7 @@ number(Data),%=[T,Dbw_number],	%number(Data),
 	->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_number,Data,N]],VD2))),
-	append(Types1,[[T,Dbw_number,N]],Types2),!.
+	append(Types1,[[T,Dbw_number,N,Data]],Types2),!.
 %append(Types1,[[T,Dbw_number]],Types2),!.
 
 pft_expand_types1(Data,Types1,Types2,VD1,VD2) :-
@@ -69,7 +69,7 @@ string(Data),%=[T,Dbw_string],	%string(Data),
 	->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_string,Data,N]],VD2))),
-	append(Types1,[[T,Dbw_string,N]],Types2),!.
+	append(Types1,[[T,Dbw_string,N,Data]],Types2),!.
 %append(Types1,[[T,Dbw_string]],Types2),!.
 
 pft_expand_types1(Data,Types1,Types2,VD1,VD2) :-
@@ -81,7 +81,7 @@ atom(Data),%=[T,Dbw_atom],	%string(Data),
 	->VD2=VD1;
 	(get_data_n(N),
 	append(VD1,[[Dbw_atom,Data,N]],VD2))),
-	append(Types1,[[T,Dbw_atom,N]],Types2),!.
+	append(Types1,[[T,Dbw_atom,N,Data]],Types2),!.
 
 %append(Types1,[[T,Dbw_atom]],Types2),!.
 /*
