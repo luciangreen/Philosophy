@@ -35,6 +35,13 @@ Data = [
 test X
 gen_alg([[[t, list], [[t, atom, 4, a], [t, atom, 7, b]]]], [[[t, list], [[t, atom, 4, b],[t, atom, 7, a]]]],A),pp0(A,B),writeln(B).
 
+
+
+Data = [
+[[[a,b]]],
+[[[a,b]]]
+],
+
 */
 %/*
 %*/
