@@ -2,9 +2,10 @@
 
 :- include('find_lists.pl').
 :- include('collect_simplify_types.pl').
-:- include('data_to_alg3.pl').
+%:- include('data_to_alg3.pl').
 :- include('gen_alg.pl').
 :- include('simplify_types_with_n.pl').
+:- include('../Prolog-to-List-Prolog/p2lpconverter.pl').
 
 :- dynamic p_name/1.
 :- dynamic v_name/1.
