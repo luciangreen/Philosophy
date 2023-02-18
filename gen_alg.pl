@@ -82,13 +82,14 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  ,VN8),
  */
 %trace,
+ (A4=[[[n,PN3]|_]|_]->PN3F=true;PN3F=false),
  findall(Item,(member(IVN,IVNs),get_item_n(VN5s,IVN,VN51),
  get_item_n(L,IVN,LIVN),
  (LIVN=[T,_,_,Data]-> 
  Item=[[[Dbw_n,=],[VN51,Data]],[VN51,VN51]];
  (%A4=[[Dbw_n,PV3]|_], %***
  %writeln(A1),
- Item=[[[Dbw_n,PN1],%*
+ Item=[[[Dbw_n,PN3],%*
  [VN51,[],VN62]],[VN51,VN62]]
  ))),Items2),
 %trace,
