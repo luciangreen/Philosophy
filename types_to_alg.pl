@@ -3,24 +3,49 @@
 :- include('find_lists.pl').
 :- include('collect_simplify_types.pl').
 :- include('data_to_alg3.pl').
+:- include('gen_alg.pl').
+:- include('simplify_types_with_n.pl').
 
 :- dynamic p_name/1.
 :- dynamic v_name/1.
 
-test_types2a(1) :- 
+test_types2a(1,Alg) :- 
 /*
 Data = [
 [[[1,[2, 2],1,[2]]], [[1,[2]]]], % possible versions of input for alg to generate
 [[[1,[2],1,[2]]], [[1,[2,2]]]] % " output "
 ],
-*/
-%/*
+
 Data = [
 [[[1,[2, 2],1,[2]]], [[1,[2]]]],
 [[[1,[2],1,[2]]], [[1,[2]]]]
 ],
+
+Data = [
+[[[a,[b, b],a,[b]]], [[a,[b]]]],
+[[[[b],a,[b],a]], [[[b],a]]]
+],
+
+Data = [
+[[[a,a]], [[a]]],
+[[[a,a]], [[a]]]
+],
+
+
+*/
+%/*
 %*/
-types_to_alg(Data,Alg), writeln1(Alg).
+
+Data = [
+[[[a,[b, b],a,[b]]], [[a,[b]]]],
+[[[a,[b],a,[b]]], [[a,[b]]]]
+],
+
+types_to_alg(Data,Alg),
+
+
+%trace,
+pp0(Alg,Alg2),writeln(Alg2).%, writeln1(Alg).
 
 types_to_alg(Data,Alg):-
  test1(off,1,_),
@@ -30,7 +55,9 @@ types_to_alg(Data,Alg):-
  foldr(append,T,T1),
  merge_types(T1,[],MT),
  replace_in_terms(MT,L,L2),
- generate_alg(L2,[],Alg).
+ L2=[I,O],
+ %trace,
+ gen_alg(I,O,Alg).
  
 types_to_alg2([],L,L) :- !.
 types_to_alg2(Data,L1,L2):-
@@ -94,6 +121,7 @@ v_name1([Dbw_v,N]) :-
 
 %****
 
+/*
 generate_alg([],Alg,Alg) :- !.
 generate_alg(L,Alg1,Alg2) :-
  L=[I,O],
@@ -141,24 +169,6 @@ generate_p1([I0,O0],Alg1,Alg2%,Alg3,Alg4
  foldr(append,[Alg1,L1,Alg3,Alg4
  ],Alg2).
 
-/*
-generate_p1([I,O],Alg1,Alg2) :-
- get_lang_word("t",T),
- get_lang_word("list",Dbw_list),
- %trace,
- I=[[[T, Dbw_list]|I2]],
- O=[[[T, Dbw_list]|O2]],
- generate_p1([I2,O2],Alg1,Alg2).
-*/
-
-/*
-generate_p11([I,O],%Alg1,
- PN1,Alg2,Alg4) :-
- get_lang_word("t",T),
- I=[T,_,_,_],
- O=[T,_,_,_],
-generate_p1([I,O],Alg1,Alg2) :-
-*/
 
  %generate_p11([],Alg,Alg) :- !.
 generate_p11([I,O],%Alg1,
@@ -193,52 +203,7 @@ generate_p11([I,O],%Alg1,
  [[Dbw_n,PN1],[VN6,VN61,VN4]]]]
  )).
  
-/*
-generate_p2(IN,VN,Call,A1) :-
- get_lang_word("n",Dbw_n),
- v_name1(VN1),
- v_name1(VN2),
- p_name1(PN1),
- (maplist(is_4,IN)->
- (p_name1(PN2),
- B=[[[Dbw_n,PN2],[VN1,[],VN2]]],
- 
- generate_p21(IN,%[],
-  PN1,Alg3),
- 
- );
- (IN=[_,_,_,Data],
- O=[_,_,_,Data], %*?
- B=[[[Dbw_n,=],[VN1,Data]],
- [[Dbw_n,=],[VN1,VN2]]],
- Alg3=[]
- )),
- L1=[[Dbw_n,PN1],[VN1,VN2],":-",B],
- foldr(append,[[Alg1],Alg3],Alg2).
 
-generate_p21(I,%[],
-  PN1,Alg3),
- get_lang_word("n",Dbw_n),
- get_lang_word("equals4",Dbw_equals4),
- v_name1(VN1),
- v_name1(VN2),
- v_name1(VN3),
- v_name1(VN4),
- length(I,IL),
- numbers(IL,1,[],IVNs),
- findall(VN5,(member(_,IVNs),v_name1(VN5)),VN5s),
- v_name1(VN6),
- %VN6=[VN8,VN9],
- append(VN5s,["|",VN6],VN7),
- 
- %findall(*,(member(IVN,IVNs),
- generate_p3(IVNs,[],Calls,[],Alg4),
- data_to_alg(I,O*,VN5s,VN8),
- 
- B=[[[Dbw_n,PN1],[[],VN1,VN1]],
- [[Dbw_n,PN1],[VN2,VN3,VN4]],":-",
- [[[Dbw_n,Dbw_equals4],VN7],Calls,VN8]],
-*/
 
 
 generate_p31(I,O,_VN5s,_IVNs,_Calls1,Calls2,_Alg3,Alg4
@@ -281,7 +246,7 @@ generate_p3(I0,O0,VN5s,IVNs,Calls1,Call2,Alg3,Alg4) :-
  ],Alg5),
  generate_p3(I,O,VN5s,IVNs2,Calls3,Call2,Alg5,Alg4
  ).
-
+*/
 % X:
  % this version: don't find associated vars and call with them
  % just assume each level has the same vars
