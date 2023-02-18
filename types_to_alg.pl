@@ -2,7 +2,7 @@
 
 :- include('find_lists.pl').
 :- include('collect_simplify_types.pl').
-%:- include('data_to_alg3.pl').
+:- include('data_to_alg3.pl').
 :- include('gen_alg.pl').
 :- include('simplify_types_with_n.pl').
 :- include('../Prolog-to-List-Prolog/p2lpconverter.pl').
@@ -32,6 +32,8 @@ Data = [
 [[[a,a]], [[a]]]
 ],
 
+test X
+gen_alg([[[t, list], [[t, atom, 4, a], [t, atom, 7, b]]]], [[[t, list], [[t, atom, 4, b],[t, atom, 7, a]]]],A),pp0(A,B),writeln(B).
 
 */
 %/*

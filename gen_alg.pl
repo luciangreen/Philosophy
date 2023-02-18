@@ -71,16 +71,21 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  append(VN5s,["|",VN6],VN7),
  L3=[[[Dbw_n,Dbw_equals4],[VN1,VN7]]],
 %trace,
- %simplify_types_with_n(O,[],ON),
- %findall(OVN,member([v,OVN],VN5s),VN5s1),
- /*
+ simplify_types_with_n(L,[],LN),
+ simplify_types_with_n(O,[],ON),
+ findall(OVN,member([v,OVN],VN5s),VN5s1),
+ %/*
+ %trace,
  data_to_alg(%A4
  %VN5s%
- B2,
+ %L,O,VN5s,VN82
+ %B2,
+ LN,
  ON
  ,VN5s1%,ON
- ,VN8),
- */
+ ,VN82
+ ),
+ %*/
 %trace,
  (A4=[[[n,PN3]|_]|_]->PN3F=true;PN3F=false),
  findall(Item,(member(IVN,IVNs),get_item_n(VN5s,IVN,VN51),
@@ -94,8 +99,10 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  ))),Items2),
 %trace,
  findall([B,[A]],member([_,[A,B]],Items2),C),
+ 
+ (forall(member([B,[A]],C),A=B)->A41=[];A41=A4),
  replace_in_terms(C,VN5s%VN8
-  ,VN82),
+  ,VN821),
  
  findall(A,member([A,_],Items2),C1),
 
@@ -111,13 +118,13 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  %foldr(append,[[A31]],A5),
  %foldr(append,[A4],A41),
  %foldr(append,[A41],A42),
- foldr(append,[A1,L1,A5,A4],A2)
+ foldr(append,[A1,L1,A5,A41],A2)
  );
  (%trace,
  %L0=L,O0=O,
  L=[L1|L2],
  O=[O1|O2],
- ((L1=[T,_,_,Data],O1=[T,_,_,Data])->
+ ((L1=[T,_,_,Data],O1=[T,_,_,_Data2])->
  (
  (Brackets=true->
  Data2=[[Data]];

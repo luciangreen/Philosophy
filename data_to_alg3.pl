@@ -29,8 +29,7 @@ data_to_alg(Data1,Data2,Alg1,Alg2) :-
 data_to_alg1([],Vars,Vars,Alg,Alg) :- !.
 data_to_alg1(Data1,Vars1,Vars2,Alg1,Alg2) :-
  Data1=[Data2|Data3],
- (false%is_list(Data2)
- ->%List=true;List=false),
+ (false->%is_list(Data2)->%List=true;List=false),
  (data_to_alg1(Data2,Vars1,Vars3,[],Alg4),
  Alg5=Alg4,append(Alg1,[Alg5],Alg3));
  (append(Vars1,[[[v,Data2],Data2]],Vars3),
