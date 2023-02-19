@@ -38,6 +38,7 @@ gen_alg([],[],A1,A2,B,B,_,_) :- append(_%[B]
  ,A1,A2),!.
 gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  get_lang_word("n",Dbw_n),
+ get_lang_word("v",Dbw_v),
  get_lang_word("equals4",Dbw_equals4),
  get_lang_word("t",T),
  get_lang_word("append",Dbw_append),
@@ -101,13 +102,15 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  findall([B,[A]],member([_,[A,B]],Items2),C),
  
  (forall(member([B,[A]],C),A=B)->A41=[];A41=A4),
+ %trace,
  replace_in_terms(C,VN5s%VN8
   ,VN821),
  
  findall(A,member([A,_],Items2),C1),
-
+ %trace,
+ %findall([Dbw_v,VN823],member(VN823,VN821),VN822),
  %Calls,
- Item3=[[[Dbw_n,Dbw_append],[VN11,VN82,VN61]],
+ Item3=[[[Dbw_n,Dbw_append],[VN11,VN821,VN61]],
  [[Dbw_n,PN1],[VN6,VN61,VN2]]],
  
  %foldr(append,[B1,[L1]],B3),

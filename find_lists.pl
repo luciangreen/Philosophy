@@ -112,12 +112,18 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  TL14=[TL15|TL16],
  check_same2(TL15,TL16,[],L3,Start,TN1,TN2),
  (B=brackets->(%trace,
- (L3=[[T, _,_,_]|_]->L32=[L3];L32=L3),
- foldr(append,[[[T,Dbw_list]],L32],L31),%notrace,
- foldr(append,[L1,[L31]],L2));
- (B=brackets2->(foldr(append,[[[T,Dbw_list]],L3],L31),
- foldr(append,[L1,[L31]],L2));
- foldr(append,[L1,L3],L2))),
+ %(L3=[[T, _,_,_]|_]->L32=[L3];L32=L3),
+ L31=[[T,Dbw_list],L3],%notrace,
+ %foldr(append,[[[T,Dbw_list]],L32],L31),%notrace,
+ append(L1,[L31],L2));
+ %foldr(append,[L1,[L31]],L2));
+ (B=brackets2->(
+ L31=[[T,Dbw_list]|L3],
+ %foldr(append,[[[T,Dbw_list]],L3],L31),
+ append(L1,[L31],L2));
+ %foldr(append,[L1,[L31]],L2));
+ append(L1,L3,L2))),
+ %foldr(append,[L1,L3],L2))),
  !.
  %check_same2(A,B,L1,L2,Start),*
  %trace,
@@ -198,11 +204,12 @@ check_same(A,B,L1,L2,_Start,TN1,TN2) :-
  append([T11],[T21],T11T21),
  find_lists(T11T21,[],L3,true,TN1,TN3),
  %trace,
- (false%
+ %(false%
  %Start=true
- ->
- foldr(append,[L1,[[T,Dbw_list],L3]],L4);
- foldr(append,[L1,[L3]],L4)),
+ %->
+ %foldr(append,[L1,[[T,Dbw_list],L3]],L4);
+ append(L1,[L3],L4),
+ %foldr(append,[L1,[L3]],L4)),
  append(T12,T22,T12T22),
  find_lists(T12T22,L4,L2,false,TN3,TN2).
 

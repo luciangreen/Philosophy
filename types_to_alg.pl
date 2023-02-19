@@ -42,11 +42,20 @@ Data = [
 [[[a,b]]]
 ],
 
+v
+
+
 Data = [
 [[[ [b, b],a,[b],a]], [[[b],a]]],
 [[[ [b],a,[b],a]], [[[b],a]]]
 ],
-v
+x
+
+Data = [
+[[[a,b]]],
+[[[a,b]]]
+],
+
 
 */
 %/*
@@ -61,7 +70,17 @@ types_to_alg(Data,Alg),
 
 
 %trace,
-pp0(Alg,Alg2),writeln(Alg2).%, writeln1(Alg).
+pp0(Alg,Alg2),writeln(Alg2),
+
+%lp2p1(Alg,Alg3),
+%writeln1(Alg3),
+
+Data=[[[I|_]|_]|_],
+Query=[[n,p1],[I,[],[v,o]]],
+writeln1(Query),
+%trace,
+interpret(on,Query,Alg,R),
+writeln1(R).%, writeln1(Alg).
 
 types_to_alg(Data,Alg):-
  test1(off,1,_),
@@ -116,7 +135,7 @@ replace_in_terms2(MT1,MT2,L1,L2) :-
 
 p_name1(N) :-
  p_name(N1),
- string_concat("p",N1,N),
+ atom_concat(p,N1,N),
  N2 is N1+1,
  retractall(p_name(_)),
  assertz(p_name(N2)).
@@ -124,7 +143,7 @@ p_name1(N) :-
 v_name1([Dbw_v,N]) :-
  get_lang_word("v",Dbw_v),
  v_name(N1),
- string_concat("v",N1,N),
+ atom_concat(Dbw_v,N1,N),
  N2 is N1+1,
  retractall(v_name(_)),
  assertz(v_name(N2)).
