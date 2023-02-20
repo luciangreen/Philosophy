@@ -79,7 +79,7 @@ Data=[[[I|_]|_]|_],
 Query=[[n,p1],[I,[],[v,o]]],
 writeln1(Query),
 %trace,
-interpret(on,Query,Alg,R),
+interpret(off,Query,Alg,R),
 writeln1(R).%, writeln1(Alg).
 
 types_to_alg(Data,Alg):-
