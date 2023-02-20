@@ -89,7 +89,8 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  %trace,
  (T1=[[[T,Dbw_brackets],_]]->(findall(A,(member([[[T,Dbw_brackets],A]],T1T22)),T1T23),B=brackets);(
  
- T1=[[T,Dbw_brackets],_]->(findall(A,(member([[T,Dbw_brackets],A],T1T22)),T1T23),B=brackets2);
+ T1=[[T,Dbw_brackets],_]->(findall(A,(member([[T,Dbw_brackets],A],T1T22)%,[A1]=A
+ ),T1T23),B=brackets2);
  %trace,
  
  (T1T22=T1T23,B=not_brackets))),
@@ -110,7 +111,10 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  %append(A,B,T1),
  %trace,
  TL14=[TL15|TL16],
+ %trace,
  check_same2(TL15,TL16,[],L3,Start,TN1,TN2),
+
+%writeln1(check_same2(TL15,TL16,[],['*l3',L3],Start,TN1,TN2)),
  (B=brackets->(%trace,
  %(L3=[[T, _,_,_]|_]->L32=[L3];L32=L3),
  L31=[[T,Dbw_list],L3],%notrace,
@@ -118,7 +122,7 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  append(L1,[L31],L2));
  %foldr(append,[L1,[L31]],L2));
  (B=brackets2->(
- L31=[[T,Dbw_list]|L3],
+ L31=[[T,Dbw_list],L3],
  %foldr(append,[[[T,Dbw_list]],L3],L31),
  append(L1,[L31],L2));
  %foldr(append,[L1,[L31]],L2));
@@ -229,7 +233,13 @@ cut_into_equals_segments2(L,TL14,TL15,TL16) :-
  cut_into_equals_segments2(L,B,TL17,TL16).
 
 check_same2(A,[],L1,L2,_Start,TN,TN) :- %trace,
- append(L1,[A],L2),!.
+ %writeln(['*a',A]),
+ get_lang_word("t",T), 
+ (%true%
+ not(A=[T,_,_,_])
+ ->
+ append(L1,A,L2);
+ append(L1,[A],L2)),!.
 
 %check_same2(A,[],L1,L2,_Start,TN,TN) :- %trace,
  %append(L1,[A],L2),!.
@@ -276,6 +286,7 @@ check_same2(TL14,TL17,L1,L2,Start,TN1,TN2) :-
  check_same2(TL171,[L5],TL18,L2,Start,TN4,TN2))),!.
   */
 check_same2(TL14,TL17,L1,L2,Start,TN1,TN2) :-
+ get_lang_word("t",T), 
  %trace,
  TL14=[TL141|TL142],
  TL17=[TL15|TL16],
@@ -283,7 +294,9 @@ check_same2(TL14,TL17,L1,L2,Start,TN1,TN2) :-
  check_same([TL141],[TL151],L1,L3,Start,TN1,TN3),
  append(TL142,TL152,TL142TL152),
  find_lists(TL142TL152,[],L4,Start,TN3,TN4),
- append(L3,L4,L5),
+ (L4=[T,_,_,_]->
+ append(L3,[L4],L5);
+ append(L3,L4,L5)),
  %trace,
  %append(TL17,))
  (TL16=[]->(L5=L2,TN4=TN2);

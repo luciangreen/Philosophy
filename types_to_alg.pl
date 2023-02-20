@@ -10,7 +10,8 @@
 :- dynamic p_name/1.
 :- dynamic v_name/1.
 
-test_types2a(1,Alg) :- 
+test_types2a%(1,Alg)
+ :- 
 /*
 Data = [
 [[[1,[2, 2],1,[2]]], [[1,[2]]]], % possible versions of input for alg to generate
@@ -45,27 +46,41 @@ Data = [
 v
 
 
-Data = [
-[[[ [b, b],a,[b],a]], [[[b],a]]],
-[[[ [b],a,[b],a]], [[[b],a]]]
-],
 x
+
+
+Data = [
+[[[a,[b, b],a,[b]]], [[a,[b]]]],
+[[[a,[b],a,[b]]], [[a,[b]]]]
+],
+v
 
 Data = [
 [[[a,b]]],
 [[[a,b]]]
 ],
 
-
 */
 %/*
 %*/
+%Data = ,
 
-Data = [
+test_types2a2([
+[[[ [b, b],a,[b],a]], [[[b],a]]],
+[[[ [b],a,[b],a]], [[[b],a]]]
+]),
+
+test_types2a2([
 [[[a,[b, b],a,[b]]], [[a,[b]]]],
 [[[a,[b],a,[b]]], [[a,[b]]]]
-],
+]),
 
+test_types2a2([
+[[[a,b]]],
+[[[a,b]]]
+]).
+
+test_types2a2(Data):-
 types_to_alg(Data,Alg),
 
 
