@@ -38,7 +38,7 @@ gen_alg([],[],A1,A2,B,B,_,_) :- append(_%[B]
  ,A1,A2),!.
 gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  get_lang_word("n",Dbw_n),
- get_lang_word("v",Dbw_v),
+ %get_lang_word("v",Dbw_v),
  get_lang_word("equals4",Dbw_equals4),
  get_lang_word("t",T),
  get_lang_word("append",Dbw_append),
@@ -72,10 +72,10 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  append(VN5s,["|",VN6],VN7),
  L3=[[[Dbw_n,Dbw_equals4],[VN1,VN7]]],
 %trace,
- simplify_types_with_n(L,[],LN),
- simplify_types_with_n(O,[],ON),
- findall(OVN,member([v,OVN],VN5s),VN5s1),
- %/*
+ %simplify_types_with_n(L,[],LN),
+ %simplify_types_with_n(O,[],ON),
+ %findall(OVN,member([v,OVN],VN5s),VN5s1),
+ /*
  %trace,
  data_to_alg(%A4
  %VN5s%
@@ -86,9 +86,9 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  ,VN5s1%,ON
  ,VN82
  ),
- %*/
+ */
 %trace,
- (A4=[[[n,PN3]|_]|_]->PN3F=true;PN3F=false),
+ (A4=[[[n,PN3]|_]|_]->_PN3F=true;_PN3F=false),
  findall(Item,(member(IVN,IVNs),get_item_n(VN5s,IVN,VN51),
  get_item_n(L,IVN,LIVN),
  (LIVN=[T,_,_,Data]-> 

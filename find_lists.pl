@@ -197,8 +197,8 @@ put_TN2(T,Dbw_type,Ns,L1,L2,TN1,TN2) :-
 
 check_same([],[],L,L,_,TN,TN) :- !.
 check_same(A,B,L1,L2,_Start,TN1,TN2) :-
- get_lang_word("t",T), 
- get_lang_word("list",Dbw_list), 
+ %get_lang_word("t",T), 
+ %get_lang_word("list",Dbw_list), 
  A=[T11|T12],
  B=[T21|T22],
  append([T11],[T21],T11T21),
