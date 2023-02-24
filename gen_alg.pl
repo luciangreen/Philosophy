@@ -151,6 +151,7 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  */
  ;
  (%trace,
+ %writeln('**'),
  not(L1=[T,_,_,_]),
  p_name1(PN2),
  gen_alg(L1,O1,[],A3,[],_B3,true,PN2),
