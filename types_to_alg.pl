@@ -12,6 +12,8 @@
 
 test_types2a%(1,Alg)
  :- 
+ test1(off,1,_),
+
 /*
 Data = [
 [[[1,[2, 2],1,[2]]], [[1,[2]]]], % possible versions of input for alg to generate
@@ -65,20 +67,29 @@ Data = [
 %*/
 %Data = ,
 
+%/*
 test_types2a2([
 [[[ [b, b],a,[b],a]], [[[b],a]]],
-[[[ [b],a,[b],a]], [[[b],a]]]
+[[[ [b, b],a,[b],a]], [[[b],a]]]
+%[[[ a,[b, b],a,[b]]], [[a,[b]]]]
+%[[[ [b],a,[b],a]], [[[b],a]]]
 ]),
 
 test_types2a2([
 [[[a,[b, b],a,[b]]], [[a,[b]]]],
-[[[a,[b],a,[b]]], [[a,[b]]]]
+[[[a,[b, b],a,[b]]], [[a,[b]]]]
+%[[[ [b, b],a,[b],a]], [[[b],a]]]
+%[[[[b, b],a,[b]]], [[a,[b]]]]
+%[[[a,[b],a,[b]]], [[a,[b]]]]
 ]),
+%*/
+%trace,
 
 test_types2a2([
 [[[a,b]]],
-[[[a,b]]]
-]).
+[[[b,a]]]
+])
+,!.
 
 test_types2a2(Data):-
 types_to_alg(Data,Alg),
@@ -90,15 +101,19 @@ pp0(Alg,Alg2),writeln(Alg2),
 %lp2p1(Alg,Alg3),
 %writeln1(Alg3),
 
-Data=[[[I|_]|_]|_],
+Data=[[[I|_]|_],[[O|_]|_]],
 Query=[[n,p1],[I,[],[v,o]]],
 writeln1(Query),
 %trace,
-interpret(off,Query,Alg,R),
-writeln1(R).%, writeln1(Alg).
+writeln([o,O]),
+ interpret(off,Query,Alg,R),
+R=[[[[v,o],R1]]],
+writeln1(R1),
+(O=R1->writeln([success]);writeln([fail])),
+nl
+.%, writeln1(Alg).
 
 types_to_alg(Data,Alg):-
- test1(off,1,_),
  types_to_alg2(Data,[],L),
 % need data in L to collect, merge
  collect_simplify_types1(L,[],T),
@@ -125,6 +140,7 @@ collect_simplify_types1(Data,L1,L2):-
  
 merge_types([],MT,MT) :- !.
 merge_types(T,MT1,MT2) :-
+%trace,
  T=[[TT,Type,N,D]|T2],
  findall([TT,Type,N2,D],(member([TT,Type,N2,D],T2)),N3),
  subtract(T2,N3,T3),

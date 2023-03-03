@@ -32,8 +32,10 @@ data_to_alg1(Data1,Vars1,Vars2,Alg1,Alg2) :-
  (false->%is_list(Data2)->%List=true;List=false),
  (data_to_alg1(Data2,Vars1,Vars3,[],Alg4),
  Alg5=Alg4,append(Alg1,[Alg5],Alg3));
- (append(Vars1,[[[v,Data2],Data2]],Vars3),
- append(Alg1,[[v,Data2]],Alg3))),
+ (append(Vars1,[[[%v,
+ Data2],Data2]],Vars3),
+ append(Alg1,[[v,
+ Data2]],Alg3))),
  data_to_alg1(Data3,Vars3,Vars2,Alg3,Alg2),!.
  
 % if data2 is list, wrap its alg in []

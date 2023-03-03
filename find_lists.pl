@@ -61,6 +61,7 @@ find d2t with find lists and pft expand types
 */
 
 find_lists1(T1T2,L1,L2,TN1,TN2) :-
+%trace,
  find_lists(T1T2,L1,L2,true,TN1,TN2).
  
 find_lists(Ts,L,L,_,TN,TN) :- maplist(is_empty_list,Ts),!.
@@ -97,7 +98,8 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  sort(T1T23,T1T24),
  
  findall(J,(member(H,T1T24),length(H,J)),G),
- sort(G,[TL10|_]),
+ sort(G,G1),
+ G1=[TL10|_],
  %T1T24=[T10|_],
   %length(T10,TL10),
 
@@ -106,6 +108,8 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  %length(T2,TL2),
  cut_into_equals_segments(TL10,T1T24,[],TL12),
  sort(TL12,TL14),
+ %trace,
+ (length(TL14,1)->B1=brackets1;B1=false),
  %TL1 is TL2*2,
  %length(A,TL2),
  %append(A,B,T1),
@@ -115,6 +119,9 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  check_same2(TL15,TL16,[],L3,Start,TN1,TN2),
 
 %writeln1(check_same2(TL15,TL16,[],['*l3',L3],Start,TN1,TN2)),
+ %trace,
+
+
  (B=brackets->(%trace,
  %(L3=[[T, _,_,_]|_]->L32=[L3];L32=L3),
  L31=[[T,Dbw_list],L3],%notrace,
@@ -126,7 +133,18 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  %foldr(append,[[[T,Dbw_list]],L3],L31),
  append(L1,[L31],L2));
  %foldr(append,[L1,[L31]],L2));
- append(L1,L3,L2))),
+
+ %L31=[[T,Dbw_brackets],L3],
+ %append(L1,[L31],L2)
+ (%false%
+ B1=brackets1
+ ->
+ (L31=[[T,Dbw_brackets],L3],%notrace,
+ %foldr(append,[[[T,Dbw_list]],L32],L31),%notrace,
+ append(L1,[L31],L2));
+ 
+ append(L1,L3,L2)
+ ))),
  %foldr(append,[L1,L3],L2))),
  !.
  %check_same2(A,B,L1,L2,Start),*

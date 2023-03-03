@@ -27,6 +27,8 @@ get_lang_word("atom",Dbw_atom),
 Data=[T,Dbw_atom,N,D],
 	%string(Data),
 	append(Types1,[[T,Dbw_atom,N,D]],Types2),!.
+
+/*
 collect_simplify_types(Data1,Types1,Types2) :-
 get_lang_word("t",T),
 get_lang_word("brackets",Dbw_brackets),
@@ -36,7 +38,17 @@ get_lang_word("brackets",Dbw_brackets),
 	append_list3([Types1,Types5],Types2a),
 	
 collect_simplify_types(Types6,Types2a,Types2),!.
-	
+	*/
+%/*
+collect_simplify_types(Data1,Types1,Types2) :-
+get_lang_word("t",T),
+get_lang_word("brackets",Dbw_brackets),
+	Data1=[[[T,Dbw_brackets],Types4]|Types6],
+%trace,
+	collect_simplify_types(Types4,[],Data2),%[Data2|Data2a]),
+	append_list3([Types1,Data2],Types2a),
+	collect_simplify_types(Types6,Types2a,Types2),!.
+%*/
 
 collect_simplify_types(Data1,Types1,Types2) :-
 get_lang_word("t",T),
