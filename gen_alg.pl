@@ -132,7 +132,7 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  %foldr(append,[A41],A42),
  foldr(append,[A1,%L1,
   A5,A41],A2)
- )).
+ )),!.
  
 gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  get_lang_word("n",Dbw_n),

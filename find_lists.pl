@@ -47,6 +47,9 @@ make
 %:-include('find_lists.pl').
 
 is_empty_list([]).
+is_brackets([[[T,Dbw_brackets]|_]|_]):-
+ get_lang_word("t",T), 
+ get_lang_word("brackets",Dbw_brackets).
 
 /*
 
@@ -85,6 +88,12 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  get_lang_word("list",Dbw_list), 
 %trace,
  sort(T1T2,T1T22),
+ %trace,
+ (length(T1T22,1)%=[[T,_,_,_]]%length(TL14,1)
+ %false
+ %maplist(is_brackets,TL14)
+ ->B1=brackets1;B1=false),
+ 
  T1T22=[T1|_],
 
  %trace,
@@ -109,7 +118,6 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  cut_into_equals_segments(TL10,T1T24,[],TL12),
  sort(TL12,TL14),
  %trace,
- (length(TL14,1)->B1=brackets1;B1=false),
  %TL1 is TL2*2,
  %length(A,TL2),
  %append(A,B,T1),
@@ -120,6 +128,12 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
 
 %writeln1(check_same2(TL15,TL16,[],['*l3',L3],Start,TN1,TN2)),
  %trace,
+  (%false%
+ B1=brackets1
+ ->
+ (L31=[[T,Dbw_brackets],L3],%notrace,
+ %foldr(append,[[[T,Dbw_list]],L32],L31),%notrace,
+ append(L1,[L31],L2));
 
 
  (B=brackets->(%trace,
@@ -136,13 +150,7 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
 
  %L31=[[T,Dbw_brackets],L3],
  %append(L1,[L31],L2)
- (%false%
- B1=brackets1
- ->
- (L31=[[T,Dbw_brackets],L3],%notrace,
- %foldr(append,[[[T,Dbw_list]],L32],L31),%notrace,
- append(L1,[L31],L2));
- 
+
  append(L1,L3,L2)
  ))),
  %foldr(append,[L1,L3],L2))),
