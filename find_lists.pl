@@ -227,8 +227,8 @@ put_TN2(T,Dbw_type,Ns,L1,L2,TN1,TN2) :-
 
 check_same([],[],L,L,_,TN,TN) :- !.
 check_same(A,B,L1,L2,_Start,TN1,TN2) :-
- %get_lang_word("t",T), 
- %get_lang_word("list",Dbw_list), 
+ get_lang_word("t",T), 
+ get_lang_word("list",Dbw_list), 
  A=[T11|T12],
  B=[T21|T22],
  append([T11],[T21],T11T21),
@@ -238,7 +238,13 @@ check_same(A,B,L1,L2,_Start,TN1,TN2) :-
  %Start=true
  %->
  %foldr(append,[L1,[[T,Dbw_list],L3]],L4);
- append(L1,[L3],L4),
+ (%false%
+ %trace,
+ L3=[[[T,Dbw_list]|_]|_]
+ ->
+ (%trace,
+ append(L1,L3,L4));
+ append(L1,[L3],L4)),
  %foldr(append,[L1,[L3]],L4)),
  append(T12,T22,T12T22),
  find_lists(T12T22,L4,L2,false,TN3,TN2).

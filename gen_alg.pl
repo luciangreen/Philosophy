@@ -37,24 +37,48 @@ gen_alg(L,O,A2):-
 gen_alg([],[],A1,A2,B,B,_,_) :- append(_%[B]
  ,A1,A2),!.
  
-gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
+gen_alg(L0,O0,A1,A2,_B1,_B2,Start,PN1):- %*** test if need B1,B2
  get_lang_word("n",Dbw_n),
  get_lang_word("v",Dbw_v),
  get_lang_word("equals4",Dbw_equals4),
+ get_lang_word("append",Dbw_append),
  get_lang_word("t",T),
  get_lang_word("append",Dbw_append),
- get_lang_word("list",Dbw_list),
+ %get_lang_word("list",Dbw_list),
  get_lang_word("brackets",Dbw_brackets),
  
  ((L0=[[[T, Dbw_brackets],L00]],
- O0=[[[T, Dbw_brackets],O00]])->(O=O00,L=L00,Brackets=true);
+ O0=[[[T, Dbw_brackets],O00]])->(O=O00,L=L00,_Brackets=true);
  ((L0=[[T, Dbw_brackets],L00],
- O0=[[T, Dbw_brackets],O00])->(O=O00,L=L00,Brackets=true);
+ O0=[[T, Dbw_brackets],O00])->(O=O00,L=L00,_Brackets=true);
  fail%L0=L,O0=O,Brackets=false
  )),
 
  (Start=true->
- (%p_name1(PN1),
+ (%trace,
+ length(L,LL),
+ numbers(LL,1,[],IVNs),
+ 
+ %data_to_alg(L,O,IVNs,OVNs1),
+ findall(Same_items,(member(IVN,IVNs),
+ get_item_n(L,IVN,LIVN),
+ findall([IVN,LIVN,OIVN],(member(OIVN,O),
+ same_items(LIVN,OIVN)),Same_items)),Same_items2),
+ 
+ foldr(append,Same_items2,Same_items3),
+ sort(Same_items3,Same_items4),
+ 
+ (not(length(Same_items4,LL))->(writeln("Input and output have different items."),abort);true),
+ 
+ findall([IVN,A42],(member([IVN,LIVN1,OIVN1],Same_items4),
+ not(no_repeating_lists(OIVN1)),
+ gen_alg(LIVN1,OIVN1,[],A42,[]%B3
+  ,_B2,false,_)),A41),
+
+ findall(A43,member([_,A43],A41),A44),
+ foldr(append,A44,A4),
+
+%p_name1(PN1),
  v_name1(VN1),
  %v_name1(VN11),
  v_name1(VN2),
@@ -62,55 +86,37 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  L2=[[Dbw_n,PN1],[VN1,[],VN2],":-"],
 %trace,
 
- gen_alg(L,O,[],A4,[]%B3
-  ,B2,false,_),
-
- length(L,LL),
- numbers(LL,1,[],IVNs),
  findall(VN5,(member(_,IVNs),v_name1(VN5)),VN5s),
  %v_name1(VN6),
- v_name1(VN61),
+ %v_name1(VN61), **?
  v_name1(VN62),
  %VN6=[VN8,VN9],
  %append(VN5s,["|",VN6],VN7),
  L3=[[[Dbw_n,Dbw_equals4],[VN1,VN5s]]],
+
 %trace,
- %simplify_types_with_n(L,[],LN),
- %simplify_types_with_n(O,[],ON),
- %findall(OVN,member([v,OVN],VN5s),VN5s1),
- /*
- %trace,
- data_to_alg(%A4
- %VN5s%
- %L,O,VN5s,VN82
- %B2,
- LN,
- ON
- ,VN5s1%,ON
- ,VN82
- ),
- */
-%trace,
- (A4=[[[n,PN3]|_]|_]->_PN3F=true;_PN3F=false),
+ %(A4=[[[n,PN3]|_]|_]->_PN3F=true;_PN3F=false),
  %trace,
  findall(V,member([Dbw_v,V],VN5s),V1),
  data_to_alg(L,O,V1,VN6s),
  findall([Dbw_v,V],member(V,VN6s),V2),
  findall(Item,(member(IVN,IVNs),get_item_n(V2,IVN,VN51),
  get_item_n(O,IVN,LIVN), %%*** Test L as O
- (LIVN=[T,_,_,Data]-> 
+ (not(member([IVN,_],A41))%LIVN=[T,_,_,Data]
+ -> 
  Item=[]%[[[Dbw_n,=],[VN51,Data]],[VN51,VN51]]
  ;
  (%A4=[[Dbw_n,PV3]|_], %***
  %writeln(A1),
  %trace,
+ get_item_n(A41,IVN,[_,[[Dbw_n,PN3]|_]]),
  Item=[[[Dbw_n,PN3],%*
  [VN51,[],VN62]],[VN51,VN62]]
  ))),Items2),
 %trace,
  findall([B,[A]],member([_,[A,B]],Items2),C),
  
- (forall(member([B,[A]],C),A=B)->A41=[];A41=A4),
+ (forall(member([B,[A]],C),A=B)->A411=[];A411=A4),
  %trace,
  replace_in_terms(C,V2%VN6s%VN8
   ,VN821),
@@ -131,7 +137,7 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  %foldr(append,[A4],A41),
  %foldr(append,[A41],A42),
  foldr(append,[A1,%L1,
-  A5,A41],A2)
+  A5,A411],A2)
  )),!.
  
 gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
@@ -150,6 +156,28 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
 
  (Start=true->
  (%p_name1(PN1),
+ %trace,
+ length(L,LL),
+ numbers(LL,1,[],IVNs),
+
+ findall(Same_items,(member(IVN,IVNs),
+ get_item_n(L,IVN,LIVN),
+ findall([IVN,LIVN,OIVN],(member(OIVN,O),
+ same_items(LIVN,OIVN)),Same_items)),Same_items2),
+ 
+ foldr(append,Same_items2,Same_items3),
+ sort(Same_items3,Same_items4),
+ 
+ (not(length(Same_items4,LL))->(writeln("Input and output have different items."),abort);true),
+ 
+ findall([IVN,A42],(member([IVN,LIVN1,OIVN1],Same_items4),
+ not(no_repeating_lists(OIVN1)),
+ gen_alg(LIVN1,OIVN1,[],A42,[]%B3
+  ,_B2,false,_)),A41),
+
+ findall(A43,member([_,A43],A41),A44),
+ foldr(append,A44,A4),
+ 
  v_name1(VN1),
  v_name1(VN11),
  v_name1(VN2),
@@ -157,11 +185,6 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  L2=[[Dbw_n,PN1],[VN1,VN11,VN2],":-"],
 %trace,
 
- gen_alg(L,O,[],A4,[]%B3
-  ,B2,false,_),
-
- length(L,LL),
- numbers(LL,1,[],IVNs),
  findall(VN5,(member(_,IVNs),v_name1(VN5)),VN5s),
  v_name1(VN6),
  v_name1(VN61),
@@ -169,42 +192,28 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  %VN6=[VN8,VN9],
  append(VN5s,["|",VN6],VN7),
  L3=[[[Dbw_n,Dbw_equals4],[VN1,VN7]]],
-%trace,
- %simplify_types_with_n(L,[],LN),
- %simplify_types_with_n(O,[],ON),
- %findall(OVN,member([v,OVN],VN5s),VN5s1),
- /*
- %trace,
- data_to_alg(%A4
- %VN5s%
- %L,O,VN5s,VN82
- %B2,
- LN,
- ON
- ,VN5s1%,ON
- ,VN82
- ),
- */
-%trace,
- (A4=[[[n,PN3]|_]|_]->_PN3F=true;_PN3F=false),
+
+ %(A4=[[[n,PN3]|_]|_]->_PN3F=true;_PN3F=false),
  %trace,
  findall(V,member([Dbw_v,V],VN5s),V1),
  data_to_alg(L,O,V1,VN6s),
  findall([Dbw_v,V],member(V,VN6s),V2),
  findall(Item,(member(IVN,IVNs),get_item_n(V2,IVN,VN51),
  get_item_n(L,IVN,LIVN),
- (LIVN=[T,_,_,Data]-> 
+ (not(member([IVN,_],A41))%LIVN=[T,_,_,Data]
+ -> 
  Item=[]%[[[Dbw_n,=],[VN51,Data]],[VN51,VN51]]
  ;
  (%A4=[[Dbw_n,PV3]|_], %***
  %writeln(A1),
+ get_item_n(A41,IVN,[_,[[Dbw_n,PN3]|_]]),
  Item=[[[Dbw_n,PN3],%*
  [VN51,[],VN62]],[VN51,VN62]]
  ))),Items2),
 %trace,
  findall([B,[A]],member([_,[A,B]],Items2),C),
  
- (forall(member([B,[A]],C),A=B)->A41=[];A41=A4),
+ (forall(member([B,[A]],C),A=B)->A411=[];A411=A4),
  %trace,
  replace_in_terms(C,V2%VN5s%VN8
   ,VN821),
@@ -224,47 +233,61 @@ gen_alg(L0,O0,A1,A2,B1,B2,Start,PN1):-
  %foldr(append,[[A31]],A5),
  %foldr(append,[A4],A41),
  %foldr(append,[A41],A42),
- foldr(append,[A1,L1,A5,A41],A2)
- );
- (%trace,
- %L0=L,O0=O,
- L=[L1|L2],
- O=[O1|O2],
- ((L1=[T,_,_,Data],O1=[T,_,_,_Data2])->
- (
- (Brackets=true->
- Data2=[[Data]];
- Data2=[Data]),
- 
- foldr(append,[B1,Data2],B3),
- (not(L2=[T,_,_,_])->
- (%trace,
- p_name1(PN2),
- gen_alg(L2,O2,[],A4,B3,B2,true,PN2));
- gen_alg(L2,O2,[],A4,B3,B2,false,_)),
- foldr(append,[A1,A4],A2)
- )
- %trace,
- /*
- (Brackets=true->
- foldr(append,[A1,[A4]],A2);
- foldr(append,[A1,A4],A2))
- )
- */
- ;
- (%trace,
- %writeln('**'),
- not(L1=[T,_,_,_]),
- p_name1(PN2),
- gen_alg(L1,O1,[],A3,[],_B3,true,PN2),
- foldr(append,[B1,[PN2]],B4),
- gen_alg(L2,O2,A3,A4,B4,B2,false,_),
- 
- (Brackets=true->
- foldr(append,[A1,A4],A2);
- foldr(append,[A1,A4],A2))
- )
- 
- 
- ))).
-  
+ foldr(append,[A1,L1,A5,A411],A2)
+ )).
+
+% out of order items
+
+% also need geode (no repeating lists) detector
+
+% after writing these two predicates, can delete previous two gen_alg predicates
+
+% x don't need these two predicates, just run gen alg false for needed predicates, in accordance with above
+
+
+/*
+
+same_items([[t,list],[[_,_,_,2],[[t,list],[[_,_,_,1]]]]],[[t,list],[[[t,list],[[_,_,_,1]]],[_,_,_,2]]]).                                            true.
+
+same_items([[t,list],[[_,_,_,2],[[t,list],[[_,_,_,1]]]]],[[t,list],[[[t,list],[[_,_,_,1]]],[_,_,_,3]]]).
+false.
+
+*/
+
+same_items(A0,B0):-
+ get_lang_word("t",T),
+ get_lang_word("list",Dbw_list),
+ get_lang_word("brackets",Dbw_brackets),
+ (A0=[[T,Dbw_list],A]->true;(A0=[[T,Dbw_brackets],A]->true;[A0]=A)),
+ (B0=[[T,Dbw_list],B]->true;(B0=[[T,Dbw_brackets],B]->true;[B0]=B)),
+ findall(Data,member([T,_,_,Data],A),Data_A),
+ findall(Data,member([T,_,_,Data],B),Data_B),
+ subtract(Data_A,Data_B,[]),
+ subtract(Data_B,Data_A,[]),
+ findall(A1,(member(A1,A),not(A1=[T,_,_,_])),Data_A2),
+ findall(B1,(member(B1,B),not(B1=[T,_,_,_])),Data_B2),
+ ((Data_A2=[]->true;Data_B2=[])->true;
+ (forall((member(A2,Data_A2),
+ member(B2,Data_B2)),
+ same_items(A2,B2)))).
+
+/*
+
+no_repeating_lists([[t,brackets],[[_,_,_,2],[[t,brackets],[[_,_,_,1]]]]]).                                                                          true.
+
+no_repeating_lists([[t,brackets],[[_,_,_,2],[[t,list],[[_,_,_,1]]]]]).
+false.
+
+no_repeating_lists([[t,list],[[_,_,_,2],[[t,list],[[_,_,_,1]]]]]).  false.
+
+*/
+
+no_repeating_lists(A0) :-
+ get_lang_word("t",T),
+ get_lang_word("list",Dbw_list),
+ get_lang_word("brackets",Dbw_brackets),
+ (A0=[[T,Dbw_list],A]->false;(A0=[[T,Dbw_brackets],A]->true;[A0]=A)),
+ findall(A1,(member(A1,A),not(A1=[T,_,_,_])),Data_A2),
+ (Data_A2=[]->true;
+ (forall(member(A2,Data_A2),
+ no_repeating_lists(A2)))).
