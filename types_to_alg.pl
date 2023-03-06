@@ -3,9 +3,16 @@
 :- include('find_lists.pl').
 :- include('collect_simplify_types.pl').
 :- include('data_to_alg3.pl').
+%:- include('data_to_alg4.pl').
+:- include('data_to_alg5.pl').
 :- include('gen_alg.pl').
 :- include('simplify_types_with_n.pl').
 :- include('../Prolog-to-List-Prolog/p2lpconverter.pl').
+:- include('collect_ga_parts.pl').
+:- include('replace_v_with_nothing.pl').
+:- include('replace_nothing_with_v.pl').
+:- include('flatten_var_term.pl').
+:- include('replace_in_term3.pl').
 
 :- dynamic p_name/1.
 :- dynamic v_name/1.
@@ -82,13 +89,28 @@ test_types2a2([
 %[[[[b, b],a,[b]]], [[a,[b]]]]
 %[[[a,[b],a,[b]]], [[a,[b]]]]
 ]),
-%*/
 %trace,
 
 test_types2a2([
 [[[a,b]]],
 [[[b,a]]]
+]),
+test_types2a2([
+[[[ [b, [c],b,[c]],a,[b,[c]],a]], [[[b,[c]],a]]],
+%[[[ [b, b],a,[b],a]], [[[b],a]]]
+[[[ a,[b, [c],b,[c]],a,[b,[c]]]], [[a,[b,[c]]]]]
+%[[[ [b],a,[b],a]], [[[b],a]]]
+]),
+
+%*/
+test_types2a2([
+[[[ [b, [c],b,[c]],a,[b,[c]],a]], [[[b,[c]],a]]],
+%[[[ [b, b],a,[b],a]], [[[b],a]]]
+[[[ a,[ [c],b,[c],b],a,[[c],b]]], [[a,[[c],b]]]]
+%[[[ [b],a,[b],a]], [[[b],a]]]
 ])
+
+
 ,!.
 
 test_types2a2(Data):-
@@ -164,6 +186,12 @@ replace_in_terms2(MT1,MT2,L1,L2) :-
  replace_in_term(L1,MT5,MT1,L3),
  replace_in_terms2(MT1,MT6,L3,L2).
 
+replace_in_terms3([],B,B) :-!.
+replace_in_terms3(A,B,C) :-
+ A=[[D,E]|F],
+ replace_in_term(B,D,E,G),
+ replace_in_terms3(F,G,C).
+ 
 p_name1(N) :-
  p_name(N1),
  atom_concat(p,N1,N),
