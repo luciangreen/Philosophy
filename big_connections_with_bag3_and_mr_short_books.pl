@@ -12,11 +12,14 @@ big_connections_with_bag3_and_mr :-
 
 K=[
 "../Lucian-Academy/Books/BOTS/",
+/*
 "../Lucian-Academy/Books/COMPUTER SCIENCE/",
 "../Lucian-Academy/Books/Computational English/",
 "../Lucian-Academy/Books/Creating and Helping Pedagogues/",
 "../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/",
+*/
 "../Lucian-Academy/Books/ECONOMICS/",
+/*
 "../Lucian-Academy/Books/Fundamentals of Meditation and Meditation Indicators/",
 "../Lucian-Academy/Books/Fundamentals of Pedagogy and Pedagogy Indicators/",
 "../Lucian-Academy/Books/IMMORTALITY/",
@@ -27,11 +30,15 @@ K=[
 "../Lucian-Academy/Books/PEDAGOGY/",
 "../Lucian-Academy/Books/POLITICS/",
 "../Lucian-Academy/Books/POPOLOGY/",
+*/
 "../Lucian-Academy/Books/REPLICATION/",
-"../Lucian-Academy/Books/SALES/",
+"../Lucian-Academy/Books/SALES/"
+/*,
 "../Lucian-Academy/Books/Short Arguments/",
 "../Lucian-Academy/Books/SIMULATION/",
-"../Lucian-Academy/Books/Time Travel/"],
+"../Lucian-Academy/Books/Time Travel/"
+*/
+],
 
 
 findall(_J,(member(K1,K),	directory_files(K1,F),
