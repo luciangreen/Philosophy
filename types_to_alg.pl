@@ -108,10 +108,12 @@ test_types2a2([
 %[[[ [b, b],a,[b],a]], [[[b],a]]]
 [[[ a,[ [c],b,[c],b],a,[[c],b]]], [[a,[[c],b]]]]
 %[[[ [b],a,[b],a]], [[[b],a]]]
-])
+]),
+
+test_types2a2([[[[ [[b, b],a],[[b],a]]], [[[[b],a]]]],[[[[ a,[b, b]],[a,[b]]]]]]),
 
 
-,!.
+!.
 
 test_types2a2(Data):-
 types_to_alg(Data,Alg),
