@@ -5,39 +5,61 @@
 
 :-include('bag2philn.pl').
 
+big_connections_with_bag3_and_mr2(Keywords) :-
+%trace,
+ retractall(spec(_)),
+ assertz(spec(on)),
+ findall(Keyword1,(member(Keyword,Keywords),downcase_atom(Keyword,Keyword1)),Keywords2),
+ retractall(keywords(_)),
+ assertz(keywords(Keywords2)),
+ big_connections_with_bag3_and_mr.
+
+choose_texts(K1,H,J1):-
+%member(H,G),
+not(string_concat("dot",_,H)),
+string_concat(K1,H,H1),open_file_s(H1,[A,B,_,File_term]),
+flatten([A,"\n",B,"\n",File_term,"\n"],J1).
+
 big_connections_with_bag3_and_mr :-
+ (not(spec(_))->
+ (retractall(spec(_)),
+ assertz(spec(off)));
+ true),
 
 (exists_directory('Books')->true;make_directory('Books')),
 
 
 K=[
-"../Lucian-Academy/Books/BOTS/",
+%"../Lucian-Academy/Books/BOTS/"
 /*
 "../Lucian-Academy/Books/COMPUTER SCIENCE/",
 "../Lucian-Academy/Books/Computational English/",
 "../Lucian-Academy/Books/Creating and Helping Pedagogues/",
 "../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/",
 */
-"../Lucian-Academy/Books/ECONOMICS/",
+%"../Lucian-Academy/Books/ECONOMICS/",
 /*
 "../Lucian-Academy/Books/Fundamentals of Meditation and Meditation Indicators/",
 "../Lucian-Academy/Books/Fundamentals of Pedagogy and Pedagogy Indicators/",
+
 "../Lucian-Academy/Books/IMMORTALITY/",
+
 "../Lucian-Academy/Books/Lecturer/",
 "../Lucian-Academy/Books/MEDICINE/",
 "../Lucian-Academy/Books/MEDITATION/",
 "../Lucian-Academy/Books/Mind Reading/",
 "../Lucian-Academy/Books/PEDAGOGY/",
 "../Lucian-Academy/Books/POLITICS/",
-"../Lucian-Academy/Books/POPOLOGY/",
+"../Lucian-Academy/Books/POPOLOGY/"
 */
-"../Lucian-Academy/Books/REPLICATION/",
-"../Lucian-Academy/Books/SALES/"
+%"../Lucian-Academy/Books/REPLICATION/",
+%"../Lucian-Academy/Books/SALES/"
 /*,
 "../Lucian-Academy/Books/Short Arguments/",
 "../Lucian-Academy/Books/SIMULATION/",
 "../Lucian-Academy/Books/Time Travel/"
 */
+"../Lucian-Academy/Books/books2/"
 ],
 
 
@@ -45,11 +67,42 @@ findall(_J,(member(K1,K),	directory_files(K1,F),
 	delete_invisibles_etc(F,G),
 
 %/*
-findall(_,(member(H,G),not(string_concat("dot",_,H)),
-string_concat(K1,H,H1),open_file_s(H1,[A,B,_,File_term]),
+
+findall(_,(
+%trace,
+(false%spec(on)
+->
+(
+%H="test.txt",
+%member(H01,G),
+H01="Immortality 1.txt",
+[_,H02|_]=G,
+[_,_,H03|_]=G,
+[_,_,_,H04|_]=G,
+[_,_,_,_,H05|_]=G,
+[_,_,_,_,_,H06|_]=G,
+string_concat(H02,H03,H),
+not(H01=H02),not(H02=H03),not(H01=H03),
+choose_texts("../Lucian-Academy/Books/IMMORTALITY/",%K1,
+H01
+,J01),
+choose_texts(K1,H02,J02),
+choose_texts(K1,H03,J03),
+choose_texts(K1,H04,J04),
+choose_texts(K1,H05,J05),
+choose_texts(K1,H06,J06),
+
+foldr(append,[J01,[" "],J02,[" "],J03,[" "],J04,[" "],J05,[" "],J06],J1)
+);
+(
+member(H,G),
+choose_texts(K1,H,J1))),
+
+%member(H,G),
+%not(string_concat("dot",_,H)),
+%string_concat(K1,H,H1),open_file_s(H1,[A,B,_,File_term]),
 
 
-flatten([A,"\n",B,"\n",File_term,"\n"],J1),
 foldr(string_concat,J1,"",J2),
 
 split_string(J2,"\n\r.","\n\r.",J3),
@@ -79,6 +132,6 @@ writeln([K5,written])
 %"],
 
 
-
+%,!.
 ),_),!.
 

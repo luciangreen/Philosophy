@@ -65,5 +65,10 @@ length(L2,N2),%append(G,[E|_],C2)
 append(_,L2,D3),
 findall(D4,member([D4,_],L2),D5),
 foldr(append,[C5,[" "],D5],[],L31),
+%trace,
+(spec(on)->(findall(L312,(member(L311,L31),downcase_atom(L311,L312)),L313),keywords(Keywords),not(intersection(L313,Keywords,[]))%,trace
+);true),
+%writeln1(C5),trace,
+
 foldr(string_concat,L31,"",L3)),Br).
 
