@@ -8,7 +8,7 @@
 
 %:-include('../listprologinterpreter/listprolog.pl').
 :-include('br_alg_gen2.pl').
-
+%:-dynamic spec/1.
 /*
 ?- bag2phil(100,2,Br),writeln(Br).
 Enter number of input files:
