@@ -43,7 +43,7 @@ analytics_abandoned_cart_auto_responder :-
  writeln("I see you have started a cart.  If you would like to resume it, here is the link.").
 
 % ?- neuronetwork_values_ready_by_times([[2,1],[3,2],[4,2],[5,4],[6,2],[7,3],[8,7],[9,8]],G),writeln(G).
-% [1,[2],[[[3,4,6],[[[7],[[[8],[[[9],[[[],[]]]]]]]],[[5],[[[],[]]]],[[],[]]]]]]
+% [1,[2],[[3,4,6],[[7],[[8],[[9],[[]]]]],[[5],[[]]],[[]]]]
 
 neuronetwork_values_ready_by_times(Values,Times_GAANT) :-
  nng(Values,%_,
@@ -73,5 +73,5 @@ nng(Values,%Values3,
  append(TG1,[V2],TG3),
  findall(V4,(member(V3,V2),nng(Values2,%Values3,
 V3,[],V4)),TG4),
- append(TG3,[TG4],TG2).
+ append(TG3,TG4,TG2).
  
