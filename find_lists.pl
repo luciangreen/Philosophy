@@ -116,7 +116,14 @@ find_lists(T1T2,L1,L2,Start,TN1,TN2) :-
  %length(T1,TL1),
  %length(T2,TL2),
  cut_into_equals_segments(TL10,T1T24,[],TL12),
+ 
  sort(TL12,TL14),
+ 
+ %trace,
+ %(length(TL14,1)->B11=brackets1;B11=B1),
+ %TL14=[T141|T1412],
+ %length(T141,T141L),
+ %(forall(member(T1413,T1412),length(T1413,T141L))->B11=brackets1;B11=B1),
  %trace,
  %TL1 is TL2*2,
  %length(A,TL2),
