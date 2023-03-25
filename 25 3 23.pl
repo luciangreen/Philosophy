@@ -97,6 +97,8 @@ interpret(A,B,Op,R) :- Op=(+),R is A+B.
 
 modus_ponens(A,A-B,B).
  
+% Computational English is like a Calculator 3 of 4
+
 % 21.   I prepared to perform computations on the ontology, step by step.  I did this by writing an ontology, in other words, the data structure, containing the arguments in order.  First, I wrote words, the arguments down in the ontology.  Second, I wrote the grammar, the order of the arguments under the words, the arguments.  Third, I wrote the words, the arguments, in the order of action in the ontology.  In this way, I prepared to perform computations on the ontology, step by step by writing an ontology, in other words, the data structure, containing the arguments in order.
 
 % summarise_structure([a,[b,c,[d,[e]]]],[],[],R).
