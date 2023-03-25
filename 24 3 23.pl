@@ -84,6 +84,8 @@ bar_n(N,M) :-
 % viral_poster_hands_train(It).
 % It = [1,2,3]
 
+% once the 4*50 As for a work has been completed, viral As stretching out from each side are completed (where one imagines virality to come from), like hands, and this reminded me of spiritual hands on University posters, that guide the eyes around the poster, like a train.
+
 viral_poster_hands_train(Itin4) :-
  Itin=[],
  point(1,Itin,Itin2),
