@@ -106,6 +106,8 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * Enter text to paraphrase in `Philosophy/file.txt` while reading the text in another window and the paraphrased file `file2.txt` will be produced.
 
+* Warning: Check results for correctness.
+
 * In `swipl`, `['paraphraser1.pl'].` `paraphraser.`
 
 # Authors
