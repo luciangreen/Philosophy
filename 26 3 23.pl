@@ -91,6 +91,8 @@ bottom_up1(subject,i,have,subject).
 bottom_up1(verb,i,have,verb).
 bottom_up1(object,i,have,object).
 
+% COMPUTATIONAL ENGLISH by Lucian Green Conglish Reflection 4 of 4.txt
+
 % 31.    I prepared to make the present.  I did this by smelling the tissue paper.  First, I found the tissue paper, in the wood products section.  Second, I lifted it to my nose.  Third, I smelt it.  In this way, I prepared to I prepared to make the present by smelling the tissue paper.
 
 % findall([A,B],link(A,B),L),findall(P,paths(1,L,[1],P),P2),findall([L2,P3],(member(P3,P2),length(P3,L2)),Z),sort(Z,Z3),append(_,[[_,P4]],Z3),writeln(P4),!.
