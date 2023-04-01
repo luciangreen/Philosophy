@@ -182,9 +182,9 @@ epsilon(0.000001).
 % 30
 
 cos1(Deg,Cos_D) :- Cos_D1 is cos(Deg*pi/180), 
- epsilon(E), (Cos_D1 < E -> Cos_D is 0; Cos_D = Cos_D1).
+ epsilon(E), ((Cos_D1 < E, Cos_D1 > -E)-> Cos_D is 0; Cos_D = Cos_D1).
 sin1(Deg,Sin_D) :- Sin_D1 is sin(Deg*pi/180), 
- epsilon(E), (Sin_D1 < E -> Sin_D is 0; Sin_D = Sin_D1).
+ epsilon(E), ((Sin_D1 < E, Sin_D1 > -E) -> Sin_D is 0; Sin_D = Sin_D1).
 
 % 1. In a binary opposition, one will be stronger. This is because one starts at it (it is the origin). The contention is exploring the relationship/directionality/methodology between two fundamental objects which have a relation.
 
