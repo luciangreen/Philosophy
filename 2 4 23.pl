@@ -180,6 +180,8 @@ tty_put101(%C,
 
 % 35
 
+% ["Green, L 2021, <i>Exploring opposites in Hamlet 4 of 4</i>, Lucian Academy Press, Melbourne.","Green, L 2021",1,"COMPUTATIONAL ENGLISH
+
 % 31.    I prepared to declare Hamlet a success.  I did this by agreeing with Hamlet.  First, I observed Hamlet avoid all the action.  Second, I observed Hamlet avoid suicide.  Third, I observed Hamlet avoid becoming a murderer.  In this way, I prepared to declare Hamlet a success by agreeing with Hamlet.
 
 /*
