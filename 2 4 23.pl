@@ -78,18 +78,18 @@ house_cross_section(Rs,Ls,A) :-
 % 21.   I prepared to scroll the text down and add a new conclusion at the vanishing point on the horizon.  I did this by concluding a new conclusion from two conclusions.  First, I read the first conclusion.  Second, I read the second conclusion.  Third, I wrote a third conclusion formed from the first clause in the first conclusion and the second clause in the second conclusion.  In this way, I prepared to scroll the text down and add a new conclusion at the vanishing point on the horizon by concluding a new conclusion from two conclusions.
 
 setting1([
-" (  )  ( )  () ( )  (  )  ()",
-" ^     ^      ^       ^    ^",
-" .  . ..  . . ...   . .. . .",
-" (  )  ( )  () ( )  (  )  ()",
-" ^     ^      ^       ^    ^",
-" .  . ..  . . ...   . .. . .",
-" (  )  ( )  () ( )  (  )  ()",
-" ^     ^      ^       ^    ^",
-" .  . ..  . . ...   . .. . ."]).
+"(  )  ( )  () ( )  (  )  ()",
+"^     ^      ^       ^    ^",
+".  . ..  . . ...   . .. . .",
+"(  )  ( )  () ( )  (  )  ()",
+"^     ^      ^       ^    ^",
+".  . ..  . . ...   . .. . .",
+"(  )  ( )  () ( )  (  )  ()",
+"^     ^      ^       ^    ^",
+".  . ..  . . ...   . .. . ."]).
 
-window_x(5).
-window_y(5).
+window_x(7).
+window_y(7).
 
 inkey_pic :-
  window_x(R),
@@ -99,7 +99,7 @@ inkey_pic :-
  convert_to_matrix(S,X1,Y1,Matrix),
 
  tty_size(R1,_C),
- X is 2,%round(C/2),
+ X is 1,%round(C/2),
  Y is R-2,%round(R/2),
  move(R1,C,R,1,X1,1,Y1,X,Y,Matrix).
  
@@ -143,16 +143,17 @@ move(R,Win_X,Win_Y,X_min,X_max,Y_min,Y_max,X,Y,Matrix) :-
  (move1(Win_X,Win_Y,X_min,X_max,Y_min,Y_max,Atom,X,Y,X1,Y1),
  move(R,Win_X,Win_Y,X_min,X_max,Y_min,Y_max,X1,Y1,Matrix))),!.
 
-move1(_Win_X,_Win_Y,_X_min,_X_max,Y_min,_Y_max,up,X,Y,X,Y2) :-
+move1(_Win_X,Win_Y,_X_min,_X_max,Y_min,_Y_max,up,X,Y,X,Y2) :-
  Y1 is Y-1,
- (Y1 is Y_min+1->Y2=Y;Y2=Y1).
-move1(_Win_X,Win_Y,_X_min,_X_max,_Y_min,Y_max,down,X,Y,X,Y2) :-%trace,
+ (Y1 is Y_min+3
+ ->Y2=Y;Y2=Y1).
+move1(_Win_X,_Win_Y,_X_min,_X_max,_Y_min,Y_max,down,X,Y,X,Y2) :-%trace,
  Y1 is Y+1,
  (Y1 is Y_max%+Win_Y%+1
  ->Y2=Y;Y2=Y1).
 move1(_Win_X,_Win_Y,X_min,_X_max,_Y_min,_Y_max,left,X,Y,X2,Y) :-
  X1 is X-1,
- (X1 is X_min->X2=X;X2=X1).
+ (X1 is X_min-1->X2=X;X2=X1).
 move1(Win_X,_Win_Y,_X_min,X_max,_Y_min,_Y_max,right,X,Y,X2,Y) :-
  X1 is X+1,
  (X1 is X_max-Win_X+1
