@@ -99,8 +99,8 @@ inkey_pic :-
  convert_to_matrix(S,X1,Y1,Matrix),
 
  tty_size(R1,_C),
- X is 1,%round(C/2),
- Y is 1,%round(R/2),
+ X is 2,%round(C/2),
+ Y is R-2,%round(R/2),
  move(R1,C,R,1,X1,1,Y1,X,Y,Matrix).
  
 verify(Plane,X1,Y1) :-
@@ -145,17 +145,17 @@ move(R,Win_X,Win_Y,X_min,X_max,Y_min,Y_max,X,Y,Matrix) :-
 
 move1(_Win_X,_Win_Y,_X_min,_X_max,Y_min,_Y_max,up,X,Y,X,Y2) :-
  Y1 is Y-1,
- (Y1 is Y_min%-1
- ->Y2=Y;Y2=Y1).
-move1(_Win_X,Win_Y,_X_min,_X_max,_Y_min,Y_max,down,X,Y,X,Y2) :-
+ (Y1 is Y_min+1->Y2=Y;Y2=Y1).
+move1(_Win_X,Win_Y,_X_min,_X_max,_Y_min,Y_max,down,X,Y,X,Y2) :-%trace,
  Y1 is Y+1,
- (Y1 is Y_max-Win_Y+1->Y2=Y;Y2=Y1).
+ (Y1 is Y_max%+Win_Y%+1
+ ->Y2=Y;Y2=Y1).
 move1(_Win_X,_Win_Y,X_min,_X_max,_Y_min,_Y_max,left,X,Y,X2,Y) :-
  X1 is X-1,
- (X1 is X_min-1->X2=X;X2=X1).
+ (X1 is X_min->X2=X;X2=X1).
 move1(Win_X,_Win_Y,_X_min,X_max,_Y_min,_Y_max,right,X,Y,X2,Y) :-
  X1 is X+1,
- (X1 is X_max-Win_X%+1
+ (X1 is X_max-Win_X+1
  ->X2=X;X2=X1).
 
 tty_put101(%C,
@@ -164,9 +164,9 @@ tty_put101(%C,
  numbers(R,1,[],Rs),
  findall(_,(member(_,Rs),nl),_),
  
- Y1 is Y+Win_Y,
+ Y1 is Y+1,%+2*Win_Y,
  X1 is X+Win_X,
- numbers(Y1,Y,[],Ys),
+ numbers(Y1,1,[],Ys),
  numbers(X1,X,[],Xs),
  findall(_,(member(Y2,Ys),
  findall(_,(member(X2,Xs),member([X2,Y2,C],Matrix),
