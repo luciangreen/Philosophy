@@ -1,6 +1,6 @@
 % 6 4 23.pl
 
-% 84
+% 42
 
 :-include('../listprologinterpreter/listprolog.pl').
 
