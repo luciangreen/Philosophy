@@ -283,6 +283,8 @@ print_matrix(X,Y,Matrix) :-
 
 % 32 done
 
+% How can the program cope with real variation? 1 of 4
+
 % Some features allow greater variation in Computational English, while the program is limited to rational principles. In theory it could detect contradictions and recognise abstract, metaphorical or other forms. Synonyms and synogrammars (grammars with the same meaning) substituted for words and phrases allow for a different form. Clauses in sentences can be substituted, allowing more variation. If two sentences are used where one would normally be used, the program can integrate them into a single sentence. There are rules for selecting sentences as evidence, like order and causality. I am writing a paper on variation in Computational English. I can let you know when it is available.
 
 :-include('maths_formulas.pl').

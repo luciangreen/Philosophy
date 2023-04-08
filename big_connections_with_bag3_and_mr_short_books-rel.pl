@@ -3,8 +3,9 @@
 % This will conclude the philosophy project,
 % writing 16*n joined details.
 
-:-include('bag2philn.pl').
+:-include('bag2philn-rel.pl').
 
+/*
 big_connections_with_bag3_and_mr2(Keywords) :-
 %trace,
  retractall(spec(_)),
@@ -19,9 +20,13 @@ choose_texts(K1,H,J1):-
 not(string_concat("dot",_,H)),
 string_concat(K1,H,H1),open_file_s(H1,[A,B,_,File_term]),
 flatten([A,"\n",B,"\n",File_term,"\n"],J1).
+*/
+big_connections_with_bag3_and_mr(KW) :-
 
-big_connections_with_bag3_and_mr :-
- /*(not(spec(_))->
+ findall(Keyword1,(member(Keyword,KW),downcase_atom(Keyword,Keyword1)),Keywords2),
+
+/*
+ (not(spec(_))->
  (retractall(spec(_)),
  assertz(spec(off)));
  true),
@@ -31,13 +36,15 @@ big_connections_with_bag3_and_mr :-
 
 K=[
 %"../Lucian-Academy/Books/BOTS/"
-%/*
+/*
 "../Lucian-Academy/Books/COMPUTER SCIENCE/",
-"../Lucian-Academy/Books/Computational English/",
+*/
+%"../Lucian-Academy/Books/Computational English/"
+"../Lucian-Academy/Books/Computational English Copy/"
+/*,
 "../Lucian-Academy/Books/Creating and Helping Pedagogues/",
-"../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/"
-,
-%*/
+"../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/",
+*/
 %"../Lucian-Academy/Books/ECONOMICS/",
 /*
 "../Lucian-Academy/Books/Fundamentals of Meditation and Meditation Indicators/",
@@ -59,8 +66,8 @@ K=[
 "../Lucian-Academy/Books/Short Arguments/",
 "../Lucian-Academy/Books/SIMULATION/",
 "../Lucian-Academy/Books/Time Travel/"
-%*/
-"../Lucian-Academy/Books/books2/"
+*/
+%"../Lucian-Academy/Books/books2/"
 ],
 
 
@@ -80,7 +87,7 @@ delete(J3,"",J4),
 length(J4,Length),
 Length2 is Length*16,
 %trace,
- bag2phil2(Length2,J2,2,Br32),
+ bag2phil2(Length2,J2,2,Br32,Keywords2),
  
  string_concat("../Lucian-Academy/Books/",K2,K1),
  string_concat("Books/",K2,K3),
