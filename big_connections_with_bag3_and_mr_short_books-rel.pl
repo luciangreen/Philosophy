@@ -39,8 +39,8 @@ K=[
 /*
 "../Lucian-Academy/Books/COMPUTER SCIENCE/",
 */
-%"../Lucian-Academy/Books/Computational English/"
-"../Lucian-Academy/Books/Computational English Copy/"
+"../Lucian-Academy/Books/Computational English/"
+%"../Lucian-Academy/Books/Computational English Copy/"
 /*,
 "../Lucian-Academy/Books/Creating and Helping Pedagogues/",
 "../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/",
