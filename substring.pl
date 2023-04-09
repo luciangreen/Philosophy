@@ -16,7 +16,8 @@ substring2(T,TLN,Before,Length,After,SS):-
  After is TL2-Length,
  length(SS1,Length),
  append(SS1,_,T),
- string_chars(SS,SS1));
+ string_chars(SS,SS1),
+ (Rest=[]->!;true));
  (%string_chars(T,TC),
  TLN=[_|Rest],
  (Rest=[]->true;
