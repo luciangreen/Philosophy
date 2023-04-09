@@ -19,10 +19,11 @@ substring2(T,TLN,Before,Length,After,SS):-
  string_chars(SS,SS1));
  (%string_chars(T,TC),
  TLN=[_|Rest],
- length(C,1),
+ (Rest=[]->true;
+ (length(C,1),
  append(C,T2,T),
  %length(T2,T2L),
  %numbers(T2L,0,[],T2LN),
- (%Rest=[0]->true;
- substring2(T2,Rest,Before,Length,After,SS)))).
+ %Rest=[0]->true;
+ substring2(T2,Rest,Before,Length,After,SS))))).
  
