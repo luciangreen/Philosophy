@@ -29,7 +29,7 @@ para([
 ]],
 [[n,find118],[[v,text],[v,strings],[v,list1],[v,list2]],":-",
 [
-	[[n,findall],[[v,string],[[[n,member2],[[v,strings],[v,string]]],[[n,not],[[[n,substring],[[v,text],[v,'_a'],[v,'_b'],[v,'_c'],[v,string]]]]]],[v,b]]],
+	[[n,findall],[[v,string],[[[n,member2],[[v,strings],[v,string]]],[[n,not],[[[n,sub_string],[[v,text],[v,'_a'],[v,'_b'],[v,'_c'],[v,string]]]]]],[v,b]]],
 	[[n,length],[[v,strings],[v,l]]],
 	[[n,length],[[v,b],[v,l]]],	
 	[[n,append],[[v,list1],[[v,text]],[v,list2]]],
@@ -54,9 +54,10 @@ para([
 	[[n,sub_string],[[v,text],[v,'_b'],[v,c1],0,[v,string3]]],
 	[[n,append],[[v,list1],[[v,string2],[v,string1]],[v,list3]]],
 	[[n,find118],[[v,string3],[v,strings],[v,list3],[v,list2]]]
-]],
+]]
 
-
+/*
+,
 [[n,substring],[[v,t],[v,before],[v,length],[v,after],[v,ss]],":-",
 [
 	[[n,string_chars],[[v,t],[v,tc]]],
@@ -87,6 +88,7 @@ para([
 	[[n,numbers1],[[v,n2],[v,n3],[v,numbers3],[v,numbers2]]],
 	[[n,cut]]
 ]]
+*/
 ]%,Result
         ]],	
 	
