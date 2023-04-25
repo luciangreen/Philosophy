@@ -110,6 +110,26 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * In `swipl`, `['paraphraser1.pl'].` `paraphraser.`
 
+# Paraphraser Web Service
+
+* In `paraphraser1_lp.pl` change the password `apple` to something else.
+
+* Load with `['paraphraser1_lp_ws.pl'].` and `paraphraser_server(8000).`.
+
+* Go to `http://localhost:8000/paraphraser`.
+
+* Enter the password.
+
+* Enter the file to paraphrase.
+
+* Enter the thesaurus or [], for example `[["a","c"], etc]` where these are the pairs of bidirectional synonyms.
+
+* Enter synonyms for additional words.
+
+* Save the finished paraphrasing and thesaurus.
+
+* Warning: Check results for correctness.
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
