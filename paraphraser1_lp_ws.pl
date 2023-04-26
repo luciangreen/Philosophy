@@ -27,7 +27,7 @@ assertz(html_api_maker_or_terminal(html
  %terminal
  )),
 			
-			working_directory(CWD,'../SSI/'),
+			working_directory(_,'../SSI/'),
 																										              format('Content-type: text/html~n~n', []),
 																			
 data(Header,Footer),
