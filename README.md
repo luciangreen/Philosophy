@@ -112,6 +112,8 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 # Paraphraser Web Service
 
+* Warning: Paraphraser Web Service is slow. Please use Paraphraser (previous section).
+
 * In `paraphraser1_lp.pl` change the password `apple` to something else.
 
 * Load with `['paraphraser1_lp_ws.pl'].` and `paraphraser_server(8000).`.
