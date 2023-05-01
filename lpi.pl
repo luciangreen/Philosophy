@@ -27,7 +27,7 @@ L:halt.
 
 :-include('../Prolog-to-List-Prolog/p2lpconverter.pl').
 :-include('../listprologinterpreter/listprolog.pl').
-:-include('../List-Prolog-to-Prolog-Converter/lp2pconverter.pl').
+:-include('../List-Prolog-to-Prolog-Converter/lp2pconverter1.pl').
 
 :- dynamic lp_trace/1.
 :- dynamic lp_lang/1.
