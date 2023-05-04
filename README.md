@@ -132,6 +132,12 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * Warning: Check results for correctness.
 
+# LPI and lucianpl
+
+* To run List Prolog Interpreter and enter Prolog queries, load `['lpi.pl'].` and run `lpi.`.
+
+* To run State Saving Interpreter and enter Prolog queries, load `['lucianpl.pl'].` and run `lucianpl.`.
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
