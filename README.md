@@ -108,7 +108,7 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * Warning: Check results for correctness.
 
-* In `swipl`, `['paraphraser1.pl'].` `paraphraser.`
+* In `swipl`, `['paraphraser1.pl'].` `paraphraser([file,"file.txt"]).`
 
 # Paraphraser Web Service
 

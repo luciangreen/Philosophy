@@ -14,8 +14,21 @@ paraphraser.
 
 :- include('../listprologinterpreter/listprolog').
 
-paraphraser :-
-	phrase_from_file_s(string(Codes), "file.txt"),
+paraphraser([string,String],File_list_a) :-
+	%File1="test1.pl",
+	string_codes(String,Codes),
+	paraphraser1(Codes,File_list_a),!.
+	
+paraphraser([file,File1],File_list_a
+) :-
+	%File1="test1.pl",
+	phrase_from_file_s(string(Codes), File1),
+	paraphraser1(Codes,File_list_a),
+	(open_s("file2.txt",write,Stream1),
+	write(Stream1,File_list_a),
+	close(Stream1)),!.
+
+paraphraser1(Codes,File_list_a) :-
 	SepandPad=%".",%
 	"&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
 	%string_codes(String1,Codes),
@@ -34,10 +47,6 @@ paraphrase1(File_list,[],File_list2a,Synonym_list,Synonym_list2),
 	
 	concat_list(File_list2a,File_list_a),
 	
-	(open_s("file2.txt",write,Stream1),
-	write(Stream1,File_list_a),
-	close(Stream1)),
-
 	term_to_atom(Synonym_list2,Synonym_list_a),
 	
 	(open_s("thesaurus.txt",write,Stream2),
