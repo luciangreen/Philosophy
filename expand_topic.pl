@@ -19,6 +19,20 @@ X do 4*curr work x
 
 X - 3-step sentences won't be like bag
 
+Given:
+word.
+word and word.
+word, word and word.
+word1. word.
+
+Produces:
+1. *. word. c. 
+2. *. word and word. c. c. 
+3. *. word, word and word. c. c. c. 
+4. word1. word. c. 
+
+In 4, the first sentence is the use and the second sentence is the topic sentence (the first sentence given in each of 1-3).
+
 */
 
 :- include('../listprologinterpreter/listprolog').
