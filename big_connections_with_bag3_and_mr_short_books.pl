@@ -30,14 +30,16 @@ big_connections_with_bag3_and_mr :-
 
 
 K=[
+"../Lucian-Academy/Books/Fundamentals of Pedagogy and Pedagogy Indicators1/"
+
 %"../Lucian-Academy/Books/BOTS/"
 %/*
-"../Lucian-Academy/Books/COMPUTER SCIENCE/",
+/*"../Lucian-Academy/Books/COMPUTER SCIENCE/",
 "../Lucian-Academy/Books/Computational English/",
 "../Lucian-Academy/Books/Creating and Helping Pedagogues/",
 "../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/"
 ,
-%*/
+*/
 %"../Lucian-Academy/Books/ECONOMICS/",
 /*
 "../Lucian-Academy/Books/Fundamentals of Meditation and Meditation Indicators/",
@@ -60,7 +62,7 @@ K=[
 "../Lucian-Academy/Books/SIMULATION/",
 "../Lucian-Academy/Books/Time Travel/"
 %*/
-"../Lucian-Academy/Books/books2/"
+%"../Lucian-Academy/Books/books2/"
 ],
 
 

@@ -39,17 +39,19 @@ K=[
 /*
 "../Lucian-Academy/Books/COMPUTER SCIENCE/",
 */
-"../Lucian-Academy/Books/Computational English/"
+%"../Lucian-Academy/Books/Computational English/"
 %"../Lucian-Academy/Books/Computational English Copy/"
-/*,
-"../Lucian-Academy/Books/Creating and Helping Pedagogues/",
-"../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/",
-*/
+%/*,
+%"../Lucian-Academy/Books/Creating and Helping Pedagogues/",
+%"../Lucian-Academy/Books/Delegate workloads, Lecturer, Recordings/",
+%*/
 %"../Lucian-Academy/Books/ECONOMICS/",
-/*
-"../Lucian-Academy/Books/Fundamentals of Meditation and Meditation Indicators/",
-"../Lucian-Academy/Books/Fundamentals of Pedagogy and Pedagogy Indicators/",
+%/*
+%"../Lucian-Academy/Books/Fundamentals of Meditation and Meditation Indicators/",
+"../Lucian-Academy/Books/Fundamentals of Pedagogy and Pedagogy Indicators1/"
+%"../Lucian-Academy/Books/Fundamentals of Pedagogy and Pedagogy Indicators/"
 
+/*
 "../Lucian-Academy/Books/IMMORTALITY/",
 
 "../Lucian-Academy/Books/Lecturer/",
