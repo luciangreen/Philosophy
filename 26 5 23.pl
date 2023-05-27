@@ -49,7 +49,7 @@ set_up_box(X,Y,Z,Grid) :-
 
 set_up_particles([_X,_Y,_Z],0,Particles,Particles) :- !.
 set_up_particles([X,Y,Z],N_particles,Particles1,Particles2) :-
- numbers(N_particles,1,[],N_Ps),
+ %numbers(N_particles,1,[],N_Ps),
  XB is X-1,
  YB is Y-1,
  ZB is Z-1,
@@ -58,9 +58,9 @@ set_up_particles([X,Y,Z],N_particles,Particles1,Particles2) :-
  numbers(XB,2,[],XNs),
  %retractall(particle_n(_)),
  %assertz(particle_n(1)), 
- findall([N,Speed,X1,Y1,Z1,X_Direction,Y_Direction,Z_Direction],
+ findall([N_particles,Speed,X1,Y1,Z1,X_Direction,Y_Direction,Z_Direction],
  (%particle_n(N),
- member(N,N_Ps),
+ %member(N,[_]),
  %retractall(particle_n(_)),
  %N2 is N+1,
  %assertz(particle_n(N2)), 
@@ -70,10 +70,10 @@ set_up_particles([X,Y,Z],N_particles,Particles1,Particles2) :-
  random_member(X_Direction,[-1,1]),
  random_member(Y_Direction,[-1,1]),
  random_member(Z_Direction,[-1,1])
- ),Particles2).
- %append(Particles1,Particles3,Particles4),
- %N_p2 is N_particles-1,
- %set_up_particles([X,Y,Z],N_p2,Particles4,Particles2),!.
+ ),Particles3),
+ append(Particles1,Particles3,Particles4),
+ N_p2 is N_particles-1,
+ set_up_particles([X,Y,Z],N_p2,Particles4,Particles2),!.
  
 get_xyz(X1,Y1,Z1,XNs,YNs,ZNs,Particles) :-
  random_member(X1,XNs),
@@ -95,11 +95,13 @@ update_particles(_Grid1x,Grid2,Grid3,Particles1,Particles3,Particles4) :-
 %trace,
  Grid1=Grid2,
  Particles1=[[N,Speed,X1,Y1,Z1,X_Direction,Y_Direction,Z_Direction]|Particles2],
+ 
  (Speed=0->(X1=X3,Y1=Y3,Z1=Z3,
  X_Direction=X_Direction1,Y_Direction=Y_Direction1,
  Z_Direction=Z_Direction1,
  
-  replace_particle_image([X1,Y1,Z1,_],[X3,Y3,Z3,N],Grid1,Grid4)
+  replace_particle_image(%[X1,Y1,Z1,_],
+  [X3,Y3,Z3,N],Grid1,Grid4)
 /*
  get_item_n(Grid1,Z1,XP6),
  get_item_n(XP6,Y1,XP7),
@@ -138,7 +140,8 @@ collision(Grid11,N,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X_Direction,Y_Direction,Z_Directio
  )->(
  
  % delete old particle image
- replace_particle_image([X1,Y1,Z1,_],[X1,Y1,Z1,[]],Grid11,Grid1),
+ replace_particle_image(%[X1,Y1,Z1,_],
+ [X1,Y1,Z1,[]],Grid11,Grid1),
 
 /*
  get_item_n(Grid11,Z1,XP631),
@@ -150,7 +153,10 @@ collision(Grid11,N,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X_Direction,Y_Direction,Z_Directio
  */
  X3=X2,Y3=Y2,Z3=Z2,
 
- replace_particle_image([X1,Y1,Z1,[]],[X2,Y2,Z2,N],Grid1,Grid2),
+ replace_particle_image([X1,Y1,Z1,[]],%[X2,Y2,Z2,N],
+ Grid1,Grid21),
+ replace_particle_image(%[X1,Y1,Z1,[]],
+ [X2,Y2,Z2,N],Grid21,Grid2),
  /*get_item_n(Grid11,Z1,XP6312),
  get_item_n(XP6312,Y1,XP7312),
  get_item_n(XP7312,X1,_XP8312),
@@ -171,7 +177,8 @@ collision(Grid11,N,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X_Direction,Y_Direction,Z_Directio
  X3=X1,Y3=Y1,Z3=Z1,
  
  %/*
- replace_particle_image([X1,Y1,Z1,_],[X1,Y1,Z1,N],Grid11,Grid2)
+ replace_particle_image(%[X1,Y1,Z1,_],
+ [X1,Y1,Z1,N],Grid11,Grid2)
  /*(get_item_n(Grid11,Z1,XP61),
  get_item_n(XP61,Y1,XP71),
  get_item_n(XP71,X1,_XP81),
@@ -191,16 +198,19 @@ collision(Grid11,N,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X_Direction,Y_Direction,Z_Directio
 moving_particles(Ps,List1) :-
  findall(N,(member([N,Speed,_X2,_Y2,_Z2,_X_Direction1,_Y_Direction1,_Z_Direction1],Ps),not(Speed=0)),List),sort(List,List1).
 
- replace_particle_image([X1,Y1,Z1,N1],[X2,Y2,Z2,N],Grid11,Grid2) :-
- (replace_particle_image1([X1,Y1,Z1,N1],[X2,Y2,Z2,N],Grid11,Grid2)->true;writeln(here)).
- replace_particle_image1([X1,Y1,Z1,N1],[X2,Y2,Z2,N],Grid11,Grid2) :-
+ replace_particle_image([X1,Y1,Z1,N1],%[X2,Y2,Z2,N],
+ Grid11,Grid2) :-
+ (replace_particle_image1([X1,Y1,Z1,N1],%[X2,Y2,Z2,N],
+ Grid11,Grid2)->true;writeln(here)).
+ replace_particle_image1([X1,Y1,Z1,N1],%[X2,Y2,Z2,N],
+ Grid11,Grid2) :-
 
  get_item_n(Grid11,Z1,XP631),
  get_item_n(XP631,Y1,XP731),
- get_item_n(XP731,X1,N1),
- put_item_n(XP731,X2,N,XP732),
- put_item_n(XP631,Y2,XP732,XP733),
- put_item_n(Grid11,Z2,XP733,Grid2),!.
+ get_item_n(XP731,X1,_N1x),
+ put_item_n(XP731,X1,N1,XP732),
+ put_item_n(XP631,Y1,XP732,XP733),
+ put_item_n(Grid11,Z1,XP733,Grid2),!.
 
 get_particle_image([X2,Y2,Z2,N],Grid11) :- 
  get_item_n(Grid11,Z2,XP6),
