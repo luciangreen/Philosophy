@@ -87,7 +87,7 @@ render_particles(X,Y,Z,N_frames,Grid1,Grid2,Grid3,Particles1,Particles2,Particle
  update_particles([],Grid1,Grid4,Particles1,Particles2,Particles4),
  N_frames2 is N_frames-1,
  append(Grid2,[Grid4],Grid5),
- render_particles(X,Y,Z,N_frames2,Grid1,Grid5,Grid3,Particles4,[],Particles3),!.
+ render_particles(X,Y,Z,N_frames2,Grid1,Grid5,Grid3,Particles4,Particles4,Particles3),!.
  
  
 update_particles(_,Grid,Grid,[],Particles,Particles) :- !.
