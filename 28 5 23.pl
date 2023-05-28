@@ -261,3 +261,220 @@ get1(connector2,"arriving at").
 get1(connector2,"doubting").
 get1(connector2,"agreeing with").
 get1(connector2,"creating").
+
+% 40
+
+% I did this by calculating the breasonings currency takings to be proportional to the percent of the time, rather than the percentage of the value of the total takings.
+
+/*
+?- trace,                                                              time_proportion(0,0,0,1,0,0,1,0,0,P).
+P = 1.0.
+
+?- trace,                                                              time_proportion(0,0,0,1,0,0,1,30,0,P).
+P = 0.6666666666666666.
+*/
+
+time_proportion(H1,M1,S1,H2,M2,S2,HT,MT,ST,Proportion) :-
+
+date_time_stamp(date(2023,1,1,H1,M1,S1,_,_,_),TS1),
+date_time_stamp(date(2023,1,1,H2,M2,S2,_,_,_),TS2),
+date_time_stamp(date(2023,1,1,HT,MT,ST,_,_,_),TST),
+
+Proportion is (TS2-TS1)/(TST-TS1).
+
+% First, I collected the takings.
+
+:-include('26 5 23.pl').
+
+/*
+ss([[[200,2000],[2,20]],[[100,1000],[1,10]]],X,Y,Z).                               
+
+X = [2200, 22, 1100, 11],
+Y = [202, 2020, 101, 1010],
+Z = [300, 3, 3000, 30].
+*/
+
+ss(G,Xs2,Ys2,Zs2) :-
+ length(G,Z),
+ numbers(Z,1,[],ZZ),
+ member(H,G),
+ length(H,Y),
+ numbers(Y,1,[],YY),
+ member(J,H),
+ length(J,X),
+ numbers(X,1,[],XX),!,
+ findall(Xs%[Xs1,Xs]
+ ,(member(Z2,ZZ),member(Y2,YY),findall(N,(member(X2,XX),get_particle_image([X2,Y2,Z2,N],G)),Xs1),%Xs1=Xs%
+ sum(Xs1,Xs)
+ ),Xs2),
+  findall(Ys%[Ys1,Ys]
+  ,(member(Z2,ZZ),member(X2,XX),findall(N,(member(Y2,YY),get_particle_image([X2,Y2,Z2,N],G)),Ys1),%Ys1=Ys%
+  sum(Ys1,Ys)
+  ),Ys2),
+
+findall(Zs%[Zs1,Zs]
+,(member(X2,XX),member(Y2,YY),findall(N,(member(Z2,ZZ),get_particle_image([X2,Y2,Z2,N],G)),Zs1),%Zs1=Zs%
+sum(Zs1,Zs)
+),Zs2).
+
+ %findall(N,(member(Y2,H),get_particle_image([X2,Y,Z2,N],G)),Ys),
+ %findall(N,(member(X2,J),get_particle_image([X,Y2,Z2,N],G)),Xs),!.
+
+% 45
+
+% Second, I calculated the time to be the physiological time (the time the cognito-physiological product took to complete in comfortable conditions).
+
+% physiological_time(T).
+% T = 360.
+
+physiological_time(T) :-
+ findall(T1,physiological_time(_,T1),T2),sum(T2,T).
+physiological_time("boil kettle",45).
+physiological_time("make tea",15).
+physiological_time("drink tea",300).
+
+% 50
+
+% Third, I calculated that the two employees with the same cognito-physiological times earned 1 and 2 As for 1 and 2 hours respectively, and the the lazy worker earned 1 A for 2 hour of work.
+
+% note: not indicative
+
+% ?- productivity(P,M).
+
+% P = [a, b],
+% M = [c].
+
+productivity(Plus,Minus) :-
+ findall(Name,productivity(Name,A,A),Plus),
+ findall(Name,(productivity(Name,A,B),not(A=B)),Minus).
+
+productivity(a,2,2).
+productivity(b,1,1).
+productivity(c,1,2).
+
+% 55
+
+% ["Fundamentals of Pedagogy and Pedagogy Indicators","FUNDAMENTALS OF PEDAGOGY by Lucian Green Y Dimension 4 of 4.txt",0,algorithms,"42.  I prepared to observe the couple help the child with school work.  I did this by observing the couple breason out the Anarchy argument to help ensure successful conception and prevent miscarriage.  First, I observed the one of the members of the couple breason out the Anarchy argument.  Second, I observed that the conception had been successful.  Third, I observed the couple meditate (see a doctor) before, during and after pregnancy.  In this way, I prepared to observe the couple help the child with school work by observing the couple breason out the Anarchy argument to help ensure successful conception and prevent miscarriage."]
+
+% Y Dimension
+
+type_climber :-
+type_climber(5,3,0,N1),
+writeln([score,N1]),
+type_climber(5,2.6,0,N2),
+writeln([score,N2]),
+type_climber(5,2.2,0,N3),
+writeln([score,N3]),
+type_climber(5,1.8,0,N4),
+writeln([score,N4]),
+type_climber(5,1.2,0,N5),
+writeln([score,N5]),
+type_climber(5,0.8,0,N6),
+writeln([score,N6]).
+
+type_climber(0,_,N,N) :- !.
+type_climber(A,Y,N1,N3) :-
+ A2 is A-1,
+ random(X), X1 is floor(X*10), 
+
+ tty_size(_R,C),
+ 
+ random(X2), X21 is ceiling(X2*C),
+ length(A1,X21),
+ findall(_,(member(_,A1),write(" ")),_),
+ writeln(X1),
+ %trace,
+catch(call_with_time_limit(Y,get_single_char(A3)),_,A3=65),
+ atom_number(X14,X1),
+ char_code(X14,X13),
+ (A3=X13->N2 is N1+1;N2=N1),
+ type_climber(A2,Y,N2,N3).
+
+% 58
+
+% I prepared to observe the couple help the child with school work.
+
+% character_freq("abdashdfj",A).                                      
+% A = [[2, "a"], [1, "b"], [2, "d"], [1, "f"], [1, "h"], [1, "j"], [1, "s"]].
+
+% character_freq("Quoth said the raven.",A),writeln(A).
+% A = [[3, ],[1,.],[1,Q],[2,a],[1,d],[2,e],[2,h],[1,i],[1,n],[1,o],[1,r],[1,s],[2,t],[1,u],[1,v]]
+
+% character_freq("Lucian Green is Chubby Checkers.",A),writeln(A).
+% A = [[4, ],[1,.],[2,C],[1,G],[1,L],[1,a],[2,b],[2,c],[4,e],[2,h],[2,i],[1,k],[2,n],[2,r],[2,s],[2,u],[1,y]]
+
+character_freq(A3,B) :- string_strings(A3,String3),
+	sort(String3,String4),
+	findall([A2,A],(member(A,String4),findall(A,(member(A,String3)),A1),length(A1,A2)),B).
+
+% 62
+
+% I did this by observing the couple breason out the Anarchy argument to help ensure successful conception and prevent miscarriage.
+
+% arguments(A).                                                       
+% A = [a, d].
+
+arguments(N2) :- findall(A,(argument1(A,quality,N),N>=80),N2).
+argument1(a,quality,80).
+argument1(b,poor,70).
+argument1(c,quality,70).
+argument1(d,quality,100).
+
+% 68
+
+% Third, I observed the couple meditate (see a doctor) before, during and after pregnancy.
+
+% pregnancy_meditation(Result).
+% Result = [[mother, before], [mother, during], [mother, after], [father, before], [father, during], [father, after]].
+
+pregnancy_meditation(Result) :- findall([Person,Time],(member(Person,[mother,father]),member(Time,[before,during,after])),Result).
+
+% 70
+
+% ["Fundamentals of Pedagogy and Pedagogy Indicators","FUNDAMENTALS OF PEDAGOGY by Lucian Green Part of Room 3 of 4.txt",0,algorithms,"25. The brainworks participant wrote breasonings  (thought of X, Y and Z dimensions for objects) for a 'seen-as' essay based directly on secondary literature, and handed in an essay of his design.  He did this by moving the arch from his toes.  First, he bent down.  Second, he put the arch over his toes.  Third, he removed the arch.  In this way, the brainworks participant wrote breasonings  (thought of X, Y and Z dimensions for objects) for a 'seen-as' essay based directly on secondary literature, and handed in an essay of his design by moving the arch from his toes."]
+
+% Room
+
+% light_where_people_are([1,2,3],A).
+% A = [1,2,3].
+
+% light_where_people_are([],A).
+% A = [].
+
+% light_where_people_are([6,5,4,3,2,1],A).
+% A = [6,5,4,3,2,1].
+
+% light_where_people_are([1],A).
+% A = [1].
+
+light_where_people_are(A,A).
+
+% 75
+
+% 25. The brainworks participant wrote breasonings  (thought of X, Y and Z dimensions for objects) for a 'seen-as' essay based directly on secondary literature, and handed in an essay of his design.
+
+:- include('word_frequency_count.pl').
+
+% lower_freq_essay("a  a a aa  a b b c c d e f g",A),writeln(A).      
+% A = [[aa,d],[aa,e],[aa,f],[aa,g],[d,aa],[d,e],[d,f],[d,g],[e,aa],[e,d],[e,f],[e,g],[f,aa],[f,d],[f,e],[f,g],[g,aa],[g,d],[g,e],[g,f]]
+
+% higher_freq_essay("a  a a aa  a b b c c d e f g",A),writeln(A).
+% A = [[f,g],[f,b],[f,c],[f,a],[g,f],[g,b],[g,c],[g,a],[b,f],[b,g],[b,c],[b,a],[c,f],[c,g],[c,b],[c,a],[a,f],[a,g],[a,b],[a,c]]
+
+lower_freq_essay(E1,E2) :-
+word_frequency_count(["string",E1],Freq),
+sort(Freq,Freq1),
+length(A,5),
+length(Freq,L),(L<5->L2=Freq1;(append(A,_,Freq1),L2=A)),
+findall([B,C],(member([_,B],L2),member([_,C],L2),not(B=C)),E2).
+
+higher_freq_essay(E1,E2) :-
+word_frequency_count(["string",E1],Freq),
+sort(Freq,Freq1),
+length(A,5),
+length(Freq,L),(L<5->L2=Freq1;(append(_,A,Freq1),L2=A)),
+findall([B,C],(member([_,B],L2),member([_,C],L2),not(B=C)),E2).
+
+% 80
+
+
