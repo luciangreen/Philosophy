@@ -1,6 +1,6 @@
 % 26 5 23.pl
 
-% 23 algs needed
+% 23 algs needed x
 
 % ["Medicine","MEDICINE by Lucian Green Go to Bed at 9-30 PM 1 of 4.txt",0,algorithms,"8. I prepared to state that essent in Heidegger, from das Seiende, {n} meant that which has being.  I did this by maintaining motivation.  First, I wrote down the effervent's (sic) heading.  Second, I wrote down 'you'.  Third, I reduced essential enthusiasm to essent (sic).  In this way, I prepared to state that essent in Heidegger, from das Seiende, {n} meant that which has being by maintaining motivation."]
 
