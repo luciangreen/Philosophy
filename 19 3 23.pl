@@ -62,8 +62,19 @@ link1("space station","planetary outpost").
 
 %minimise_dfa([[a,b],[a,c],[b,d],[c,d],[d,a]],Min_dfa).
 %Min_dfa=[[a,b],[b,d],[d,a]]
+/*
 minimise_dfa(T,DFA) :-
- minimise_dfa(T,T,DFA),!.
+ minimise_dfa1(T,T,DFA),!.
+
+minimise_dfa1([],DFA,DFA) :- !.
+minimise_dfa1(Transitions,DFA1,DFA2) :-
+ %Transitions=[T2|T3],
+ %append(DFA1,[T2],DFA4),
+ DFA1=DFA4,
+ minimise_dfa(Transitions,%T2,T3,
+ DFA4,DFA3),
+ (DFA4=DFA3->DFA3=DFA2;
+ minimise_dfa1(DFA3,DFA3,DFA2)).
 
 minimise_dfa([],DFA,DFA) :- !.
 minimise_dfa(Transitions,DFA1,DFA2) :-
@@ -104,5 +115,7 @@ minimise_dfa3(From,To,T3,DFA1,DFA2) :-
  %member([To,To2],T3),
  %append(DFA1,[T4],DFA3),
  minimise_dfa3(From,To,T5,DFA1,DFA2),!.
+*/
+
  
 %% 33 algs
