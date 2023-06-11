@@ -203,7 +203,7 @@ edge_3d(X_win,Y_win,Z_win,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,PX,PY,PZ) :-
  draw_edges_3d(X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,Grid1,Grid21),
  draw_faces_3d(X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,Grid21,Grid2),
  
-prettyprint_3d_1_e1(Grid2,Y_win,X_win,Z_win),
+%prettyprint_3d_1_e1(Grid2,Y_win,X_win,Z_win),
  
  tetrahedron_centre_3d(X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,QX,QY,QZ),
  fill_3d(QX,QY,QZ,Grid2,Grid3),
