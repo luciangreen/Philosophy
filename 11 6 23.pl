@@ -341,7 +341,8 @@ gridline1_3d(X1,Y1,Z1,X2,Y2,Z2,C2,C3,N3) :-
 	sortbyx_3d(X1,Y1,X2,Y2,XA1,YA1,XA2,YA2),
 	equation_3d(XA1,YA1,XA2,YA2,M,C),
 	gridline_orig_2_3d(XA1,YA1,XA2,YA2,M,C,C2,C4,N3),
-	
+	%C4=C3,
+	%C2=C4,
 	sortbyx_3d(X1,Z1,X2,Z2,XXA1,ZZA1,XXA2,ZZA2),
 	equation_3d(XXA1,ZZA1,XXA2,ZZA2,M0,C0),
 	gridline2_3d(XXA1,ZZA1,XXA2,ZZA2,M0,C0,C4,C3,N3),

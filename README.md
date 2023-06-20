@@ -112,11 +112,9 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 # Paraphraser Web Service
 
-* Warning: Paraphraser Web Service is slow. Please use Paraphraser (previous section).
+* In `paraphraser1_pl.pl` change the password `apple` to something else.
 
-* In `paraphraser1_lp.pl` change the password `apple` to something else.
-
-* Load with `['paraphraser1_lp_ws.pl'].` and `paraphraser_server(8000).`.
+* Load with `['paraphraser1_pl_ws.pl'].` and `paraphraser_server(8000).`.
 
 * Go to `http://localhost:8000/paraphraser`.
 
