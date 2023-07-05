@@ -6,7 +6,7 @@
 bag_args(Limit1) :-
 time((Split_into_n=%1,%
 2,
-Limit is ceiling((Limit1*2*Split_into_n)),%/(*5)),
+Limit is ceiling((Limit1*2.5*Split_into_n)),%/(*5)),
 
  retractall(count2(_)),
  assertz(count2(0)), 

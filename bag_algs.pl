@@ -6,7 +6,7 @@
 bag_algs(Limit1) :-
 time((
 Split_into_n=4,
-Limit is ceiling((Limit1*2*Split_into_n)),%/(*5)),
+Limit is ceiling((Limit1*2.5*Split_into_n)),%/(*5)),
  retractall(count2(_)),
  assertz(count2(0)), 
  %length(L,10),
@@ -19,7 +19,7 @@ Limit is ceiling((Limit1*2*Split_into_n)),%/(*5)),
  length(File_strings,L),
  numbers(L,1,[],Ls),
 
- findall(Sent_br2,(member(L1,Ls),count2(C2),writeln([count,C2,/,Limit]),(C2>=Limit->abort;true)get_item_n(File_strings,L1,N),
+ findall(Sent_br2,(member(L1,Ls),count2(C2),writeln([count,C2,/,Limit]),(C2>=Limit->abort;true),get_item_n(File_strings,L1,N),
  
  FS2=["","","",N],term_to_atom(FS2,FS3),
  
