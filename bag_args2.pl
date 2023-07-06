@@ -1,12 +1,18 @@
 :-include('big_connections_with_bag3_and_mr_short_books_aa540_args_init2.pl').
 %:-include('../t2ab/t2ab.pl').
 :- dynamic count2/1.
+:-include('la_vps.pl').
 
-%bag_args(80000).
+%bag_args(96000).
+get_r(X2) :-
+random(X),X1 is ceiling(X*1000000),foldr(string_concat,["Books/args-",X1,"/"],X3),
+(exists_directory(X3)->get_r(X2);X3=X2).
 bag_args(Limit1) :-
+(exists_directory('Books/args')->(get_r(X2),mv("Books/args/",X2));true),
 time((Split_into_n=%1,%
 2,
-Limit is ceiling((Limit1*2.5*Split_into_n)),%/(*5)),
+%Limit is ceiling((Limit1*2.5*Split_into_n)),%/(*5)),
+Limit is Limit1,%*2.5*Split_into_n)),%/(*5)),
 
  retractall(count2(_)),
  assertz(count2(0)), 
@@ -20,7 +26,11 @@ Limit is ceiling((Limit1*2.5*Split_into_n)),%/(*5)),
  numbers(L,1,[],Ls),
 
  findall(Sent_br2,(
- member(L1,Ls),count2(C2),writeln([count,C2,/,Limit]),(C2>=Limit->abort;true),get_item_n(File_strings,L1,N),
+ member(L1,Ls),count2(C2),writeln([count,C2,/,Limit]),(C2>=Limit->
+ (open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,Stream1),
+	write(Stream1,File_string),
+	close(Stream1),abort);true),get_item_n(File_strings,L1,N),
+ 
  
  FS2=["","","",N],term_to_atom(FS2,FS3),
  
@@ -41,12 +51,16 @@ Limit is ceiling((Limit1*2.5*Split_into_n)),%/(*5)),
       false)),%->
 
  open_string_file_s("Books/args/lgtext_a.txt",File_string_a),
- split_string(File_string_a,"\n\r.","\n\r.",Sents),
- split_string(File_string_a,"\n\r","\n\r",Sents1),
+ 
+ findall(_,sub_string(File_string_a,_,_,_,". "),A),length(A,L2),
+split_string(File_string_a,"\n\r","\n\r",NL),length(NL,NLN),Sent_br2 is L2-NLN,
 
- length(Sents1,Sents1L),
- length(Sents,Sent_br21),
- Sent_br2 is Sent_br21-Sents1L,
+ %split_string(File_string_a,"\n\r.","\n\r.",Sents),
+ %split_string(File_string_a,"\n\r","\n\r",Sents1),
+
+ %length(Sents1,Sents1L),
+ %length(Sents,Sent_br21),
+ %Sent_br2 is Sent_br21-Sents1L,
   
    %trace,
   %t2b,
@@ -69,10 +83,8 @@ Limit is ceiling((Limit1*2.5*Split_into_n)),%/(*5)),
  foldr(sum,N2,0,M),writeln([M,arg,br]) 
    	%trace,
    	
-   	/*(open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,Stream1),
-	write(Stream1,File_string),
-	close(Stream1)),
-	
+   	
+	/*
 	count2(C3),
 Limit11 is ceiling((Limit-C3)*Split_into_n*5),
 
