@@ -1,5 +1,6 @@
 :-include('big_connections_with_bag3_and_mr_short_books_aa540_args_init2.pl').
-%:-include('../t2ab/t2ab.pl').
+:-include('../t2ab/t2ab.pl').
+:-include('../Text-to-Breasonings/text_to_breasonings.pl').
 :- dynamic count2/1.
 :-include('la_vps.pl').
 
@@ -27,13 +28,19 @@ Limit is Limit1,%*2.5*Split_into_n)),%/(*5)),
  numbers(L,1,[],Ls),
 
  concurrent_maplist(a1([File_strings,Limit]),Ls,N2))),
- delete(N2,0,N3),append(_,[N4],N3),writeln1(N4),!.
+ %delete(N2,0,N3),append(_,[N4],N3),writeln1(N4),
+
+ term_to_atom(N2,N5),atom_string(N5,N6),
+ texttobr2(u,u,N6,u,[auto,on]),
+ t2ab(u,u,N6,u,on),
+ 
+ !.
 
 %%%%
 
 count21(C) :- count2(C).
 
-a1([File_strings,Limit],L1,Sent_br2) :-
+a1([File_strings,Limit],L1,File_string_a) :-
  %findall(Sent_br2,(
  %member(L1,Ls),
  count21(C2),writeln([count,C2,/,Limit]),(C2>=Limit->
