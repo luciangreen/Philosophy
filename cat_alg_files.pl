@@ -1,7 +1,7 @@
 :-include('../listprologinterpreter/listprolog.pl').
 :-include('../listprologinterpreter/la_files.pl').
 :-include('../Philosophy/philosophy/word_count.pl').
-:-include('../Philosophy/philosophy/word_count.pl').
+%:-include('../Philosophy/philosophy/word_count.pl').
 %:-include('cat_files2.pl').
 :- use_module(library(date)).
 :-dynamic tally/1.

@@ -1,4 +1,4 @@
-#!/usr/bin/swipl -f -q
+#!/usr/bin/swipl --stack-limit=80G -f -q
 
 :-include('bag_args2.pl').
 :- initialization(catch(main, Err, handle_error(Err))).
@@ -6,6 +6,7 @@
 handle_error(_Err):-
   halt(1).
 main :-
-    bag_args(112000), nl,
+    bag_args(6000),
+    nl,
     halt.
 main :- halt(1).

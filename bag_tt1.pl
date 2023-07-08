@@ -1,12 +1,12 @@
-#!/usr/bin/swipl --stack-limit=80G -f -q
+#!/usr/bin/swipl -f -q
 
-:-include('bag_algs.pl').
+:-include('text_to_breasonings.pl').
 :- initialization(catch(main, Err, handle_error(Err))).
 
 handle_error(_Err):-
   halt(1).
 main :-
-    bag_algs(6000),
- 	nl,
+	texttobr2(u,u,"square",u),
+    nl,
     halt.
 main :- halt(1).

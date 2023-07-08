@@ -30,7 +30,8 @@ tally(Ta),
 foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/'],F1),
 
  directory_files(F1,F21),
-	delete_invisibles_etc(F21,G2),
+	delete_invisibles_etc(F21,G3),
+	delete(G3,"Books",G2),
 
 member(F3,G2),
 foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/',F3],F4),
