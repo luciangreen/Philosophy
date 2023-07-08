@@ -29,6 +29,8 @@ Limit is Limit1,%*2.5*Split_into_n)),%/(*5)),
  numbers(L,1,[],Ls),
 
  concurrent_maplist(a1([File_strings,Limit]),Ls,N2))),
+ count21(C2),writeln([count,C2,/,Limit]),
+ 
  %delete(N2,0,N3),append(_,[N4],N3),writeln1(N4),
 
  term_to_atom(N2,N5),atom_string(N5,N6),
@@ -45,7 +47,7 @@ a1([File_strings,Limit],L1,File_string_a) :-
  %findall(Sent_br2,(
  %member(L1,Ls),
  count21(C2),(C2>=Limit->
- (writeln([count,C2,/,Limit]),File_string_a=""%open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,Stream1),
+ (File_string_a=""%open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,Stream1),
 	%write(Stream1,File_string),
 	%close(Stream1),abort
 	);(writeln([count,C2,/,Limit]),get_item_n(File_strings,L1,N),
