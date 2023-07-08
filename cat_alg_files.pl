@@ -1,8 +1,14 @@
 :-include('../listprologinterpreter/listprolog.pl').
 :-include('../listprologinterpreter/la_files.pl').
+:-include('../Philosophy/philosophy/word_count.pl').
+:-include('../Philosophy/philosophy/word_count.pl').
 %:-include('cat_files2.pl').
 :- use_module(library(date)).
-cat_alg_files :-
+:-dynamic tally/1.
+cat_alg_files(Tr1) :-
+Tr is floor(1.32*Tr1),
+retractall(tally(_)),
+assertz(tally(0)),
  %/*
 date_time_stamp(date(2023,1,1,0,0,0,_,_,_),TS0),
 date_time_stamp(date(2023,1,8,0,0,0,_,_,_),TS01),
@@ -18,6 +24,9 @@ Week_ago is TS1-TSD,
 
 findall([F5_old,F5_new],
 (member(F2,G),
+
+tally(Ta),
+(Ta>Tr->fail;true),
 
 foldr(atom_concat,['../../GitHub/',F2,'/'],F1),
 
@@ -37,6 +46,14 @@ string_concat(_,".md",F4))),
 time_file(F4,T),
 
 open_string_file_s(F4,F5),
+
+word_count(["string",F5],Words),
+
+Ta1 is Ta+Words,
+retractall(tally(_)),
+assertz(tally(Ta1)),
+
+
 % if T is less than a week old
 (T > Week_ago ->
 (%trace,
@@ -54,13 +71,15 @@ append(F63_new,F63_old,F64),
 flatten(F64,F7),
 foldr(string_concat,F7,F8),
 
+%truncate_words_conserving_formatting(["string",F8],Tr,F81),
+
 F9=["","","",F8],
 term_to_atom(F9,F10),
 
 open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,S),
 write(S,F10),close(S),
 %*/
-%cat_files('../../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
+%cat_files('../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
 
 !.
 
