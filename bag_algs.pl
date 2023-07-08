@@ -39,7 +39,7 @@ count21(C) :- count2(C).
 a1([File_strings,Limit],L1,File_string_a) :-
  %findall(Sent_br2,(member(L1,Ls),
  count21(C2),(C2>=Limit->
- (File_string_a="");
+ (writeln([count,C2,/,Limit]),File_string_a="");
  (
  %open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,Stream1),
 	%write(Stream1,File_string),
