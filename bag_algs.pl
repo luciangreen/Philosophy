@@ -9,6 +9,7 @@ random(X),X1 is ceiling(X*1000000),foldr(string_concat,["Books/algs-",X1,"/"],X3
 (exists_directory(X3)->get_r(X2);X3=X2).
 
 bag_algs(Limit1) :-
+
 (exists_directory('Books/algs')->(get_r(X2),mv("Books/algs/",X2));true),
 time((
 Split_into_n=4,
@@ -37,16 +38,16 @@ count21(C) :- count2(C).
 
 a1([File_strings,Limit],L1,File_string_a) :-
  %findall(Sent_br2,(member(L1,Ls),
- count21(C2),writeln([count,C2,/,Limit]),(C2>=Limit->
- (Sent_br2=0);
+ count21(C2),(C2>=Limit->
+ (File_string_a="");
  (
  %open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,Stream1),
 	%write(Stream1,File_string),
 	%close(Stream1),abort);true),
-	get_item_n(File_strings,L1,N),
+	writeln([count,C2,/,Limit]),get_item_n(File_strings,L1,N),
  
 
-(((catch(call_with_time_limit(5,
+(((catch(call_with_time_limit(0.84,
                           time( big_connections_with_bag3_and_mr2(N,File_string_a))),
       time_limit_exceeded,
       false),%->
@@ -60,7 +61,7 @@ split_string(File_string_a,"\n\r","\n\r",NL),length(NL,NLN),Sent_br2 is L2-NLN,
  retractall(count2(_)),
  assertz(count2(C1))
  
- )->true;(writeln([here]),Sent_br2=0))))),!.
+ )->true;(File_string_a=""))))),!.
  
 
 sum(A,B,C) :- C is A+B.
