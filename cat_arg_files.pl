@@ -2,7 +2,7 @@
 :-include('../listprologinterpreter/la_files.pl').
 %:-include('cat_files2.pl').
 :- use_module(library(date)).
-cat_alg_files :-
+cat_arg_files :-
  %/*
 date_time_stamp(date(2023,1,1,0,0,0,_,_,_),TS0),
 date_time_stamp(date(2023,1,8,0,0,0,_,_,_),TS01),
@@ -26,7 +26,13 @@ foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/'],F1),
 member(F3,G2),
 foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/',F3],F4),
 
+size_file(F4,Size),Size=<51200,
+
 (exists_file(F4)->(
+
+(string_concat(_,".pl",F4)->true;(string_concat(_,".txt",F4)->true;
+string_concat(_,".md",F4))),
+
 time_file(F4,T),
 
 open_string_file_s(F4,F5),
@@ -50,7 +56,7 @@ foldr(string_concat,F7,F8),
 F9=["","","",F8],
 term_to_atom(F9,F10),
 
-open_s("../Lucian-Academy/Books1/args/lgtext_new.txt",write,S),
+open_s("../Lucian-Academy/Books1/args/lgtext_a.txt",write,S),
 write(S,F10),close(S),
 %*/
 %cat_files('../../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),

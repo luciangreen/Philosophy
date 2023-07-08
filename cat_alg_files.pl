@@ -13,7 +13,8 @@ Week_ago is TS1-TSD,
 
  directory_files('../../GitHub/',F),
 	delete_invisibles_etc(F,G1),
-	delete(G1,"Lucian-Academy",G),
+	delete(G1,"Lucian-Academy",G3),
+	delete(G3,"private2",G),
 
 findall([F5_old,F5_new],
 (member(F2,G),
@@ -26,7 +27,13 @@ foldr(atom_concat,['../../GitHub/',F2,'/'],F1),
 member(F3,G2),
 foldr(atom_concat,['../../GitHub/',F2,'/',F3],F4),
 
+size_file(F4,Size),Size=<51200,
+
 (exists_file(F4)->(
+
+(string_concat(_,".pl",F4)->true;(string_concat(_,".txt",F4)->true;
+string_concat(_,".md",F4))),
+
 time_file(F4,T),
 
 open_string_file_s(F4,F5),
@@ -50,7 +57,7 @@ foldr(string_concat,F7,F8),
 F9=["","","",F8],
 term_to_atom(F9,F10),
 
-open_s("../Lucian-Academy/Books1/algs/lgalgs_new.txt",write,S),
+open_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",write,S),
 write(S,F10),close(S),
 %*/
 %cat_files('../../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
