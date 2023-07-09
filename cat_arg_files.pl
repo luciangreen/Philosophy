@@ -18,7 +18,7 @@ TSD is TS01-TS0,
 get_time(TS1),
 Week_ago is TS1-TSD,
 
- directory_files('../../../GitHub/Lucian-Academy/Books/',F),
+ directory_files('../../GitHub/Lucian-Academy/Books/',F),
 	delete_invisibles_etc(F,G),
 	%delete(G1,"Lucian-Academy",G),
 
@@ -29,14 +29,14 @@ findall([F5_old,F5_new],
 tally(Ta),
 (Ta>Tr->fail;true),
 
-foldr(atom_concat,['../../../GitHub/Lucian-Academy/Books/',F2,'/'],F1),
+foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/'],F1),
 
  directory_files(F1,F21),
 	delete_invisibles_etc(F21,G3),
 	delete(G3,"Books",G2),
 
 member(F3,G2),
-foldr(atom_concat,['../../../GitHub/Lucian-Academy/Books/',F2,'/',F3],F4),
+foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/',F3],F4),
 
 size_file(F4,Size),Size=<51200,
 
@@ -48,6 +48,13 @@ string_concat(_,".md",F4))),
 time_file(F4,T),
 
 open_string_file_s(F4,F5),
+
+word_count(["string",F5],Words),
+
+Ta1 is Ta+Words,
+retractall(tally(_)),
+assertz(tally(Ta1)),
+
 % if T is less than a week old
 (T > Week_ago ->
 (%trace,
@@ -83,7 +90,7 @@ write(S,F10),close(S),
 
 
 %*/
-%cat_files('../../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
+%cat_files('../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
 
  
 (exists_file('aa_log.txt')->(
