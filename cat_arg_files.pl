@@ -1,6 +1,8 @@
 :-include('../listprologinterpreter/listprolog.pl').
 :-include('../listprologinterpreter/la_files.pl').
 :-include('../Philosophy/philosophy/word_count.pl').
+:-include('la_vps.pl').
+
 %:-include('cat_files2.pl').
 :- use_module(library(date)).
 :-dynamic tally/1.
@@ -16,7 +18,7 @@ TSD is TS01-TS0,
 get_time(TS1),
 Week_ago is TS1-TSD,
 
- directory_files('../../GitHub/Lucian-Academy/Books/',F),
+ directory_files('../../../GitHub/Lucian-Academy/Books/',F),
 	delete_invisibles_etc(F,G),
 	%delete(G1,"Lucian-Academy",G),
 
@@ -27,14 +29,14 @@ findall([F5_old,F5_new],
 tally(Ta),
 (Ta>Tr->fail;true),
 
-foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/'],F1),
+foldr(atom_concat,['../../../GitHub/Lucian-Academy/Books/',F2,'/'],F1),
 
  directory_files(F1,F21),
 	delete_invisibles_etc(F21,G3),
 	delete(G3,"Books",G2),
 
 member(F3,G2),
-foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/',F3],F4),
+foldr(atom_concat,['../../../GitHub/Lucian-Academy/Books/',F2,'/',F3],F4),
 
 size_file(F4,Size),Size=<51200,
 
@@ -75,7 +77,16 @@ write(S,F10),close(S),
 
 
 %*/
-%cat_files('../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
+%cat_files('../../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
+
+ 
+(exists_file('aa_log.txt')->(
+ stamp_date_time(TS1,date(Year,Month,Day,Hour1,Minute1,_Seconda,_A,_TZ,_False),local),
+ foldr(string_concat,["aa_log-",Year,"-",Month,"-",Day,"-",Hour1,"-",Minute1,".txt"],Name),
+ 
+ mv("aa_log.txt",Name));true),
+ 
+
 
 !.
 
