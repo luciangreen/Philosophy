@@ -124,7 +124,8 @@ t2ab:-t2ab(u,"Books/args/lgtext_a.txt",u,u,on),!.
 print_report :-
  open_string_file_s("aa_log.txt",File_string),
  term_to_atom(File_string2,File_string),
- sort(File_string2,File_string21),
+ sort(File_string2,File_string22),
+ reverse(File_string22,File_string21),
  length(File_string21,L),
  numbers(L,1,[],Ls),
  findall(_,(member(L1,Ls),get_item_n(File_string21,L1,A),writeln([L1|A])),_),!.
