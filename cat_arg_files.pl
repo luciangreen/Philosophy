@@ -66,8 +66,8 @@ flatten(F64,F7),
 foldr(string_concat,F7,F80),
 
 split_string(F80,"\n\r","\n\r",F81),
-delete(F81,"\n",F82),
-findall([F83,"\n"],member([F83,F82]),F84)
+delete(F81,"",F82),
+findall([F83,"\n"],member(F83,F82),F84),
 flatten(F84,F85),
 foldr(string_concat,F85,F8),
 
