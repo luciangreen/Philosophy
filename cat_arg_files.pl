@@ -84,7 +84,13 @@ write(S,F10),close(S),
  stamp_date_time(TS1,date(Year,Month,Day,Hour1,Minute1,_Seconda,_A,_TZ,_False),local),
  foldr(string_concat,["aa_log-",Year,"-",Month,"-",Day,"-",Hour1,"-",Minute1,".txt"],Name),
  
- mv("aa_log.txt",Name));true),
+ mv("aa_log.txt",Name),
+ 
+ open_s("aa_log.txt",write,SB),
+write(SB,'[]'),close(SB)
+
+
+ );true),
  
 
 
