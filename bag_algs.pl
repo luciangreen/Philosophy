@@ -46,7 +46,8 @@ open_string_file_s("aa_log.txt",File_string_b),
  open_s("aa_log.txt",write,Stream1a),
 	write(Stream1a,File_string2_b1),
 	close(Stream1a)
-	);bag_algs(Limit1)),
+	);false%bag_algs(Limit1)
+	),
  
  !.
 

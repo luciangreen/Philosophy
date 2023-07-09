@@ -63,7 +63,13 @@ findall([F62_new,"\n"],member([_,F62_new],F61),F63_new),
 findall([F62_old,"\n"],member([F62_old,_],F61),F63_old),
 append(F63_new,F63_old,F64),
 flatten(F64,F7),
-foldr(string_concat,F7,F8),
+foldr(string_concat,F7,F80),
+
+split_string(F80,"\n\r","\n\r",F81),
+delete(F81,"\n",F82),
+findall([F83,"\n"],member([F83,F82]),F84)
+flatten(F84,F85),
+foldr(string_concat,F85,F8),
 
 %Tr is floor(1.32*Tr1),
 %truncate_words_conserving_formatting(["string",F8],Tr,F81),
