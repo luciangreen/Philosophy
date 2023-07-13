@@ -55,7 +55,7 @@ foldr(string_concat,["swipl -f -q ./bag_algs1.pl"],S31)%,
  	)),
 
 %get_time(TS1),
-Br1 is Br+100,
+Br1 is Br+6000,
 
 /*
 findall(TS2,(member(TS2,TSA),TS1>TS2,
