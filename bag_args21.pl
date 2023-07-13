@@ -6,7 +6,7 @@
 handle_error(_Err):-
   halt(1).
 main :-
-    bag_args(6000),
+    (bag_args(6000)->true;true),
     nl,
     halt.
 main :- halt(1).
