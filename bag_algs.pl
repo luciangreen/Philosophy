@@ -9,7 +9,7 @@ get_r(X2) :-
 random(X),X1 is ceiling(X*1000000),foldr(string_concat,["Books/algs-",X1,"/"],X3),
 (exists_directory(X3)->get_r(X2);X3=X2).
 
-bag_algs(Limit1) :-
+bag_algs(Limit1,C2) :-
 ((
 (exists_directory('Books/algs')->(get_r(X2),mv("Books/algs/",X2));true),
 time((
@@ -18,6 +18,8 @@ Split_into_n=4,
 Limit is Limit1,
  retractall(count2(_)),
  assertz(count2(0)), 
+ retractall(br_bal(_)),
+ assertz(br_bal([])), 
  %length(L,10),
  %L=[1,2,3,4,5,6,7,8,9,10],
  open_string_file_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",File_string),
@@ -28,15 +30,16 @@ Limit is Limit1,
  length(File_strings,L),
  numbers(L,1,[],Ls),
 
- concurrent_maplist(a1([File_strings,Limit]),Ls,N2))),
- count21(C2),writeln([count,C2,/,Limit]),
- %delete(N2,0,N3),append(_,[N4],N3),writeln1(N4),
- term_to_atom(N2,N5),atom_string(N5,N6),
- texttobr2(u,u,N6,u,[auto,on]),
- t2ab(u,u,N6,u,on)
+ concurrent_maplist(a1([File_strings,Limit]),Ls,_N2)))
  )->
  (
- get_time(A),stamp_date_time(A,date(_Year,_Month,_Day,Hour1,Minute1,_Seconda,_A,_TZ,_False),local),
+ true	);true%bag_algs(Limit1)
+	),
+	
+	 count21(C2),writeln([count,C2,/,Limit1]),
+
+	
+get_time(A),stamp_date_time(A,date(_Year,_Month,_Day,Hour1,Minute1,_Seconda,_A,_TZ,_False),local),
 
 open_string_file_s("aa_log.txt",File_string_b),
  term_to_atom(File_string2_b,File_string_b),
@@ -45,9 +48,17 @@ open_string_file_s("aa_log.txt",File_string_b),
 
  open_s("aa_log.txt",write,Stream1a),
 	write(Stream1a,File_string2_b1),
-	close(Stream1a)
-	);false%bag_algs(Limit1)
-	),
+	close(Stream1a),
+	
+ 
+  br_bal(Br),
+  
+
+ %delete(N2,0,N3),append(_,[N4],N3),writeln1(N4),
+ term_to_atom(Br,N5),atom_string(N5,N6),
+ texttobr2(u,u,N6,u,[auto,on]),
+ t2ab(u,u,N6,u,on),
+
  
  !.
 
@@ -64,10 +75,14 @@ a1([File_strings,Limit],L1,File_string_a) :-
 	writeln([count,C2,/,Limit]),get_item_n(File_strings,L1,N),
  
 
-(((catch(call_with_time_limit(0.84,
+(((
+
+(catch(call_with_time_limit(0.84,
                           time( big_connections_with_bag3_and_mr2(N,File_string_a))),
       time_limit_exceeded,
-      false),%->
+      false))
+      
+      ,%->
       
       
   findall(_,sub_string(File_string_a,_,_,_,". "),A),length(A,L2),
@@ -76,7 +91,14 @@ split_string(File_string_a,"\n\r","\n\r",NL),length(NL,NLN),Sent_br2 is L2-NLN,
  count21(C),
  C1 is C+Sent_br2,
  retractall(count2(_)),
- assertz(count2(C1))
+ assertz(count2(C1)),
+ 
+ br_bal(Br),
+ append(Br,[File_string_a],Br1),
+  retractall(br_bal(_)),
+ assertz(br_bal(Br1))
+
+ 
  
  )->true;(File_string_a=""))))),!.
  

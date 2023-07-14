@@ -5,7 +5,8 @@ print_totals :-
  open_string_file_s("aa_log.txt",File_string),
  term_to_atom(File_string2,File_string),
  
- BL is 5*16000*8,
+ BL is %1000,%
+ 5*16000*8*5,
 findall(Args1,(member([arg,_,_,Args1],File_string2)),Args11),
  sum(Args11,Args12),
 

@@ -27,8 +27,9 @@ get_time(TS),stamp_date_time(TS,date(Year,Month,Day,Hour1,Minute1,Seconda,_A,_TZ
 findall(TSA0,(member(H,Hours),date_time_stamp(date(Year,Month,Day,H,0,0,_,_,_),TSA0)),TSAA),
 
 */
-BL is 5*16000*8,
-day_loop(BL,0%,In_a_day,TSAA
+BL is %1000,%
+5*16000*8*5,
+day_loop(BL,0,0%,In_a_day,TSAA
 ),
 
  	nl,
@@ -36,26 +37,41 @@ day_loop(BL,0%,In_a_day,TSAA
 main :- halt(1).
 
 
-day_loop(Br_lim,Br%NB,In_a_day,TSA
+day_loop(Br_lim,Br_ar,Br_al%NB,In_a_day,TSA
 ) :-
 
 %get_time(TS1),
-(Br>Br_lim->true;
+(Br_ar>Br_lim->Br_ar2=Br_ar;
 (
 foldr(string_concat,["swipl -f -q ./bag_args21.pl"],S3)%,
-,catch(bash_command(S3,_), _, (foldr(string_concat,["Warning."%%"Error: Can't clone ",User3,"/",Repository3," repository on GitHub."
+,catch(bash_command(S3,Br_ar10), _, (foldr(string_concat,["Warning."%%"Error: Can't clone ",User3,"/",Repository3," repository on GitHub."
 	],_Text4),%writeln1(Text4),
-	true%fail%abort
+	false%fail%abort
  	)),
 
+split_string(Br_ar10,"\n\r","\n\r",Br_ar11),
+append(_,[Br_ar12],Br_ar11),
+number_string(Br_ar1,Br_ar12),
+
+Br_ar2 is Br_ar+Br_ar1)),
+
+(Br_al>Br_lim->Br_al2=Br_al;
+
+%/*
+(
 foldr(string_concat,["swipl -f -q ./bag_algs1.pl"],S31)%,
-,catch(bash_command(S31,_), _, (foldr(string_concat,["Warning."%%"Error: Can't clone ",User3,"/",Repository3," repository on GitHub."
-	],_Text4),%writeln1(Text4),
-	true%fail%abort
+,catch(bash_command(S31,Br_al10), _, (foldr(string_concat,["Warning."%%"Error: Can't clone ",User3,"/",Repository3," repository on GitHub."
+	],_Text41),%writeln1(Text4),
+	false%fail%abort
  	)),
+%*/
+split_string(Br_al10,"\n\r","\n\r",Br_al11),
+append(_,[Br_al12],Br_al11),
+number_string(Br_al1,Br_al12),
+
 
 %get_time(TS1),
-Br1 is Br+6000,
+Br_al2 is Br_al+Br_al1)),
 
 /*
 findall(TS2,(member(TS2,TSA),TS1>TS2,
@@ -78,9 +94,10 @@ subtract(TSA,TS3),
 
 %shell1(A1)
 
- 	day_loop(Br_lim,Br1%NB1,In_a_day,TS3
- 	)
+((Br_ar>Br_lim,Br_al>Br_lim)->true;
+ 	day_loop(Br_lim,Br_ar2,Br_al2%NB1,In_a_day,TS3
+ 	))
  	
- 	)),!.
+ 	,!.
 
  
