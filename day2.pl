@@ -29,6 +29,20 @@ get_time(TS),stamp_date_time(TS,date(Year,Month,Day,Hour1,Minute1,Seconda,_A,_TZ
 findall(TSA0,(member(H,Hours),date_time_stamp(date(Year,Month,Day,H,0,0,_,_,_),TSA0)),TSAA),
 
 */
+
+(exists_file('aa_log.txt')->(
+
+get_time(TS1),
+ stamp_date_time(TS1,date(Year,Month,Day,Hour1,Minute1,_Seconda,_A,_TZ,_False),local),
+ foldr(string_concat,["aa_log-",Year,"-",Month,"-",Day,"-",Hour1,"-",Minute1,".txt"],Name),
+ 
+ mv("aa_log.txt",Name),
+ 
+ open_s("aa_log.txt",write,SB),
+ write(SB,'[]'),close(SB)
+
+ );true),
+
 texttobr2(25,u,"square",u),
 BL is %1000,%
 5*16000*8*5,
