@@ -2,6 +2,8 @@
 
 :-include('../listprologinterpreter/listprolog.pl').
 :- use_module(library(date)).
+:-include('flush_caches.pl').
+:-include('bell.pl').
 
 %:-include('../listprologinterpreter/la_files.pl').
 
@@ -27,10 +29,21 @@ get_time(TS),stamp_date_time(TS,date(Year,Month,Day,Hour1,Minute1,Seconda,_A,_TZ
 findall(TSA0,(member(H,Hours),date_time_stamp(date(Year,Month,Day,H,0,0,_,_,_),TSA0)),TSAA),
 
 */
+texttobr2(25,u,"square",u),
 BL is %1000,%
 5*16000*8*5,
 day_loop(BL,0,0%,In_a_day,TSAA
 ),
+flush_caches,
+A is (25-1)*(1 % teleport 1
+   + 1 % anti-ageing medicine 1
+   + 1 % teleport 2
+   + 1 % anti-ageing medicine 2
+   + 2 % meditation
+   + 2),% a thought
+
+texttobr2_1(A),
+bell("Freezing Ages Complete"),
 
  	nl,
     halt.
