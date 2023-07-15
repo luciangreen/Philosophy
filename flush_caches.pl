@@ -30,5 +30,5 @@ open_string_file_s("alg_cache.txt",File_string_b_cache2),
 
   open_s("alg_cache.txt",write,Stream1a_cache1),
 	write(Stream1a_cache1,Cache_atom),
-	close(Stream1a_cache1).
+	close(Stream1a_cache1),
 	!.
