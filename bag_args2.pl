@@ -1,9 +1,10 @@
 :-include('big_connections_with_bag3_and_mr_short_books_aa540_args_init2.pl').
-:-include('../t2ab/t2ab.pl').
 :-include('../Text-to-Breasonings/text_to_breasonings.pl').
+:-include('../t2ab/t2ab.pl').
 :-include('../listprologinterpreter/la_files.pl').
 :- dynamic count2/1.
 :-include('la_vps.pl').
+%:-include('../Lucian-Academy/word_count.pl').
 
 %bag_args(96000).
 get_r(X2) :-
@@ -54,11 +55,34 @@ open_string_file_s("aa_log.txt",File_string_b),
 
   br_bar(Br),
 
+open_string_file_s("arg_cache.txt",File_string_b_cache),
+ term_to_atom([Cache_N,File_string2_b_cache],File_string_b_cache),
+
  term_to_atom(Br,N5),atom_string(N5,N6),
  
+ string_concat(File_string2_b_cache,N6,N7),
+ 
+ WC is C2+Cache_N,
+ 
+ %word_count(["string",N7],WC),
+ 
+ (WC>6000->
+ (texttobr2(u,u,N7,u,[auto,on]),
+ t2ab(u,u,N7,u,on),
+ term_to_atom([0,""],Cache_atom),
+  open_s("arg_cache.txt",write,Stream1a_cache),
+	write(Stream1a_cache,Cache_atom),
+	close(Stream1a_cache)
+	);
+ (%WC1 is Cache_N+WC,
+  term_to_atom([WC,N7],N8),
+  open_s("arg_cache.txt",write,Stream1a_cache),
+	write(Stream1a_cache,N8),
+	close(Stream1a_cache)
+	)),
+  
 
- texttobr2(u,u,N6,u,[auto,on]),
- t2ab(u,u,N6,u,on),
+
 	
  !.
 

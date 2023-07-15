@@ -4,6 +4,7 @@
 :-include('../listprologinterpreter/la_files.pl').
 :- dynamic count2/1.
 :-include('la_vps.pl').
+%:-include('../Lucian-Academy/word_count.pl').
 %bag_algs(96000).
 get_r(X2) :-
 random(X),X1 is ceiling(X*1000000),foldr(string_concat,["Books/algs-",X1,"/"],X3),
@@ -54,10 +55,33 @@ open_string_file_s("aa_log.txt",File_string_b),
   br_bal(Br),
   
 
- %delete(N2,0,N3),append(_,[N4],N3),writeln1(N4),
+open_string_file_s("alg_cache.txt",File_string_b_cache),
+ term_to_atom([Cache_N,File_string2_b_cache],File_string_b_cache),
+
  term_to_atom(Br,N5),atom_string(N5,N6),
- texttobr2(u,u,N6,u,[auto,on]),
- t2ab(u,u,N6,u,on),
+ 
+ string_concat(File_string2_b_cache,N6,N7),
+ 
+ %word_count(["string",N7],WC),
+ WC is C2+Cache_N,
+ 
+ (WC>6000->
+ ( %delete(N2,0,N3),append(_,[N4],N3),writeln1(N4),
+ 
+ texttobr2(u,u,N7,u,[auto,on]),
+ t2ab(u,u,N7,u,on),
+ 
+ term_to_atom([0,""],Cache_atom),
+  open_s("alg_cache.txt",write,Stream1a_cache),
+	write(Stream1a_cache,Cache_atom),
+	close(Stream1a_cache)
+	);
+ (%WC1 is Cache_N+WC,
+  term_to_atom([WC,N7],N8),
+  open_s("alg_cache.txt",write,Stream1a_cache),
+	write(Stream1a_cache,N8),
+	close(Stream1a_cache)
+	)),
 
  
  !.
