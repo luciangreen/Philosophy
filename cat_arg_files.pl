@@ -40,7 +40,7 @@ foldr(atom_concat,['../../GitHub/Lucian-Academy/Books/',F2,'/',F3],F4),
 
 size_file(F4,Size),Size=<51200,
 
-(exists_file(F4)->(
+((not(exists_directory(F4)),exists_file(F4))->(
 
 (string_concat(_,".pl",F4)->true;(string_concat(_,".txt",F4)->true;
 string_concat(_,".md",F4))),
@@ -92,7 +92,7 @@ write(S,F10),close(S),
 %*/
 %cat_files('../../GitHub/',"Lucian-Academy","../Lucian-Academy/Books1/algs/lgalgs_a.txt"),
 
- 
+ /*
 (exists_file('aa_log.txt')->(
  stamp_date_time(TS1,date(Year,Month,Day,Hour1,Minute1,_Seconda,_A,_TZ,_False),local),
  foldr(string_concat,["aa_log-",Year,"-",Month,"-",Day,"-",Hour1,"-",Minute1,".txt"],Name),
@@ -104,7 +104,7 @@ write(SB,'[]'),close(SB)
 
 
  );true),
- 
+ */
 
 
 !.
