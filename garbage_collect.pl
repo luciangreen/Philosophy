@@ -227,6 +227,8 @@ V = [[[[v, a], [[1], [2, 3]]], [[v, b], [[1], [3]]]], [[[v, c], [1]]]].
 
 */
 
+:-include('../SSI/ssi.pl').
+
 uncompress_vars0(V1,VG,V3) :-
 	findall(V31,(member(V2,V1),
 	uncompress_vars(V2,VG,V31)),V3),!.
