@@ -6,8 +6,8 @@ test1([
 		[[v,x1],[v,y1],[v,s]],
 
 		[
-		[[n,member2],[[1,2],[v,y1]]],
-		[[n,member2],[["a","b"],[v,x1]]],
+		[[n,member],[[v,y1],[1,2]]],
+		[[n,member],[[v,x1],["a","b"]]],
 		[[n,writeln],["Enter cell"]],
 		[[n,writeln],[[v,y1]]],
 		[[n,writeln],[[v,x1]]],
@@ -21,14 +21,14 @@ test1([
 		["<tr>",[v,z1],"</tr>"],
 
 		[
-		[[n,member2],[[1,2],[v,y2]]],
+		[[n,member],[[v,y2],[1,2]]],
 		[[n,findall],
 		[
 			["<td>",[v,s2],"</td>"],
 
 			[
-			[[n,member2],[["a","b"],[v,x2]]],
-			[[n,member2],[[v,z],[[v,x2],[v,y2],[v,s2]]]]
+			[[n,member],[[v,x2],["a","b"]]],
+			[[n,member],[[[v,x2],[v,y2],[v,s2]],[v,z]]]
 			],
 
 			[v,z1]

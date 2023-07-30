@@ -15,7 +15,7 @@ para([
 	[v,sepandpad]
 	]],
 	
-	[[n,findall],[[v,c1],[[[n,member2],[[v,sepandpad],[v,c]]],
+	[[n,findall],[[v,c1],[[[n,member],[[v,c],[v,sepandpad]]],
 	[[n,atom_string],[[v,c],[v,c1]]]],[v,sepandpad1]]],
 	%[[n,string_codes],[[v,sepandpad],[v,sepandpad1]]],
 	
@@ -29,7 +29,7 @@ para([
 ]],
 [[n,find118],[[v,text],[v,strings],[v,list1],[v,list2]],":-",
 [
-	[[n,findall],[[v,string],[[[n,member2],[[v,strings],[v,string]]],[[n,not],[[[n,sub_string],[[v,text],[v,'_a'],[v,'_b'],[v,'_c'],[v,string]]]]]],[v,b]]],
+	[[n,findall],[[v,string],[[[n,member],[[v,string],[v,strings]]],[[n,not],[[[n,sub_string],[[v,text],[v,'_a'],[v,'_b'],[v,'_c'],[v,string]]]]]],[v,b]]],
 	[[n,length],[[v,strings],[v,l]]],
 	[[n,length],[[v,b],[v,l]]],	
 	[[n,append],[[v,list1],[[v,text]],[v,list2]]],
@@ -43,7 +43,7 @@ para([
 
 		[
 		[[n,sub_string],[[v,text],[v,a],[v,'_b'],[v,c],[v,string]]],
-		[[n,member],[[v,strings],[v,string]]]
+		[[n,member],[[v,string],[v,strings]]]
 		],
 
 		[v,d]
@@ -186,7 +186,7 @@ para([
 
 		[[n,true]],
 
-		[[n,member],[["the","a","i","on","with","of","an","for","to","was","were","and","in","my","from","out","by"],[v,file_list3]]]
+		[[n,member],[[v,file_list3],["the","a","i","on","with","of","an","for","to","was","were","and","in","my","from","out","by"]]]
 	]],
 	[[n,append],[[v,file_list1],[[v,file_list3]],[v,file_list6]]],
 
@@ -203,12 +203,12 @@ para([
 	[
 	[[n,"->"],
 	[
-		[[[n,member],[[v,synonym_list],[v,s1]]],
-		[[n,equals4],[[v,s1],[[v,file_list3],[v,synonym]]]]],
+		[[[n,member],[[v,s1],[v,synonym_list]]],
+		[[n,equals4],[[[v,file_list3],[v,synonym]],[v,s1]]]],
 
 		[[n,true]],
 
-		[[[n,member],[[v,synonym_list],[v,s2]]],
+		[[[n,member],[[v,s2],[v,synonym_list]]],
 		[[n,equals4],[[v,s2],[[v,synonym],[v,file_list3]]]]]
 	]],
 	[

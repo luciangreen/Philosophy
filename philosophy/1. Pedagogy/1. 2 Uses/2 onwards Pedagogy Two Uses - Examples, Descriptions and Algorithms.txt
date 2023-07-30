@@ -65,7 +65,7 @@ test(23,[[n,agree],[["a","b","c"]
         [[n,membera1],[[v,l],[v,m]],":-",
         [       [[n,head],[[v,l],[v,h]]],
                 [[n,tail],[[v,l],[v,t]]],
-                [[n,member],[[v,m],[v,h]]],
+                [[n,member],[[v,h],[v,m]]],
                 [[n,membera1],[[v,t],[v,m]]]
         ]],
 
@@ -99,7 +99,7 @@ test(24,[[n,modus_ponens],["a",[["a","b"],["c","d"],["e","f"]],[v,s]]],
 
 [
         [[n,modus_ponens],[[v,a],[v,ab],[v,b]],":-",
-        [       [[n,member2],[[v,ab],[v,ab1]]],
+        [       [[n,member],[[v,ab1],[v,ab]]],
                 [[n,equals1],[[v,ab1],[[v,a],[v,b]]]]
         ]]
         

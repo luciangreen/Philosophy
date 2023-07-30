@@ -113,7 +113,7 @@ find118(Text,Strings,List1,List2):-findall([A,C,String],(sub_string(Text,A,_B,C,
 
 		[[n,true]],
 
-		[[n,member],[["the","a","i","on","with","of","an","for","to","was","were","and","in","my","from","out","by"],[v,file_list3]]]
+		[[n,member],[[v,file_list3],["the","a","i","on","with","of","an","for","to","was","were","and","in","my","from","out","by"]]]
 	]],
 	[[n,append],[[v,file_list1],[[v,file_list3]],[v,file_list6]]],
 
@@ -130,12 +130,12 @@ find118(Text,Strings,List1,List2):-findall([A,C,String],(sub_string(Text,A,_B,C,
 	[
 	[[n,"->"],
 	[
-		[[[n,member],[[v,synonym_list],[v,s1]]],
+		[[[n,member],[[v,s1],[v,synonym_list]]],
 		[[n,equals4],[[v,s1],[[v,file_list3],[v,synonym]]]]],
 
 		[[n,true]],
 
-		[[[n,member],[[v,synonym_list],[v,s2]]],
+		[[[n,member],[[v,s2],[v,synonym_list]]],
 		[[n,equals4],[[v,s2],[[v,synonym],[v,file_list3]]]]]
 	]],
 	[
