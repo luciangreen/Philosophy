@@ -91,6 +91,33 @@ pretty_print(sphere, dfs_post_order).
  3
 1
 
+pretty_print(cube, dfs_pre_order).
+
+white
+ yellow
+  red
+  blue
+ green
+  purple
+  
+pretty_print(cube, dfs_in_order).
+
+  red
+ yellow
+  blue
+white
+ green
+  purple
+
+pretty_print(cube, dfs_post_order).
+
+  red
+  blue
+ yellow
+  purple
+ green
+white
+
 */
 
 pretty_print(Object,Method) :-
@@ -134,3 +161,5 @@ pretty_print_dfs_post_order((Item7,Item4,Item8),N) :-
  findall(_,(member(_,Ns),write(" ")),_),
  writeln(Item4),!.
 pretty_print_dfs_post_order(null,_) :- !.
+
+% 34
