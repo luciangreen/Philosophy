@@ -125,3 +125,17 @@ factorise(X^2-N*X,F) :-
 solve(_-N,N) :- !.
 solve(X,0) :- atom(X),!.
  
+% solve2(pi*r^2,2*pi*r,S1,S2).
+% S1 = 0,
+% S2 = 2.
+ 
+solve2(L,R,S1,S2) :-
+ simplify(L,R,L1,R1),
+ move_to_lhs(L1,R1,L2,R2),
+ R2=0,
+ factorise(L2,F),
+ F=A*B,
+ solve(A,S1),
+ solve(B,S2).
+
+simplify(pi*X^2,2*pi*X,X^2,2*X) :- !.
