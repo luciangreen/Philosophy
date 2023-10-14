@@ -15,6 +15,7 @@ paraphraser.
 :-dynamic auto/1.
 
 :- include('../listprologinterpreter/listprolog').
+:- include('14 10 23.pl').
 
 paraphraser2(Parameters,File_list_a,Auto) :-
 	Auto=on,
@@ -52,12 +53,13 @@ p(The,Word,Word1) :-
  (member([Word,Word1],The)->true;Word=Word1).
  
 paraphraser1(Codes,File_list_a) :-
-	SepandPad=%".",%
-	"&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
+	%SepandPad=%".",%
+	%"&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
 	%string_codes(String1,Codes),
 	%string_to_list2(SepandPad,[],SepandPad1),
 	string_codes(String1,Codes),
-	split_string(String1,SepandPad,SepandPad,File_list),
+	%split_string
+	split_on_non_alpha_keep_quotes(String1,File_list),
 	%split_on_substring117(Codes,SepandPad1,[],File_list),
 	%split_string(String1,SepandPad,SepandPad,File_list),
 	
@@ -67,7 +69,7 @@ paraphraser1(Codes,File_list_a) :-
 	atom_to_term(String2,Synonym_list,_),
 	%trace,
 	
-	    maplist(p(Synonym_list),File_list,File_list2a),
+	    concurrent_maplist(p(Synonym_list),File_list,File_list2a),
 
 %paraphrase1(File_list,[],File_list2a,Synonym_list,Synonym_list2),
 	findall([W," "],member(W,File_list2a),File_list_3a),	
