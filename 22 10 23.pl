@@ -58,20 +58,23 @@ time_travel_As :-
 	four_by_fifty_As,!.
 
 immortality_medicine :-
-	findall(_,(medicine(_),four_by_fifty_As),_),!.
+	findall(_,(medicine0,four_by_fifty_As),_),!.
 
 medicine_problems_and_solutions :-
-	findall(_,(medicine(_),(problem->four_by_fifty_As;true)),_),!.
+	findall(_,(medicine0(_),(problem->four_by_fifty_As;true)),_),!.
 
 problem :-
 	random(X),X1 is floor(X*2),X1=0.
-	
-medicine("A").
-medicine("B").
-medicine("B to B").
-medicine("Immortality").
-medicine("Body replacement").
-medicine("Anti-ageing medicine").
+
+medicine0 :-
+	medicine(_),medicine1(_),medicine2(_).
+		
+medicine1("A").
+medicine1("B").
+medicine1("B to B").
+medicine2("Immortality").
+medicine2("Body replacement").
+medicine2("Anti-ageing medicine").
 medicine("memory").
 medicine("thinking").
 medicine("stopping dementia").
