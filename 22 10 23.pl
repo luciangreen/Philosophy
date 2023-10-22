@@ -61,7 +61,7 @@ immortality_medicine :-
 	findall(_,(medicine0,four_by_fifty_As),_),!.
 
 medicine_problems_and_solutions :-
-	findall(_,(medicine0(_),(problem->four_by_fifty_As;true)),_),!.
+	findall(_,(medicine0,(problem->four_by_fifty_As;true)),_),!.
 
 problem :-
 	random(X),X1 is floor(X*2),X1=0.
