@@ -116,3 +116,6 @@ put_item_n(E,N1,Item2,E2) :-
 foldr(Function,A,L,B) :-
  reverse(A,C),
  foldl(Function,C,L,B),!.
+
+put_sub_term_wa_ae([E,A],B,C) :-
+ put_sub_term_wa(A,E,B,C),!.
