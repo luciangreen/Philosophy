@@ -74,7 +74,7 @@ pw=Pw,submit=_],
 %assertz(html_api_maker_or_terminal(html
  %terminal
  %)),
-																										              format('Content-type: text/html~n~n', []),
+																										              %format('Content-type: text/html~n~n', []),
 
 
 
@@ -84,7 +84,7 @@ pw=Pw,submit=_],
 % commands need path passed to them
 % file_browser needs path passed to it
 
-working_directory(CWD1,CWD1),
+first_directory(CWD1),
 file_browser(CWD1)
 /*
 foldr(string_concat,
@@ -112,16 +112,17 @@ data(Header,Footer),
 
 format(Header,[]),
 
+writeln(Path),
 %working_directory(Path, Path),
 
 (Path="/"->Up="";
-Up="<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"\"><input type=hidden name=input1 value=\"\"><input type=submit name=submit value='up'></form><br>"),
+foldr(string_concat,["<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"\"><input type=hidden name=input1 value=\"",Path,"\"><input type=submit name=submit value='up'></form><br>"],Up)),
 
 findall(["<div style=\"width:415;\">
     <div style=\"float: left; width: 65px\"> 
 
 
-<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='open'></form>",
+<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='open'></form>",
 
 "    </div>"
 ,
@@ -129,14 +130,14 @@ findall(["<div style=\"width:415;\">
 
 ",
 
-"<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='move'></form>",
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='move'></form>",
 
 "    </div>",
 "   <div style=\"float: left; width: 65px\"> 
 
 ",
 
-"<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='copy'></form>",
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='copy'></form>",
 
 "    </div>"
 
@@ -144,7 +145,7 @@ findall(["<div style=\"width:415;\">
 
 ",
 
-"<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='delete'></form>
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='delete'></form>
 
 ",
 
@@ -172,7 +173,7 @@ subtract(Files2,Folders1,Files3),
 findall(["<div style=\"width:415px;\">
     <div style=\"float: left; width: 65px\">
     
-    <form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='edit'></form>",
+    <form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='edit'></form>",
     
     "    </div>
 
@@ -181,7 +182,7 @@ findall(["<div style=\"width:415px;\">
 ",
 
 
-"<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='move'></form>",
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='move'></form>",
 
 "    </div>
 
@@ -190,7 +191,7 @@ findall(["<div style=\"width:415px;\">
 ",
 
 
-"<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='copy'></form>",
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='copy'></form>",
 
 "    </div>
 
@@ -199,7 +200,7 @@ findall(["<div style=\"width:415px;\">
 ",
 
 
-"<form action=\"/wb\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='delete'></form>",
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='delete'></form>",
 
 "    </div>
 
@@ -226,14 +227,14 @@ writeln(String),
 
 format(Footer,[])
 .
-																								      :- http_handler('/wb', wb, []).
+																								      :- http_handler('/we', we, []).
 																								      
 																								      
 																								      file_name(M1,M2) :-
 																								       atomic_list_concat(M3,'/',M1),
 																								       append(_,[M2],M3),!.
 
-																								      wb(Request) :-
+																								      we(Request) :-
 																								              member(method(post), Request), !,
 																									              http_read_data(Request, Data, []),
 				
@@ -272,7 +273,10 @@ writeln1([Input1,Input01,Submit1])
 %/*
 (Submit=up->
 %(writeln(here));
-(working_directory(_CWD,"../"),working_directory(CWD1,CWD1),file_browser(CWD1));
+(atom_concat(_,'/',Input0)->Input01=Input0;atom_concat(Input0,'/',Input01)),
+atom_concat(Input01,'../',Input00),
+(working_directory(_CWD,Input00%"../"
+),working_directory(CWD1,CWD1),file_browser(CWD1));
 
 (Submit=open->
 (%working_directory(_CWD,Input1),
