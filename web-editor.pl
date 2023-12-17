@@ -170,10 +170,17 @@ findall(M3,(directory_member(Path,M1,[file_type(directory)]),file_name(M1,M2),at
 %trace,
 subtract(Files2,Folders1,Files3),
 
-findall(["<div style=\"width:415px;\">
+findall(["<div style=\"width:498px;\">
     <div style=\"float: left; width: 65px\">
     
-    <form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='edit'></form>",
+    <form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='view'></form>",
+    
+    "    </div>
+
+    <div style=\"float: left; width: 65px\"> 
+
+",
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",M,"\"><input type=hidden name=input1 value=\"",M2,"\"><input type=submit name=submit value='edit'></form>",
     
     "    </div>
 
@@ -293,7 +300,12 @@ file_browser(Input));
 (delete_file(Input),file_browser(Input0));
 
 (Submit=edit->
-(go_edit(Input,Input0))))))))
+(go_edit(Input,Input0));
+
+(Submit=view->
+(go_view(Input,Input0))
+
+)))))))
 %*/
 .
 
@@ -370,6 +382,35 @@ foldr(string_concat,
         <textarea name=text2 rows=\"20\">",File_string,"</textarea>
   <input type=hidden name=text01 value=\"",Input01,"\">
   <input type=submit name=submit value='Submit'>
+    </form>"],String),
+
+
+writeln(String),
+
+
+%*/
+format(Footer,[])
+%*/
+.
+
+go_view(Input,Input01) :-
+%*/
+
+open_string_file_s(Input,File_string),
+
+data(Header,Footer),
+%/*
+format(Header,[]),
+
+writeln(File_string),
+
+foldr(string_concat,
+["<form action=\"/return\" method=\"POST\">
+        
+          <input type=hidden name=text1 value=\"",Input,"\">
+        
+  <input type=hidden name=text01 value=\"",Input01,"\">
+  <input type=submit name=submit value='Return'>
     </form>"],String),
 
 
@@ -477,6 +518,36 @@ submit=_],
 atom_string(Text1,Text1s),
 atom_string(Text2,Text2s),
 save_file_s(Text1s,Text2s),
+	
+file_browser(Path).
+
+:- http_handler('/return', return, []).
+
+return(Request) :-
+																								              member(method(post), Request), !,
+																									              http_read_data(Request, Data, []),
+				
+
+				format('Content-type: text/html~n~n', []),
+																											      	format('<p>', []),
+																												        %%portray_clause(Data),
+																												        
+																												        %%term_to_atom(Term,Data),
+	
+		%format(Data,[])
+%writeln1(Data),																												      
+
+Data=[%%debug='off',%%Debug1,
+text1=_Text1,text01=Path,
+submit=_],
+/*
+%term_to_atom(Text11,Text1),
+%term_to_atom(Text21,Text2),
+%term_to_atom(Path,Text01),
+*/
+%atom_string(Text1,Text1s),
+%atom_string(Text2,Text2s),
+%save_file_s(Text1s,Text2s),
 	
 file_browser(Path).
 
