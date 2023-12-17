@@ -402,7 +402,7 @@ data(Header,Footer),
 %/*
 format(Header,[]),
 
-writeln(Input),
+writeln(Input),writeln("<br>"),
 (string_concat(_,".html",Input)->File_string=File_string1;
 (atomic_list_concat(A,'\n',File_string),
 atomic_list_concat(A,'<br>',File_string1))),
