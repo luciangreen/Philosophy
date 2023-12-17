@@ -7,11 +7,12 @@
 
 % we need this module from the HTTP client library for http_read_data
 :- use_module(library(http/http_client)).
-:- http_handler('/', get_pw, []).
+:- http_handler('/we', get_pw, []).
 
 :- include('../listprologinterpreter/listprolog.pl').
+:- include('web-editor-pw.pl').
 
-server(Port) :-
+web_editor_server(Port) :-
         http_server(http_dispatch, [port(Port)]).
 
 	/*
@@ -64,7 +65,7 @@ pw=Pw,submit=_],
 			
 				format(Header,[]),
 				
-				(Pw='apple8'->
+				((password(Pw1),atom_string(Pw,Pw1))->
 				
 				(
 				
