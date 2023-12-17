@@ -402,7 +402,12 @@ data(Header,Footer),
 %/*
 format(Header,[]),
 
-writeln(File_string),
+writeln(Input),
+(string_concat(_,".html",Input)->File_string=File_string1;
+(atomic_list_concat(A,'\n',File_string),
+atomic_list_concat(A,'<br>',File_string1))),
+
+writeln(File_string1),
 
 foldr(string_concat,
 ["<form action=\"/return\" method=\"POST\">
