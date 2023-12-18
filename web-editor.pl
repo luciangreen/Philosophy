@@ -7,7 +7,7 @@
 
 % we need this module from the HTTP client library for http_read_data
 :- use_module(library(http/http_client)).
-:- http_handler('/we', get_pw, []).
+:- http_handler('/webeditor', get_pw, []).
 
 :- include('../listprologinterpreter/listprolog.pl').
 :- include('web-editor-pw.pl').

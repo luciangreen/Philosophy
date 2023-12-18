@@ -100,7 +100,7 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * Remember to edit the password in `web-editor-pw.pl` before running.
 
-* In `swipl`, `['web-editor1.pl'].` `web_editor_server(8000).` Go to <a href="http://localhost:8000/we">http://localhost:8000/we</a> or http://***your IP address***:8000 to access files online.
+* In `swipl`, `['web-editor1.pl'].` `web_editor_server(8000).` Go to <a href="http://localhost:8000/webeditor">http://localhost:8000/webeditor</a> or http://***your IP address***:8000 to access files online.
 
 # Paraphraser
 
