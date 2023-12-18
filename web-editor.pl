@@ -117,7 +117,13 @@ writeln(Path),
 %working_directory(Path, Path),
 
 (Path="/"->Up="";
-foldr(string_concat,["<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"\"><input type=hidden name=input1 value=\"",Path,"\"><input type=submit name=submit value='up'></form><br>"],Up)),
+foldr(string_concat,["<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"","","\"><input type=hidden name=input1 value=\"",Path,"\"><input type=submit name=submit value='up'></form>"],Up)),
+
+foldr(string_concat,["<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",Path,"\"><input type=hidden name=input1 value=\"","","\"><input type=submit name=submit value='new folder'></form>",
+
+"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",Path,"\"><input type=hidden name=input1 value=\"","","\"><input type=submit name=submit value='new file'></form>",
+
+"<br>"],New),
 
 findall(["<div style=\"width:415;\">
     <div style=\"float: left; width: 65px\"> 
@@ -228,7 +234,7 @@ directory_file_path(Path,M4,M),Path=M2),Files),
 % directories - open, rename, move, delete
 % files - edit, rename, move, delete 
 
-flatten([Up,"Folders<br><br>",Folders,"Files<br><br>",Files],List),
+flatten([Up,New,"Folders<br><br>",Folders,"Files<br><br>",Files],List),
 foldr(string_concat,List,"",String),
 
 writeln(String),
@@ -291,6 +297,11 @@ atom_concat(Input01,'../',Input00),
 %string_concat(Input1,Input01,Full_path),
 file_browser(Input));
 
+(Submit='new folder'->
+(%working_directory(_CWD,Input1),
+%string_concat(Input1,Input01,Full_path),
+new_folder(Input));
+
 (Submit=move->
 (go_move(Input,Input0));
 
@@ -303,10 +314,14 @@ file_browser(Input));
 (Submit=edit->
 (go_edit(Input,Input0));
 
+(Submit='new file'->
+(new_file(Input%,Input0
+));
+
 (Submit=view->
 (go_view(Input,Input0))
 
-)))))))
+)))))))))
 %*/
 .
 
@@ -314,6 +329,33 @@ file_browser(Input));
 
 
 %writeln1([atom_string(Hidden11,Hidden1)]),
+
+new_folder(Input%,Input01
+) :-
+%*/
+
+data(Header,Footer),
+%/*
+format(Header,[]),
+
+writeln(Input),writeln("<br><br>"),
+
+foldr(string_concat,
+["<form action=\"/new_folder\" method=\"POST\">
+        <p>New folder:</p>
+  <input type=hidden name=text1 value=\"",Input,"\">
+        <textarea name=text2 rows=\"1\">","","</textarea>
+  <input type=submit name=submit value='Submit'>
+    </form>"],String),
+
+
+writeln(String),
+
+
+%*/
+format(Footer,[])
+%*/
+.
 
 go_move(Input,Input01) :-
 %*/
@@ -394,6 +436,37 @@ format(Footer,[])
 %*/
 .
 
+new_file(Input%,Input01
+) :-
+%*/
+
+%open_string_file_s(Input,File_string),
+
+data(Header,Footer),
+%/*
+format(Header,[]),
+
+writeln(Input),writeln("<br><br>"),
+
+foldr(string_concat,
+["<form action=\"/new_file\" method=\"POST\">
+        <p>New filename:</p>
+        <textarea name=text0 rows=\"1\">","","</textarea><br><br>
+        <p>Contents:</p>
+          <input type=hidden name=text1 value=\"",Input,"\">
+        <textarea name=text2 rows=\"20\">","","</textarea>
+  <input type=submit name=submit value='Submit'>
+    </form>"],String),
+
+
+writeln(String),
+
+
+%*/
+format(Footer,[])
+%*/
+.
+
 go_view(Input,Input01) :-
 %*/
 
@@ -427,6 +500,48 @@ writeln(String),
 format(Footer,[])
 %*/
 .
+
+:- http_handler('/new_folder', new_folder1, []).
+
+new_folder1(Request) :-
+																								              member(method(post), Request), !,
+																									              http_read_data(Request, Data, []),
+				
+
+				format('Content-type: text/html~n~n', []),
+																											      	format('<p>', []),
+																												        %%portray_clause(Data),
+																												        
+																												        %%term_to_atom(Term,Data),
+	
+		%format(Data,[])
+																												        
+%/*
+%writeln1(Data)
+%/*
+Data=[%%debug='off',%%Debug1,
+text1=Path,text2=New_folder,
+submit=_],
+
+%term_to_atom(From,Text1),
+%term_to_atom(To,Text2),
+%term_to_atom(Path,Text01),
+
+%(string_concat(_,"/",Path)->Path1=Path;string_concat(Path,"/",Path1)),
+
+%writeln(Path)
+%/*
+working_directory(A,A),
+working_directory(_,Path),
+	%Mv="rsync -avz --remove-source-files ",
+NF="mkdir ",	concat_list([NF,New_folder],Command),
+	shell1_s(Command),
+working_directory(_,A),
+	
+file_browser(Path)
+%*/
+.
+
 
 :- http_handler('/move', move, []).
 
@@ -524,6 +639,44 @@ submit=_],
 atom_string(Text1,Text1s),
 atom_string(Text2,Text2s),
 save_file_s(Text1s,Text2s),
+	
+file_browser(Path).
+
+:- http_handler('/new_file', new_file1, []).
+
+new_file1(Request) :-
+																								              member(method(post), Request), !,
+																									              http_read_data(Request, Data, []),
+				
+
+				format('Content-type: text/html~n~n', []),
+																											      	format('<p>', []),
+																												        %%portray_clause(Data),
+																												        
+																												        %%term_to_atom(Term,Data),
+	
+		%format(Data,[])
+%writeln1(Data),																												      
+
+Data=[%%debug='off',%%Debug1,
+text0=File_name,text1=Path,text2=Contents,
+submit=_],
+/*
+%term_to_atom(Text11,Text1),
+%term_to_atom(Text21,Text2),
+%term_to_atom(Path,Text01),
+*/
+
+%(string_concat(_,"/",Path)->Path1=Path;string_concat(Path,"/",Path1)),
+working_directory(A,A),
+working_directory(_,Path),
+%string_concat(Path1,File_name,Path2),
+
+atom_string(File_name,File_names),
+atom_string(Contents,Contentss),
+save_file_s(File_names,Contentss),
+	
+working_directory(_,A),
 	
 file_browser(Path).
 
