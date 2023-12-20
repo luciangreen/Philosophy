@@ -71,8 +71,15 @@ remove_duplicates([[X1,X2]|Rest], [[X1,X2]|Result]) :-
 % means A is an older brother of B
 %
 older_brother(GG) :-
-	
-P=[[albert, jim],[albert, peter],[jim, brian],[peter, lee],[peter, john]],Y=[[albert, 1926],[peter, 1945],[jim, 1949],[brian, 1974],[john, 1974],[lee, 1975]],G=[[albert,male],[jim,male],[peter,male],[brian,male],[lee,male],[john,male]],findall([A,B,C1,B3],(member([A,B],P),member([B,C1],Y),member([B,B3],G)),C),findall([A1,B1],(member([X, A1, C2, male],C),member([X, B1, C21, _],C),C2 > C21),GG),!.
+	older_brother1(P,Y,G),
+
+findall([A,B,C1,B3],(member([A,B],P),member([B,C1],Y),member([B,B3],G)),C),findall([A1,B1],(member([X, A1, C2, male],C),member([X, B1, C21, _],C),C2 > C21),GG),!.
+
+older_brother1(P,Y,G) :-
+	findall([A,B],parent(A,B),P),
+	findall([A,B],year_of_birth(A,B),Y),
+	findall([A,B],gender(A,B),G),!.
+
 
 % descendant(Person, Descendant)
 % means Descendant is a descendant of Person.
