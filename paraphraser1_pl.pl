@@ -130,13 +130,13 @@ find118(Text,Strings,List1,List2):-findall([A,C,String],(sub_string(Text,A,_B,C,
 	[
 	[[n,"->"],
 	[
-		[[[n,member],[[v,s1],[v,synonym_list]]],
-		[[n,equals4],[[v,s1],[[v,file_list3],[v,synonym]]]]],
+		[[[n,member],[[[v,file_list3],[v,synonym]],[v,synonym_list]]]
+		],
 
 		[[n,true]],
 
-		[[[n,member],[[v,s2],[v,synonym_list]]],
-		[[n,equals4],[[v,s2],[[v,synonym],[v,file_list3]]]]]
+		[[[n,member],[[[v,synonym],[v,file_list3]],[v,synonym_list]]]
+		]
 	]],
 	[
 	[[n,append],[[v,file_list1],[[v,synonym]],[v,file_list6]]],
