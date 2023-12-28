@@ -117,11 +117,16 @@ writeln(Path),
 %working_directory(Path, Path),
 
 (Path="/"->Up="";
-foldr(string_concat,["<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"","","\"><input type=hidden name=input1 value=\"",Path,"\"><input type=submit name=submit value='up'></form>"],Up)),
+foldr(string_concat,["<div style=\"width:415;\">
+    <div style=\"float: left; width: 65px\"><form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"","","\"><input type=hidden name=input1 value=\"",Path,"\"><input type=submit name=submit value='up'></form></div>"],Up)),
 
-foldr(string_concat,["<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",Path,"\"><input type=hidden name=input1 value=\"","","\"><input type=submit name=submit value='new folder'></form>",
+foldr(string_concat,["<div style=\"width:415;\">
+    <div style=\"float: left; width: 65px\"><form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",Path,"\"><input type=hidden name=input1 value=\"","","\"><input type=submit name=submit value='new folder'></form></div>",
 
-"<form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",Path,"\"><input type=hidden name=input1 value=\"","","\"><input type=submit name=submit value='new file'></form>",
+"<div style=\"width:415;\"><div style=\"float: left; width: 65px\">&nbsp;</div>",
+
+"<div style=\"width:415;\">
+    <div style=\"float: left; width: 65px\"><form action=\"/we\" method=\"POST\"><input type=hidden name=input value=\"",Path,"\"><input type=hidden name=input1 value=\"","","\"><input type=submit name=submit value='new file'></form></div>",
 
 "<br>"],New),
 
@@ -234,7 +239,7 @@ directory_file_path(Path,M4,M),Path=M2),Files),
 % directories - open, rename, move, delete
 % files - edit, rename, move, delete 
 
-flatten([Up,New,"Folders<br><br>",Folders,"Files<br><br>",Files],List),
+flatten([Up,New,"<br><br>Folders<br><br>",Folders,"Files<br><br>",Files],List),
 foldr(string_concat,List,"",String),
 
 writeln(String),
