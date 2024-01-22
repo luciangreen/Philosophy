@@ -1,5 +1,5 @@
 :-include('big_connections_with_bag3_and_mr_short_books_aa540_algs_init.pl').
-:-include('../Text-to-Breasonings/text_to_breasonings.pl').
+:-include('../Text-to-Breasonings/text_to_breasonings3.pl').
 :-include('../t2ab/t2ab.pl').
 :-include('../listprologinterpreter/la_files.pl').
 :- dynamic count2/1.
