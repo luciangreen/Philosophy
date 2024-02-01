@@ -7,6 +7,7 @@ print_totals :-
  
  BL is %1000,%
  5*16000*8*5,
+ %9*16000,
 findall(Args1,(member([arg,_,_,Args1],File_string2)),Args11),
  sum(Args11,Args12),
 
