@@ -52,6 +52,9 @@ sub_term_wa4(Ns1,Ns2,N,A,Find,B,C,First) :-
  A=[D|E],sub_term_wa2(Ns5,_Ns3,N11,D,Find1,B,F,true),
  sub_term_wa2(Ns1,Ns2,N11,E,Find,F,C,false).
 
+% ?- put_sub_term_wa(9,[1, 2, 1, 1, 2, 3],[[1,2],[[[4,[5,7,8],6]]]],A).
+% A = [[1, 2], [[[4, [5, 7, 9], 6]]]].
+
 put_sub_term_wa(List,[1],_L1,List) :- !.
 put_sub_term_wa(List,[_|Ns],L1,L2) :-
  put_sub_term_wa1(List,Ns,L1,L2),!.
@@ -68,36 +71,22 @@ put_sub_term_wa1(List,Ns,L1,L2) :-
 % delete_sub_term_wa([[1, 1], [1, 2]], [a, b], A).
 % A = []
 
+% delete_sub_term_wa([[1]],1,A).
+% A = [].
+
 delete_sub_term_wa(NNs,L1,L2) :-
  foldr(put_sub_term_wa("&del"), NNs, L1, L3),
- delete_sub_term_wa2(L3,"&del",L2),!.
+ delete_sub_term_wa2(L3,"&del",[],L2),!.
 
-delete_sub_term_wa2(A,Find,B) :-
- delete_sub_term_wa3(A,Find,[],B),
- !.
+delete_sub_term_wa2(Find,Find,A,A) :-!.
+delete_sub_term_wa2([],_,A,A).
+delete_sub_term_wa2([Find|D],Find,B,C):-
+ delete_sub_term_wa2(D,Find,B,C),!.
+delete_sub_term_wa2([A|D],Find,B,[A1|C]):-
+ (is_list(A)->delete_sub_term_wa2(A,Find,[],A1);A=A1),
+ delete_sub_term_wa2(D,Find,B,C).
+
  
-delete_sub_term_wa3([],_,B,B) :- !.
-delete_sub_term_wa3(A,Find,B,C) :-
- not(is_list(A)),
- delete_sub_term_wa4(A,Find,B,C).
-delete_sub_term_wa3(A,Find,B,C) :-
- is_list(A),
- delete_sub_term_wa5(A,Find,B,C).
-
-delete_sub_term_wa4(A,Find,B,B) :-
- A=Find,!.
-delete_sub_term_wa4(A,Find,B,C) :-
- not(A=Find),append(B,[A],C).
-delete_sub_term_wa4(A,Find,B,B) :- 
- not(A=Find),!.
-
-delete_sub_term_wa5(A,_Find,B,C) :-
- A=delete_sub_term_wa2,append(B,[A],C).
-delete_sub_term_wa5(A,Find,B,C) :-
- copy_term(Find,Find1), 
- A=[D|E],delete_sub_term_wa3(D,Find1,B,F),
- delete_sub_term_wa3(E,Find,F,C).
-
 %% get_item_n([a,b,c],3,Item).
 %% Item = c
 
@@ -116,6 +105,16 @@ put_item_n(E,N1,Item2,E2) :-
 foldr(Function,A,L,B) :-
  reverse(A,C),
  foldl(Function,C,L,B),!.
+
+/*
+
+A5=[[v,1],[v,2]],sub_term_wa([v,_],A5,A),findall([Ad,[v,A1]],(member([Ad,[v,A2]],A),A1 is A2+1),A3),foldr(put_sub_term_wa_ae,A3,A5,A4).
+A5 = [[v, 1], [v, 2]],
+A = [[[1, 1], [v, 1]], [[1, 2], [v, 2]]],
+A3 = [[[1, 1], [v, 2]], [[1, 2], [v, 3]]],
+A4 = [[v, 2], [v, 3]].
+
+*/
 
 put_sub_term_wa_ae([E,A],B,C) :-
  put_sub_term_wa(A,E,B,C),!.
