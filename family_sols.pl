@@ -136,7 +136,7 @@ list_count([_|Tail], Count) :-
 
 
 % count_descendants(Person, Count)
-% Count is bound to the number of descentants of Person.
+% Count is bound to the number of descendants of Person.
 %
 count_descendants(Person, Count) :-
     descendant(Person, List),
