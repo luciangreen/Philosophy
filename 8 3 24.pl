@@ -68,10 +68,11 @@ sent2alg(Sent,I,O) :-
 % I wrote the text.
 % I found the algorithm from the trace.
 
-sort4([],[]) :- !.
-sort4([A|B],[D|F]) :-
- sort5(A,B,[D|E]),
- sort4(E,F).
+sort3(A,B) :- sort4(A,[],B).
+sort4([],A,A) :- !.
+sort4([A|B],G,F) :-
+ sort5(A,G,D),
+ sort4(B,D,F).
 sort5(A,[],[A]) :- !.
 sort5(A,[B|C],D) :-
  (A>B->(sort5(A,C,E),D=[B|E]);
