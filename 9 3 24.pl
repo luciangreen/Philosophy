@@ -35,7 +35,7 @@ verb --> "walked".
 
 % A=
 
-term_analyser([],[n/a]) :-!.
+%term_analyser([],[n/a]) :-!.
 
 term_analyser(T,[length=L,depth=Dep,average_items_per_branching_point=Ave]) :-
  length(T,L),
@@ -57,7 +57,7 @@ depth_tree(_,_,[]) :- !.
 new_num(Curr2) :-curr(Curr1),retractall(curr(_)),Curr2 is Curr1+1,assertz(curr(Curr2)).
 
 
-deps(A,B) :- retractall(curr(_)),Curr=0,assertz(curr(Curr)),(A=[]->B=[[0,-]];(A=[C]->B=[[0,C]];deps(A,B,Curr))).
+deps(A,B) :- retractall(curr(_)),Curr=0,assertz(curr(Curr)),(A=[]->B=[];(A=[C]->B=[[0,C]];deps(A,B,Curr))).
 deps([],[],_) :-!.
 deps(N,[]%[[C,-]]
 ,_C) :-number(N),!.
@@ -82,7 +82,7 @@ deps1([T1|T2],As2,C) :-
 test1 :-
 findall(_,(member([T,L,D,A],
 [
-[[],0,1,0],
+[[],0,0,0],
 [[1],1,1,0],
 [[1,1],2,1,0],
 [[1,[1]],2,2,0.5],
