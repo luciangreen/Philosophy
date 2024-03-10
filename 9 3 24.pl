@@ -62,7 +62,7 @@ new_num(Curr2) :-curr(Curr1),retractall(curr(_)),Curr2 is Curr1+1,assertz(curr(C
 deps(A,B) :- retractall(curr(_)),Curr=0,assertz(curr(Curr)),(A=[]->B=[];(A=[C]->B=[[0,C]];deps(A,B,Curr))).
 deps([],[],_) :-!.
 deps(N,[]%[[C,-]]
-,_C) :-number(N),!.
+,_C) :-single_item_ta(N),!.
 %deps([[T]],[[C,C1]|A1],C) :- new_num(C1),
 % deps([T],A,C1),
  %(A=[[_|_]|_]->foldr(append,A,A1);A=A1).%,(forall(member([_,_],A))->).
@@ -80,7 +80,7 @@ deps(T,As,C) :-
  deps1(T,As,C).
 deps1([],[],_) :- !.
 deps1(N,[]%[[C,-]]
-,_C) :-number(N),!.
+,_C) :-single_item_ta(N),!.
 deps1([T1|T2],As2,C) :-
  %[[T1],[T2]]
  %new_num(C1),
@@ -98,9 +98,23 @@ findall(_,(member([T,L,D,A],
 [[1],1,1,0],
 [[1,1],2,1,0],
 [[1,1,1],3,1,0],
+[["a",b,1],3,1,0],
 [[1,[1]],2,2,0.5],
 [[1,[1,[1]]],2,3,0.6666666666666666]
 ]),(term_analyser(T,[length=L,depth=D,average_items_per_branching_point=A])->writeln([T,L,D,A,success]);writeln([T,L,D,A,failed]))),_).
 
-% 31 algs
+% 32 algs
+
+single_item_ta(A) :-
+    string(A),
+    !.
+single_item_ta(A) :-
+    atom(A),
+    !.
+single_item_ta(A) :-
+    number(A),
+    !.
+single_item_ta(A) :-
+    blob(A, stream),
+    !.
 
