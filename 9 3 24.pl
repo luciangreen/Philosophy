@@ -103,8 +103,6 @@ findall(_,(member([T,L,D,A],
 [[1,[1,[1]]],2,3,0.6666666666666666]
 ]),(term_analyser(T,[length=L,depth=D,average_items_per_branching_point=A])->writeln([T,L,D,A,success]);writeln([T,L,D,A,failed]))),_).
 
-% 32 algs
-
 single_item_ta(A) :-
     string(A),
     !.
@@ -118,3 +116,4 @@ single_item_ta(A) :-
     blob(A, stream),
     !.
 
+% 36 algs
