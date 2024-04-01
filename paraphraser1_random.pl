@@ -41,7 +41,7 @@ paraphraser.
 :-dynamic auto/1.
 
 :- include('../listprologinterpreter/listprolog').
-:- include('../Music-Composer/mindreadtestmusiccomposer-unusual-mr-tree.pl').
+%:- include('../Music-Composer/mindreadtestmusiccomposer-unusual-mr-tree.pl').
 
 paraphraser(Parameters,File_list_a,Auto) :-
 	retractall(auto(_)),
@@ -124,7 +124,7 @@ paraphrase1(File_list,File_list1,File_list2,Synonym_list,Synonym_list2) :-
 	phrase(word1(File_list5_c),_),
 	(((member([File_list3,Synonym],Synonym_list)->true;
 	member([Synonym,File_list3],Synonym_list))->
-	(mind_read(Synonym_a,[Synonym,File_list3]),
+	(random_member(Synonym_a,[Synonym,File_list3]),
 	append(File_list1,[Synonym_a],File_list6),
 	Synonym_list=Synonym_list1);
 	((%true%trace,
