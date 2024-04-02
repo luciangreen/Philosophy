@@ -45,7 +45,8 @@ get_time(TS1),
 
 texttobr2(25,u,"square",u),
 BL is %1000,%
-5*16000*8*5,
+4*16000,
+%5*16000*8*5,
 day_loop(BL,0,0%,In_a_day,TSAA
 ),
 flush_caches,
@@ -57,7 +58,7 @@ A is (25-1)*(1 % teleport 1
    + 2),% a thought
 
 texttobr2_1(A),
-bell("Freezing Ages Complete"),
+%bell("Freezing Ages Complete"),
 
  	nl,
     halt.
