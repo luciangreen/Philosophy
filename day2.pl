@@ -3,15 +3,19 @@
 :-include('../listprologinterpreter/listprolog.pl').
 :- use_module(library(date)).
 :-include('flush_caches.pl').
-:-include('bell.pl').
+%:-include('bell.pl').
 
 %:-include('../listprologinterpreter/la_files.pl').
 
 %:- initialization(catch(main, Err, handle_error(Err))).
 
+
+main :-
+catch(main2,Err,handle_error(Err)),halt.
 handle_error(_Err):-
   halt(1).
-main :-
+main :- halt(1).
+main2 :-
 
 /*
 date_time_stamp(date(2023,1,1,1,0,0,_,_,_),TS0),
