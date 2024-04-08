@@ -26,6 +26,7 @@ Limit is Limit1,
  open_string_file_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",File_string),
  term_to_atom(File_string2,File_string),
  File_string2=["","","",File_string1],
+ not(File_string1=""),
  split1(Split_into_n%17
  ,File_string1,File_strings),
  length(File_strings,L),
