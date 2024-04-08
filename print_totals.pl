@@ -6,7 +6,8 @@ print_totals :-
  term_to_atom(File_string2,File_string),
  
  BL is %1000,%
- 5*16000*8*5,
+ %5*16000*8*5,
+ 4*16000,
  %9*16000,
 findall(Args1,(member([arg,_,_,Args1],File_string2)),Args11),
  sum(Args11,Args12),
