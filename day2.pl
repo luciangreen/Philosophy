@@ -9,9 +9,9 @@
 
 %:- initialization(catch(main, Err, handle_error(Err))).
 
-
 main :-
-catch(main2,Err,handle_error(Err)),halt.
+S is 60*60,
+catch(catch(call_with_time_limit(S,main2),time_limit_exceeded,(writeln("Timed out."),handle_error(_Err))),Err,handle_error(_Err)),halt.
 handle_error(_Err):-
   halt(1).
 main :- halt(1).
