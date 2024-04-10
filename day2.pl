@@ -33,6 +33,10 @@ get_time(TS),stamp_date_time(TS,date(Year,Month,Day,Hour1,Minute1,Seconda,_A,_TZ
 findall(TSA0,(member(H,Hours),date_time_stamp(date(Year,Month,Day,H,0,0,_,_,_),TSA0)),TSAA),
 
 */
+open_file_s("../Lucian-Academy/Books1/algs/lgalgs_a.txt",[_,_,_,FS1]),
+not(FS1=""),
+open_file_s("../Lucian-Academy/Books1/args/lgtext_a.txt",[_,_,_,FS2]),
+not(FS2=""),
 
 (exists_file('aa_log.txt')->(
 
