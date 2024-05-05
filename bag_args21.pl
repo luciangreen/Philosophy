@@ -1,4 +1,6 @@
-#!/usr/bin/swipl --stack-limit=80G -f -q
+#!/usr/bin/swipl -f -q
+
+:-set_prolog_stack(global, limit(80 000 000 000)).
 
 :-include('bag_args2.pl').
 :- initialization(catch(main, Err, handle_error(Err))).
