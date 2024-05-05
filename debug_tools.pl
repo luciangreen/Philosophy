@@ -1,5 +1,7 @@
 % debug_tools.pl
 
+:-include('pretty_print_table.pl').
+
 test_p(A) :- (A->true;(writeln(["Predicate failed:",A]),abort)),!.
 
 test_r(A,B) :-
