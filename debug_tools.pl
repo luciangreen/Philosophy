@@ -1,6 +1,7 @@
 % debug_tools.pl
 
 :-include('pretty_print_table.pl').
+:-include('sub_term_with_address.pl').
 
 test_p(A) :- (A->true;(writeln(["Predicate failed:",A]),abort)),!.
 
