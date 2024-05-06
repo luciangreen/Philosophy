@@ -35,7 +35,11 @@ J = [[[1], []]].
 sub_term_wa(_,_,J).
 J = [[[1], _]].
 
+Usually loads with
+
 */
+
+:-include('../listprologinterpreter/listprolog.pl').
 
 sub_term_wa(Find,A,B) :-
  dynamic(stwa/1),
@@ -175,8 +179,8 @@ put_sub_term_wa_ae([E,A],B,C) :-
 % sub_term_heuristic_wa(A,string(A),["string",a],B). x
 
 
-% sub_term_types_wa([string,number],["a",a,1],Instances).
-% Instances = [[[1, 1], "a"], [[1, 3], 1]].
+% sub_term_types_wa([string,atom,[],number,_],["a",a,[],1,_],Instances).
+% Instances = [[[1, 1], "a"], [[1, 2], a], [[1, 3], []], [[1, 4], 1], [[1, 5], _]].
 
 /*
 
@@ -198,6 +202,7 @@ sub_term_types_wa(H,A,B) :-
 is_t(H,A) :-
 	((member(string,H),string(A))->true;
 	((member(atom,H),atom(A))->true;
-	((member([],H),(not(var(A)),A=[]))->true;
-	((member(number,H),number(A)))))),!.
+	((member([],H),not(var(A)),A=[])->true;
+	((member(number,H),number(A)->true;
+	((member(Item,H),var(Item),var(A)))))))),!.
 	
