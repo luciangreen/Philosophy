@@ -11,6 +11,8 @@ Subterm (with address) gives the "address" of a term in a term, such as [[[1], a
 
 e.g.s of addresses: [1]=a,[1,1]=a in [a,b], [1,1,1]=a in [[a],[b],[c]]
 
+Don't give sub term with address terms with _ to find in, or it will return results with the search term in each _.
+
 sub_term_wa([a,_],[[a,b],[a,c]],A).
 A = [[[1, 1], [a, b]], [[1, 2], [a, c]]].
 
