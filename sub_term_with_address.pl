@@ -13,33 +13,83 @@ e.g.s of addresses: [1]=a,[1,1]=a in [a,b], [1,1,1]=a in [[a],[b],[c]]
 
 Please don't give a subterm with address terms with _ to find in; it will return results with the search term for each _.
 
-sub_term_wa([a,_],[[a,b],[a,c]],A).
-A = [[[1, 1], [a, b]], [[1, 2], [a, c]]].
-
-sub_term_wa([a,_],[[a,b],[[a,c]]],A).
-A = [[[1, 1], [a, b]], [[1, 2, 1], [a, c]]].
-
-sub_term_wa([],[[a,b],[a,c]],A).
-A = [].
-
-sub_term_wa([a,_],[[a,b],[a,[a,e]]],A).
-A = [[[1, 1], [a, b]], [[1, 2], [a, [a, e]]]].
-
-
-sub_term_wa([],[[]],J).
-J = [[[1, 1], []]].
-
-sub_term_wa([],[],J).
-J = [[[1], []]].
-
-sub_term_wa(_,_,J).
-J = [[[1], _]].
-
-Usually loads with
-
 */
 
 :-include('../listprologinterpreter/listprolog.pl').
+
+test_stwa :-
+ test_sub_term_wa,
+ test_put_sub_term_wa,
+ test_delete_sub_term_wa,
+ test_foldr_put_sub_term_wa_ae,
+ test_sub_term_types_wa,!.
+ 
+test_sub_term_wa :-
+
+findall(_,(member([N,ST,T,In],
+[
+[1,[a,_],[[a,b],[a,c]],
+ [[[1, 1], [a, b]], [[1, 2], [a, c]]]],
+
+[2,[a,_],[[a,b],[[a,c]]],
+ [[[1, 1], [a, b]], [[1, 2, 1], [a, c]]]],
+
+[3,[],[[a,b],[a,c]],
+ []],
+
+[4,[a,_],[[a,b],[a,[a,e]]],
+ [[[1, 1], [a, b]], [[1, 2], [a, [a, e]]]]],
+
+[5,[],[[]],
+ [[[1, 1], []]]],
+
+[6,[],[],
+ [[[1], []]]],
+
+[7,_,_,
+ [[[1], _]]],
+
+[8,[_],[[_],_],
+ [[[1, 1], [_]], [[1, 2], [_]]]],
+
+[9,_,[[_],_],
+ [[[1], [[_], _]]]],
+
+[10,1,[[1,_],1,_],
+ [[[1, 1, 1], 1], [[1, 1, 2], 1], [[1, 2], 1], [[1, 3], 1]]],
+ 
+[11,[_,_],[[_,_]],
+ [[[1, 1], [_, _]]]],
+ 
+[12,[_,_],[_,_],
+ [[[1], [_, _]]]],
+ 
+[13,[_],[_,_],
+ [[[1, 1], [_]], [[1, 2], [_]]]],
+ 
+[14,[_],[_],
+ [[[1], [_]]]],
+ 
+[15,[[[_]]],[_,_],
+ [[[1, 1], [[[_]]]], [[1, 2], [[[_]]]]]],
+ 
+[16,[1],[[1]],
+ [[[1, 1], [1]]]],
+ 
+[17,[_],[[_]],
+ [[[1], [[_]]]]],
+
+[18,[_],[[_]],
+
+ [[[1], [[_]]]]],
+ 
+[19,[_],_,
+ [[[1], _]]]
+ 
+]),
+ ((sub_term_wa(ST,T,In1),In1=In)->R=success;R=fail),
+ writeln([R,sub_term_wa,test,N])),_),!.
+
 
 sub_term_wa(Find,A,B) :-
  dynamic(stwa/1),
@@ -48,7 +98,7 @@ sub_term_wa(Find,A,B) :-
  find%,Find]
  )),
  sub_term_wa1([1],_Ns2,0,[A],Find,[],B1,true),
- findall([C3,C2],(member([C1,C2],B1),append([_],C3,C1)),B),
+ findall([C3,C2],(member([C1,C2],B1),append([_],C3,C1),not(C3=[])),B),
  %length(Find,L),
  %findall(B1,(member(B1,B),length(B1,L)),B2),
  !.
@@ -70,8 +120,9 @@ sub_term_wa2(Ns1,Ns2,N,A,Find,B,C,First) :-
  stwa(%[
  C0%,Find]
  ),
- (((C0=find,First=true)->(A=Find->append(B,[[Ns1,A]],C);fail);
- ((C0=types,First=true)->(is_t(Find,A)->append(B,[[Ns1,A]],C))
+ (((C0=find,First=true,not(Ns1=[_]))->(A=Find->append(B,[[Ns1,A]],C);fail);
+ ((C0=types,First=true%,not(Ns1=[_])
+ )->(is_t(Find,A)->append(B,[[Ns1,A]],C))
  ))->true;
  (not(find_first(is_list(A))),
  sub_term_wa3(Ns1,Ns2,N,A,Find,B,C,First))),!.
@@ -85,6 +136,7 @@ sub_term_wa3(Ns1,Ns1,_N,A,Find,B,C,true) :-
  C0%,Find]
  ),
  (C0=find->A=Find;(C0=types,is_t(Find,A))),
+ not(Ns1=[_]),
  append(B,[[Ns1,A]],C).
 sub_term_wa3(Ns,Ns,_N,A,Find,B,B,true) :- 
  stwa(%[
@@ -97,6 +149,7 @@ sub_term_wa4(Ns1,Ns1,_N,A,Find,B,C,true) :-
  C0%,Find]
  ),
  (C0=find->A=Find;(C0=types,is_t(Find,A))),
+ not(Ns1=[_]),
  append(B,[[Ns1,A]],C).
 sub_term_wa4(Ns1,Ns2,N,A,Find,B,C,First) :-
  copy_term(Find,Find1), 
@@ -109,8 +162,21 @@ sub_term_wa4(Ns1,Ns2,N,A,Find,B,C,First) :-
  %writeln(First),trace,
  sub_term_wa2(Ns1,Ns2,N11,E,Find,F,C,false).
 
-% ?- put_sub_term_wa(9,[1, 2, 1, 1, 2, 3],[[1,2],[[[4,[5,7,8],6]]]],A).
-% A = [[1, 2], [[[4, [5, 7, 9], 6]]]].
+
+test_put_sub_term_wa :-
+
+findall(_,(member([N,It,Add,T1,T2],
+[
+[1,9,[1, 2, 1, 1, 2, 3],[[1,2],[[[4,[5,7,8],6]]]],
+ [[1, 2], [[[4, [5, 7, 9], 6]]]]],
+
+[2,88,[1,1],[[2,3],4],
+ [88, 4]]
+
+]),
+ ((put_sub_term_wa(It,Add,T1,T21),T21=T2)->R=success;R=fail),
+ writeln([R,put_sub_term_wa,test,N])),_),!.
+
 
 put_sub_term_wa(List,[1],_L1,List) :- !.
 put_sub_term_wa(List,[_|Ns],L1,L2) :-
@@ -125,12 +191,22 @@ put_sub_term_wa1(List,Ns,L1,L2) :-
  put_sub_term_wa1(List,Ns2,L3,L4),
  put_item_n(L1,N,L4,L2).
 
-% delete_sub_term_wa([[1, 1], [1, 2]], [a, b], A).
-% A = []
 
-% delete_sub_term_wa([[1]],1,A).
-% A = [].
+test_delete_sub_term_wa :-
 
+findall(_,(member([N,In,T,T2],
+[
+[1,[[1, 1], [1, 2]], [a, b],
+ []],
+
+[2,[[1]],1,
+ []]
+ 
+]),
+ ((delete_sub_term_wa(In,T,T21),T21=T2)->R=success;R=fail),
+ writeln([R,delete_sub_term_wa,test,N])),_),!.
+ 
+ 
 delete_sub_term_wa(NNs,L1,L2) :-
  foldr(put_sub_term_wa("&del"), NNs, L1, L3),
  delete_sub_term_wa2(L3,"&del",[],L2),!.
@@ -143,25 +219,6 @@ delete_sub_term_wa2([A|D],Find,B,[A1|C]):-
  (is_list(A)->delete_sub_term_wa2(A,Find,[],A1);A=A1),
  delete_sub_term_wa2(D,Find,B,C).
 
- 
-%% get_item_n([a,b,c],3,Item).
-%% Item = c
-
-get_item_n([],_,[]) :-!.
-get_item_n(E,N1,Item) :-
- N2 is N1-1,
- length(List,N2),
- append(List,[Item|_],E),!.
-
-put_item_n(E,N1,Item2,E2) :-
- N2 is N1-1,
- length(List,N2),
- append(List,[_Item1|Rest],E),
- append(List,[Item2|Rest],E2),!.
-
-foldr(Function,A,L,B) :-
- reverse(A,C),
- foldl(Function,C,L,B),!.
 
 /*
 
@@ -173,24 +230,40 @@ A4 = [[v, 2], [v, 3]].
 
 */
 
+test_foldr_put_sub_term_wa_ae :-
+
+findall(_,(member([N,In,T,T2],
+[
+[1,[[[1, 1], [v, 2]], [[1, 2], [v, 3]], [[v, 1], [v, 2]]], [a, b],
+ [[v, 2], [v, 3]]]
+
+]),
+ ((foldr(put_sub_term_wa_ae,In,T,T21),T21=T2)->R=success;R=fail),
+ writeln([R,foldr(put_sub_term_wa_ae),test,N])),_),!.
+
+
+
 put_sub_term_wa_ae([E,A],B,C) :-
  put_sub_term_wa(A,E,B,C),!.
 
-% sub_term_heuristic_wa(A,string(A),["string",a],B). x
 
+test_sub_term_types_wa :-
 
-% sub_term_types_wa([string,atom,[],number,_],["a",a,[],1,_],Instances).
-% Instances = [[[1, 1], "a"], [[1, 2], a], [[1, 3], []], [[1, 4], 1], [[1, 5], _]].
+findall(_,(member([N,H,T,In],
+[
+[1,[string,atom,[],number,_], ["a",a,[],1,_],
+ [[[1, 1], "a"], [[1, 2], a], [[1, 3], []], [[1, 4], 1], [[1, 5], _]]],
+ 
+[2,[[]], [],
+ [[[1], []]]],
 
-/*
+[3,[[]],[[]],
+ [[[1, 1], []]]]
 
-sub_term_types_wa([[]],[],A).
-A = [[[1], []]].
+]),
+ ((sub_term_types_wa(H,T,In1),In1=In)->R=success;R=fail),
+ writeln([R,sub_term_types_wa,test,N])),_),!.
 
-sub_term_types_wa([[]],[[]],A).
-A = [[[1, 1], []]].
-
-*/
 
 sub_term_types_wa(H,A,B) :-
  dynamic(stwa/1),
