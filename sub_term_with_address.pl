@@ -24,6 +24,7 @@ test_stwa :-
  test_foldr_put_sub_term_wa_ae,
  test_sub_term_types_wa,!.
  
+ 
 test_sub_term_wa :-
 
 findall(_,(member([N,ST,T,In],
@@ -84,7 +85,7 @@ findall(_,(member([N,ST,T,In],
  [[[1], [[_]]]]],
  
 [19,[_],_,
- [[[1], _]]]
+ [[[1], [_]]]]
  
 ]),
  ((sub_term_wa(ST,T,In1),In1=In)->R=success;R=fail),
@@ -106,7 +107,7 @@ sub_term_wa(Find,A,B) :-
 %sub_term_wa2(Ns,Ns,_N,E,_Find,B,B,_) :- !.
 % var(E), 
 sub_term_wa1(Ns1,Ns2,N,E,Find,B,B1,Flag) :-
- (([E1]=E,var(E1))->B1=[[[_,1],_]];
+ (([E1]=E,var(E1))->B1=[[[_,1],E]];
  sub_term_wa2(Ns1,Ns2,N,E,Find,B,B1,Flag)),!.
 
 %sub_term_wa2(Ns,Ns,_N,[],_Find,B,B,_) :- !.
