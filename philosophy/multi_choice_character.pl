@@ -30,7 +30,7 @@ multi_choice_character(Menu,Screen_number,Choices1,Choices2) :-
 	length(Menu_items,Menu_items_length),
 	numbers(Menu_items_length,1,[],N),
 	findall([N1,"\t",Menu_item,"\n"],(member(N1,N),
-	get_item_n(Menu_items,N1,[_,Menu_item])),Menu1),
+	find_first(get_item_n(Menu_items,N1,[_,Menu_item]))),Menu1),
 	maplist(append,[Menu1],[Menu3]),
 	concat_list(Menu3,Menu2),
 	writeln(Menu2),
