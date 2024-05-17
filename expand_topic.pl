@@ -128,4 +128,21 @@ trim_spaces_before(A,"") :-
 	forall(member(A5,A4),is_space(A5)),!.
 trim_spaces_before(A,A) :- !.
 
+trim_spaces_after(A,A8) :-
+	string_chars(A,A1),
+	findall(A2,(member(A3,A1),atom_string(A3,A2)),A4),
+	reverse(A4,A41),
+	append(_A5,A6,A41),
+	append([A7],_A8,A6),
+	not(is_space(A7)),
+	reverse(A6,A61),
+	foldr(string_concat,A61,A8),!.
+trim_spaces_after(A,"") :-
+	string_chars(A,A1),
+	findall(A2,(member(A3,A1),atom_string(A3,A2)),A4),
+	forall(member(A5,A4),is_space(A5)),!.
+trim_spaces_after(A,A) :- !.
 
+trim_spaces_before_and_after(A,B) :-
+	trim_spaces_before(A,C),
+	trim_spaces_after(C,B),!.

@@ -1,6 +1,7 @@
 % Replace
 
 :- include('../listprologinterpreter/listprolog').
+:-include('replace2.pl').
 
 % replace words within entire words, after breaking by white space
 
@@ -25,7 +26,10 @@
 %replace1([case_sensitive,entire_word],"A bC d Bc D","bC","Be",B).
 %B = "A Be d Bc D".
 
-replace1(Options,A0,W,WR,B) :-
+replace1(_Options,A0,W,WR,B) :-
+	replace2(A0,W,Wr,B).
+
+/*
 	SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789'", % doesn't have "'" xxx
 	string_codes(SepandPad,SepandPad1),
 
@@ -129,3 +133,5 @@ string_codes(A2,Codes),
  )
  )),
  atom_string(B1,B)).
+
+*/
