@@ -6,10 +6,11 @@
 
 /*
 % place text to be paraphrased in file.txt
-cd Dropbox/GitHub/private2/Philosophy/
+cd Philosophy/
 swipl
 ['paraphraser1.pl'].
-paraphraser.
+paraphraser([file,"file.txt"],_).
+% Find paraphrased file in file2.txt
 */
 
 :-dynamic auto/1.
