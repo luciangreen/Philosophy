@@ -19,6 +19,7 @@ Please don't give a subterm with address terms with _ to find in; it will return
 
 test_stwa :-
  test_sub_term_wa,
+ test_get_sub_term_wa,
  test_put_sub_term_wa,
  test_delete_sub_term_wa,
  test_foldr_put_sub_term_wa_ae,
@@ -123,7 +124,7 @@ sub_term_wa2(Ns1,Ns2,N,A,Find,B,C,First) :-
  ),
  (((C0=find,First=true,not(Ns1=[_]))->(A=Find->append(B,[[Ns1,A]],C);fail);
  ((C0=types,First=true%,not(Ns1=[_])
- )->(is_t(Find,A)->append(B,[[Ns1,A]],C))
+ )->(is_t(Find,A,First,true)->append(B,[[Ns1,A]],C))
  ))->true;
  (not(find_first(is_list(A))),
  sub_term_wa3(Ns1,Ns2,N,A,Find,B,C,First))),!.
@@ -136,20 +137,20 @@ sub_term_wa3(Ns1,Ns1,_N,A,Find,B,C,true) :-
  stwa(%[
  C0%,Find]
  ),
- (C0=find->A=Find;(C0=types,is_t(Find,A))),
+ (C0=find->A=Find;(C0=types,is_t(Find,A,true,true))),
  not(Ns1=[_]),
  append(B,[[Ns1,A]],C).
 sub_term_wa3(Ns,Ns,_N,A,Find,B,B,true) :- 
  stwa(%[
  C0%,Find]
  ),
- (C0=find->not(A=Find);(C0=types,not(is_t(Find,A)))),!.
+ (C0=find->not(A=Find);(C0=types,not(is_t(Find,A,true,true)))),!.
 
 sub_term_wa4(Ns1,Ns1,_N,A,Find,B,C,true) :-
  stwa(%[
  C0%,Find]
  ),
- (C0=find->A=Find;(C0=types,is_t(Find,A))),
+ (C0=find->A=Find;(C0=types,is_t(Find,A,true,true))),
  not(Ns1=[_]),
  append(B,[[Ns1,A]],C).
 sub_term_wa4(Ns1,Ns2,N,A,Find,B,C,First) :-
@@ -162,6 +163,39 @@ sub_term_wa4(Ns1,Ns2,N,A,Find,B,C,First) :-
  %writeln(N11),
  %writeln(First),trace,
  sub_term_wa2(Ns1,Ns2,N11,E,Find,F,C,false).
+
+
+test_get_sub_term_wa :-
+
+findall(_,(member([N,T1,Add,It1],
+[[1,
+[1,2,3],[1,1],
+ 1],
+
+[2,[1,2,3],[1],
+ [1, 2, 3]],
+
+[3,[[1,4],2,3],[1,1,1],
+ 1],
+
+[4,[[1,4],2,3],[1,1,2],
+ 4]
+]),
+ ((get_sub_term_wa(T1,Add,It2),It1=It2)->R=success;R=fail),
+ writeln([R,get_sub_term_wa,test,N])),_),!.
+
+
+get_sub_term_wa(List,[1],List) :- !.
+get_sub_term_wa(List,[_|Ns],L1) :-
+ get_sub_term_wa1(List,Ns,L1),!.
+
+get_sub_term_wa1(List,Ns,L1) :-
+ Ns=[N],
+ get_item_n(List,N,L1),!.
+get_sub_term_wa1(List,Ns,L1) :-
+ Ns=[N|Ns2],
+ get_item_n(List,N,L3),
+ get_sub_term_wa1(L3,Ns2,L1).
 
 
 test_put_sub_term_wa :-
@@ -273,10 +307,45 @@ sub_term_types_wa(H,A,B) :-
  sub_term_wa2([1],_Ns2,0,A,H,[],B,true),
  !.
 
-is_t(H,A) :-
+% find terminal lists with particular types
+% sub_term_types_wa([all([string])],["a","b",["c","d",["e"]]],In).
+
+% In = [[[1, 3, 3], ["e"]]].
+
+is_t(H,A,First0,First) :-
 	((member(string,H),string(A))->true;
 	((member(atom,H),atom(A))->true;
 	((member([],H),not(var(A)),A=[])->true;
 	((member(number,H),number(A)->true;
-	((member(Item,H),var(Item),var(A)))))))),!.
+	((member(Item,H),var(Item),var(A))->true;
+	((%trace,
+	First0=true,First=true,member(all(K),H),%trace,
+	%trace,%forall(%member(J,H),
+	%member(K1,K)),
+	is_list(A),
+	forall(member(A1,A),is_t(K,A1,First0,false)))%->true;
+	))))))),!.
+	/*
+	%((member(	Item,H),var(Item),var(A))->true;
+	((%trace,
+	First0=true,First=true,member(all_resolution_level(K),H),%trace,
+	%trace,%forall(%member(J,H),
+	%member(K1,K)),
+	is_list(A),
+	%writeln1(A),
+	%(A=["e", [r, 1, ["a"]]]->trace;true),
+	member([r,_N,_A],A),
+	sub_term_wa([r,_N,_A],A,Inst2),
+	findall([Ad,A3],(member([Ad,_A4],Inst2),A3=0),Inst3),
+	foldr(put_sub_term_wa_ae,Inst3,A,A2),
+	%trace,
+	%A2=A,
+	forall(member(A1,A2),is_t([number|K],A1,First0,false))
 	
+	)))
+	)))))),!.
+	*/
+	
+	
+	
+	%* only test next level

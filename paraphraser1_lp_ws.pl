@@ -13,6 +13,8 @@
 
 %:- include('files/listprolog.pl').
 
+paraphraser_server :- paraphraser_server(8000).
+
 paraphraser_server(Port) :-
         http_server(http_dispatch, [port(Port)]).
 
