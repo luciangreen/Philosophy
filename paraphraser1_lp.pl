@@ -10,97 +10,28 @@ para([
 [[n,text_area
 ],["rows=\"8\" style=\"width:100%\"","",[v,string_a]]],
 	
-	[[n,string_chars],[" .",%" .,?!()", 
-	%"#@~%`$?-+*^,().:;=_/[]<>{}\n\r\s\t\\\"!0123456789",
-	[v,sepandpad]
+	/*
+	[[n,string_strings],[%" .",
+	%" .,?!()", 
+	"|#@~%`$?-+*^,().:;=_/[]<>{}\n\r\s\t\\\"!0123456789",
+	[v,sepandpad1]
 	]],
-	
-	[[n,findall],[[v,c1],[[[n,member],[[v,c],[v,sepandpad]]],
-	[[n,atom_string],[[v,c],[v,c1]]]],[v,sepandpad1]]],
+	*/
+	%[[n,findall],[[v,c1],[[[n,member],[[v,c],[v,sepandpad]]],
+	%[[n,atom_string],[[v,c],[v,c1]]]],[v,sepandpad1]]],
 	%[[n,string_codes],[[v,sepandpad],[v,sepandpad1]]],
 	
-	
-[[n,interpret],[[lang,same],same,[[n,find18],[[v,string_a],[v,sepandpad1],[v,file_list]]],
+	%[[n,string_codes],[[v,string_a],[v,string_a1]]],
+	[[n,split_on_substring117a],[[v,string_a],"|#@~%`$?-+*^,().:;=_/[]<>{}\n\r\s\t\\\"!0123456789",[],[v,file_list]]],
 
-[
-[[n,find18],[[v,text],[v,strings],[v,list]],":-",
-[
-	[[n,find118],[[v,text],[v,strings],[],[v,list]]]
-]],
-[[n,find118],[[v,text],[v,strings],[v,list1],[v,list2]],":-",
-[
-	[[n,findall],[[v,string],[[[n,member],[[v,string],[v,strings]]],[[n,not],[[[n,sub_string],[[v,text],[v,'_a'],[v,'_b'],[v,'_c'],[v,string]]]]]],[v,b]]],
-	[[n,length],[[v,strings],[v,l]]],
-	[[n,length],[[v,b],[v,l]]],	
-	[[n,append],[[v,list1],[[v,text]],[v,list2]]],
-	[[n,cut]]
-]],
-[[n,find118],[[v,text],[v,strings],[v,list1],[v,list2]],":-",
-[
-	[[n,findall],
-	[
-		[[v,a],[v,c],[v,string]],
-
-		[
-		[[n,sub_string],[[v,text],[v,a],[v,'_b'],[v,c],[v,string]]],
-		[[n,member],[[v,string],[v,strings]]]
-		],
-
-		[v,d]
-	]],
-	[[n,not],[[[n,equals4],[[v,d],[]]]]],
-	[[n,equals4],[[v,d],[[[v,a1],[v,c1],[v,string1]],"|",[v,'_e']]]],
-	[[n,sub_string],[[v,text],0,[v,a1],[v,'_a'],[v,string2]]],
-	[[n,sub_string],[[v,text],[v,'_b'],[v,c1],0,[v,string3]]],
-	[[n,append],[[v,list1],[[v,string2],[v,string1]],[v,list3]]],
-	[[n,find118],[[v,string3],[v,strings],[v,list3],[v,list2]]]
-]]
-
-/*
-,
-[[n,substring],[[v,t],[v,before],[v,length],[v,after],[v,ss]],":-",
-[
-	[[n,string_chars],[[v,t],[v,tc]]],
-	[[n,length],[[v,tc],[v,tl]]],
-	[[n,numbers],[[v,tl],0,[],[v,tln]]],
-	[[n,substring2],[[v,tc],[v,tln],[v,before],[v,length],[v,after],[v,ss]]]
-]],
-[[n,substring2],[[v,t],[v,tln],[v,before],[v,length],[v,after],[v,ss]],":-",
-[
-	[[n,length],[[v,t],[v,tl2]]],
-	[[n,numbers],[[v,tl2],0,[],[v,tln2]]],
-	[[n,or],[[[[n,equals4],[[v,tln],[[v,before],"|",[v,rest]]]],[[n,member],[[v,tln2],[v,length]]],[[n,-],[[v,tl2],[v,length],[v,after]]],[[n,append],[[v,ss1],[v,a],[v,t]]],[[n,length],[[v,ss1],[v,length]]],[[n,string_chars],[[v,ss2],[v,ss1]]],[[n,equals4],[[v,ss2],[v,ss]]],[[n,"->"],[[[n,equals4],[[v,rest],[]]],[[n,cut]],[[n,true]]]]],[[[n,equals4],[[v,tln],[[v,b],"|",[v,rest]]]],[[[n,append],[[v,c],[v,t2],[v,t]]],[[n,length],[[v,c],1]],[[n,substring2],[[v,t2],[v,rest],[v,before],[v,length],[v,after],[v,ss]]]]]]]]
-],
-[[n,numbers],[[v,n2],[v,n1],[v,numbers1],[v,numbers2]],":-",
-[
-	[[n,numbers1],[[v,n2],[v,n1],[v,numbers1],[v,numbers2]]],
-	[[n,cut]]
-]],
-[[n,numbers1],[[v,n2],[v,n1],[v,numbers],[v,numbers]],":-",
-[
-	[[n,-],[[v,n1],1,[v,n2]]],
-	[[n,cut]]
-]],
-[[n,numbers1],[[v,n2],[v,n1],[v,numbers1],[v,numbers2]],":-",
-[
-	[[n,+],[[v,n1],1,[v,n3]]],
-	[[n,append],[[v,numbers1],[[v,n1]],[v,numbers3]]],
-	[[n,numbers1],[[v,n2],[v,n3],[v,numbers3],[v,numbers2]]],
-	[[n,cut]]
-]]
-*/
-]%,Result
-        ]],	
-	
-	
-	%[[n,find18],[[v,string_a],[v,sepandpad1],[v,file_list]]],
-	%[[n,phrase_from_file],[[[n,string],[[v,codes2]]],'thesaurus.txt']],
-	%[[n,string_codes],[[v,string2],[v,codes2]]],
-	%[[n,trace]],
 	[[n,writeln],["Please enter the thesaurus or []."]],
 
 [[n,text_area
-],["rows=\"2\" style=\"width:100%\"","[]",[v,string2]]],
+],["rows=\"2\" style=\"width:100%\"","[]",[v,string21]]],
+
+[[n,"->"],[[[n,equals4],[[v,string21],[]]],
+[[n,equals4],[[v,string2],["[]"]]],
+[[n,equals4],[[v,string21],[v,string2]]]]],
 
 
 %[[n,read_string],[[v,string2]]],
@@ -111,7 +42,15 @@ para([
 
  [[n,delete],[[v,file_list],"",[v,file_list0]]],
  
-[[n,paraphrase1],[[v,file_list0],[],[v,file_lista],[v,synonym_list],[v,synonym_listb]]],
+%[[n,paraphrase1],[[v,file_list0],[],[v,file_lista],[v,synonym_list],[v,synonym_listb]]],
+ [[n,open_string_file_s],["paraphraser1_lp1.txt",[v,s]]],
+ 
+ [[n,equals4],[[v,auto],on]],
+
+[[n,trace]],
+[[n,shell_pl],[[[v,auto],[v,file_list0],[v,synonym_list]],"paraphrase1","Auto,File_list1,Synonym_list1",[v,s],[[v,file_lista],[v,synonym_listb]]]],
+
+	%[[n,equals4],[[[v,file_lista],[v,synonym_listb]],[v,o]]],
 	%
 %[[n,writeln],[["4",[v,file_list],[],[v,file_lista],[v,synonym_list],[v,synonym_listb]]]],
 	%[[n,read_string],[[v,input_a]]], %% for testing
@@ -129,7 +68,7 @@ para([
 	[[n,writeln],["Finished (submit does nothing). Please save thesaurus below."]],
 
 	[[n,text_area
-],["rows=\"4\" style=\"width:100%\"",[v,synonym_listc],[v,s]]],
+],["rows=\"4\" style=\"width:100%\"",[v,synonym_listc],[v,s1]]],
 	/*[
 	[[n,open],['thesaurus.txt',write,[v,stream2]]],
 	[[n,write],[[v,stream2],[v,synonym_list_a]]],
@@ -138,6 +77,9 @@ para([
 	
 	[[n,cut]]
 ]],
+
+/*
+
 [[n,string_to_list2],[[v,b],[v,a1],[v,a2]],":-",
 [
 	[[n,string_concat],[[v,d],"",[v,b]]],
@@ -203,13 +145,13 @@ para([
 	[
 	[[n,"->"],
 	[
-		[[[n,member],[[v,s1],[v,synonym_list]]],
-		[[n,equals4],[[[v,file_list3],[v,synonym]],[v,s1]]]],
+		[[n,member],[[[v,file_list3],[v,synonym]],[v,synonym_list]]],
+		%[[n,equals4],[[[v,file_list3],[v,synonym]],[v,s1]]]],
 
 		[[n,true]],
 
-		[[[n,member],[[v,s2],[v,synonym_list]]],
-		[[n,equals4],[[v,s2],[[v,synonym],[v,file_list3]]]]]
+		[[n,member],[[[v,synonym],[v,file_list3]],[v,synonym_list]]]
+		%[[n,equals4],[[v,s2],[[v,synonym],[v,file_list3]]]]]
 	]],
 	[
 	[[n,append],[[v,file_list1],[[v,synonym]],[v,file_list6]]],
@@ -253,7 +195,7 @@ para([
 ]],
 
 
-/*
+
 [[n,paraphrase2],[[v,file_list4],[v,file_list6],[v,file_list2],[v,synonym_list1],[v,synonym_list2]],":-",
 [[[n,paraphrase1],[[v,file_list4],[v,file_list6],[v,file_list2],[v,synonym_list1],[v,synonym_list2]]]]],
 */
