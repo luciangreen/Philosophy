@@ -15,7 +15,7 @@ Please don't give a subterm with address terms with _ to find in; it will return
 
 */
 
-:-include('../listprologinterpreter/listprolog.pl').
+%:-include('../listprologinterpreter/listprolog.pl').
 
 test_stwa :-
  test_sub_term_wa,
@@ -286,14 +286,18 @@ test_sub_term_types_wa :-
 
 findall(_,(member([N,H,T,In],
 [
-[1,[string,atom,[],number,_], ["a",a,[],1,_],
+[1,[string,atom,[],number,var], ["a",a,[],1,_],
  [[[1, 1], "a"], [[1, 2], a], [[1, 3], []], [[1, 4], 1], [[1, 5], _]]],
  
 [2,[[]], [],
  [[[1], []]]],
 
 [3,[[]],[[]],
- [[[1, 1], []]]]
+ [[[1, 1], []]]],
+ 
+[4,[all([number,string])],[1,["a",3]],
+ [[[1,2],["a",3]]]
+]
 
 ]),
  ((sub_term_types_wa(H,T,In1),In1=In)->R=success;R=fail),
@@ -313,39 +317,12 @@ sub_term_types_wa(H,A,B) :-
 % In = [[[1, 3, 3], ["e"]]].
 
 is_t(H,A,First0,First) :-
+	((member(var,H),var(A))->true;
 	((member(string,H),string(A))->true;
 	((member(atom,H),atom(A))->true;
 	((member([],H),not(var(A)),A=[])->true;
 	((member(number,H),number(A)->true;
-	((member(Item,H),var(Item),var(A))->true;
-	((%trace,
-	First0=true,First=true,member(all(K),H),%trace,
-	%trace,%forall(%member(J,H),
-	%member(K1,K)),
+	((First0=true,First=true,member(all(K),H),
 	is_list(A),
-	forall(member(A1,A),is_t(K,A1,First0,false)))%->true;
+	forall(member(A1,A),is_t(K,A1,First0,false)))
 	))))))),!.
-	/*
-	%((member(	Item,H),var(Item),var(A))->true;
-	((%trace,
-	First0=true,First=true,member(all_resolution_level(K),H),%trace,
-	%trace,%forall(%member(J,H),
-	%member(K1,K)),
-	is_list(A),
-	%writeln1(A),
-	%(A=["e", [r, 1, ["a"]]]->trace;true),
-	member([r,_N,_A],A),
-	sub_term_wa([r,_N,_A],A,Inst2),
-	findall([Ad,A3],(member([Ad,_A4],Inst2),A3=0),Inst3),
-	foldr(put_sub_term_wa_ae,Inst3,A,A2),
-	%trace,
-	%A2=A,
-	forall(member(A1,A2),is_t([number|K],A1,First0,false))
-	
-	)))
-	)))))),!.
-	*/
-	
-	
-	
-	%* only test next level
