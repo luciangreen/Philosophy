@@ -29,7 +29,7 @@ para([
 [[n,text_area
 ],["rows=\"2\" style=\"width:100%\"","[]",[v,string21]]],
 
-[[n,"->"],[[[n,equals4],[[v,string21],[]]],
+[[n,"->"],[[[n,equals4],[[v,string21],""]],
 [[n,equals4],[[v,string2],["[]"]]],
 [[n,equals4],[[v,string21],[v,string2]]]]],
 
