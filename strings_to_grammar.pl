@@ -18,7 +18,7 @@ G = [[1,>,a,1]
 :-include('../listprologinterpreter/listprolog.pl').
 %:-include('../luciancicd/find_dependencies2-cgpt1.pl').
 :-include('sub_term_with_address.pl').
-:-include('test15.pl').
+%:-include('test15.pl').
 :-include('find_lists3.pl').
 
 :-dynamic var_num/1.
@@ -34,15 +34,18 @@ strings_to_grammar(L,G) :-
 	assertz(var_num(1)),
 	
 	findall(%[r,1,
-	T4%]
-	,(member(S,L),string_strings(S,L2),
-	grammar1(L2,T1),group_non_lists1(T1,T4)
+	T41%]
+	,(member(S,L),%string_strings(S,L2),
+	term_to_atom(T1,S),
+	%grammar1(L2,T1),
+	group_non_lists1(T1,T4),
+	process_terms(T4,[],T41,[],_R)
 	%,get_var_num(N)
 	),Ts),
 	
-	process_terms(Ts,[],Ts1,[],_R),
+	
 	%trace,
-	findall(B,(member(B1,Ts1),find_g(B1,[],B)),G1),
+	findall(B,(member(B1,Ts),find_g(B1,[],B)),G1),
 	foldr(append,G1,G).
 	/*
 	%sub_term_types_wa([all([string])],Ts,In1), % find terminal lists

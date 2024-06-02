@@ -72,6 +72,7 @@ find_lists3a(L1,L3) :-
 	(L4=[]->L4=L3;
 	(L4=[_L2]->L4=L3;
 	(L4=[L2|L31],
+	%trace,
 	check14(L31,L2,[],L3)))),!.
 
 % find_lists3([1,2,2,1,2],[],L2).
@@ -160,12 +161,28 @@ check14(A0,B,C,D1) :-
 	check14(A02,B,C1,D1),!.
 check141([],[],A,A):-!.
 check141(A,B,C,D1) :-
+%trace,
+ ((A=[],_A52=[[o,B]])->true;
+ (B=[],_A52=[[o,A]])),
+ %trace,
+ 	%(A51=[]->A52=[];A52=[[o,A51]]),
+	foldr(append,[%A52
+	],C1),
+	append(C,C1,D1),
+	%check141(A2,B2,C1,D1),
+	!.
 
-append(A31,B3,A),append([A1],A2,B3),append(A41,B4,B),append([B1],B2,B4),
+check141(A,B,C,D1) :-
+
+append(A31,B3,A),append([A1],A2,B3),
+append(A41,B4,B),append([B1],B2,B4),
 
 ((A31=[],A41=[])->A51=[];
 (A31=[],not(A41=[]))->A51=A41;
 (not(A31=[]),A41=[])->A51=A31),
+
+%(A1z=[[r,A1z1]]->A1=[r,A1z1];A1=A1z),
+%(B1z=[[r,B1z1]]->B1=[r,B1z1];B1=B1z),
 	%A=[A1|A2],
 	%B=[B1|B2],
 	(A1=B1->A3=A1;
