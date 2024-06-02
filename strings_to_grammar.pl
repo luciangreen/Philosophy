@@ -33,7 +33,9 @@ strings_to_grammar(L,G) :-
 	retractall(var_num(_)),
 	assertz(var_num(1)),
 	
-	findall([r,1,T4],(member(S,L),string_strings(S,L2),
+	findall(%[r,1,
+	T4%]
+	,(member(S,L),string_strings(S,L2),
 	grammar1(L2,T1),group_non_lists1(T1,T4)
 	%,get_var_num(N)
 	),Ts),
@@ -220,6 +222,23 @@ find_g([],G,G) :-!.
 find_g(T,G1,G2) :-
 
 %T=[T1|T2],
+not(T=[r,N,T3]),
+T3=T,
+get_var_num(N),
+Name=[n,N],
+Arrow="->",
+Empty=[[]],
+%trace,
+find_g1(T3,[],G3,[],Rest),
+%append(G3,[[Name]],G5),
+G4=[%[Name,Arrow,Empty],
+[Name,Arrow,G3]|Rest],
+append(G1,G4,G2),
+%foldr(append,G2,G21),
+!.
+find_g(T,G1,G2) :-
+
+%T=[T1|T2],
 T=[r,N,T3],
 
 Name=[n,N],
@@ -236,8 +255,10 @@ find_g1([],G,G,R,R):-
 find_g1(T,G1,G2,R1,R2) :-
 
 T=[T1|T2],
-(T1=[r,N,_T4]->
+(T1=[r,N,
+_T4]->
 (find_g(T1,[],R3),
+%get_var_num(N),
 append(R1,R3,R4),T1a=[[n,N]]);
 (%string(T1),
 (T1a=[T1],
