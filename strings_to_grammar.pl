@@ -121,18 +121,37 @@ process_terms(T1,T2,T3,R1,R2) :-
 	%trace,
 	(foldr(append,T4,T45)->true;T4=T45),
 	(all_distinct(T45)->T8=T45;
-	(longest_to_shortest_substrings1(T45,T43),
+	(%trace,
+	try(T45,T8)
+/*	longest_to_shortest_substrings1(T45,T43),
 	%trace,
 	(find_first((T44=T43,%member(T44,T43),
-	findall(T52,(member(C1,T44),find_lists3a(C1,T52)%->true;fail%C1=T5)
+	findall(T52,(member(C1,T44),(find_lists3a(C1,T52)->true;fail%
+	%C1=T52)
+	)
 	),T7),length(T7,T7L),length(T44,T7L),foldr(append,T7,T8)
 
 ))->true;
 	T8=T45))),
+	*/
+	)),
 	foldr(append,[T2,T8,T53],T61),
 	append(R1,[R6],R7),
 	process_terms(T51,T61,T3,R7,R2),!.
 
+try(T45,T8) :-
+	longest_to_shortest_substrings1(T45,T43),
+	%trace,
+	%(find_first((T44=T43,%member(T44,T43),
+	findall(T52,(member(C1,T43),(find_lists3a(C1,T52)->true;fail%
+	%C1=T52)
+	)
+	),T7),length(T7,T7L),(length(T43,T7L)->%T7=T8;
+	foldr(append,T7,T8);
+	fail),!.
+
+%)->true;
+%	T8=T45))),
 	/*
 	))
 	findall(T6,(member(T7,T1),)
@@ -179,9 +198,9 @@ group_non_lists([X11,C|Xs], [X13|Ys]) :-
 longest_to_shortest_substrings1(A,B) :-
 	%findall(C,
 	longest_to_shortest_substrings(A,%C),
-	D),
-	sort(D,B1),
-	reverse(B1,B).
+	B).
+	%sort(D,B1),
+	%reverse(B1,B).
 %longest_to_shortest_substrings([],A,A) :-!.
 longest_to_shortest_substrings(A0,C) :-
 	length(A0,L),L1 is L-3,(L1<3->L11=3;L11=L1),
