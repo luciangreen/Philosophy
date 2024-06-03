@@ -67,13 +67,18 @@ test that parts repeat, signal bracket or repeating list with smallest unit
 % A = [[1, [r, [2]], 3]].
 
 find_lists3a(L1,L3) :-
-
+%writeln1(find_lists3a(L1,L3)),
 	find_lists3(L1,[],L4),
+	%trace,
 	(L4=[]->L4=L3;
 	(L4=[_L2]->L4=L3;
 	(L4=[L2|L31],
 	%trace,
-	check14(L31,L2,[],L3)))),!.
+	check14(L31,L2,[],L5),
+	(L5=[[r|_]|_]->L5=L3;
+	((L5=[L51]->true;L51=L5),
+	L3=[r,L51]))
+	))),!.
 
 % find_lists3([1,2,2,1,2],[],L2).
 % L2 = [[1, [r, [2]]], [1, 2]]
@@ -158,7 +163,9 @@ check14(A0,B,C,D1) :-
 	A0=[A01|A02],
 	check141(A01,B,[],D),
 	append(C,[D],C1),
-	check14(A02,B,C1,D1),!.
+	check14(A02,B,C1,D1),
+	%(D2=[])
+	!.
 check141([],[],A,A):-!.
 /*check141(A,B,C,D1) :-
 %trace,

@@ -296,8 +296,8 @@ find_g1([],G,G,R,R):-
 find_g1(T,G1,G2,R1,R2) :-
 %trace,
 T=[T1|T2],
-(T1=[r,%N,
-_T4]->
+((T1=[L,%N,
+_T4],(L=r->true;L=o))->
 (find_g(T1,[],R3),
 R3=[[[n, N]|_]|_],
 %get_var_num(N),
