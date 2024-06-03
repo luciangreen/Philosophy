@@ -160,7 +160,7 @@ check14(A0,B,C,D1) :-
 	append(C,[D],C1),
 	check14(A02,B,C1,D1),!.
 check141([],[],A,A):-!.
-check141(A,B,C,D1) :-
+/*check141(A,B,C,D1) :-
 %trace,
  ((A=[],_A52=[[o,B]])->true;
  (B=[],_A52=[[o,A]])),
@@ -171,7 +171,7 @@ check141(A,B,C,D1) :-
 	append(C,C1,D1),
 	%check141(A2,B2,C1,D1),
 	!.
-
+*/
 check141(A,B,C,D1) :-
 
 append(A31,B3,A),append([A1],A2,B3),
@@ -185,21 +185,33 @@ append(A41,B4,B),append([B1],B2,B4),
 %(B1z=[[r,B1z1]]->B1=[r,B1z1];B1=B1z),
 	%A=[A1|A2],
 	%B=[B1|B2],
-	(A1=B1->A3=A1;
+	(A1=B1->(A3=A1,A2=A22,B2=B22
+	);
 	((not(A1=[r,_]),not(B1=[r,_]))->fail;
 	(
 	((A1=[r,A11]->true;A1=A11),
 	(B1=[r,B11]->true;B1=B11),
-	(not(is_list(A11))->A12=[A11];A12=A11),
-	(not(is_list(B11))->B12=[B11];B12=B11),
-	check141(A12,B12,[],D),A3=[r,D])))),
+	(not(is_list(A11))->(A11=A13%,A14=[]
+	,(append([A21],A22,A2)->append([A13],[A21],A23);(A22=[],A23=[A13])%
+	));(A11=A23,%[A13|A14],
+	A22=A2%,A23=[A13]
+	)),
+	(not(is_list(B11))->(B11=B13%,B14=[]
+	,(append([B21],B22,B2)->append([B13],[B21],B23);(B22=[],B23=[B13])%
+	));(B11=B23,%[B13|B14],
+	B22=B2%,B23=[B13]
+	)),
+	%append(A14,A2,A21),
+	%append(B14,B2,B21),
+	check141(A23,B23,[],D),A3=[r,D])))),
 	%((A1=[r,A11],B1=->(check141(A1,B1,[],D),A3=[r,D]);
 	%(B1=[r,A1]->(check141(A1,B1,[],D),A3=[r,D]);
 	%(A1=[r,[B1]]->(check141(A1,[B1],[],D),A3=[r,D]);
 	%(B1=[r,[A1]]->(check141([A1],B1,[],D),A3=[r,D])))))),
 	(A51=[]->A52=[];A52=[[o,A51]]),
 	foldr(append,[C,A52,[A3]],C1),
-	check141(A2,B2,C1,D1),!.
+	
+	check141(A22,B22,C1,D1),!.
 %check14(A,B,C,D) :-
 %	A=[A1|A2],
 %	B=[B1|B2],

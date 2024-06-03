@@ -34,12 +34,13 @@ strings_to_grammar(L,G) :-
 	assertz(var_num(1)),
 	
 	findall(%[r,1,
-	T41%]
+	T42%]
 	,(member(S,L),%string_strings(S,L2),
 	term_to_atom(T1,S),
 	%grammar1(L2,T1),
 	group_non_lists1(T1,T4),
-	process_terms(T4,[],T41,[],_R)
+	process_terms(T4,[],T41,[],_R),
+	foldr(append,T41,T42)
 	%,get_var_num(N)
 	),Ts),
 	
@@ -75,13 +76,25 @@ strings_to_grammar(L,G) :-
 */
 process_terms([],T,T,R,R) :- !.
 process_terms(T1,T2,T3,R1,R2) :-
-	T1=[T4|T51],
-	(T4=["[",T6,"]"]->
+	%T1=[T4|T51],
+	(member(["[",T6,"]"],T1)->
+	(append(T4,B,T1),
+	append(["[",T6,"]"],T51,B),
 	(process_terms(T6,[],T5,[],R3),R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
-	);
-	(find_lists3a(T4,T5)->true;T4=T5),R1=R6),
-	append(T2,[T5],T6),
-	process_terms(T51,T6,T3,R6,R2),!.
+	%)%;(fail%T51=[],R6=[]
+	));(T4=T1,T51=[])),
+	%trace,
+	foldr(append,T4,T45),
+	longest_to_shortest_substrings1(T45,T43),
+	(find_first((member(T44,T43),
+	findall(T5,(member(C1,T44),(find_lists3a(C1,T5)->true;fail%C1=T5)
+	)),T7),not(T7=[]),foldr(append,T7,T8)
+
+))->true;
+	T8=T45),
+	append(T2,T8,T6),
+	append(R1,[R6],R7),
+	process_terms(T51,T6,T3,R7,R2),!.
 
 	/*
 	))
@@ -222,27 +235,13 @@ do outer level, then contained levels until end
 */
 
 find_g([],G,G) :-!.
+
 find_g(T,G1,G2) :-
 
 %T=[T1|T2],
-not(T=[r,N,T3]),
-T3=T,
+T=[r,%N,
+T3],
 get_var_num(N),
-Name=[n,N],
-Arrow="->",
-Empty=[[]],
-%trace,
-find_g1(T3,[],G3,[],Rest),
-%append(G3,[[Name]],G5),
-G4=[%[Name,Arrow,Empty],
-[Name,Arrow,G3]|Rest],
-append(G1,G4,G2),
-%foldr(append,G2,G21),
-!.
-find_g(T,G1,G2) :-
-
-%T=[T1|T2],
-T=[r,N,T3],
 
 Name=[n,N],
 Arrow="->",
@@ -253,14 +252,35 @@ G4=[[Name,Arrow,Empty],[Name,Arrow,G5]|Rest],
 append(G1,G4,G2),
 %foldr(append,G2,G21),
 !.
+
+find_g(T,G1,G2) :-
+
+%T=[T1|T2],
+not(T=[r,%N,
+T3]),
+T3=T,
+get_var_num(N),
+Name=[n,N],
+Arrow="->",
+%Empty=[[]],
+%trace,
+find_g1(T3,[],G3,[],Rest),
+%append(G3,[[Name]],G5),
+G4=[%[Name,Arrow,Empty],
+[Name,Arrow,G3]|Rest],
+append(G1,G4,G2),
+%foldr(append,G2,G21),
+!.
+
 find_g1([],G,G,R,R):-
  !.
 find_g1(T,G1,G2,R1,R2) :-
-
+%trace,
 T=[T1|T2],
-(T1=[r,N,
+(T1=[r,%N,
 _T4]->
 (find_g(T1,[],R3),
+R3=[[[n, N]|_]|_],
 %get_var_num(N),
 append(R1,R3,R4),T1a=[[n,N]]);
 (%string(T1),
