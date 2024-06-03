@@ -15,6 +15,7 @@ G = [[1,>,a,1]
 
 */
 
+:-use_module(library(clpfd)).
 :-include('../listprologinterpreter/listprolog.pl').
 %:-include('../luciancicd/find_dependencies2-cgpt1.pl').
 :-include('sub_term_with_address.pl').
@@ -22,6 +23,39 @@ G = [[1,>,a,1]
 :-include('find_lists3.pl').
 
 :-dynamic var_num/1.
+
+test_s2g :-
+
+findall(_,(member([N,L,G2],
+[
+[1,["[1,2,3,2,3,1,2,3,2,3]"],
+[[[n,1],"->",[[[n,2]]]],
+[[n,2],"->",[[]]],
+[[n,2],"->",[[1],[[n,3]],[[n,2]]]],
+[[n,3],"->",[[]]],
+[[n,3],"->",[[2],[3],[[n,3]]]]]],
+
+[2,["[1,2,2,1,2]"],
+[[[n,1],"->",[[]]],
+[[n,1],"->",[[1],[[n,2]],[[n,1]]]],
+[[n,2],"->",[[]]],
+[[n,2],"->",[[2],[[n,2]]]]]],
+
+[3,["[1,2,1,3,2]"],
+[[[n,1],"->",[[]]],
+[[n,1],"->",[[1],[[n,2]],[2],[[n,1]]]],
+[[n,2],"->",[[]]],
+[[n,2],"->",[[3]]]]],
+
+[4,["[1,2,3,1,3]"],
+[[[n,1],"->",[[]]],
+[[n,1],"->",[[1],[[n,2]],[3],[[n,1]]]],
+[[n,2],"->",[[]]],
+[[n,2],"->",[[2]]]]]
+
+]),
+ ((strings_to_grammar(L,G1),G1=G2)->R=success;R=fail),
+ writeln([R,N,strings_to_grammar,test])),_),!.
 
 get_var_num(N) :-
 	var_num(N),
@@ -76,6 +110,7 @@ strings_to_grammar(L,G) :-
 */
 process_terms([],T,T,R,R) :- !.
 process_terms(T1,T2,T3,R1,R2) :-
+%trace,
 	%T1=[T4|T51],
 	(member(["[",T6,"]"],T1)->
 	(append(T4,B,T1),
@@ -85,13 +120,15 @@ process_terms(T1,T2,T3,R1,R2) :-
 	));(T53=[],T4=T1,T51=[])),
 	%trace,
 	(foldr(append,T4,T45)->true;T4=T45),
-	longest_to_shortest_substrings1(T45,T43),
-	(find_first((member(T44,T43),
-	findall(T52,(member(C1,T44),(find_lists3a(C1,T52)->true;fail%C1=T5)
-	)),T7),not(T7=[]),foldr(append,T7,T8)
+	(all_distinct(T45)->T8=T45;
+	(longest_to_shortest_substrings1(T45,T43),
+	%trace,
+	(find_first((T44=T43,%member(T44,T43),
+	findall(T52,(member(C1,T44),find_lists3a(C1,T52)%->true;fail%C1=T5)
+	),T7),length(T7,T7L),length(T44,T7L),foldr(append,T7,T8)
 
 ))->true;
-	T8=T45),
+	T8=T45))),
 	foldr(append,[T2,T8,T53],T61),
 	append(R1,[R6],R7),
 	process_terms(T51,T61,T3,R7,R2),!.
@@ -140,9 +177,11 @@ group_non_lists([X11,C|Xs], [X13|Ys]) :-
     group_non_lists([C1|Xs], Ys),!.
 
 longest_to_shortest_substrings1(A,B) :-
-	findall(C,longest_to_shortest_substrings(A,C),D),
+	%findall(C,
+	longest_to_shortest_substrings(A,%C),
+	D),
 	sort(D,B1),
-	reverse(B1,B),!.
+	reverse(B1,B).
 %longest_to_shortest_substrings([],A,A) :-!.
 longest_to_shortest_substrings(A0,C) :-
 	length(A0,L),L1 is L-3,(L1<3->L11=3;L11=L1),
@@ -387,7 +426,7 @@ split11(_A,_B,C,C) :-!.
 	
 truncate_l(N,Max,N2) :-
  (N>Max->N2=Max;N2=N),!.
- 
+ /*
 is_t(H,A,First0,First) :-
 	((%trace,
 	First0=true,First=true,member(all_resolution_level(K),H),%trace,
@@ -405,6 +444,7 @@ is_t(H,A,First0,First) :-
 	forall(member(A1,A2),is_t([number|K],A1,First0,false))
 	
 	)),!.
+	*/
 	%*/
 
 %find_g([],G,G) :-!.
