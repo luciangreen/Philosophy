@@ -34,13 +34,13 @@ strings_to_grammar(L,G) :-
 	assertz(var_num(1)),
 	
 	findall(%[r,1,
-	T42%]
+	T41%]
 	,(member(S,L),%string_strings(S,L2),
 	term_to_atom(T1,S),
 	%grammar1(L2,T1),
 	group_non_lists1(T1,T4),
-	process_terms(T4,[],T41,[],_R),
-	foldr(append,T41,T42)
+	process_terms(T4,[],T41,[],_R)%,
+	%foldr(append,T41,T42)
 	%,get_var_num(N)
 	),Ts),
 	
@@ -79,22 +79,22 @@ process_terms(T1,T2,T3,R1,R2) :-
 	%T1=[T4|T51],
 	(member(["[",T6,"]"],T1)->
 	(append(T4,B,T1),
-	append(["[",T6,"]"],T51,B),
-	(process_terms(T6,[],T5,[],R3),R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	append([["[",T6,"]"]],T51,B),
+	(process_terms(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
 	%)%;(fail%T51=[],R6=[]
-	));(T4=T1,T51=[])),
+	));(T53=[],T4=T1,T51=[])),
 	%trace,
-	foldr(append,T4,T45),
+	(foldr(append,T4,T45)->true;T4=T45),
 	longest_to_shortest_substrings1(T45,T43),
 	(find_first((member(T44,T43),
-	findall(T5,(member(C1,T44),(find_lists3a(C1,T5)->true;fail%C1=T5)
+	findall(T52,(member(C1,T44),(find_lists3a(C1,T52)->true;fail%C1=T5)
 	)),T7),not(T7=[]),foldr(append,T7,T8)
 
 ))->true;
 	T8=T45),
-	append(T2,T8,T6),
+	foldr(append,[T2,T8,T53],T61),
 	append(R1,[R6],R7),
-	process_terms(T51,T6,T3,R7,R2),!.
+	process_terms(T51,T61,T3,R7,R2),!.
 
 	/*
 	))
@@ -112,8 +112,10 @@ break_on_list(T1,T2,T3) :-!.
 % D = [[a], ["[", [b], "]"], [c, d], ["[", [f], "]"], [g, h]].
 
 group_non_lists1(Xs, Ys) :-
-	group_non_lists([['&item']|Xs], Ys).
-group_non_lists([['&item'|A]], [A]) :-!.
+	group_non_lists([['&item']|Xs], Ys1),
+	(append([[]],Ys,Ys1)->true;Ys=Ys1).
+group_non_lists([['&item'|A]], B) :-(is_list(A)->B=[A];B=[[A]]),!.
+group_non_lists([[A]], [["[",[A],"]"]]) :-!.
 group_non_lists([A], [A]) :-!.
 group_non_lists([], []) :-!.
 group_non_lists([X11, C|Xs], Ys) :-
@@ -249,6 +251,23 @@ Empty=[[]],
 find_g1(T3,[],G3,[],Rest),
 append(G3,[[Name]],G5),
 G4=[[Name,Arrow,Empty],[Name,Arrow,G5]|Rest],
+append(G1,G4,G2),
+%foldr(append,G2,G21),
+!.
+
+find_g(T,G1,G2) :-
+
+%T=[T1|T2],
+T=[o,%N,
+T3],
+get_var_num(N),
+
+Name=[n,N],
+Arrow="->",
+Empty=[[]],
+find_g1(T3,[],G3,[],Rest),
+%append(G3,[[Name]],G5),
+G4=[[Name,Arrow,Empty],[Name,Arrow,G3]|Rest],
 append(G1,G4,G2),
 %foldr(append,G2,G21),
 !.
