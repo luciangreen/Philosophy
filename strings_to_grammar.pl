@@ -55,7 +55,9 @@ findall(_,(member([N,L,G2],
 [[n,2],"->",[[2]]]]]
 
 ]),
- ((strings_to_grammar(L,G1),G1=G2)->R=success;R=fail),
+ ((strings_to_grammar(L,G1),%writeln1(G1),
+ G1=G2)->R=success;R=fail
+ ),
  writeln([R,N,strings_to_grammar,test])),_),!.
 
 get_var_num(N) :-
@@ -87,14 +89,17 @@ strings_to_grammar(L,G) :-
 	(A1=[[[n,_]|A2]|A21]->A=[[[n,N]|A2]|A21];A=A1)),A3),
 	append([G6],A3,Gs3),
 	foldr(append,Gs3,Gs4),
-	trace,
+	%trace,
 	insert_stub_arguments(Gs4,Gs5),
-	minimise_alg(Gs5,Gs6),
+	Gs5=Gs6,%minimise_alg(Gs5,Gs6),
 	remove_stub_arguments(Gs6,G)
 	)).
 	
-insert_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],"->",A22],findall([[n,[a,A24]]],member(A24,A22),A25),A2=[[n,A23],[[v,a]],":-",A25]),B).
-remove_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],_,":-",A22],findall(A24,member([[n,[a,A24]]],A22),A25),A2=[[n,A23],"->",A25]),B).
+insert_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],"->",A22],findall([[n,[a,A24]]],(member(A24,A22)%,(A24=[]->A241=1000;A241=A24)
+)
+,A25),A2=[[n,A23],[[v,a]],":-",A25]),B).
+remove_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],_,":-",A22],findall(A24,(member([[n,[a,A24]]],A22)%,(A24=1000->A241=[];A241=A24)
+),A25),A2=[[n,A23],"->",A25]),B).
 	
 	%trace,
 	%findall(B,(member(B1,Ts),),G1),
