@@ -21,6 +21,7 @@ G = [[1,>,a,1]
 :-include('sub_term_with_address.pl').
 %:-include('test15.pl').
 :-include('find_lists3.pl').
+:-include('minimise_alg.pl').
 
 :-dynamic var_num/1.
 
@@ -68,20 +69,36 @@ strings_to_grammar(L,G) :-
 	assertz(var_num(1)),
 	
 	findall(%[r,1,
-	T41%]
+	B%T41%]
 	,(member(S,L),%string_strings(S,L2),
 	term_to_atom(T1,S),
 	%grammar1(L2,T1),
 	group_non_lists1(T1,T4),
-	process_terms(T4,[],T41,[],_R)%,
+	process_terms(T4,[],T41,[],_R),
+	find_g(T41,[],B)
 	%foldr(append,T41,T42)
 	%,get_var_num(N)
-	),Ts),
+	),Gs),
+	(Gs=[]->G=Gs;
+	(Gs=[G6|Gs1],
+	%trace,
+	G6=[[[n,N]|_]|_],
+	findall(A,(member(A1,Gs1),
+	(A1=[[[n,_]|A2]|A21]->A=[[[n,N]|A2]|A21];A=A1)),A3),
+	append([G6],A3,Gs3),
+	foldr(append,Gs3,Gs4),
+	trace,
+	insert_stub_arguments(Gs4,Gs5),
+	minimise_alg(Gs5,Gs6),
+	remove_stub_arguments(Gs6,G)
+	)).
 	
+insert_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],"->",A22],findall([[n,[a,A24]]],member(A24,A22),A25),A2=[[n,A23],[[v,a]],":-",A25]),B).
+remove_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],_,":-",A22],findall(A24,member([[n,[a,A24]]],A22),A25),A2=[[n,A23],"->",A25]),B).
 	
 	%trace,
-	findall(B,(member(B1,Ts),find_g(B1,[],B)),G1),
-	foldr(append,G1,G).
+	%findall(B,(member(B1,Ts),),G1),
+	%foldr(append,G1,G).
 	/*
 	%sub_term_types_wa([all([string])],Ts,In1), % find terminal lists
 	%sub_term_types_wa([all_resolution_level([string])],Ts,In2),

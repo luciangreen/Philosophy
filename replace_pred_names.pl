@@ -130,21 +130,30 @@ get_lang_word("n",Dbw_n),
 replace_pred_names(Body1,Body2,Body3,To_replace,Replace_with) :-
 	Body1=[Statement|Statements],
 	not(predicate_or_rule_name(Statement)),
-	replace_pred_names(Statement,Body2,Body4,To_replace,Replace_with),
+	%trace,
+	replace_pred_name(Statement,Body2,Body4,To_replace,Replace_with),
 	replace_pred_names(Statements,Body4,Body3,To_replace,Replace_with),
    %append_list2([Result1,Result2],Body2),
    !.
    
-replace_pred_names(Statement,Arguments1,Arguments2,To_replace,Replace_with) :-
+replace_pred_name(Statement,Arguments1,Arguments2,To_replace,Replace_with) :-
 get_lang_word("n",Dbw_n),
 
-	((Statement=[[Dbw_n,Name],Arguments],
+	(Statement=[[Dbw_n,Name]|_Arguments],
 	%trace,
 	%recursive_replace_pred_names(Arguments,Arguments1,Arguments3,To_replace,Replace_with)
-	
-(member(Name,To_replace)->Name2=Replace_with;Name2=Name),
-	append(Arguments1,[[[Dbw_n,Name2],Arguments]],Arguments2)
+	%trace,
+(member(Name,To_replace)->
+(sub_term_wa([n,_Name2],Statement,In1),
+findall([Add,[n,Replace_with]],member([Add,_A1],In1),In2),
+foldr(put_sub_term_wa_ae,In2,Statement,Statement2));
+Statement=Statement2)
 
+%Name2=Replace_with;Name2=Name
+),
+	append(Arguments1,[Statement2%[[Dbw_n,Name2],Arguments]
+	],Arguments2)
+/*
 	)->true;
 	(Statement=[[Dbw_n,Name]],
 	
@@ -153,6 +162,6 @@ get_lang_word("n",Dbw_n),
 
 	append(Arguments1,[[[Dbw_n,Name2]]],Arguments2)%Arguments2,
 	))
-	
+	*/
 
 	.

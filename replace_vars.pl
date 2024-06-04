@@ -7,17 +7,20 @@ get_lang_word("n",Dbw_n),
 get_lang_word("true",Dbw_true),
 
 Algorithm1=[F|Rest],
-(Rest=[Args,":-",Lines]->true;
+(Rest=[Args,Symbol,Lines]->true;
 (Rest=[Args]->Lines=[[[Dbw_n,Dbw_true]]];
-(Rest=[":-",Lines];
+(Rest=[Symbol,Lines];
 (Rest=[],Lines=[[[Dbw_n,Dbw_true]]])))),
+%(Symbol=":-"->true;Symbol="->"),
 
 %trace,
 	recursive_replace_vars(Args,[],Arguments3,Var_index1,Var_index2,Var_table1,Var_table3),
 		replace_vars(Lines,[],Algorithm4,Var_index2,_,Var_table3,Var_table2),
 
-(Arguments3=[]->Algorithm3=[F,":-",Algorithm4];		
-Algorithm3=[F,Arguments3,":-",Algorithm4])		.
+(Arguments3=[]->Algorithm3=[F,Symbol,Algorithm4];		
+Algorithm3=[F,Arguments3,Symbol,Algorithm4])
+%(Symbol=":-"->true;Symbol="->")
+.
 
 %Algorithm1=[[[Dbw_n,N],Args,]]
 

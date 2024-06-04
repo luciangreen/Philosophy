@@ -1,6 +1,10 @@
+/* change names
+repeat until 2nd time has the same result
+dcgs
+*/
 :-include('replace_vars.pl').
 :-include('replace_pred_names.pl').
-:-include('../listprologinterpreter/listprolog.pl').
+%:-include('../listprologinterpreter/listprolog.pl').
 
 % delete_duplicate_clauses([[[n,function],[[v,a]],":-",[[[n,+],[[v,a]]]]],[[n,function2],[[v,a]],":-",[[[n,+],[[v,a]]]]],[[n,function3],[[v,a]],":-",[[[n,function2],[[v,a]]]]]],[],L),writeln1(L).
 % [[[n,function],[[v,a]],":-",[[[n,+],[[v,a]]]]],[[n,function3],[[v,a]],":-",[[n,function],[[v,a]]]]]
@@ -12,8 +16,22 @@
 
 delete_duplicate_clauses([],List,List) :- !.
 delete_duplicate_clauses(List1,List2,List3) :-
+%trace,
  List1=[[[[n,N]|Item1],VT]|List4],
- findall(N1,member([[n,N1]|Item1],List4),N2),
+ 
+ findall(N1,member([[[n,N1]|Item1],_],List4),N2),
+
+ %subtract(List4,[[[[n,_]|Item1],_]],List10),
+ %findall(N3,member([[n,N1]|Item1],List4),N2),
+
+ 
+ %findall(A,(member(A1,List4),
+ %subtract(List,[A1],L1),
+ 
+ %(A1=[[[n,A2]|Item1],A3]->
+ 
+ %findall(B,(member(B1,)))
+ %[[[n,_]|Item1]|_]
  delete(List4,[[[n,_]|Item1],_],List5),
  ((
  Item1=[])->append(List2,[[[[n,N]],VT]],List6);
