@@ -29,12 +29,12 @@ test_s2g :-
 
 findall(_,(member([N,L,G2],
 [
+
 [1,["[1,2,3,2,3,1,2,3,2,3]"],
-[[[n,1],"->",[[[n,2]]]],
+[[[n,1],"->",[[]]],
+[[n,1],"->",[[1],[[n,2]],[[n,1]]]],
 [[n,2],"->",[[]]],
-[[n,2],"->",[[1],[[n,3]],[[n,2]]]],
-[[n,3],"->",[[]]],
-[[n,3],"->",[[2],[3],[[n,3]]]]]],
+[[n,2],"->",[[2],[3],[[n,2]]]]]],
 
 [2,["[1,2,2,1,2]"],
 [[[n,1],"->",[[]]],
@@ -52,7 +52,14 @@ findall(_,(member([N,L,G2],
 [[[n,1],"->",[[]]],
 [[n,1],"->",[[1],[[n,2]],[3],[[n,1]]]],
 [[n,2],"->",[[]]],
-[[n,2],"->",[[2]]]]]
+[[n,2],"->",[[2]]]]],
+
+[5,["[1,2,3,2,3,4,5,1,2,3,4,5]"],
+[[[n, 1], "->", [[1], [2], [[n, 2]], [3], [4], [5]]], 
+[[n, 2], "->", [[]]], 
+[[n, 2], "->", [[3], [[n, 3]], [2], [[n, 2]]]], 
+[[n, 3], "->", [[]]], 
+[[n, 3], "->", [[4], [5], [1]]]]]
 
 ]),
  ((strings_to_grammar(L,G1),%writeln1(G1),
@@ -78,6 +85,7 @@ strings_to_grammar(L,G) :-
 	%string_strings(S,T1),
 	group_non_lists1(T1,T4),
 	process_terms(T4,[],T41,[],_R),
+	%trace,
 	find_g(T41,[],B)
 	%foldr(append,T41,T42)
 	%,get_var_num(N)
@@ -164,13 +172,15 @@ process_terms(T1,T2,T3,R1,R2) :-
 
 try(T45,T8) :-
 	longest_to_shortest_substrings1(T45,T43),
+	%[T45]=T43,
 	%trace,
 	%(find_first((T44=T43,%member(T44,T43),
 	findall(T52,(member(C1,T43),(find_lists3a(C1,T52)->true;fail%
 	%C1=T52)
 	)
-	),T7),length(T7,T7L),(length(T43,T7L)->%T7=T8;
-	foldr(append,T7,T8);
+	),T7),length(T7,T7L),(length(T43,T7L)->%(%trace,T7=T8);
+	(%trace,
+	foldr(append,T7,T8));
 	fail),!.
 
 %)->true;
@@ -317,9 +327,13 @@ do outer level, then contained levels until end
 - do as predicate
 */
 
-find_g([],G,G) :-!.
-
 find_g(T,G1,G2) :-
+	(T=[T1]->true;T=T1),
+	find_g2(T1,G1,G2).
+
+find_g2([],G,G) :-!.
+
+find_g2(T,G1,G2) :-
 
 %T=[T1|T2],
 T=[r,%N,
@@ -336,7 +350,7 @@ append(G1,G4,G2),
 %foldr(append,G2,G21),
 !.
 
-find_g(T,G1,G2) :-
+find_g2(T,G1,G2) :-
 
 %T=[T1|T2],
 T=[o,%N,
@@ -353,7 +367,7 @@ append(G1,G4,G2),
 %foldr(append,G2,G21),
 !.
 
-find_g(T,G1,G2) :-
+find_g2(T,G1,G2) :-
 
 %T=[T1|T2],
 not(T=[r,%N,
@@ -379,7 +393,7 @@ find_g1(T,G1,G2,R1,R2) :-
 T=[T1|T2],
 ((T1=[L,%N,
 _T4],(L=r->true;L=o))->
-(find_g(T1,[],R3),
+(find_g2(T1,[],R3),
 R3=[[[n, N]|_]|_],
 %get_var_num(N),
 append(R1,R3,R4),T1a=[[n,N]]);
