@@ -75,6 +75,7 @@ strings_to_grammar(L,G) :-
 	,(member(S,L),%string_strings(S,L2),
 	term_to_atom(T1,S),
 	%grammar1(L2,T1),
+	%string_strings(S,T1),
 	group_non_lists1(T1,T4),
 	process_terms(T4,[],T41,[],_R),
 	find_g(T41,[],B)
@@ -142,7 +143,7 @@ process_terms(T1,T2,T3,R1,R2) :-
 	));(T53=[],T4=T1,T51=[])),
 	%trace,
 	(foldr(append,T4,T45)->true;T4=T45),
-	(all_distinct(T45)->T8=T45;
+	(all_distinct1(T45)->T8=T45;
 	(%trace,
 	try(T45,T8)
 /*	longest_to_shortest_substrings1(T45,T43),
