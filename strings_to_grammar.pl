@@ -22,7 +22,7 @@ G = [[1,>,a,1]
 %:-include('test15.pl').
 :-include('find_lists3.pl').
 :-include('minimise_alg.pl').
-
+:-include('optimise_alg.pl').
 :-dynamic var_num/1.
 
 test_s2g :-
@@ -115,7 +115,8 @@ strings_to_grammar(L,G) :-
 	%insert_stub_arguments(Gs4,Gs5),
 	%Gs5=Gs6,%
 	%trace,
-	minimise_alg(Gs4,G)
+	minimise_alg(Gs4,Gs5),
+	optimise_alg(Gs5,G)
 	%remove_stub_arguments(Gs6,G)
 	)).
 
