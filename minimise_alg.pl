@@ -17,27 +17,56 @@ dcgs
 delete_duplicate_clauses([],List,List) :- !.
 delete_duplicate_clauses(List1,List2,List3) :-
 %trace,
- List1=[[[[n,N]|Item1],VT]|List4],
+ List1=[[[[n,N]|_Item1],_VT]|_List4],
  
- findall(N1,member([[[n,N1]|Item1],_],List4),N2),
+ get_curr_node(List1,N,Node,List11),
+ get_nodes_to_replace(List11,Node,N2,List41),
+ %*findall(N1,member([[[n,N1]|Item1],_],List4),N2),
 
- %subtract(List4,[[[[n,_]|Item1],_]],List10),
- %findall(N3,member([[n,N1]|Item1],List4),N2),
-
- 
- %findall(A,(member(A1,List4),
- %subtract(List,[A1],L1),
- 
- %(A1=[[[n,A2]|Item1],A3]->
- 
- %findall(B,(member(B1,)))
- %[[[n,_]|Item1]|_]
- delete(List4,[[[n,_]|Item1],_],List5),
- ((
- Item1=[])->append(List2,[[[[n,N]],VT]],List6);
- append(List2,[[[[n,N]|Item1],VT]],List6)),
+ delete_nodes(List41,N2,List5),
+ %*delete(List4,[[[n,_]|Item1],_],List5),
+ append_node(List2,Node,List6),
+ %*((
+ %Item1=[])->append(List2,[[[[n,N]],VT]],List6);
+ %append(List2,[[[[n,N]|Item1],VT]],List6)),
  findall([List7,L10],(member([List8,L10],List5),replace_pred_names1(List8,List7,N2,N)),List9),
  delete_duplicate_clauses(List9,List6,List3),!.
+
+get_curr_node(List1,N,Node,List11) :-
+ findall(A,(member(A,List1),A=[[[n,N]|_Item1],_VT]),Node),
+ subtract(List1,Node,List11),!.
+
+get_nodes_to_replace(List4,Node,N3,List41) :-
+ % all nodes that have all same items as node
+  findall(N1,member([[[n,N1]|Item1],_],List4),N21),
+  %trace,
+  Node=[[[[n,N1]|_]|_]|_],
+  findall(Item1,member([[[n,N1]|Item1],_],Node),N21_items),
+  sort(N21,N22),
+  findall(N26,(member(N23,N22),
+  findall(N25,(member(N25,List4),N25=[[[n,N23]|Item1],_]),N26),
+  findall(Item1,(member(N25,N26),N25=[[[n,_]|Item1],_]),N26_items),
+  %trace,
+  sub_term_wa([n,N1],N21_items,In21),
+  findall([A,_],member([A,_],In21),In22),
+  foldr(put_sub_term_wa_ae,In22,N21_items,N21_items1),
+  
+  sub_term_wa([n,N23],N26_items,In26),
+  findall([A,_],member([A,_],In26),In27),
+  foldr(put_sub_term_wa_ae,In27,N26_items,N26_items1),
+
+  sort(N21_items1,A),sort(N26_items1,A)),N2),
+  foldr(append,N2,N3),
+  subtract(List4,N3,List41),!.
+  
+delete_nodes(List4,N2,List5) :-
+ subtract(List4,N2,List5),!.
+
+append_node(List2,Node,List6) :-
+ append(List2,Node,List6),!.
+
+
+
  /*
 delete_duplicate_clauses([],List,List) :- !.
 delete_duplicate_clauses(List1,List2,List3) :-
@@ -129,6 +158,11 @@ minimise_alg([[[n,function],":-",[[[n,"->"],[[[n,true]],[[n,true]],[[n,true]]]],
 */
 
 minimise_alg(Algorithm1,Algorithm2) :-
+%trace,
+ sort(Algorithm1,Algorithm3),
+ minimise_alg1(Algorithm3,Algorithm2).
+
+minimise_alg1(Algorithm1,Algorithm2) :-
  findall([Algorithm3,Var_table],(member(Algorithm0,Algorithm1),replace_vars1(Algorithm0,Algorithm3,1,_,[],Var_table)),Algorithm4),
  %findall(Algorithm,member([Algorithm,_],Algorithm4),Algorithm4a),
  delete_duplicate_clauses(Algorithm4,[],Algorithm5),
@@ -142,5 +176,5 @@ get_item_n(Algorithm5,N,[Algorithm6,Var_table2]),
 findall([B,A],member([A,B],Var_table2),Var_table3),
 replace_vars1(Algorithm6,Algorithm7,1,_,Var_table3,_)),Algorithm8), 
  (Algorithm1=Algorithm8->Algorithm8=Algorithm2;
- minimise_alg(Algorithm8,Algorithm2)).
+ minimise_alg1(Algorithm8,Algorithm2)).
 

@@ -2,7 +2,7 @@
 % [[n,function],[[v,1],[v,2]],":-",[[n,+],[[v,3],[v,4]]]]
 
 replace_vars1(Algorithm1,Algorithm3,Var_index1,Var_index2,Var_table1,Var_table2) :-
-
+%writeln1(replace_vars1(Algorithm1,Algorithm3,Var_index1,Var_index2,Var_table1,Var_table2)),
 get_lang_word("n",Dbw_n),
 get_lang_word("true",Dbw_true),
 
@@ -32,7 +32,7 @@ replace_vars(Body1,Body2,Body3,Var_index1,Var_index2,Var_table1,Var_table2) :-
         Body1=[[Statements1|Statements1a]|Statements2
         ],
 	
-		not(predicate_or_rule_name(Statements1)),
+		not(predicate_or_rule_name_or_terminal(Statements1)),
 			  %Number1a is Number1+1,
 replace_vars([Statements1],[],Body4,Var_index1,Var_index3,Var_table1,Var_table3), %% 2->1
 
@@ -47,7 +47,7 @@ replace_vars([Statements1],[],Body4,Var_index1,Var_index3,Var_table1,Var_table3)
   	!.
 
 
-
+%/*
         
 replace_vars(Body1,Body2,Body3,Var_index1,Var_index2,Var_table1,Var_table2) :-
 get_lang_word("n",Dbw_n),
@@ -126,28 +126,53 @@ get_lang_word("n",Dbw_n),
         %append([Body7],Body6,Body2),
         !.
 
-
+%*/
 replace_vars(Body1,Body2,Body3,Var_index1,Var_index2,Var_table1,Var_table2) :-
+%trace,
 	Body1=[Statement|Statements],
-	not(predicate_or_rule_name(Statement)),
-	replace_vars(Statement,Body2,Body4,Var_index1,Var_index3,Var_table1,Var_table3),
+	%trace,
+	%not(
+	(predicate_or_rule_name_or_terminal(Statement)),
+	%trace,
+	%trace,
+	replace_var(Statement,Body2,Body4,Var_index1,Var_index3,Var_table1,Var_table3),
 	replace_vars(Statements,Body4,Body3,Var_index3,Var_index2,Var_table3,Var_table2),
    %append_list2([Result1,Result2],Body2),
    !.
    
-replace_vars(Statement,Arguments1,Arguments2,Var_index1,Var_index2,Var_table1,Var_table2) :-
+   
+   
+replace_var(Statement,Arguments1,Arguments2,Var_index1,Var_index2,Var_table1,Var_table2) :-
+
+%writeln1(replace_vars3(Statement,Arguments1,Arguments2,Var_index1,Var_index2,Var_table1,Var_table2)),
+%trace,%trace,
 get_lang_word("n",Dbw_n),
 
-	((Statement=[[Dbw_n,Name],Arguments],
+	((%trace,
+	Statement=[[Dbw_n,Name]|Arguments],
 	%trace,
-	recursive_replace_vars(Arguments,[],Arguments3,Var_index1,Var_index2,Var_table1,Var_table2),
+	(Arguments=[]->(Arguments3=Arguments,Var_index1=Var_index2,Var_table1=Var_table2);
+	(foldr(append,Arguments,Arguments0),
+	recursive_replace_vars(Arguments0,[],Arguments31,Var_index1,Var_index2,Var_table1,Var_table2),[Arguments31]=Arguments3)),
 	
-	append(Arguments1,[[[Dbw_n,Name],Arguments3]],Arguments2)
+	append(Arguments1,[[[Dbw_n,Name]|Arguments3]],Arguments2)
 
 	)->true;
-	(Statement=[[Dbw_n,_Name]],
+	((Statement=[[Dbw_n,_Name]],
 	append(Arguments1,[Statement],Arguments2),%Arguments2,
-	Var_index1=Var_index2,Var_table1=Var_table2)).
+	Var_index1=Var_index2,Var_table1=Var_table2)->true;
+	(Var_index1=Var_index2,Var_table1=Var_table2,
+	%trace,
+	((%trace,
+	Statement=[])->append(Arguments1,[Statement],Arguments2);(%trace,
+	Statement=[A],((string(A)->true;(number(A)->true;atom(A)))),%,Statement1=[A]
+	append(Arguments1,[Statement],Arguments2)))
+	
+	)))%,trace
+	%trace,
+		%Arguments2,
+	%Var_index1=Var_index2,Var_table1=Var_table2
+	.
 	
 recursive_replace_vars([],Arguments,Arguments,Var_index1,Var_index1,Var_table1,Var_table1) :- !.
 
@@ -162,3 +187,13 @@ Var_index1=Var_index3,Var_table1=Var_table3);
 	recursive_replace_vars(Statement1,Arguments1,Arguments3,Var_index1,Var_index3,Var_table1,Var_table3))),
 	Var_index4 is Var_index3+1,
 	recursive_replace_vars(Statement2,Arguments3,Arguments2,Var_index4,Var_index2,Var_table3,Var_table2).
+
+predicate_or_rule_name_or_terminal(A) :-
+predicate_or_rule_name(A).
+predicate_or_rule_name_or_terminal([A]) :-
+predicate_or_rule_name(A).
+%/*
+predicate_or_rule_name_or_terminal([A]) :- (atom(A)->true;(number(A)->true;string(A))).
+predicate_or_rule_name_or_terminal(A) :- (atom(A)->true;(number(A)->true;string(A))).
+predicate_or_rule_name_or_terminal([]).
+%*/

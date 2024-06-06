@@ -67,7 +67,12 @@ findall(_,(member([N,L,G2],
 [[n,2],"->",[[]]],
 [[n,2],"->",[[3],[[n,3]],[2],[[n,2]]]],
 [[n,3],"->",[[]]],
-[[n,3],"->",[[4],[5],[1]]]]]
+[[n,3],"->",[[4],[5],[1]]]]],
+
+[7,["[0,0,1,0,0]"],
+[[[n, 1], "->", [[[n, 2]], [1], [[n, 3]]]], 
+[[n, 2], "->", [[]]], 
+[[n, 2], "->", [[0], [[n, 2]]]]]]
 
 ]),
  ((strings_to_grammar(L,G1),%writeln1(G1),
@@ -107,17 +112,20 @@ strings_to_grammar(L,G) :-
 	append([G6],A3,Gs3),
 	foldr(append,Gs3,Gs4),
 	%trace,
-	insert_stub_arguments(Gs4,Gs5),
-	Gs5=Gs6,%minimise_alg(Gs5,Gs6),
-	remove_stub_arguments(Gs6,G)
+	%insert_stub_arguments(Gs4,Gs5),
+	%Gs5=Gs6,%
+	%trace,
+	minimise_alg(Gs4,G)
+	%remove_stub_arguments(Gs6,G)
 	)).
-	
+
+/*	
 insert_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],"->",A22],findall([[n,[a,A24]]],(member(A24,A22)%,(A24=[]->A241=1000;A241=A24)
 )
 ,A25),A2=[[n,A23],[[v,a]],":-",A25]),B).
 remove_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],_,":-",A22],findall(A24,(member([[n,[a,A24]]],A22)%,(A24=1000->A241=[];A241=A24)
 ),A25),A2=[[n,A23],"->",A25]),B).
-	
+*/	
 	%trace,
 	%findall(B,(member(B1,Ts),),G1),
 	%foldr(append,G1,G).
