@@ -20,7 +20,7 @@ delete_duplicate_clauses(List1,List2,List3) :-
  List1=[[[[n,N]|_Item1],_VT]|_List4],
  
  get_curr_node(List1,N,Node,List11),
- get_nodes_to_replace(List11,Node,N2,List41),
+ get_nodes_to_replace(List11,Node,N2,N28,List41),
  %*findall(N1,member([[[n,N1]|Item1],_],List4),N2),
 
  delete_nodes(List41,N2,List5),
@@ -29,21 +29,24 @@ delete_duplicate_clauses(List1,List2,List3) :-
  %*((
  %Item1=[])->append(List2,[[[[n,N]],VT]],List6);
  %append(List2,[[[[n,N]|Item1],VT]],List6)),
- findall([List7,L10],(member([List8,L10],List5),replace_pred_names1(List8,List7,N2,N)),List9),
- delete_duplicate_clauses(List9,List6,List3),!.
+ findall([List7,L10],(member([List8,L10],List5),replace_pred_names2(List8,List7,N28,N)),List9),
+ %trace,
+ findall(List7,(member(List8%,L10]
+ ,List6),replace_pred_names2(List8,List7,N28,N)),List12),
+ delete_duplicate_clauses(List9,List12,List3),!.
 
 get_curr_node(List1,N,Node,List11) :-
  findall(A,(member(A,List1),A=[[[n,N]|_Item1],_VT]),Node),
  subtract(List1,Node,List11),!.
 
-get_nodes_to_replace(List4,Node,N3,List41) :-
+get_nodes_to_replace(List4,Node,N3,N28,List41) :-
  % all nodes that have all same items as node
   findall(N1,member([[[n,N1]|Item1],_],List4),N21),
   %trace,
   Node=[[[[n,N1]|_]|_]|_],
   findall(Item1,member([[[n,N1]|Item1],_],Node),N21_items),
   sort(N21,N22),
-  findall(N26,(member(N23,N22),
+  findall([N26,N23],(member(N23,N22),
   findall(N25,(member(N25,List4),N25=[[[n,N23]|Item1],_]),N26),
   findall(Item1,(member(N25,N26),N25=[[[n,_]|Item1],_]),N26_items),
   %trace,
@@ -56,7 +59,10 @@ get_nodes_to_replace(List4,Node,N3,List41) :-
   foldr(put_sub_term_wa_ae,In27,N26_items,N26_items1),
 
   sort(N21_items1,A),sort(N26_items1,A)),N2),
-  foldr(append,N2,N3),
+  
+  findall(A,member([A,_],N2),N29),
+  findall(A,member([_,A],N2),N28),
+  foldr(append,N29,N3),
   subtract(List4,N3,List41),!.
   
 delete_nodes(List4,N2,List5) :-
@@ -110,7 +116,7 @@ trace,
  ((
  Item1=[])->append(List2,Ns3,List6);
  append(List2,Ns4,List6)),
- findall([List7,L10],(member([List8,L10],List5),replace_pred_names1(List8,List7,N2,NN1)),List9),
+ findall([List7,L10],(member([List8,L10],List5),replace_pred_names2(List8,List7,N2,NN1)),List9),
  delete_duplicate_clauses(List9,List6,List3),!.
  */
 % with state machine, going backwards from base cases, minimises sm - like minimise decision tree, do groups of clauses together x join clauses together first [x minimise decision tree doesn't have cycles - account for incoming stems (if same inc. stems etc. then delete) and delete references to deleted branches] nd branches have no condition

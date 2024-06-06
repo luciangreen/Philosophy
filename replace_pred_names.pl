@@ -1,6 +1,13 @@
 % replace_pred_names1([[n,function],[[v,a],[v,c]],Symbol,[[[n,+],[[v,b],[v,d]]]]],L,[+],sum),writeln1(L).
 % [[n,function],[[v,a],[v,c]],Symbol,[[n,sum],[[v,b],[v,d]]]]
 
+replace_pred_names2(A,A,[],_Replace_with) :- !.
+replace_pred_names2(A,B,To_replace,Replace_with) :-
+%trace,
+ To_replace=[C|D], 
+ find_replace_t(A,[n,C],[n,Replace_with],E),
+ replace_pred_names2(B,E,D,Replace_with),!.
+
 replace_pred_names1([],[],_,_) :- !.
 replace_pred_names1(Algorithm1,Algorithm3,To_replace,Replace_with) :-
 
