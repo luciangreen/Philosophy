@@ -66,19 +66,28 @@ test that parts repeat, signal bracket or repeating list with smallest unit
 % find_lists3a([1,2,3,1,3],A).
 % A = [[1, [r, [2]], 3]].
 
-find_lists3a(L1,L3) :-
+find_lists3a(L1,L32) :-
 %writeln1(find_lists3a(L1,L3)),
-	find_lists3(L1,[],L4),
+%trace,
+	find_lists3(L1,[],L91),
+	%trace,
+	(fail%L91=[[r, L92]]
+	->(L4=_L92,Flag=true);
+	(L4=L91,Flag=false)),
 	%trace,
 	(L4=[]->L4=L3;
 	(L4=[_L2]->L4=L3;
 	(L4=[L2|L31],
 	%trace,
+	
 	check14(L31,L2,[],L5),
 	(L5=[[r|_]|_]->L5=L3;
 	((L5=[L51]->true;L51=L5),
 	L3=[[r,L51]]))
-	))),!.
+	))),
+
+	(Flag=true->L32=[[r,L3]];L32=L3),
+	!.
 
 % find_lists3([1,2,2,1,2],[],L2).
 % L2 = [[1, [r, [2]]], [1, 2]]
@@ -90,7 +99,8 @@ find_lists3([],L,L) :- !.
 find_lists3(L1,L2,L3) :-
 	repeating_unit(L1,U),
 	(U=[r,U1]->
-	find_lists3(U1,[],U2);
+	%find_lists3(U1,[],U2);
+	try(U1,U2);
 	U2=U),
 	append(L2,[[r,U2]],L3),!.
 
@@ -105,7 +115,12 @@ find_lists3(L1,L2,L3) :-
 	%(%find_lists31([L4|After_list],[],L7)->true;
 	%split13(L6,After_list,L3),!.
 	find_lists3(After_list1,[],L7),
-	foldr(append,[L2,[L6,L7]],L3));
+	%fail,
+	%trace,
+	foldr(append,[[L6,L7]],L8),
+	foldr(append,[L2,L8],L33),
+	L3=L33);
+	%foldr(append,[L2,[L6,L7]],L3));
 	(append(L2,[L4],L6),
 	find_lists3(L5,L6,L3))),!.
 %find_lists3(L1,L2,L3) :-
