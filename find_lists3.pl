@@ -69,7 +69,9 @@ test that parts repeat, signal bracket or repeating list with smallest unit
 find_lists3a(L1,L32) :-
 %writeln1(find_lists3a(L1,L3)),
 %trace,
-	find_lists3(L1,[],L91),
+	%trace,
+	%findall(L91,
+	find_lists3(L1,[],L91),%,L100),
 	%trace,
 	(fail%L91=[[r, L92]]
 	->(L4=_L92,Flag=true);
@@ -102,13 +104,16 @@ find_lists3(L1,L2,L3) :-
 	%find_lists3(U1,[],U2);
 	try(U1,U2);
 	U2=U),
-	append(L2,[[r,U2]],L3),!.
+	append(L2,[[r,U2]],L3).
 
 find_lists3(L1,L2,L3) :-
 	L1=[L4|L5],
-	((member(L4,L5),
-	sub_list(L5,Before_list,[L4],After_list))->
-	(Before_list1=[L4|Before_list],After_list1=[L4|After_list],
+	find_lists4(L2,L5,L4,L3).
+
+find_lists4(L2,L5,L4,L3) :-
+	member(L4,L5),
+	sub_list(L5,Before_list,[L4],After_list),
+	Before_list1=[L4|Before_list],After_list1=[L4|After_list],
 	%Before_list1=[L4],After_list1=[])),
 	find_lists32(Before_list1,[],L6),
 	%(After_list=[]->L7=[];
@@ -119,11 +124,13 @@ find_lists3(L1,L2,L3) :-
 	%trace,
 	foldr(append,[[L6,L7]],L8),
 	foldr(append,[L2,L8],L33),
-	L3=L33);
+	L3=L33.
+find_lists4(L2,L5,L4,L3) :-
+	not((member(L4,L5),
+	sub_list(L5,_Before_list,[L4],_After_list))),	
 	%foldr(append,[L2,[L6,L7]],L3));
-	(append(L2,[L4],L6),
-	find_lists3(L5,L6,L3))),!.
-%find_lists3(L1,L2,L3) :-
+	append(L2,[L4],L6),
+	find_lists3(L5,L6,L3).%find_lists3(L1,L2,L3) :-
 %	append(L1,L2,L3).
 
 /*find_lists3(L1,L2,L3) :-
@@ -138,7 +145,7 @@ find_lists32(L1,L2,L3) :-
 	append(L2,[U],L3),!.
 */
 find_lists32(L1,L2,L3) :-
-	find_lists3(L1,L2,L3),!.
+	find_lists3(L1,L2,L3).
 
 
 % repeating_unit([2,2],U).

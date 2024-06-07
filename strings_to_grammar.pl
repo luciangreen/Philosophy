@@ -24,18 +24,19 @@ G = [[1,>,a,1]
 :-include('minimise_alg.pl').
 :-include('optimise_alg.pl').
 :-dynamic var_num/1.
+:-dynamic s2g_mode/1.
 
 test_s2g :-
 
 findall(_,(member([N,L,G2],
 [
-%/*
+
 [1,["[1,2,3,2,3,1,2,3,2,3]"],
 [[[n,1],"->",[[]]],
 [[n,1],"->",[[1],[[n,2]],[[n,1]]]],
 [[n,2],"->",[[]]],
 [[n,2],"->",[[2],[3],[[n,2]]]]]],
-%*/
+
 [2,["[1,2,2,1,2]"],
 [[[n,1],"->",[[]]],
 [[n,1],"->",[[1],[[n,2]],[[n,1]]]],
@@ -72,7 +73,12 @@ findall(_,(member([N,L,G2],
 [7,["[0,0,1,0,0]"],
 [[[n, 1], "->", [[[n, 2]], [1], [[n, 2]]]], 
 [[n, 2], "->", [[]]], 
-[[n, 2], "->", [[0], [[n, 2]]]]]]
+[[n, 2], "->", [[0], [[n, 2]]]]]],
+
+[8,["[a,b]", "[a,c]"], 
+[[[n, 1], "->", [[a], [[n, 2]]]], 
+[[n, 2], "->", [[b]]], 
+[[n, 2], "->", [[c]]]]]
 
 ]),
  ((strings_to_grammar(L,G1),%writeln1(G1),
@@ -89,6 +95,11 @@ get_var_num(N) :-
 strings_to_grammar(L,G) :-
 	retractall(var_num(_)),
 	assertz(var_num(1)),
+
+	retractall(s2g_mode(_)),
+	assertz(s2g_mode(off%
+	%findall
+	)), % off or findall
 	
 	findall(%[r,1,
 	B%T41%]
@@ -97,12 +108,13 @@ strings_to_grammar(L,G) :-
 	%grammar1(L2,T1),
 	%string_strings(S,T1),
 	group_non_lists1(T1,T4),
-	process_terms(T4,[],T41,[],_R),
+	process_terms(T4,[],B,[],_R)
+	),Gs2),
 	%trace,
-	find_g(T41,[],B)
+	decision_tree(Gs2,T42),
+	findall(B2,(member(T44,T42),find_g(T44,[],B2)),Gs),
 	%foldr(append,T41,T42)
 	%,get_var_num(N)
-	),Gs),
 	(Gs=[]->G=Gs;
 	(Gs=[G6|Gs1],
 	%trace,
@@ -168,10 +180,12 @@ process_terms(T1,T2,T3,R1,R2) :-
 	));(T53=[],T4=T1,T51=[])),
 	%trace,
 	(foldr(append,T4,T45)->true;T4=T45),
-	(all_distinct1(T45)->T8=T45;
-	(%trace,
-	try(T45,T8)
-/*	longest_to_shortest_substrings1(T45,T43),
+	(all_distinct1(T45)->T9=T45;
+	%trace,
+	(s2g_mode(findall)->
+	(findall(T8,try(T45,T8),T81),T9=[poss,T81]);
+	(try(T45,T9)))
+	/*	longest_to_shortest_substrings1(T45,T43),
 	%trace,
 	(find_first((T44=T43,%member(T44,T43),
 	findall(T52,(member(C1,T44),(find_lists3a(C1,T52)->true;fail%
@@ -182,8 +196,8 @@ process_terms(T1,T2,T3,R1,R2) :-
 ))->true;
 	T8=T45))),
 	*/
-	)),
-	foldr(append,[T2,T8,T53],T61),
+	),
+	foldr(append,[T2,T9,T53],T61),
 	append(R1,[R6],R7),
 	process_terms(T51,T61,T3,R7,R2),!.
 
@@ -346,9 +360,10 @@ do outer level, then contained levels until end
 */
 
 find_g(T,G1,G2) :-
+	%retractall(var_num(_)),
+	%assertz(var_num(1)),
 	(T=[T1]->true;T=T1),
 	find_g2(T1,G1,G2).
-
 find_g2([],G,G) :-!.
 
 find_g2(T,G1,G2) :-
@@ -385,6 +400,34 @@ append(G1,G4,G2),
 %foldr(append,G2,G21),
 !.
 
+
+find_g2(T,G1,G2) :-
+%writeln1(find_g2(T,G1,G2)),
+
+%T=[T1|T2],
+T=[nd,%N,
+T3],
+%T3=T,
+get_var_num(N),
+Name=[n,N],
+
+findall([G4,Name],(member(T31,T3),
+
+Arrow="->",
+%Empty=[[]],
+%trace,
+find_g1(T31,[],G3,[],Rest),
+%append(G3,[[Name]],G5),
+G4=[%[Name,Arrow,Empty],
+[Name,Arrow,G3]|Rest]),G41),
+findall(A,member([A,_],G41),G411),
+foldr(append,G411,G42),
+append(G1,G42,G2),
+%foldr(append,G2,G21),
+!.
+%find_g2(T,G1,G2) :- %delete
+%find_g21(T,G1,G2).
+
 find_g2(T,G1,G2) :-
 
 %T=[T1|T2],
@@ -415,7 +458,16 @@ _T4],(L=r->true;L=o))->
 R3=[[[n, N]|_]|_],
 %get_var_num(N),
 append(R1,R3,R4),T1a=[[n,N]]);
-(%string(T1),
+((%trace,
+T1=[nd,%N,
+T4]%,trace
+)->
+(findall(R3,(member(A1,T4),find_g2(A1,[],R3)),R31),
+foldr(append,R31,R32),
+R32=[[[n, N]|_]|_],
+findall([[n, N]|Args],member([[n, _]|Args],R32),R33),
+%get_var_num(N),
+append(R1,R33,R4),T1a=[[n,N]]))->true;(%string(T1),
 (T1a=[T1],
 R1=R4))),
 append(G1,[T1a],G3),
@@ -629,11 +681,16 @@ wrap(A,B):-B=[A].
 
 % [[a,[[b,[[c,[]]]],[d,[[e,[]]]]]],[f,[[g,[[h,[]]]]]]]
 
-
-decision_tree([],[]) :- !.
-decision_tree(A,B) :-
-	findall(C,(member([C|_D],A)),E),
+decision_tree(A,B):-
+	decision_tree1(A,C),(length(C,1)->B=C%((P=[]->P1=P;[P1]=P),append([G],P1,GKP)
+	;B=[[nd,C]]%foldr(append,[[G,[nd,%K1,
+	%P]]],GKP))
+	),!.
+decision_tree1([],[]):-!.
+decision_tree1(A,B) :-
+	findall(C1,(member([C|_D],A),(C=[poss,C2]->member(C1,C2);C1=C)),E),
 	sort(E,K),
 	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),
-	findall([G,%K1,
-	P],(member([G,_K1],L),findall(D,member([G|D],A),D2),decision_tree(D2,P)),B).
+	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree1(D2,P),(K1=1->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
+	P]]],GKP))),B),!.
+
