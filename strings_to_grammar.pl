@@ -78,7 +78,14 @@ findall(_,(member([N,L,G2],
 [8,["[a,b]", "[a,c]"], 
 [[[n, 1], "->", [[a], [[n, 2]]]], 
 [[n, 2], "->", [[b]]], 
-[[n, 2], "->", [[c]]]]]
+[[n, 2], "->", [[c]]]]],
+
+[9,["[a,b]", "[a,d,e]", "[a,d,f]"], 
+[[[n, 1], "->", [[a], [[n, 2]]]], 
+[[n, 2], "->", [[b]]], 
+[[n, 2], "->", [[d], [[n, 4]]]], 
+[[n, 4], "->", [[e]]], 
+[[n, 4], "->", [[f]]]]]
 
 ]),
  ((strings_to_grammar(L,G1),%writeln1(G1),
@@ -462,12 +469,15 @@ append(R1,R3,R4),T1a=[[n,N]]);
 T1=[nd,%N,
 T4]%,trace
 )->
-(findall(R3,(member(A1,T4),find_g2(A1,[],R3)),R31),
-foldr(append,R31,R32),
-R32=[[[n, N]|_]|_],
-findall([[n, N]|Args],member([[n, _]|Args],R32),R33),
+(findall(R3,(member(A1,T4),%
+%trace,
+find_g2([nd,[A1]],[],R3)),R31),
+%trace,
+R31=[[[[n, N]|_]|_]|_],
+findall([[[n, N]|Args]|B],member([[[n, _]|Args]|B],R31),R33),
+foldr(append,R33,R32),
 %get_var_num(N),
-append(R1,R33,R4),T1a=[[n,N]]))->true;(%string(T1),
+append(R1,R32,R4),T1a=[[n,N]]))->true;(%string(T1),
 (T1a=[T1],
 R1=R4))),
 append(G1,[T1a],G3),
