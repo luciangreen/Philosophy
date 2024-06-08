@@ -5,7 +5,7 @@ replace_pred_names2(A,A,[],_Replace_with) :- !.
 replace_pred_names2(A,B,To_replace,Replace_with) :-
 %trace,
  To_replace=[C|D], 
- find_replace_t(A,[n,C],[n,Replace_with],E),
+ replace_term(A,[n,C],[n,Replace_with],E),
  replace_pred_names2(B,E,D,Replace_with),!.
 
 replace_pred_names1([],[],_,_) :- !.

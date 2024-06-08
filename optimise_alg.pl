@@ -28,12 +28,12 @@ optimise_alg1(A,G) :-
  not((E1=E,Arg=Arg1)))))->
  (%trace,
  delete(A,B,F),
- find_replace_t(F,[n, D],[n, E],G));
+ replace_term(F,[n, D],[n, E],G));
  ((B=[[n, D], Arg2,Symbol, [[[n, E]|Arg]]],
  (Symbol=":-"->true;Symbol="->"),
  not((member(B1,A),B1=[[n, D], Arg21,Symbol, [[[n, E1]|Arg1]]]),
  Arg2=Arg21,not((E1=E,Arg=Arg1))))->
  (delete(A,B,F),
- find_replace_t(F,[n, D],[n, E],G)))))),
+ replace_term(F,[n, D],[n, E],G)))))),
  !.
  

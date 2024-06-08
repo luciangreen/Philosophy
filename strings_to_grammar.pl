@@ -100,7 +100,8 @@ findall(_,(member([N,L,G2],
 [[[n, 1], "->", [["["], [[n, 2]]]], 
 [[n, 1], "->", [[a]]], 
 [[n, 2], "->", [["["], [a], ["]"], ["]"]]], 
-[[n, 2], "->", [[a], ["]"]]]]],
+[[n, 2], "->", [[a], ["]"]]]]]
+/*,
 
 [12,["[a]", "[[a]]", "[[[a]]]", "[[[[a]]]]"], 
 [[[n, 1], "->", [["["], [[n, 2]]]], 
@@ -117,7 +118,7 @@ findall(_,(member([N,L,G2],
 [[n, 2], "->", [[a], ["]"]]], 
 [[n, 3], "->", [[a], [[n, 4]]]], 
 [[n, 4], "->", [["]"], [[n, 4]]]]]]
-
+*/
 ]),
  ((strings_to_grammar(L,G1),%writeln1(G1),
  G1=G2)->R=success;R=fail
@@ -510,7 +511,15 @@ T4]%,trace
 find_g2([nd,[A1]],[],R3)),R31),
 %trace,
 R31=[[[[n, N]|_]|_]|_],
-findall([[[n, N]|Args]|B],member([[[n, _]|Args]|B],R31),R33),
+findall([[[n, N]|Args]|B]
+,member([[[n, _]|Args]|B]
+,R31),%B1=[[[n, N3]|_Args]|_B2],replace_term(B1,[n,N3],[n,N],B)),
+R33),
+/*
+findall(B%[[[n, N]|Args]|B]
+,(member(B1%[[[n, _]|Args]|B]
+,R31),B1=[[[n, N3]|_Args]|_B2],replace_term(B1,[n,N3],[n,N],B)),R33),
+*/
 %trace,
 foldr(append,R33,R32),
 %get_var_num(N),
