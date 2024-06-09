@@ -138,6 +138,39 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * To run State Saving Interpreter and enter Prolog queries, load `['lucianpl.pl'].` and run `lucianpl.`.
 
+# Strings to Grammar
+
+* A black spherical ink well represents the transformation from strings to grammar (lensgo.ai). <img width="463" alt="A black spherical ink well" src="https://github.com/luciangreen/Philosophy/assets/15845542/47484bd8-acc6-46fa-92cc-3339d46fa00b">
+
+* Enter possible strings to convert to a grammar in `strings_to_grammar.pl`.
+
+* For example, test 1 below takes the following string and tests for outputted grammar.
+
+```
+[1,["[1,2,3,2,3,1,2,3,2,3]"],
+[[[n,a1],"->",[[]]],
+[[n,a1],"->",[[1],[[n,a2]],[[n,a1]]]],
+[[n,a2],"->",[[]]],
+[[n,a2],"->",[[2],[3],[[n,a2]]]]]],
+```
+
+* Temporarily change the line `%writeln1(G1)` to `writeln1(G1)` to show the outputted grammar from a particular set of strings. You can replace the test output above with this output.
+
+* To load strings to grammar and run tests, enter:
+```
+['strings_to_grammar.pl'].
+test_s2g.
+```
+
+* The output contains the following lines:
+
+```
+[success,1,strings_to_grammar,check_grammar,test]
+[success,1,strings_to_grammar,test]
+```
+
+* These give the test number. The first result is the strings being substituted back into the found grammar working. The second result is that the output matches the test output.
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
