@@ -165,11 +165,11 @@ test_s2g.
 * The output contains the following lines:
 
 ```
-[success,1,strings_to_grammar,check_grammar,test]
 [success,1,strings_to_grammar,test]
+[success,1,strings_to_grammar,check_grammar,test]
 ```
 
-* These give the test number. The first result is the strings being substituted back into the found grammar working. The second result is that the output matches the test output.
+* These give the test number. The first result is that the output matches the test output. The second result is the strings being substituted back into the found grammar working.
 
 # Authors
 

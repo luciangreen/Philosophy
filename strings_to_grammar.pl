@@ -119,17 +119,20 @@ findall(_,(member([N,L,G2],
 [[n,a3],"->",[["["],[[n,a4]]]],
 [[n,a3],"->",[[a],["]"],["]"]]],
 [[n,a4],"->",[["["],[a],["]"],["]"],["]"],["]"]]],
-[[n,a4],"->",[[a],["]"],["]"],["]"]]]]]
+[[n,a4],"->",[[a],["]"],["]"],["]"]]]]],
+
+[14,["[[[f,g]]]"],
+[[[n,a1],"->",[["["],["["],[f],[g],["]"],["]"]]]]]
 
 ]),
  ((strings_to_grammar(L,G1),%writeln1(G1),
- ((check_grammar(L,G1)->R1=success;R1=fail),
-  writeln([R1,N,strings_to_grammar,check_grammar,test]))
-,
-
  G1=G2)->R=success;R=fail
  ),
- writeln([R,N,strings_to_grammar,test])),_),!.
+ writeln([R,N,strings_to_grammar,test]),
+ 
+ (check_grammar(L,G1)->R1=success;R1=fail),
+  writeln([R1,N,strings_to_grammar,check_grammar,test])) 
+ ,_),!.
 
 get_var_num(N) :-
 	var_num(N2),
@@ -278,18 +281,83 @@ break_on_list(T1,T2,T3) :-!.
 % group_non_lists1([a,[b],c,d,[f],g,h],D).
 % D = [[a], ["[", [b], "]"], [c, d], ["[", [f], "]"], [g, h]].
 
+group_non_lists1(A,C) :-
+ group_non_lists2(A,[],B),
+ sub_term_wa([],B,In),
+ findall(Add,member([Add,_],In),In2),
+ delete_sub_term_wa(In2,B,C).
+ 
+group_non_lists2(A,B,C) :-
+ ((append(D,E,A),
+ append([F],G,E),
+ is_list(F))->
+ (H=D,group_non_lists2(F,[],G1),
+ group_non_lists2(G,[],G2),
+ foldr(append,[["["],[G1],["]"]],L),
+ foldr(append,[[H],[L],[G2]],J));
+ (H=A,
+ append([H],J))),
+ append(B,J,C).
+ %group_non_lists2(A,B,C) :-
+
+ %A=[D|E],
+ %()
+/*
 group_non_lists1(Xs, Ys) :-
+%trace,
+ group_non_lists2(Xs, Ys).
+group_non_lists2(Xs, Ys) :-
+%trace,
 	group_non_lists([['&item']|Xs], Ys1,true),
 	(append([[]],Ys,Ys1)->true;Ys=Ys1).
 group_non_lists([['&item'|A]], B,_First) :-(is_list(A)->B=[A];B=[[A]]),!.
-group_non_lists([[A]], C,_First) :-
- (true%First=true
- ->(%trace,
- only_item(A)->C=[["[",[A],"]"]];
- (%trace,
- group_non_lists([A],[A1],false),
- C=[["[",[A1],"]"]]));
- (A=A1,C=[["[",[A1],"]"]])),!.
+group_non_lists([A2], C,_First) :-
+ %true%First=true
+ %->
+ ((A2=[A],%trace,
+ only_item(A))->C=[["[",[A],"]"]];
+ (%fail,%
+ %trace,
+ (((append(["["],A4,A2),
+ append(A5,["]"],A4))->A21=A5;(%trace,
+ A21=A2)),
+ %["]"]],A2))),
+ is_list(A21),forall(member(A3,A21),only_item(A3)),
+ %A2=[A],%trace,
+ %only_item(A))->
+ C=[["[",A2,"]"]])->true;
+ (A2=[A],%
+ %trace,
+ %is_list(A2),
+ %A2=[A3|_],
+ %member(A3,A2),only_item(A3),
+ group_non_lists([A],[A1],false
+ ),
+ C=[["[",[A1],"]"]]))),%;
+ %(A=A1,C=[["[",[A1],"]"]])),
+ !.
+group_non_lists(A2, C,_First) :-
+ %true%First=true
+ %->
+ %trace,
+ (((append(["["],A4,A2),
+ append(A5,["]"],A4))->A21=A5;(%trace,
+ A21=A2)),
+ %["]"]],A2))),
+ is_list(A21),forall(member(A3,A21),only_item(A3)),
+ %A2=[A],%trace,
+ %only_item(A))->
+ C=A2)->true;
+ (fail,A2=[A],%
+ %trace,
+ %is_list(A2),
+ %A2=[A3|_],
+ %member(A3,A2),only_item(A3),
+ group_non_lists([A],[A1],false
+ ),
+ C=[["[",[A1],"]"]]),%;
+ %(A=A1,C=[["[",[A1],"]"]])),
+ !. 
 group_non_lists([A], [A],_) :-!.
 group_non_lists([], [],_) :-!.
 group_non_lists([X11, C|Xs], Ys,First) :-
@@ -303,7 +371,14 @@ group_non_lists([X11, C|Xs], Ys,First) :-
     group_non_lists([X31|Xs], Ys,First),!.
 group_non_lists([X11,C2|Xs], [X13|Ys],First) :-
 %trace,
-	group_non_lists(C2,C,false),
+	%trace,
+	%(%true%((C2=[C3|_],only_item(C3))->true;(trace,only_item(C2)))%length(C2,1)
+(true%length(C2,1)->)
+	->
+	group_non_lists(C2,C,false
+	);
+	group_non_lists2(C2,C%,false
+	)),
 	(X11=['&item'|X12]->
 	(X13=X12,C1=C);
 	(%X11=[l|X12],
@@ -314,7 +389,7 @@ group_non_lists([X11,C2|Xs], [X13|Ys],First) :-
 	%X12=X1;X12=X11),
 	
     group_non_lists([C1|Xs], Ys,First),!.
-
+*/
 longest_to_shortest_substrings1(A,B) :-
 	%findall(C,
 	longest_to_shortest_substrings(A,%C),
