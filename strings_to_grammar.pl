@@ -122,7 +122,10 @@ findall(_,(member([N,L,G2],
 [[n,a4],"->",[[a],["]"],["]"],["]"]]]]],
 
 [14,["[[[f,g]]]"],
-[[[n,a1],"->",[["["],["["],[f],[g],["]"],["]"]]]]]
+[[[n,a1],"->",[["["],["["],[f],[g],["]"],["]"]]]]],
+
+[15,["[[[[],g],[]],[],a]"],
+[[[n, a1], "->", [["["], ["["], ["["], ["]"], [g], ["]"], ["["], ["]"], ["]"], ["["], ["]"], [a]]]]]
 
 ]),
  ((strings_to_grammar(L,G1),%writeln1(G1),
@@ -217,52 +220,6 @@ remove_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],_,":-",A22],f
 
 	%find_g(Ts,[],G).
 */
-process_terms([],T,T,R,R) :- !.
-process_terms(T1,T2,T3,R1,R2) :-
-%trace,
-	%T1=[T4|T51],
-	(member(["[",T6,"]"],T1)->
-	(append(T4,B,T1),
-	append([["[",T6,"]"]],T51,B),
-	(process_terms(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
-	%)%;(fail%T51=[],R6=[]
-	));(T53=[],T4=T1,T51=[])),
-	%trace,
-	(foldr(append,T4,T45)->true;T4=T45),
-	(all_distinct1(T45)->T9=T45;
-	%trace,
-	(s2g_mode(findall)->
-	(findall(T8,try(T45,T8),T81),T9=[poss,T81]);
-	(try(T45,T9)))
-	/*	longest_to_shortest_substrings1(T45,T43),
-	%trace,
-	(find_first((T44=T43,%member(T44,T43),
-	findall(T52,(member(C1,T44),(find_lists3a(C1,T52)->true;fail%
-	%C1=T52)
-	)
-	),T7),length(T7,T7L),length(T44,T7L),foldr(append,T7,T8)
-
-))->true;
-	T8=T45))),
-	*/
-	),
-	foldr(append,[T2,T9,T53],T61),
-	append(R1,[R6],R7),
-	process_terms(T51,T61,T3,R7,R2),!.
-
-try(T45,T8) :-
-	longest_to_shortest_substrings1(T45,T43),
-	%[T45]=T43,
-	%trace,
-	%(find_first((T44=T43,%member(T44,T43),
-	findall(T52,(member(C1,T43),(%trace,
-	find_lists3a(C1,T52)->true;fail%
-	%C1=T52)
-	)
-	),T7),length(T7,T7L),(length(T43,T7L)->%(%trace,T7=T8);
-	(%trace,
-	foldr(append,T7,T8));
-	fail),!.
 
 %)->true;
 %	T8=T45))),
@@ -281,11 +238,11 @@ break_on_list(T1,T2,T3) :-!.
 % group_non_lists1([a,[b],c,d,[f],g,h],D).
 % D = [[a], ["[", [b], "]"], [c, d], ["[", [f], "]"], [g, h]].
 
-group_non_lists1(A,C) :-
- group_non_lists2(A,[],B),
- sub_term_wa([],B,In),
- findall(Add,member([Add,_],In),In2),
- delete_sub_term_wa(In2,B,C).
+group_non_lists1(A,B) :-
+ group_non_lists2(A,[],B),!.
+ %sub_term_wa([],B,In),
+ %findall(Add,member([Add,_],In),In2),
+ %delete_sub_term_wa(In2,B,C).
  
 group_non_lists2(A,B,C) :-
  ((append(D,E,A),
@@ -293,13 +250,19 @@ group_non_lists2(A,B,C) :-
  is_list(F))->
  (H=D,group_non_lists2(F,[],G1),
  group_non_lists2(G,[],G2),
- foldr(append,[["["],[G1],["]"]],L),
- foldr(append,[[H],[L],[G2]],J));
+ wrap_if_non_empty(G1,G12),
+ wrap_if_non_empty(H,H2),
+ %wrap_if_non_empty(G2,G21),
+ foldr(append,[["["],G12,["]"]],L),
+ foldr(append,[H2,[L],G2],J));
  (H=A,
- append([H],J))),
+ wrap_if_non_empty(H,H2),
+ append(H2,J))),
  append(B,J,C).
  %group_non_lists2(A,B,C) :-
 
+wrap_if_non_empty(A,B) :-
+ (A=[]->B=A;B=[A]),!.
  %A=[D|E],
  %()
 /*
@@ -429,6 +392,65 @@ append1(L1,A0,A01,A02) :-
 	append(A01,[A1,C1],A03),
 	L2 is L1-1,
 	append1(L2,D1,A03,A02).
+	
+	
+	
+process_terms([],T,T,R,R) :- !.
+process_terms(T1,T2,T3,R1,R2) :-
+%trace,
+	%T1=[T4|T51],
+	(member(["[",T6,"]"],T1)->
+	((append(T4,B,T1),
+	append([["[",T6,"]"]],T51,B),
+	(process_terms(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	%)%;(fail%T51=[],R6=[]
+	)));
+	(%trace,
+	(member(["[","]"],T1)->
+	(append(T4,B,T1),
+	append([["[","]"]],T51,B),
+	(%process_terms(T6,[],T5,[],R3),
+	foldr(append,[["["],["]"]],T53),R6=[]%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	%)%;(fail%T51=[],R6=[]
+	));
+	(T53=[],T4=T1,T51=[])))),
+	%trace,
+	(foldr(append,T4,T45)->true;T4=T45),
+	(all_distinct1(T45)->T9=T45;
+	%trace,
+	(s2g_mode(findall)->
+	(findall(T8,try(T45,T8),T81),T9=[poss,T81]);
+	(try(T45,T9)))
+	/*	longest_to_shortest_substrings1(T45,T43),
+	%trace,
+	(find_first((T44=T43,%member(T44,T43),
+	findall(T52,(member(C1,T44),(find_lists3a(C1,T52)->true;fail%
+	%C1=T52)
+	)
+	),T7),length(T7,T7L),length(T44,T7L),foldr(append,T7,T8)
+
+))->true;
+	T8=T45))),
+	*/
+	),
+	foldr(append,[T2,T9,T53],T61),
+	append(R1,[R6],R7),
+	process_terms(T51,T61,T3,R7,R2),!.
+
+try(T45,T8) :-
+	longest_to_shortest_substrings1(T45,T43),
+	%[T45]=T43,
+	%trace,
+	%(find_first((T44=T43,%member(T44,T43),
+	findall(T52,(member(C1,T43),(%trace,
+	find_lists3a(C1,T52)->true;fail%
+	%C1=T52)
+	)
+	),T7),length(T7,T7L),(length(T43,T7L)->%(%trace,T7=T8);
+	(%trace,
+	foldr(append,T7,T8));
+	fail),!.
+	
 %*/
 /*(find_repeating_structures(List,A11) :-
 	findall(A,member([_,A],List),A1),
