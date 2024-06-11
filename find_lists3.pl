@@ -106,14 +106,23 @@ find_lists3(L1,L2,L3) :-
 	U2=U),
 	append(L2,[[r,U2]],L3).
 
-find_lists3(L1,L2,L3) :-
-	L1=[L4|L5],
-	find_lists4(L2,L5,L4,L3).
 
-find_lists4(L2,L5,L4,L3) :-
+match_char("[","]").
+match_char("(",")").
+match_char("{","}").
+match_char(A,A).
+
+find_lists3(L1,L2,L3) :-
+	%reverse(L1,L11),
+	L1=[L4|L5],
+	match_char(L4,L41),
+	%reverse(L5,L511),
+	find_lists4(L2,L5,L4,L41,L3).
+
+find_lists4(L2,L5,L4,L41,L3) :-
 	member(L4,L5),
-	sub_list(L5,Before_list,[L4],After_list),
-	Before_list1=[L4|Before_list],After_list1=[L4|After_list],
+	sub_list(L5,Before_list,[L41],After_list),
+	Before_list1=[L4|Before_list],After_list1=[L41|After_list],
 	%Before_list1=[L4],After_list1=[])),
 	find_lists32(Before_list1,[],L6),
 	%(After_list=[]->L7=[];
@@ -125,8 +134,8 @@ find_lists4(L2,L5,L4,L3) :-
 	foldr(append,[[L6,L7]],L8),
 	foldr(append,[L2,L8],L33),
 	L3=L33.
-find_lists4(L2,L5,L4,L3) :-
-	not((member(L4,L5),
+find_lists4(L2,L5,L4,L41,L3) :-
+	not((member(L41,L5),
 	sub_list(L5,_Before_list,[L4],_After_list))),	
 	%foldr(append,[L2,[L6,L7]],L3));
 	append(L2,[L4],L6),

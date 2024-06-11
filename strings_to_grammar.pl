@@ -98,43 +98,51 @@ findall(_,(member([N,L,G2],
 [[n, a5], "->", [[f]]]]],
 
 [11,["[a]", "[[a]]", "[[[a]]]"], 
-[[[n, a1], "->", [["["], [[n, a2]]]], 
-[[n, a1], "->", [[a]]], 
-[[n, a2], "->", [["["], [a], ["]"], ["]"]]], 
-[[n, a2], "->", [[a], ["]"]]]]],
+[[[n,a1],"->",[["["],["["],[a],["]"],["]"]]],
+[[n,a1],"->",[["["],[a],["]"]]],
+[[n,a1],"->",[[a]]]]],
 
 [12,["[a]", "[[a]]", "[[[a]]]", "[[[[a]]]]"], 
-[[[n,a1],"->",[["["],[[n,a2]]]],
-[[n,a1],"->",[[a]]],
-[[n,a2],"->",[["["],[[n,a3]]]],
-[[n,a2],"->",[[a],["]"]]],
-[[n,a3],"->",[["["],[a],["]"],["]"],["]"]]],
-[[n,a3],"->",[[a],["]"],["]"]]]]],
+[[[n,a1],"->",[["["],["["],["["],[a],["]"],["]"],["]"]]],
+[[n,a1],"->",[["["],["["],[a],["]"],["]"]]],
+[[n,a1],"->",[["["],[a],["]"]]],
+[[n,a1],"->",[[a]]]]],
 
 [13,["[a]", "[[a]]", "[[[a]]]", "[[[[a]]]]", "[[[[[a]]]]]"], 
-[[[n,a1],"->",[["["],[[n,a2]]]],
-[[n,a1],"->",[[a]]],
-[[n,a2],"->",[["["],[[n,a3]]]],
-[[n,a2],"->",[[a],["]"]]],
-[[n,a3],"->",[["["],[[n,a4]]]],
-[[n,a3],"->",[[a],["]"],["]"]]],
-[[n,a4],"->",[["["],[a],["]"],["]"],["]"],["]"]]],
-[[n,a4],"->",[[a],["]"],["]"],["]"]]]]],
+[[[n,a1],"->",[["["],["["],["["],["["],[a],["]"],["]"],["]"],["]"]]],
+[[n,a1],"->",[["["],["["],["["],[a],["]"],["]"],["]"]]],
+[[n,a1],"->",[["["],["["],[a],["]"],["]"]]],
+[[n,a1],"->",[["["],[a],["]"]]],
+[[n,a1],"->",[[a]]]]],
 
 [14,["[[[f,g]]]"],
 [[[n,a1],"->",[["["],["["],[f],[g],["]"],["]"]]]]],
 
 [15,["[[[[],g],[]],[],a]"],
-[[[n, a1], "->", [["["], ["["], ["["], ["]"], [g], ["]"], ["["], ["]"], ["]"], ["["], ["]"], [a]]]]]
+[[[n,a1],"->",[[[n,a2]],[a]]],
+[[n,a2],"->",[[]]],
+[[n,a2],"->",[["["],[[n,a4]],["]"],[[n,a2]]]],
+[[n,a4],"->",[[]]],
+[[n,a4],"->",[[]]],
+[[n,a4],"->",[["["],[[n,a5]],["]"],[[n,a4]]]],
+[[n,a5],"->",[[]]],
+[[n,a5],"->",[["["],["]"],[g]]]]],
+
+[16,["[[a],',',[a],',',[a]]"],
+[[[n,a1],"->",[["["],[a],["]"],[[n,a2]]]],
+[[n,a2],"->",[[]]],
+[[n,a2],"->",[[','],["["],[a],["]"],[[n,a2]]]]]]
 
 ]),
- ((strings_to_grammar(L,G1),%writeln1(G1),
- G1=G2)->R=success;R=fail
+
+ strings_to_grammar(L,G1),writeln1(G1),
+ ((G1=G2)->R=success;R=fail
  ),
  writeln([R,N,strings_to_grammar,test]),
  
  (check_grammar(L,G1)->R1=success;R1=fail),
-  writeln([R1,N,strings_to_grammar,check_grammar,test])) 
+  writeln([R1,N,strings_to_grammar,check_grammar,test]),
+  nl) 
  ,_),!.
 
 get_var_num(N) :-
@@ -160,10 +168,12 @@ strings_to_grammar(L,G) :-
 	%grammar1(L2,T1),
 	%string_strings(S,T1),
 	group_non_lists1(T1,T4),
+	%flatten_keep_brackets(T1,T4),
 	process_terms(T4,[],B,[],_R)
 	),Gs2),
 	%trace,
 	decision_tree(Gs2,T42),
+	%trace,
 	findall(B2,(member(T44,T42),find_g(T44,[],B2)),Gs),
 	%foldr(append,T41,T42)
 	%,get_var_num(N)
@@ -393,27 +403,36 @@ append1(L1,A0,A01,A02) :-
 	L2 is L1-1,
 	append1(L2,D1,A03,A02).
 	
-	
-	
-process_terms([],T,T,R,R) :- !.
 process_terms(T1,T2,T3,R1,R2) :-
 %trace,
+	process_terms3(T1,T2,T3,R1,R2),
+	%remove_brackets1(T4,T3),
+	!.
+	
+process_terms3([],T1,T3,R,R) :- %trace,
+try(T1,T3),
+%trace,
+%remove_brackets1(T2,T3),
+!.
+process_terms3(T1,T2,T3,R1,R2) :-
+%trace,
 	%T1=[T4|T51],
-	(member(["[",T6,"]"],T1)->
+	((%fail,
+	member(["[",T6,"]"],T1))->
 	((append(T4,B,T1),
 	append([["[",T6,"]"]],T51,B),
-	(process_terms(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	(process_terms3(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),T54=[T53],R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
 	%)%;(fail%T51=[],R6=[]
 	)));
-	(%trace,
-	(member(["[","]"],T1)->
+	((%fail,%trace,
+	(member(["[","]"],T1))->
 	(append(T4,B,T1),
 	append([["[","]"]],T51,B),
 	(%process_terms(T6,[],T5,[],R3),
-	foldr(append,[["["],["]"]],T53),R6=[]%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	foldr(append,[["["],["]"]],T53),T54=[T53],R6=[]%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
 	%)%;(fail%T51=[],R6=[]
 	));
-	(T53=[],T4=T1,T51=[])))),
+	(T54=[],T4=T1,T51=[])))),
 	%trace,
 	(foldr(append,T4,T45)->true;T4=T45),
 	(all_distinct1(T45)->T9=T45;
@@ -433,10 +452,89 @@ process_terms(T1,T2,T3,R1,R2) :-
 	T8=T45))),
 	*/
 	),
-	foldr(append,[T2,T9,T53],T61),
+	foldr(append,[T2,T9,T54],T61),
 	append(R1,[R6],R7),
-	process_terms(T51,T61,T3,R7,R2),!.
+	process_terms3(T51,T61,T3,R7,R2),!.
+	
+	
+% stwa each list containing "[".."]"
+remove_brackets1(T2,T3) :-
+	%writeln1(remove_brackets1(T2,T3)),
+	%trace,
+remove_brackets2(T2,[heuristic((append(["["],A1,A),append(_A2,["]"],A1)),A)],T22),
+	%remove_brackets2(T21,[heuristic((append(["["],A1,A),append(A2,["]"],A1))],T22),
 
+	(T2=T22->T3=T22;
+	remove_brackets1(T22,T3)),!.
+
+remove_brackets2(T2,T,T21) :-
+%trace,
+	sub_term_types_wa(T,T2,In11),
+	%sub_term_types_wa([all([string,number,atom])],T2,In1),
+	%findall(A,(member(A,In1),A=[_,["[", _, "]"]]),In11),
+	(In11=[]->T2=T21;
+	(In11=[In2|_],In3=[In2],
+	%trace,
+	(In2=[[1],_]->refind_st(T2,T,T21);%* get first
+	foldr(put_sub_term_wa_ae_smooth,In3,T2,T21)))),!.
+	
+refind_st(T2,T,T22) :-
+%trace,
+	%foldr(append,[[A],T3,[B]],T2),
+	append_brackets([A],T3,[B],T2),
+	%foldr(append,[[*],T3,[*]],T4),
+	append_brackets([*],T3,[*],T4),
+	%trace,
+	remove_brackets2(T4,T,T21),
+	%foldr(append,[[*],T31,[*]],T21),
+	append_brackets([*],T31,[*],T21),
+	%foldr(append,[[A],T31,[B]],T22),
+	append_brackets([A],T31,[B],T22),!.
+	
+append_brackets(A,T3,B,T2) :-
+%trace,
+ append(A,A1,T2),append(T3,B,A1),!.
+
+/*get_rows(In1,T2,Before_After) :-
+	findall(A,(member([Ad,A1],In1),
+	append(A2,[A4],Ad),append(A2,[_],A3),
+	sub_term_wa(A3,T2,In2),
+	foldr()
+*/
+
+/*
+process_terms2([],T1,T1,R,R) :- %trace,
+%try(T1,T2),
+!.
+process_terms2(T1,T2,T3,R1,R2) :-
+%trace,
+	%T1=[T4|T51],
+	((%fail,
+	member(["[",T6,"]"],T1))->
+	((append(T4,B,T1),
+	append([["[",T6,"]"]],T51,B),
+	(process_terms2(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),T54=T53,R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	%)%;(fail%T51=[],R6=[]
+	)));
+	((%fail,%trace,
+	(member(["[","]"],T1))->
+	(append(T4,B,T1),
+	append([["[","]"]],T51,B),
+	(%process_terms(T6,[],T5,[],R3),
+	foldr(append,[["["],["]"]],T53),T54=T53,R6=[]%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	%)%;(fail%T51=[],R6=[]
+	));
+	(T54=[],T4=T1,T51=[])))),
+	%trace,
+	(foldr(append,T4,T45)->true;T4=T45),
+	T9=T45,
+	%trace,
+	
+	
+	foldr(append,[T2,T9,T54],T61),
+	append(R1,[R6],R7),
+	process_terms2(T51,T61,T3,R7,R2),!.
+*/
 try(T45,T8) :-
 	longest_to_shortest_substrings1(T45,T43),
 	%[T45]=T43,
@@ -609,7 +707,7 @@ _T4],(L=r->true;L=o))->
 (find_g2(T1,[],R3),
 R3=[[[n, N]|_]|_],
 %get_var_num(N),
-append(R1,R3,R4),T1a=[[n,N]]);
+append(R1,R3,R4),T1a=[[[n,N]]]);
 ((%trace,
 T1=[nd,%N,
 T4]%,trace
@@ -631,10 +729,19 @@ findall(B%[[[n, N]|Args]|B]
 %trace,
 foldr(append,R33,R32),
 %get_var_num(N),
-append(R1,R32,R4),T1a=[[n,N]]))->true;(%string(T1),
+append(R1,R32,R4),T1a=[[[n,N]]]))->true;(%string(T1),
+/*
 (T1a=[T1],
 R1=R4))),
 append(G1,[T1a],G3),
+find_g1(T2,G3,G2,R4,R2).
+*/
+(%trace,
+(only_item(T1)->(T1a=[[T1]],R1=R4);(%trace,
+find_g1(T1,[],T1a,[],R8),
+append(R1,R8,R4)))))),
+append(G1,T1a,G3),
+%trace,
 find_g1(T2,G3,G2,R4,R2).
 
 
@@ -864,7 +971,7 @@ check_grammar(Strings0,A0) :-
 	term_to_atom(Strings0,Strings),
 	lp2p1(A0,A),
 	foldr(string_concat,[%"#!/usr/bin/swipl -g main -q\n\n",":-include('flatten_keep_brackets.pl').\n","handle_error(_Err):-\n  halt(1).\n",
-	"check_grammar(R) :-\n    catch((findall(_,(member(S,",Strings,"),term_to_atom(S2,S),flatten_keep_brackets(S2,S1),append([_],S4,S1),append(S3,[_],S4),once(phrase(a1,S3))),A),((length(",Strings,",L),length(A,L))->R=\"success\";R=\"fail\")),Err, handle_error(Err)),\n  !.\n"%,"main :- halt(1).\n"
+	"check_grammar(R) :-\n    catch((findall(_,(member(S,",Strings,"),term_to_atom(S2,S),flatten_keep_brackets(S2,S1),append([_],S4,S1),append(S3,[_],S4),once(phrase(a1,S3))),A),((length(",Strings,",L),length(A,L))->R=\"success\";R=\"fail\")),_, fail),\n  !.\n"%,"main :- halt(1).\n"
 	,A],String_pp0_3),
 
 

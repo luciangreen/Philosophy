@@ -21,10 +21,13 @@ test_stwa :-
  test_sub_term_wa,
  test_get_sub_term_wa,
  test_put_sub_term_wa,
+ test_put_sub_term_wa_smooth,
  test_delete_sub_term_wa,
  test_foldr_put_sub_term_wa_ae,
+ test_foldr_put_sub_term_wa_ae_smooth,
  test_sub_term_types_wa,!.
- 
+
+
  
 test_sub_term_wa :-
 
@@ -212,14 +215,51 @@ findall(_,(member([N,It,Add,T1,T2],
  ((put_sub_term_wa(It,Add,T1,T21),T21=T2)->R=success;R=fail),
  writeln([R,put_sub_term_wa,test,N])),_),!.
 
+test_put_sub_term_wa_smooth :-
 
-put_sub_term_wa(List,[1],_L1,List) :- !.
-put_sub_term_wa(List,[_|Ns],L1,L2) :-
+findall(_,(member([N,It,Add,T1,T2],
+[
+[1,[9],[1, 2, 1, 1, 2, 3],[[1,2],[[[4,[5,7,8],6]]]],
+ [[1, 2], [[[4, [5, 7, 9], 6]]]]],
+
+[2,[88,1],[1,1],[[2,3],4],
+ [88, 1, 4]]
+
+]),
+ ((put_sub_term_wa_smooth(It,Add,T1,T21),T21=T2)->R=success;R=fail),
+ writeln([R,put_sub_term_wa_smooth,test,N])),_),!.
+
+put_sub_term_wa_smooth(A,B,C,D) :-
+ dynamic(stwa_smooth/1),
+ retractall(stwa_smooth(_)),
+ assertz(stwa_smooth(on)), 
+ put_sub_term_wa(A,B,C,D),
+ retractall(stwa_smooth(_)),
+ assertz(stwa_smooth(off)), 
+ !.
+
+put_sub_term_wa(A,B,C,D) :-
+ dynamic(stwa_smooth/1),
+ (stwa_smooth(_)->true;
+ retractall(stwa_smooth(_)),
+ assertz(stwa_smooth(off))), 
+ put_sub_term_wa2(A,B,C,D),!.
+
+put_sub_term_wa2(List,[1],_L1,List) :- !.
+put_sub_term_wa2(List,[_|Ns],L1,L2) :-
  put_sub_term_wa1(List,Ns,L1,L2),!.
 
 put_sub_term_wa1(List,Ns,L1,L2) :-
  Ns=[N],
- put_item_n(L1,N,List,L2),!.
+ (stwa_smooth(on)->
+ (N1 is N-1,
+ length(L,N1),
+ length(L1,N3),
+ N2 is N3-N,
+ length(L3,N2),
+ foldr(append,[L,_,L3],L1),
+ foldr(append,[L,List,L3],L2));
+ put_item_n(L1,N,List,L2)),!.
 put_sub_term_wa1(List,Ns,L1,L2) :-
  Ns=[N|Ns2],
  get_item_n(L1,N,L3),
@@ -278,8 +318,24 @@ findall(_,(member([N,In,T,T2],
 
 
 
+test_foldr_put_sub_term_wa_ae_smooth :-
+
+findall(_,(member([N,In,T,T2],
+[
+[1,[[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], [v, 2]],
+ [v, 2, v, 3]]
+
+]),
+ ((foldr(put_sub_term_wa_ae_smooth,In,T,T21),T21=T2)->R=success;R=fail),
+ writeln([R,foldr(put_sub_term_wa_ae_smooth),test,N])),_),!.
+
+
 put_sub_term_wa_ae([E,A],B,C) :-
  put_sub_term_wa(A,E,B,C),!.
+
+
+put_sub_term_wa_ae_smooth([E,A],B,C) :-
+ put_sub_term_wa_smooth(A,E,B,C),!.
 
 
 test_sub_term_types_wa :-
@@ -308,7 +364,8 @@ sub_term_types_wa(H,A,B) :-
  dynamic(stwa/1),
  retractall(stwa(_)),
  assertz(stwa(types)),
- sub_term_wa2([1],_Ns2,0,A,H,[],B,true),
+ copy_term(H,H1),
+ sub_term_wa2([1],_Ns2,0,A,H1,[],B,true),
  !.
 
 % find terminal lists with particular types
@@ -324,5 +381,7 @@ is_t(H,A,First0,First) :-
 	((member(number,H),number(A)->true;
 	((First0=true,First=true,member(all(K),H),
 	is_list(A),
-	forall(member(A1,A),is_t(K,A1,First0,false)))
-	))))))),!.
+	forall(member(A1,A),is_t(K,A1,First0,false)));
+	((member(heuristic(He,Output),H),
+	Output=A,He)
+	)))))))),!.
