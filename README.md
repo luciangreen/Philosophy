@@ -142,7 +142,7 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * A black spherical ink well represents the transformation from strings to grammar (lensgo.ai). <img width="463" alt="A black spherical ink well" src="https://github.com/luciangreen/Philosophy/assets/15845542/47484bd8-acc6-46fa-92cc-3339d46fa00b">
 
-* Enter possible strings to convert to a grammar in `strings_to_grammar.pl`.
+* Enter possible strings to convert to a context-free grammar in `strings_to_grammar.pl`.
 
 * For example, test 1 below takes the following string and tests for outputted grammar.
 
