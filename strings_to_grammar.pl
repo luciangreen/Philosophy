@@ -123,7 +123,6 @@ findall(_,(member([N,L,G2],
 [[n,a2],"->",[[]]],
 [[n,a2],"->",[["["],[[n,a4]],["]"],[[n,a2]]]],
 [[n,a4],"->",[[]]],
-[[n,a4],"->",[[]]],
 [[n,a4],"->",[["["],[[n,a5]],["]"],[[n,a4]]]],
 [[n,a5],"->",[[]]],
 [[n,a5],"->",[["["],["]"],[g]]]]],
@@ -189,10 +188,15 @@ strings_to_grammar(L,G) :-
 	%insert_stub_arguments(Gs4,Gs5),
 	%Gs5=Gs6,%
 	%trace,
-	minimise_alg(Gs4,Gs5),
-	optimise_alg(Gs5,G)
+	repeat_until_same(Gs4,G)
 	%remove_stub_arguments(Gs6,G)
 	)).
+
+repeat_until_same(Gs4,G) :-
+	minimise_alg(Gs4,Gs5),
+	optimise_alg(Gs5,Gs6),
+	(Gs4=Gs6->G=Gs6;
+	repeat_until_same(Gs6,G)),!.
 
 /*	
 insert_stub_arguments(A,B) :- findall(A2,(member(A1,A),A1=[[n,A23],"->",A22],findall([[n,[a,A24]]],(member(A24,A22)%,(A24=[]->A241=1000;A241=A24)
