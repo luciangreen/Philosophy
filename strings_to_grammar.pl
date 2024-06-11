@@ -135,7 +135,7 @@ findall(_,(member([N,L,G2],
 
 ]),
 
- strings_to_grammar(L,G1),writeln1(G1),
+ strings_to_grammar(L,G1),%writeln1(G1),
  ((G1=G2)->R=success;R=fail
  ),
  writeln([R,N,strings_to_grammar,test]),
