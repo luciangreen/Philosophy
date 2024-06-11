@@ -257,7 +257,8 @@ put_sub_term_wa1(List,Ns,L1,L2) :-
  length(L1,N3),
  N2 is N3-N,
  length(L3,N2),
- foldr(append,[L,_,L3],L1),
+ append(L,L4,L1),
+ append(_,L3,L4),
  foldr(append,[L,List,L3],L2));
  put_item_n(L1,N,List,L2)),!.
 put_sub_term_wa1(List,Ns,L1,L2) :-
