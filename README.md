@@ -169,6 +169,8 @@ test_s2g.
 [success,1,strings_to_grammar,check_grammar,test]
 ```
 
+* <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Further instructions</a> to change to input ordinary strings.
+
 * These give the test number. The first result is that the output matches the test output. The second result is the strings being substituted back into the found grammar working.
 
 # Authors
