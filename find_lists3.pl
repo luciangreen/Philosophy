@@ -162,8 +162,8 @@ find_lists32(L1,L2,L3) :-
 repeating_unit(L1,U) :-
 	(number(L1)->fail;
 	(length(L1,L),
-	%L2 is (floor(L/2)),
-	L2 is L-1,
+	L2 is (floor(L/2)),
+	%L2 is L-1,
 	numbers(L2,1,[],Ns),
 	find_first((member(N,Ns),
 	split12(L1,N,[],A),
