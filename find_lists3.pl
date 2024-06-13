@@ -188,7 +188,8 @@ split12(Q2,L16,%N1,N2,
 	append(L20,[L18],L21),
 	split12(L19,L16,L21,L17),!.
 split12(_A,_B,C,C) :-!.
-	
+
+% Checks that each item is a copy of the first item, and inserts optional items where necessary to make them the same.
 	
 check14([],_,A,A):-!.
 check14(A0,B,C,D1) :-
