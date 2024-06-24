@@ -175,7 +175,7 @@ test_s2g.
 
 # Spec to Algorithm
 
-* Two Stars in a Stream of Magic (a play on words on "subterm with address" and "spec to algorithm") ![20240624122957-two_gold_stars_in_a](https://github.com/luciangreen/Philosophy/assets/15845542/b00c5727-4f9c-4bed-9be5-2a2c990076bd)
+* Starry Sunshine (a play on words on "subterm with address" and "spec to algorithm")  <img width="580" alt="Starry Sunshine" src="https://github.com/luciangreen/Philosophy/assets/15845542/505f3e18-00b4-4075-bf6f-6f09ee1f6eca">
 
 * Enter possible specs to convert to a pattern-matching algorithm in `spec_to_algorithm.pl`.
 
