@@ -13,7 +13,9 @@ term_to_list(T,L1,L2) :-
 	(T1=[r,[_V,T3]]->
 	(foldr(append,T3,T31),
 	append(L1,T31,L3));
-	(term_to_list(T1,L1,L31)->L3=[L31];
-	append(L1,[T1],L3))),
+	(T1=[]->append(L1,[[]],L3);
+	((is_list(T1),term_to_list(T1,[],L32))->
+	(L31=[L32],append(L1,L31,L3));
+	append(L1,[T1],L3)))),
 	
 	term_to_list(T2,L3,L2).

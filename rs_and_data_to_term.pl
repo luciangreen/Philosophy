@@ -60,10 +60,16 @@ T1,T2) :-
 	%rs_and_data_to_term(RS1,D1,%RSa1,RSa2,
 %T1,T2),
 	%append(T1,[[r,[RS3,T3]]],T31)
-	)%;
+	);
+	(is_list(RS1)->
+	(rs_and_data_to_term(RS1,D1,D2,%RSa1,RSa2,
+[],T3),
+	append(T1,T3%[RS3,T3]
+	,T31))))))
+
 	%rs_and_data_to_term(RS1,D1,D2,%RSa1,RSa2,
 %T1,T31)
-	)))
+	
 	,
 	
 	rs_and_data_to_term(RS2,D2,D3,T31,T2),!.
