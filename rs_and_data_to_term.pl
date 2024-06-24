@@ -50,6 +50,21 @@ T1,T2) :-
 	append(T1,[[o,T3%[RS3,T3]
 	]],T31));
 	
+	
+	%rs_and_data_to_term(RS1,D1,%RSa1,RSa2,
+%T1,T2),
+	%append(T1,[[r,[RS3,T3]]],T31)
+	
+	(RS1=[]->
+	append(T1,[[]],T31);
+	
+	(is_list(RS1)->
+	(rs_and_data_to_term(RS1,D1,D2,%RSa1,RSa2,
+[],T32),T3=T32,
+	append(T1,T3%[RS3,T3]
+	,T31));
+	
+	
 	(only_item1(RS1)->
 	(get_token(RS1,D1,D2,[],T3),
 	%->true;rs_and_data_to_term([RS1],D1,D2,%RSa1,RSa2,
@@ -57,15 +72,7 @@ T1,T2) :-
 	
 	append(T1,T3,T31)%;
 	
-	%rs_and_data_to_term(RS1,D1,%RSa1,RSa2,
-%T1,T2),
-	%append(T1,[[r,[RS3,T3]]],T31)
-	);
-	(is_list(RS1)->
-	(rs_and_data_to_term(RS1,D1,D2,%RSa1,RSa2,
-[],T3),
-	append(T1,T3%[RS3,T3]
-	,T31))))))
+	))))))
 
 	%rs_and_data_to_term(RS1,D1,D2,%RSa1,RSa2,
 %T1,T31)
