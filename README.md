@@ -173,6 +173,39 @@ test_s2g.
 
 * <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Further instructions</a> to change to input ordinary strings.
 
+# Spec to Algorithm
+
+* Two Stars in a Stream of Magic (a play on words on "subterm with address" and "spec to algorithm") ![20240624122957-two_gold_stars_in_a](https://github.com/luciangreen/Philosophy/assets/15845542/b00c5727-4f9c-4bed-9be5-2a2c990076bd)
+
+* Enter possible specs to convert to a pattern-matching algorithm in `spec_to_algorithm.pl`.
+
+* For example, test 1 below takes the following spec and tests the outputted algorithm.
+
+```
+[1, 
+[
+[[input,[['A',[1,2]]]],[output,[['B',[2,1]]]]],
+[[input,[['A',[3,4]]]],[output,[['B',[4,3]]]]]
+]
+],
+```
+
+* To load Spec to Algorithm and run tests, enter:
+```
+['spec_to_algorithm.pl'].
+test_s2a.
+```
+
+* The output contains the following lines:
+
+```
+success
+success
+[success,1,spec_to_algorithm,test]
+```
+
+* The first results are from testing the produced algorithm. The second result gives the test number.
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
