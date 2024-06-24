@@ -23,5 +23,5 @@ T1_old=[[['C1']],[['C2']]],T2_old=[[['C1',[[]]]]],
 	%member([X1,X21],X3),
 	rs_and_data_to_term(X2,X21,_,[],T22)),In_vars2),
 
-move_vars([[[[1,1,1,1]],[1,1,1,1]],[[],[1,2,1,1]]],In_vars2,T2_old,[],Out_var2),
+move_vars([[[1,1,1,1],[[1,1,1,1]]],[[1,2,1,1],[]]],In_vars2,T2_old,[],Out_var2),
 term_to_list(Out_var2,Out_var).

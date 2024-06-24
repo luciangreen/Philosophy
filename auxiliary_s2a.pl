@@ -6,7 +6,7 @@ find_mapping(T1,T2,Map) :-
 
 	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T1,In1),
 	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T2,In2),
-	findall([In21,Ad1],(member([Ad1,Item],In1),
+	findall([Ad1,In21],(member([Ad1,Item],In1),
 	findall(Ad2,member([Ad2,Item],In2),In21)%,
 	%(In21=[]->fail;true)
 	),Map).
@@ -24,7 +24,7 @@ move_vars(Map,T1,T2_old,_Out1,Out2) :-
 		
 move_vars_pred(T1,T2_old,Map,T2_Old2) :-
 	%member
-	([Ads2,Ad1]=Map),
+	([Ad1,Ads2]=Map),
 	get_sub_term_wa(T1,Ad1,It1),
 	findall([Ad2,It1],member(Ad2,Ads2),Ads3),
 	foldr(put_sub_term_wa_ae,Ads3,T2_old,T2_Old2).
