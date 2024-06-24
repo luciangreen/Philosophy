@@ -150,7 +150,7 @@ get_var_num(N) :-
 	N1 is N2+1,
 	retractall(var_num(_)),
 	assertz(var_num(N1)),!.
-	
+
 strings_to_grammar(L,G) :-
 	retractall(var_num(_)),
 	assertz(var_num(1)),

@@ -10,7 +10,8 @@ test_s2a :-
 	assertz(vars_base_s2a('A')),
 
  test_find_unique_variables,
- test_find_constants.
+ test_find_constants,
+ test_spec_to_algorithm.
  
 
 test_find_unique_variables :-
@@ -86,3 +87,70 @@ findall(_,(member([N,S1,C2],
 
 C1=C2)->R=success;R=fail),
  writeln([R,N,find_constants,test])),_),!.
+
+
+
+
+test_spec_to_algorithm :-
+/*
+	retractall(num_s2a(_)),
+	assertz(num_s2a(1)),
+
+	retractall(vars_s2a(_)),
+	assertz(vars_s2a([])),
+
+	retractall(vars_base_s2a(_)),
+	assertz(vars_base_s2a('A')),
+*/
+
+findall(_,(member([N,S],
+[
+%/*
+[1, 
+[
+[[input,[['A',[1,2]]]],[output,[['B',[2,1]]]]],
+[[input,[['A',[3,4]]]],[output,[['B',[4,3]]]]]
+]
+],
+
+[2, 
+[
+[[input,[['A',[1,2,3,2,3,1,2,3,2,3]]]],[output,[['B',[3]]]]],
+[[input,[['A',[1,2,4,2,4,1,2,4,2,4]]]],[output,[['B',[4]]]]]
+]
+],
+
+[3, 
+[
+[[input,[['A',[1]],['B',[2]]]],[output,[['C',[1]]]]],
+[[input,[['A',[3]],['B',[4]]]],[output,[['C',[3]]]]]
+]
+],
+
+[4, 
+[
+[[input,[['A',[1]],['B',[2]]]],[output,[['C',[1]]]]],
+[[input,[['A',[3]],['B',[4]]]],[output,[['C',[3]]]]]
+]
+],
+%*/
+[5, 
+[
+[[input,[['A',[1,3]],['B',[2,3]]]],[output,[['C',[3]]]]],
+[[input,[['A',[4,3]],['B',[5,3]]]],[output,[['C',[3]]]]]
+]
+]
+ 
+]),
+
+	
+	
+((spec_to_algorithm(S,_Alg1)
+
+%writeln1(spec_to_algorithm(S,Alg1))
+
+%Alg=Alg1
+)->R=success;R=fail),
+ writeln([R,N,spec_to_algorithm,test])),_),!.
+
+

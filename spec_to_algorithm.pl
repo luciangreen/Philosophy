@@ -1,14 +1,20 @@
 :-include('strings_to_grammar.pl').
 :-include('spec_to_algorithm_test.pl').
+:-include('rs_and_data_to_term.pl').
+%:-include('process_terms_s2a.pl').
+:-include('term_to_list.pl').
+:-include('auxiliary_s2a.pl').
 
 :-dynamic num_s2a/1.
 :-dynamic vars_s2a/1.
 :-dynamic vars_base_s2a/1.
+:-dynamic vars_table_s2a/1.
+%:-dynamic ampersand_var_n_s2a/1.
 
 % spec_to_algorithm([[['A',[1,3]]],[['B',[1,2]]]],A)
 % A = 
 
-spec_to_algorithm(S,A) :-
+spec_to_algorithm(S,Alg) :-
 
 	retractall(num_s2a(_)),
 	assertz(num_s2a(1)),
@@ -18,6 +24,14 @@ spec_to_algorithm(S,A) :-
 
 	retractall(vars_base_s2a(_)),
 	assertz(vars_base_s2a('A')),
+	
+	
+	retractall(vars_table_s2a(_)),
+	assertz(vars_table_s2a([])),
+
+	%retractall(ampersand_var_n_s2a(_)),
+	%assertz(ampersand_var_n_s2a(1)),
+	
 	% find recursive structures in each spec
 	% find constants, unique variables across specs
 	% - at same time as finding recursive structures
@@ -25,25 +39,237 @@ spec_to_algorithm(S,A) :-
 	%   unique variables x uv before, c after
 	%   (same value across specs)
 
-	findall(RS2,(member(S1,S),
+	% * change input term - leave as is
+	%trace,	
+	%findall(RS2,(member(S1,S),
 	
-	/*
-	retractall(num_s2a(_)),
-	assertz(num_s2a(1)),
-	retractall(vars_s2a(_)),
-	assertz(vars_s2a([])),
-	*/
+	%find_unique_variables(S1,UV),
+	findall([[input,Input1],[output,Output1]],(member([[input,Input],[output,Output]],S),
+	findall([S10,RS],(member([S10,S11],Input),
+	(string(S11)->string_strings(S11,S12);S11=S12),
+	find_lists3b(S12,RS)
+	),Input1),
+	findall([S10,RS],(member([S10,S11],Output),
+	(string(S11)->string_strings(S11,S12);S11=S12),
+	find_lists3b(S12,RS)
+	),Output1)	
+	%change_var_base
+	%),RS2)
+	),RS10),
+	
+	/*findall(RS2,(member(S1,OS),
+	
+	%find_unique_variables(S1,UV),
+	findall([S10,RS],(member([S10,S11],S1),
+	(string(S11)->string_strings(S11,S12);S11=S12),
+	find_lists3b(S12,RS)
+	),RS2)
+	%change_var_base
+	),ORS10),*/
+
+	%findall(RS2,(member(S1,S),
+	
+	%find_unique_variables(S1,UV),
+	findall([[input,Input1],[output,Output1]],(member([[input,Input],[output,Output]],S),
+		
+	find_unique_variables(Input,UV),
+	findall([UV1,RS],(member([UV1,UV2],UV),
+	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
+	find_lists3b(UV3,RS)
+	),Input1),
+	find_unique_variables(Output,UVo),
+	findall([UV1,RS],(member([UV1,UV2],UVo),
+	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
+	find_lists3b(UV3,RS)
+	),Output1)
+	%change_var_base
+	%),RS2),
+	),RS1),
+	
+	/*findall(RS2,(member(S1,OS),
+	
 	
 	find_unique_variables(S1,UV),
 	findall([UV1,RS],(member([UV1,UV2],UV),
-	find_lists3b(UV2,RS)
+	(string(UV2)->string_string(UV2,UV3);UV2=UV3),
+	find_lists3b(UV3,RS)
 	),RS2)
 	%change_var_base
-	),RS1),
+	),ORS1),*/	
 %trace,
-	find_constants(S,RS1,C),
+
+	% * match specs with same shape x
+	% - with same non ro addresses
+	% find c, 
+	% then dec tree xxx
+	% x:
+	% nd i - collects if this format
+	% nd o - x, det by i format x
+	
+	length(RS10,RS10L),
+	numbers(RS10L,1,[],Ns),
+	
+	findall([IOa,IOb]%[[input,Input_c],[output,Output_d]]
+	,(member(N,Ns),get_item_n(RS10,N,[[input,Input_a],[output,Output_a]]),
+	get_item_n(RS1,N,[[input,Input_b],[output,Output_b]]),
+	%member([[input,Input],[output,Output]],S),
+	%length(Input_a,Input_a_L),
+	%length(Input_c,Input_a_L),
+	
+append(Input_a,Output_a,IOa),
+append(Input_b,Output_b,IOb)),IOaIOb),
+
+findall(A,member([A,_],IOaIOb),Data),
+findall(A,member([_,A],IOaIOb),Vars3),
+find_constants(Data,Vars3,RSC_a),
+
+RS10=[[[input,Input_a],[output,Output_a]]|_],
+	length(Input_a,Input_a_L),
+	length(Input_c,Input_a_L),
+
+	append(Input_c,Output_d,%RSC_a)),
+	RSC_a),
+	
+	RSC=[[[input,Input_c],[output,Output_d]]],
+
+	%find_constants(RS10,RS1,RSC),
+	%find_constants(ORS10,ORS1,ORSC),
+	
+	/*
+	length(RSC,RSCL),
+	numbers(RSCL,1,[],Ns),
+	trace,
+	
+	findall([X1,T22],(member(N,Ns),
+	
+	get_item_n(RSC,N,[X1,X2]),
+	findall(T2,(member(X3,RS10),
+	member([X1,X21],X3),
+	rs_and_data_to_term(X2,X21,_,[],T2)),T21),
+	
+	
+	decision_tree(T21,T22)),T3),
+	*/
+	%trace,
+	RSC=[[[input,In1],[output,Out1]]|_],
+	length(In1,In1L),
+	numbers(In1L,1,[],In1_Ns),
+	length(Out1,Out1L),
+	numbers(Out1L,1,[],Out1_Ns),
+	
+	findall(A,member([A,_],In1),In1VNs),
+	findall(A,member([A,_],Out1),Out1VNs),
+
+	findall(In222,(member(N,In1_Ns),
+	findall(In21,(member([[input,In2],_],RSC),
+	get_item_n(In2,N,[VN,In21])),In22),
+	decision_tree(In22,In223),
+	foldr(append,In223,In222)
+	),In23),
+
+	findall(Out222,(member(N,Out1_Ns),
+	findall(Out21,(member([_,[output,Out2]],RSC),
+	get_item_n(Out2,N,[VN,Out21])),Out22),
+	decision_tree(Out22,Out223),
+	foldr(append,Out223,Out222)
+	),Out23),
+
+	findall([VN,DT],(member(N,In1_Ns),get_item_n(In1VNs,N,VN),get_item_n(In23,N,DT)),_In_DTs),
+
+	findall([VN,DT],(member(N,Out1_Ns),get_item_n(Out1VNs,N,VN),get_item_n(Out23,N,DT)),_Out_DTs),
+	
+	%T3=[[input,In_DTs],[output,Out_DTs]],
+
+	%findall([Input,Output],(member([[input,Input],[output,Output]],RSC),
+	%T3=RS10,
+	term_to_atom(In23,T31),
+	%term_to_atom(T3,T31),
+	term_to_atom(Out23,ORSC1),
+	%term_to_atom(In_DTs,T31),
+	%term_to_atom(ORSC,ORSC1),
+	
+	
+find_mapping(In23,Out23,Map),
+	term_to_atom(Map,Map1),
+
+%find_mapping(T3,ORSC,Map),
+
+	%writeln1([rSC,RSC,"\n",oRSC,ORSC,"\n",rS10,RS10,"\n",oRS10,ORS10,"\n",t3,T3]),
+% take input and mapping and produce output
+foldr(string_concat,[":-include('auxiliary_s2a.pl').
+algorithm(In_vars,
+Out_var) :-
+%In_vars=",T31,",
+findall(Var1,(member(Var,In_vars),
+(string(Var)->string_strings(Var,Var1);Var=Var1)),In_vars1),
+%findall(Var1,(member(Var,Out_vars),
+%(string(Var)->string_string(Var,Var1);Var=Var1)),Out_vars1),
+T1_old=",T31,",T2_old=",ORSC1,",
+
+	length(T1_old,RSCL),
+	numbers(RSCL,1,[],Ns),
+	%trace,
+	
+	findall(%[X1,
+	T22,(member(N,Ns),
+	
+	get_item_n(T1_old,N,%[X1,
+	X2%]
+	),
+	get_item_n(In_vars1,N,X21),
+	%findall(T2,(member(X3,In_vars1),
+	%member([X1,X21],X3),
+	rs_and_data_to_term(X2,X21,_,[],T22)),In_vars2),
+
+move_vars(",Map1,",In_vars2,T2_old,[],Out_var2),
+term_to_list(Out_var2,Out_var)."],Alg),
+
+
+save_file_s("algorithm.pl",Alg),
+
+%trace,
+
+consult('algorithm.pl'),
+
+
+findall(_,%(member(Spec,S),
+%findall([A1,","]
+(member([[input,In4],[output,Out4]],S),
+
+	retractall(vars_table_s2a(_)),
+	assertz(vars_table_s2a([])),
+
+findall(A1,(member([_,A],In4),%term_to_atom
+(A=A1)),A3),%foldr(append,A2,A3a),append(A3,[_],A3a),
+term_to_atom(A3,A4),%
+findall(A1,(member([_,A],Out4),%term_to_atom
+(A=A1)),A31),%foldr(append,A21,A31a),append(A31,[_],A31a),
+term_to_atom(A31,A41),
+
+%foldr(string_concat,A3,A4b),
+foldr(string_concat,["algorithm(",A4,",Out),Out=",A41,"."],Str2),
+
+term_to_atom(Term2,Str2),%trace,
+(Term2->writeln(success);writeln(fail))),_).
+
+
+	% * convert term to a string after x before find_lists3b="try", c [before very start if string or leave as list] xx x (x unless run an earlier s2g pred, x for the moment x: can change non single char items to strings, run try on them)
+	% find from sublists, substrings
+	% use grammars not alg and appends lists to save big term containing input using brackets
+	% s2l ... with constants x check specific patterns
+	% dec trees contain ["["..."]"] x earlier, turn grammar input into term (big s2l)
+	% x use alg not grammar so can more easily make a term - gen alg
+	% convert input rec struct to alg with 'AN' variables marked
+	
+	%* rs and data on self recursively
 	
 	% use stwa to get variables, try different orders of i vars first, then one part at a time
+	
+	%* searches o term top down for parts
+	% It doesn't matter about brackets
+	
+	% 1 item that is a list or list with r,o xx [], brackets x
+	% do bottom level first, find fns to give result
 	
 	% use format model to transform data
 	% - identifies a format used
@@ -51,7 +277,8 @@ spec_to_algorithm(S,A) :-
 	% - neighbours - 1->2
 	% - col_ns_to_action - makes change
 	% * try a format, assume it is correct
-	test_formats(Vs,O,F).
+	
+	%test_formats(Vs,O,F).
 
 	% use stwa to put variables
 	% if list items are in order, 
@@ -59,6 +286,10 @@ spec_to_algorithm(S,A) :-
 	% (checks o for parts of i)
 	% test
 	
+	% * input into one big term
+	% convert dec tree to alg, like gen alg
+	% take input needed from preds for output
+	% form of relative stwa x, takes from a pos in rec struct (smooth), output rec struct
 	
 	% changes rec structs to algs
 	% generate code for i,p,(o x) where
@@ -85,6 +316,14 @@ get_num_s2a(N) :-
 	retractall(num_s2a(_)),
 	assertz(num_s2a(N1)).
 
+/*
+get_ampersand_var_s2a(N) :-
+	ampersand_var_n_s2a(N),
+	N1 is N+1,
+	retractall(ampersand_var_n_s2a(_)),
+	assertz(ampersand_var_n_s2a(N1)).
+*/
+
 change_var_base :-
 	vars_base_s2a(A),
 	char_code(A,A2),
@@ -97,19 +336,17 @@ change_var_base :-
 
 
 find_lists3b(UV2,RS) :-
-	(find_lists3a(UV2,RS)->true;
-	UV2=RS).
-	
+	try(UV2,RS).
+
 find_unique_variables(S,UV) :-
 
 	findall([S0,S2],(member([S0,S1],S),
 sub_term_types_wa([string,atom,number],S1,In1),
 	findall(Q,member([_,Q],In1),Q2),
 	%remove_dups(Q1,Q2),
-	
 	findall([Add,AN],(member(Q3,Q2),
+	member([Add,Q3],In1),%trace,
 	vars_s2a(Vars),
-	member([Add,Q3],In1),
 	(member([Q3,Q4],Vars)->AN=Q4;
 	(get_num_s2a(N),vars_base_s2a(Letter),
 	atom_concat(Letter,N,AN),

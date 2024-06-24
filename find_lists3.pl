@@ -160,7 +160,7 @@ find_lists32(L1,L2,L3) :-
 % repeating_unit([2,2],U).
 % U = [r,[2]]). or [2]
 repeating_unit(L1,U) :-
-	(number(L1)->fail;
+	(only_item(L1)->fail;
 	(length(L1,L),
 	L2 is (floor(L/2)),
 	%L2 is L-1,
@@ -248,7 +248,8 @@ append(A41,B4,B),append([B1],B2,B4),
 	%(B1=[r,A1]->(check141(A1,B1,[],D),A3=[r,D]);
 	%(A1=[r,[B1]]->(check141(A1,[B1],[],D),A3=[r,D]);
 	%(B1=[r,[A1]]->(check141([A1],B1,[],D),A3=[r,D])))))),
-	(A51=[]->A52=[];A52=[[o,A51]]),
+	(A51=[]->A52=[];A52=[[o,A51]]
+	),
 	foldr(append,[C,A52,[A3]],C1),
 	
 	check141(A22,B22,C1,D1),!.
