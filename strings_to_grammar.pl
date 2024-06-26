@@ -26,6 +26,7 @@ G = [[1,>,a,1]
 :-include('flatten_keep_brackets.pl').
 :-dynamic var_num/1.
 :-dynamic s2g_mode/1.
+:-dynamic optional_s2g/1.
 
 test_s2g :-
 
@@ -152,6 +153,10 @@ get_var_num(N) :-
 	assertz(var_num(N1)),!.
 
 strings_to_grammar(L,G) :-
+
+	retractall(optional_s2g(_)),
+	assertz(optional_s2g(on)),
+
 	retractall(var_num(_)),
 	assertz(var_num(1)),
 
@@ -967,7 +972,7 @@ decision_tree1(A,B) :-
 	findall(C1,(member([C|_D],A),(C=[poss,C2]->member(C1,C2);C1=C)),E),
 	sort(E,K),
 	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),
-	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree1(D2,P),(K1=1->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
+	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree1(D2,P),((K1=1->true;length(P,1))->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
 	P]]],GKP))),B),!.
 
 

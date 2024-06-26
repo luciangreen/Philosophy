@@ -4,17 +4,23 @@
 %:-include('process_terms_s2a.pl').
 :-include('term_to_list.pl').
 :-include('auxiliary_s2a.pl').
+:-include('term_to_brackets.pl').
+:-include('remove_nd.pl').
 
 :-dynamic num_s2a/1.
 :-dynamic vars_s2a/1.
 :-dynamic vars_base_s2a/1.
 :-dynamic vars_table_s2a/1.
+:-dynamic optional_s2g/1.
 %:-dynamic ampersand_var_n_s2a/1.
 
 % spec_to_algorithm([[['A',[1,3]]],[['B',[1,2]]]],A)
 % A = 
 
 spec_to_algorithm(S,Alg) :-
+
+	retractall(optional_s2g(_)),
+	assertz(optional_s2g(off)),
 
 	retractall(num_s2a(_)),
 	assertz(num_s2a(1)),
@@ -44,14 +50,18 @@ spec_to_algorithm(S,Alg) :-
 	%findall(RS2,(member(S1,S),
 	
 	%find_unique_variables(S1,UV),
+	%trace,
+	%trace,
 	findall([[input,Input1],[output,Output1]],(member([[input,Input],[output,Output]],S),
 	findall([S10,RS],(member([S10,S11],Input),
 	(string(S11)->string_strings(S11,S12);S11=S12),
-	find_lists3b(S12,RS)
+	term_to_brackets(S12,S14),
+	find_lists3b(S14,RS)
 	),Input1),
 	findall([S10,RS],(member([S10,S11],Output),
 	(string(S11)->string_strings(S11,S12);S11=S12),
-	find_lists3b(S12,RS)
+	term_to_brackets(S12,S14),
+	find_lists3b(S14,RS)
 	),Output1)	
 	%change_var_base
 	%),RS2)
@@ -75,12 +85,14 @@ spec_to_algorithm(S,Alg) :-
 	find_unique_variables(Input,UV),
 	findall([UV1,RS],(member([UV1,UV2],UV),
 	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
-	find_lists3b(UV3,RS)
+	term_to_brackets(UV3,UV4),
+	find_lists3b(UV4,RS)
 	),Input1),
 	find_unique_variables(Output,UVo),
 	findall([UV1,RS],(member([UV1,UV2],UVo),
 	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
-	find_lists3b(UV3,RS)
+	term_to_brackets(UV3,UV4),
+	find_lists3b(UV4,RS)
 	),Output1)
 	%change_var_base
 	%),RS2),
@@ -106,12 +118,63 @@ spec_to_algorithm(S,Alg) :-
 	% nd i - collects if this format
 	% nd o - x, det by i format x
 	
+	% Separate by output shape
+	
+	%findall
+	%find output shapes
+	
+	% same output shape - has same terminal positions
 	length(RS10,RS10L),
 	numbers(RS10L,1,[],Ns),
+	%*RS1
+	%trace,
+	findall([Adds,[[input,Input_a],[output,Output_a]],
+	[[input,Input_a_rs],[output,Output_a_rs]]],(member(N,Ns),get_item_n(RS10,N,[[input,Input_a],[output,Output_a]]),
+	get_item_n(RS1,N,[[input,Input_a_rs],[output,Output_a_rs]]),
+	sub_term_types_wa([string,atom,number],Output_a,Inst1),
+	findall(A,member([A,_],Inst1),Adds)),Adds1),
 	
-	findall([IOa,IOb]%[[input,Input_c],[output,Output_d]]
-	,(member(N,Ns),get_item_n(RS10,N,[[input,Input_a],[output,Output_a]]),
-	get_item_n(RS1,N,[[input,Input_b],[output,Output_b]]),
+	findall(A,member([A,_,_],Adds1),Adds2),
+	sort(Adds2,Adds3),
+	
+	findall(A1,(member(Adds4,Adds3),
+	findall([A,B],member([Adds4,A,B],Adds1),A1)),A11),
+	
+%trace,	
+	findall(A110,(member(A2,A11),	findall([Adds,[[input,Input_a],[output,Output_a]],
+	[[input,Input_a_rs],[output,Output_a_rs]]],(member([[[input,Input_a],[output,Output_a]],
+	[[input,Input_a_rs],[output,Output_a_rs]]],A2),
+	sub_term_types_wa([string,atom,number],Input_a,Inst10),
+	findall(A,member([A,_],Inst10),Adds)),Adds10),
+	
+	findall(A,member([A,_,_],Adds10),Adds20),
+	sort(Adds20,Adds30),
+	
+	findall(A1,(member(Adds40,Adds30),
+	findall([A,B],member([Adds40,A,B],Adds10),A1)),A110)),Separated_by_shape),
+
+	%foldr(append,A10,Separated_by_shape),
+	%foldr(append,Separated_by_shape1,Separated_by_shape2),
+	%foldr(append,Separated_by_shape2,Separated_by_shape3),
+	%foldr(append,Separated_by_shape1,Separated_by_shape),
+	
+%trace,
+	findall(RSC4,(member(A,Separated_by_shape),
+	findall(RSC,(member(B,A),
+	findall([IOa,IOb],(member([RS101,RS11],B),
+	%findall(RSC,(member([RS101,RS11],Separated_by_shape),
+	%findall(RSC,(member(B%[_RS101,RS11]
+	%,A),
+
+	%length(RS101,RS101L),
+	%numbers(RS101L,1,[],Ns1),
+	
+	%findall([IOa,IOb]%[[input,Input_c],[output,Output_d]]
+	%,(member([[input,Input_b],[output,Output_b]],A),
+	%,(member(N1,Ns1),get_item_n(RS101,N1,
+	RS101=[[input,Input_a],[output,Output_a]],%),
+	%get_item_n(RS11,N1,
+	RS11=[[input,Input_b],[output,Output_b]],%),
 	%member([[input,Input],[output,Output]],S),
 	%length(Input_a,Input_a_L),
 	%length(Input_c,Input_a_L),
@@ -119,8 +182,8 @@ spec_to_algorithm(S,Alg) :-
 append(Input_a,Output_a,IOa),
 append(Input_b,Output_b,IOb)),IOaIOb),
 
-findall(A,member([A,_],IOaIOb),Data),
-findall(A,member([_,A],IOaIOb),Vars3),
+findall(A0,member([A0,_],IOaIOb),Data),
+findall(A0,member([_,A0],IOaIOb),Vars3),
 find_constants(Data,Vars3,RSC_a),
 
 RS10=[[[input,Input_a],[output,Output_a]]|_],
@@ -130,7 +193,11 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	append(Input_c,Output_d,%RSC_a)),
 	RSC_a),
 	
-	RSC=[[[input,Input_c],[output,Output_d]]],
+	RSC=[[input,Input_c],[output,Output_d]])%,RSC3))
+	,RSC4)),
+	RSC1),
+
+	%foldr(append,RSC1,RSC2),
 
 	%find_constants(RS10,RS1,RSC),
 	%find_constants(ORS10,ORS1,ORSC),
@@ -151,45 +218,92 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	decision_tree(T21,T22)),T3),
 	*/
 	%trace,
-	RSC=[[[input,In1],[output,Out1]]|_],
+	
+	foldr(append,RSC1,RSC5),
+	findall(DT1,(member([[input,In2],[output,Out2]],RSC5),
+	findall(A00,member([_,A00],In2),In24),
+	findall(A00,member([_,A00],Out2),Out24),
+	foldr(append,[In24,[[output,Out24]]],DT1)),C6),
+	%double_to_single_brackets(C6,C8),
+	decision_tree(C6,In_Out24),
+	%double_to_single_brackets(C8,In_Out24),
+
+%trace,
+	findall(C5,(member([[input,In2],[output,Out2]],RSC5),
+	findall(A00,member([_,A00],In2),In24),
+	findall(A00,member([_,A00],Out2),Out24),
+	%DT1=[In24,Out24],
+	double_to_single_brackets(In24,In25),
+	double_to_single_brackets(Out24,Out25),
+	find_mapping(In25,Out25,C5)),C61),
+	foldr(append,C61,Map2),
+	
+	%trace,
+	remove_dups(Map2,Map),
+	%decision_tree(C6,C7),
+
+	/*
+	RSC1=[[[[input,In1],[output,Out1]]|_]|_],
 	length(In1,In1L),
 	numbers(In1L,1,[],In1_Ns),
 	length(Out1,Out1L),
 	numbers(Out1L,1,[],Out1_Ns),
 	
-	findall(A,member([A,_],In1),In1VNs),
-	findall(A,member([A,_],Out1),Out1VNs),
+	findall(A00,member([A00,_],In1),_In1VNs),
+	findall(A00,member([A00,_],Out1),_Out1VNs),
 
+	findall(In232,%[In23,Out23],
+	(member(RSC2,RSC1),
 	findall(In222,(member(N,In1_Ns),
-	findall(In21,(member([[input,In2],_],RSC),
+	findall(In21,(member([[input,In2],[output,Out2]],RSC2),
 	get_item_n(In2,N,[VN,In21])),In22),
 	decision_tree(In22,In223),
-	foldr(append,In223,In222)
-	),In23),
-
+	foldr(append,In223,In2223)
+	,In222=In2223%[var,In2223]
+	),In232)
+	),In23),%foldr(append,In231,In23),
+	%trace,double_to_single_brackets(In234,In23),
+	
+	findall(Out232,%[In23,Out23],
+	(member(RSC2,RSC1),
 	findall(Out222,(member(N,Out1_Ns),
-	findall(Out21,(member([_,[output,Out2]],RSC),
+	findall(Out21,(member([_,[output,Out2]],RSC2),
 	get_item_n(Out2,N,[VN,Out21])),Out22),
 	decision_tree(Out22,Out223),
 	foldr(append,Out223,Out222)
-	),Out23),
-
-	findall([VN,DT],(member(N,In1_Ns),get_item_n(In1VNs,N,VN),get_item_n(In23,N,DT)),_In_DTs),
-
-	findall([VN,DT],(member(N,Out1_Ns),get_item_n(Out1VNs,N,VN),get_item_n(Out23,N,DT)),_Out_DTs),
+	%,Out224=[output,Out222]
+	),Out232)
+	),Out23),%foldr(append,Out231,Out23),
+	%),In_Out23),
+	%double_to_single_brackets(Out234,Out23),
 	
+	%trace,
+	%findall(A01,(member(A02,)))
+	length(In23,In23L),
+	numbers(In23L,1,[],In23LNs),
+%trace,
+	findall([In231,[output,Out231]],(member(In23LN,In23LNs),
+	get_item_n(In23,In23LN,In231),
+	get_item_n(Out23,In23LN,Out231)),In_Out23),
+	
+	%foldr(append,In_Out23,In_Out231),
+	%trace,
+	decision_tree(In_Out23,In_Out241),*/
+
 	%T3=[[input,In_DTs],[output,Out_DTs]],
 
 	%findall([Input,Output],(member([[input,Input],[output,Output]],RSC),
 	%T3=RS10,
-	term_to_atom(In23,T31),
+	term_to_atom(In_Out24,T31),
+	%term_to_atom(In23,T31),
 	%term_to_atom(T3,T31),
-	term_to_atom(Out23,ORSC1),
+	%term_to_atom(Out23,ORSC1),
 	%term_to_atom(In_DTs,T31),
 	%term_to_atom(ORSC,ORSC1),
 	
-	
-find_mapping(In23,Out23,Map),
+	%double_to_single_brackets(In23,In233),
+	%double_to_single_brackets(Out23,Out233),
+	%find_mapping(In233,Out233,Map),
 	term_to_atom(Map,Map1),
 
 %find_mapping(T3,ORSC,Map),
@@ -199,30 +313,48 @@ find_mapping(In23,Out23,Map),
 foldr(string_concat,[":-include('auxiliary_s2a.pl').
 algorithm(In_vars,
 Out_var) :-
-%In_vars=",T31,",
-findall(Var1,(member(Var,In_vars),
-(string(Var)->string_strings(Var,Var1);Var=Var1)),In_vars1),
-%findall(Var1,(member(Var,Out_vars),
-%(string(Var)->string_string(Var,Var1);Var=Var1)),Out_vars1),
-T1_old=",T31,",T2_old=",ORSC1,",
 
-	length(T1_old,RSCL),
+findall(Var1,(member(Var,In_vars),
+(string(Var)->string_strings(Var,Var2);Var=Var2),	term_to_brackets(Var2,Var1)
+),In_vars1),
+T1_old=",T31,",
+
+	%append([T1_old2],[[output,T2_old]],T1_old),
+	/*
+	length(In_vars1,RSCL),
 	numbers(RSCL,1,[],Ns),
-	%trace,
-	
+%trace,
 	findall(%[X1,
 	T22,(member(N,Ns),
 	
-	get_item_n(T1_old,N,%[X1,
+	get_item_n(T1_old2,N,%[X1,
 	X2%]
 	),
 	get_item_n(In_vars1,N,X21),
 	%findall(T2,(member(X3,In_vars1),
 	%member([X1,X21],X3),
-	rs_and_data_to_term(X2,X21,_,[],T22)),In_vars2),
-
-move_vars(",Map1,",In_vars2,T2_old,[],Out_var2),
-term_to_list(Out_var2,Out_var)."],Alg),
+	*/
+	%trace,
+	append(In_vars1,[[output,_]],In_vars3),
+	rs_and_data_to_term(T1_old,In_vars3,_,[],In_vars2,_T2_old,true),%),In_vars2),
+	double_to_single_brackets(In_vars2,In_vars21),
+	append(In_vars41,[[output,T2_old]],In_vars21),
+	double_to_single_brackets(In_vars41,In_vars4),
+%trace,
+%double_to_single_brackets(T1_old,T1_old1),
+%double_to_single_brackets(In_vars1,In_vars11),
+%	rs_and_data_to_term(T1_old1,In_vars11,_,[],T22,T2_old),
+%double_to_single_brackets(T22,T221),
+%findall(In_vars3,remove_nd(In_vars2,In_vars3),In_vars4),
+%member(T2_old4,T2_old3),
+member(Map2,",Map1,"),
+%member(In_vars5,In_vars4),
+double_to_single_brackets(T2_old,T2_old3),
+move_vars(Map2,In_vars4,T2_old3,[],Out_var2),
+findall(Out_var3,remove_nd(Out_var2,Out_var3),Out_var4),
+member(Out_var5,Out_var4),
+test_n(Test_n),
+term_to_list(Out_var5,Out_var,Test_n)."],Alg),
 
 
 save_file_s("algorithm.pl",Alg),
@@ -240,14 +372,18 @@ findall(_,%(member(Spec,S),
 	assertz(vars_table_s2a([])),
 
 findall(A1,(member([_,A],In4),%term_to_atom
-(A=A1)),A3),%foldr(append,A2,A3a),append(A3,[_],A3a),
-term_to_atom(A3,A4),%
+term_to_brackets(A,A1)),A30),%foldr(append,A2,A3a),append(A3,[_],A3a),
+%term_to_brackets(A30,A3),
+term_to_atom(A30,A4),%
 findall(A1,(member([_,A],Out4),%term_to_atom
-(A=A1)),A31),%foldr(append,A21,A31a),append(A31,[_],A31a),
-term_to_atom(A31,A41),
+term_to_brackets(A,A1)),A310),%foldr(append,A21,A31a),append(A31,[_],A31a),
+%term_to_brackets(A310,A31),
+term_to_atom(A310,A41),
 
 %foldr(string_concat,A3,A4b),
-foldr(string_concat,["algorithm(",A4,",Out),Out=",A41,"."],Str2),
+%trace,
+foldr(string_concat,["algorithm(",A4,",Out),(",A41,"=Out2),double_to_single_brackets(Out2,Out3),Out=Out3."
+],Str2),
 
 term_to_atom(Term2,Str2),%trace,
 (Term2->writeln(success);writeln(fail))),_).

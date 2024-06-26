@@ -3,23 +3,29 @@
 % input is data, converted to an rs, moved using a mapping from another i/o pair
 
 find_mapping(T1,T2,Map) :-
-
-	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T1,In1),
+%trace,
+	findall(T12,(findall(T11,remove_nd(T1,T11),T13),sort(T13,T14),
+	member(T15,T14),
+	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T15,In1),
 	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T2,In2),
 	findall([Ad1,In21],(member([Ad1,Item],In1),
 	findall(Ad2,member([Ad2,Item],In2),In21)%,
 	%(In21=[]->fail;true)
-	),Map).
+	),T12)),Map).
 	
 
-move_vars([],_T1,_T2_old,Out,Out) :-!.
-move_vars(Map,T1,T2_old,_Out1,Out2) :-
+move_vars([],_T1,T2_old,_Out1,T2_old) :- !.
+move_vars(Map,T1,T2_old,Out1,Out2) :-
+	move_vars1(Map,T1,T2_old,Out1,Out2).
+	
+move_vars1([],_T1,_T2_old,Out,Out) :-!.
+move_vars1(Map,T1,T2_old,_Out1,Out2) :-
 
 	%foldl(move_vars_pred,[T1,T2_old],Map,Out).
 	Map=[Map1|Map2],
 	move_vars_pred(T1,T2_old,Map1,Out),
 	%append(Out1,[Out],Out3),
-	move_vars(Map2,T1,Out%T2_old
+	move_vars1(Map2,T1,Out%T2_old
 	,Out,Out2).
 		
 move_vars_pred(T1,T2_old,Map,T2_Old2) :-

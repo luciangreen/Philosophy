@@ -248,8 +248,11 @@ append(A41,B4,B),append([B1],B2,B4),
 	%(B1=[r,A1]->(check141(A1,B1,[],D),A3=[r,D]);
 	%(A1=[r,[B1]]->(check141(A1,[B1],[],D),A3=[r,D]);
 	%(B1=[r,[A1]]->(check141([A1],B1,[],D),A3=[r,D])))))),
+	(optional_s2g(on)->
 	(A51=[]->A52=[];A52=[[o,A51]]
-	),
+	);
+	(A51=[]->A52=[];fail
+	)),
 	foldr(append,[C,A52,[A3]],C1),
 	
 	check141(A22,B22,C1,D1),!.
