@@ -21,6 +21,9 @@ term_to_list1(T,L1,L2) :-
 
 	T=[T1|T2],
 	%/*
+	(T1=[Type,T3],type_s2a1(Type),
+	(join_san(T3,Type,L21),
+	L2=L21);
 	(T1=[r,[T3]],
 	(foldr(append,T3,L2));
 	/*numbers(9,0,[],Ns),
@@ -36,8 +39,8 @@ term_to_list1(T,L1,L2) :-
 	%append(L1,T31,L3));
 	(T1=[],append(L1,[[]],L3);
 	((is_list(T1),term_to_list1(T1,[],L32)),
-	(L31=[L32],no_r(L32),append(L1,L31,L3));
-	(no_r(T1),append(L1,[T1],L3))))),
+	(L31=[L32],no_rt(L32),append(L1,L31,L3));
+	(no_rt(T1),append(L1,[T1],L3)))))),
 	
 	term_to_list1(T2,L3,L2).
 
@@ -72,6 +75,10 @@ term_to_list2([],L1,L1) :-!.
 term_to_list2(T,L1,L2) :-
 
 	T=[T1|T2],
+	(T1=[Type,T3],type_s2a1(Type),
+	(join_san(T3,Type,L3),
+	term_to_list2(T2,L3,L21),
+	L2=L21);
 	(T1=[r,[T3]],
 	(%foldr(append,T3,T31),
 	numbers(9,0,[],Ns),
@@ -88,12 +95,12 @@ term_to_list2(T,L1,L2) :-
 	((T1=[],append(L1,[[]],L3),
 	term_to_list2(T2,L3,L2));
 	((is_list(T1),term_to_list2(T1,[],L32)),
-	(L31=[L32],no_r(L32),append(L1,L31,L3),
+	(L31=[L32],no_rt(L32),append(L1,L31,L3),
 	term_to_list2(T2,L3,L2));
-	(no_r(T1),append(L1,[T1],L3),
-	term_to_list2(T2,L3,L2))))).
+	(no_rt(T1),append(L1,[T1],L3),
+	term_to_list2(T2,L3,L2)))))).
 	
 	%term_to_list2(T2,L3,L2).
 
-no_r(NR) :-flatten(NR,NR1),not(member(r,NR1)),!.
+no_rt(NR) :-flatten(NR,NR1),not(member(r,NR1)),type_s2a1(Type),not(member(Type,NR1)),!.
 

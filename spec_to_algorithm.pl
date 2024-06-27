@@ -1,3 +1,5 @@
+:-set_prolog_flag(stack_limit, 50000000000).
+
 :-include('strings_to_grammar.pl').
 :-include('spec_to_algorithm_test.pl').
 :-include('rs_and_data_to_term.pl').
@@ -6,6 +8,7 @@
 :-include('auxiliary_s2a.pl').
 :-include('term_to_brackets.pl').
 :-include('remove_nd.pl').
+:-include('strings_atoms_numbers.pl').
 
 :-dynamic num_s2a/1.
 :-dynamic vars_s2a/1.
@@ -51,16 +54,18 @@ spec_to_algorithm(S,Alg) :-
 	
 	%find_unique_variables(S1,UV),
 	%trace,
-	%trace,
+	
 	findall([[input,Input1],[output,Output1]],(member([[input,Input],[output,Output]],S),
 	findall([S10,RS],(member([S10,S11],Input),
 	(string(S11)->string_strings(S11,S12);S11=S12),
-	term_to_brackets(S12,S14),
+	strings_atoms_numbers(S12,S13),
+	term_to_brackets(S13,S14),
 	find_lists3b(S14,RS)
 	),Input1),
 	findall([S10,RS],(member([S10,S11],Output),
 	(string(S11)->string_strings(S11,S12);S11=S12),
-	term_to_brackets(S12,S14),
+	strings_atoms_numbers(S12,S13),
+	term_to_brackets(S13,S14),
 	find_lists3b(S14,RS)
 	),Output1)	
 	%change_var_base
@@ -80,18 +85,21 @@ spec_to_algorithm(S,Alg) :-
 	%findall(RS2,(member(S1,S),
 	
 	%find_unique_variables(S1,UV),
+	
 	findall([[input,Input1],[output,Output1]],(member([[input,Input],[output,Output]],S),
 		
 	find_unique_variables(Input,UV),
 	findall([UV1,RS],(member([UV1,UV2],UV),
 	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
-	term_to_brackets(UV3,UV4),
+	strings_atoms_numbers(UV3,UV31),
+	term_to_brackets(UV31,UV4),
 	find_lists3b(UV4,RS)
 	),Input1),
 	find_unique_variables(Output,UVo),
 	findall([UV1,RS],(member([UV1,UV2],UVo),
 	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
-	term_to_brackets(UV3,UV4),
+	strings_atoms_numbers(UV3,UV31),
+	term_to_brackets(UV31,UV4),
 	find_lists3b(UV4,RS)
 	),Output1)
 	%change_var_base
@@ -315,7 +323,8 @@ algorithm(In_vars,
 Out_var) :-
 
 findall(Var1,(member(Var,In_vars),
-(string(Var)->string_strings(Var,Var2);Var=Var2),	term_to_brackets(Var2,Var1)
+(string(Var)->string_strings(Var,Var2);Var=Var2),		strings_atoms_numbers(Var2,Var21),
+term_to_brackets(Var21,Var1)
 ),In_vars1),
 T1_old=",T31,",
 
@@ -477,7 +486,10 @@ find_lists3b(UV2,RS) :-
 find_unique_variables(S,UV) :-
 
 	findall([S0,S2],(member([S0,S1],S),
-sub_term_types_wa([string,atom,number],S1,In1),
+%sub_term_types_wa([string,atom,number],S1,In1),
+	sub_term_types_wa([heuristic((only_item(O),%(string(O)->true;(atom(O)->true;number(O))),
+	not_r_o_nd_types(O)),O)],S1,In1),%),C1)
+
 	findall(Q,member([_,Q],In1),Q2),
 	%remove_dups(Q1,Q2),
 	findall([Add,AN],(member(Q3,Q2),
@@ -498,7 +510,14 @@ sub_term_types_wa([string,atom,number],S1,In1),
 	),UV).
 		
 	%findall([Add,X4],(member([Add,Z1],In2),member([Z1,X2],UV2),Z1=[X1,X3],replace_term([X1,X3],X1,X2,X4)),UV).
-	
+
+
+not_r_o_nd_types(A) :- not(r_o_nd_types(A)),!.
+r_o_nd_types(r).
+r_o_nd_types(o).
+r_o_nd_types(nd).
+r_o_nd_types(A) :- type_s2a1(A).
+
 	
 find_constants(S,RS2,C) :-
 
@@ -528,7 +547,7 @@ find_constants(S,RS2,C) :-
 	,(member([U1,U2],RS1),
 	
 	sub_term_types_wa([heuristic((only_item(O),%(string(O)->true;(atom(O)->true;number(O))),
-	not(O=r),not(O=o)),O)],U2,In1)),C1)
+	not_r_o_nd_types(O)),O)],U2,In1)),C1)
 	
 	%foldr(append,C1,C10),
 	%findall([C21,%C22,
@@ -692,7 +711,7 @@ find_constants(S,RS2,C) :-
 
 findall([U31,In3],(member([U31,U32],S3),
 sub_term_types_wa([heuristic((only_item(O),%(string(O)->true;(atom(O)->true;number(O))),
-	not(O=r),not(O=o)),O)],U32,In3)),In31),%),In3),
+	not_r_o_nd_types(O)),O)],U32,In3)),In31),%),In3),
 
 %trace,
 
@@ -744,6 +763,8 @@ choose_vars(RS5,C2,Var,Ad1,U5,In31,XX24) :-
 	not(member([Var,[Ad1,_]],XX22))),XX23),%XX2),not(XX2=[]),
 	append(XX22,XX23,XX24).
 	
+
+/*
 test_formats(Vs,O,F1) :-
 
 	open_file_s("s2a_formats.txt",T),
@@ -763,7 +784,7 @@ test_formats(Vs,O,F1) :-
 	foldr(string_concat,L,S),
 	term_to_atom(T1,S),
 	catch(T1,_,fail).
-	
+	*/
 
 	
 %loop_replace_s2a([],F,F) :- !.
