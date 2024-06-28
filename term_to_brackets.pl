@@ -8,17 +8,12 @@ term_to_brackets2(A,B,C) :-
  ((append(D,E,A),
  append([F],G,E),
  is_list(F))->
- (H=D,
- ((F=[Word,_Args],type_s2a1(Word))->
- (F=G1,Wrap=true);
- term_to_brackets2(F,[],G1),Wrap=false),
+ (H=D,term_to_brackets2(F,[],G1),
  term_to_brackets2(G,[],G2),
  (G1=G12),
  (H=H2),
  %wrap_if_non_empty(G2,G21),
- %trace,
- (Wrap=true->L=[G12];
- foldr(append,[["["],G12,["]"]],L)),
+ foldr(append,[["["],G12,["]"]],L),
  foldr(append,[H2,L,G2],J));
  (H=A,
  wrap_if_non_empty(H,H2),
