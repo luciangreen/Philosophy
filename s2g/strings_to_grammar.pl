@@ -16,9 +16,9 @@ G = [[1,>,a,1]
 */
 
 :-use_module(library(clpfd)).
-:-include('../listprologinterpreter/listprolog.pl').
+:-include('../../listprologinterpreter/listprolog.pl').
 %:-include('../luciancicd/find_dependencies2-cgpt1.pl').
-:-include('sub_term_with_address.pl').
+:-include('../sub_term_with_address.pl').
 %:-include('test15.pl').
 :-include('find_lists3.pl').
 :-include('minimise_alg.pl').

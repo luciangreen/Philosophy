@@ -174,7 +174,9 @@ T1,T3,T2_old,true)->true;
 
 get_token([],D,D,T,T) :- !.
 get_token(RS1,D1,D3,T1,T3) :-
-	(D1=[D4|D2]->
+%trace,
+	((D1=[D4|D2],
+	not(only_item1(D1)))->
 	(get_val_s2a(RS1,D4),D2=D3,
 	append(T1,[D4],T3));
 	(append(T1,[D1],T3),
@@ -200,8 +202,12 @@ is_var_s2a(Item) :-
 	atom_string(Em,Em1),
 	number_string(_N,Em1).
 	
-only_item1(A):-only_item(A).
-only_item1([]).
+only_item1(A) :- (character_breakdown_mode(on)->
+	only_item1_c(A);only_item2_c(A)).
+
+only_item1_c(A) :- (is_var_s2a(A)->true;(A=[A1,_],type_s2a1(A1))),not(type_s2a1(A)).
+only_item2_c(A):-only_item(A).
+only_item2_c([]).
 
 
 %/*

@@ -105,42 +105,47 @@ test_spec_to_algorithm :-
 	assertz(vars_base_s2a('A')),
 */
 
-findall(_,(member([N,S],
+findall(_,(member([N,S,
+character_breakdown_mode=CBM],
 [
 
 [1, 
 [
 [[input,[['A',[1,2]]]],[output,[['B',[2,1]]]]],
 [[input,[['A',[3,4]]]],[output,[['B',[4,3]]]]]
-]
+],character_breakdown_mode=off
 ],
 
 [2, 
 [
 [[input,[['A',[1,2,3,2,3,1,2,3,2,3]]]],[output,[['B',[3]]]]],
 [[input,[['A',[1,2,4,2,4,1,2,4,2,4]]]],[output,[['B',[4]]]]]
-]
+],
+character_breakdown_mode=off
 ],
  
 [3, 
 [
 [[input,[['A',[1]],['B',[2]]]],[output,[['C',[1]]]]],
 [[input,[['A',[3]],['B',[4]]]],[output,[['C',[3]]]]]
-]
+],
+character_breakdown_mode=off
 ],
 
 [4, 
 [
 [[input,[['A',[[1]]],['B',[[2]]]]],[output,[['C',[[1,[]]]]]]],
 [[input,[['A',[[3]]],['B',[[4]]]]],[output,[['C',[[3,[]]]]]]]
-]
+],
+character_breakdown_mode=off
 ],
 
 [5, 
 [
 [[input,[['A',[1,3]],['B',[2,3]]]],[output,[['C',[3]]]]],
 [[input,[['A',[4,3]],['B',[5,3]]]],[output,[['C',[3]]]]]
-]
+],
+character_breakdown_mode=off
 ],
 
 [6, 
@@ -148,7 +153,8 @@ findall(_,(member([N,S],
 [[input,[['A',[[1]]],['B',[[2]]]]],[output,[['C',[[1,[[]]]]]]]],
 [[input,[['A',[[3]]],['B',[[4]]]]],[output,[['C',[[3,[[]]]]]]]]
 % [[]] not [] at end
-]
+],
+character_breakdown_mode=off
 ],
 
 [7, 
@@ -156,7 +162,9 @@ findall(_,(member([N,S],
 [[input,[['A',[[1]]],['B',[[2]]]]],[output,[['C',[[1]]]]]],
 [[input,[['A',[[3]]],['B',[[4]]]]],[output,[['C',[[3]]]]]],
 [[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[1]]]]]]
-]
+%[[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[3]]]]]]
+],
+character_breakdown_mode=off
 ],
 
 [8, 
@@ -167,8 +175,27 @@ findall(_,(member([N,S],
 [[input,[['A',[[1,1,3]]],['B',[[1,1,4]]]]],[output,[['C',[[3]]]]]],
 [[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[1,3]]]]]],
 [[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[1,3]]]]]]
+],
+character_breakdown_mode=off
+],
+
+[9, 
+[
+[[input,[['A',[11,aa]],['B',["B",aa]]]],[output,[['C',[aa]]]]],
+[[input,[['A',[4,aa]],['B',[5,aa]]]],[output,[['C',[aa]]]]]
+],
+character_breakdown_mode=on
+],
+
+[10, 
+[
+[[input,[['A',[1,2]],['B',[3,2]]]],[output,[['C',[2]]]]],
+[[input,[['A',[4,2]],['B',[5,2]]]],[output,[['C',[2]]]]]
+],
+character_breakdown_mode=on
 ]
-]
+
+%*/
 
 
 ]),
@@ -179,7 +206,7 @@ findall(_,(member([N,S],
 	assertz(test_n(N)),
 
 	%catch(call_with_time_limit(10,
-	(spec_to_algorithm(S,_Alg1))
+	(spec_to_algorithm(S,CBM,_Alg1))
 	%)%,
     %time_limit_exceeded,
     %fail)

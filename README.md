@@ -142,7 +142,7 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * A black spherical ink well represents the transformation from strings to grammar (lensgo.ai). <img width="463" alt="A black spherical ink well" src="https://github.com/luciangreen/Philosophy/assets/15845542/47484bd8-acc6-46fa-92cc-3339d46fa00b">
 
-* Enter possible strings to convert to a context-free grammar in `strings_to_grammar.pl`.
+* Enter possible strings to convert to a context-free grammar in `s2g/strings_to_grammar.pl`.
 
 * For example, test 1 below takes the following string and tests for outputted grammar.
 
@@ -158,6 +158,7 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * To load strings to grammar and run tests, enter:
 ```
+cd s2g
 ['strings_to_grammar.pl'].
 test_s2g.
 ```
@@ -177,7 +178,7 @@ test_s2g.
 
 * Starry Sunshine (a play on words on "subterm with address" and "spec to algorithm")  <img width="580" alt="Starry Sunshine" src="https://github.com/luciangreen/Philosophy/assets/15845542/505f3e18-00b4-4075-bf6f-6f09ee1f6eca">
 
-* Enter possible specs to convert to a pattern-matching algorithm in `spec_to_algorithm.pl`.
+* Enter possible specs to convert to a pattern-matching algorithm in `s2a/spec_to_algorithm.pl`.
 
 * For example, test 1 below takes the following spec and tests the outputted algorithm.
 
@@ -192,6 +193,7 @@ test_s2g.
 
 * To load Spec to Algorithm and run tests, enter:
 ```
+cd s2a
 ['spec_to_algorithm.pl'].
 test_s2a.
 ```
