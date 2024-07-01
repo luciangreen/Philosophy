@@ -172,8 +172,6 @@ test_s2g.
 
 * These give the test number. The first result is that the output matches the test output. The second result is the strings being substituted back into the found grammar working.
 
-* Use the query `spec_to_algorithm([[[input,[['A',[1,2]]]],[output,[['B',[21]]]]], [[input,[['A',[3,4]]]],[output,[['B',[43]]]]]],on,A),writeln1(A).` where `on` turns on breakdown of term elements to characters for recombination of characters in terms.
-
 * <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Further instructions</a> to change to input ordinary strings.
 
 # Spec to Algorithm
@@ -208,7 +206,9 @@ success
 [success,1,spec_to_algorithm,test]
 ```
 
-* The first results are from testing the produced algorithm. The second result gives the test number.
+* The first results are from testing the produced algorithm. The third result gives the test number.
+
+* Use the query `spec_to_algorithm([[[input,[['A',[1,2]]]],[output,[['B',[21]]]]], [[input,[['A',[3,4]]]],[output,[['B',[43]]]]]],on,A),writeln1(A).` where `on` turns on breakdown of term elements to characters for recombination of characters in terms.
 
 # Authors
 
