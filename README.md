@@ -195,7 +195,7 @@ test_s2g.
 ```
 cd s2a
 ['spec_to_algorithm.pl'].
-test_s2a.
+test_spec_to_algorithm.
 ```
 
 * The output contains the following lines:
