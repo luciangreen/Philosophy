@@ -88,9 +88,10 @@ where TestNumber is the test number from <a href="lpiverify4.pl">lpiverify4.pl</
 
 * Delete duplicate predicates, no matter what their name or variable names.
 
-* In `swipl`: `['minimise_alg.pl'].`
-
+* In `swipl`:
 ```
+cd s2g
+['minimise_alg.pl'].
 minimise_alg([[[n,function],[[v,a],[v,b]],":-",[[[n,+],[[v,a],[v,b]]]]],[[n,function],[[v,b],[v,a]],":-",[[[n,+],[[v,b],[v,a]]]]]],A),writeln1(A).
 
 A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
