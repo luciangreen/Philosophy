@@ -11,6 +11,9 @@ test_s2a :-
 	retractall(vars_base_s2a(_)),
 	assertz(vars_base_s2a('A')),
 
+	retractall(character_breakdown_mode(_)),
+	assertz(character_breakdown_mode(off)),
+
  test_find_unique_variables,
  test_find_constants,
  test_spec_to_algorithm.
@@ -24,10 +27,10 @@ test_find_unique_variables :-
 findall(_,(member([N,S,UV2],
 [
 [1,[['A', [1, 3]]],
- [['A',['C3','C4']]]],
+ [['A', ['A1', 'A2']]]],
 
 [2,[['A',[1,3,1]]],
- [['A',['C3','C4','C3']]]]
+ [['A',['A1','A2','A1']]]]
 
 ]),
 /*
