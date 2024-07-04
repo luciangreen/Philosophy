@@ -182,7 +182,7 @@ character_breakdown_mode=off
 character_breakdown_mode=off
 ],
 
-[9, 
+[9,
 [
 [[input,[['A',[11,aa]],['B',["B",aa]]]],[output,[['C',[aa]]]]],
 [[input,[['A',[4,aa]],['B',[5,aa]]]],[output,[['C',[aa]]]]]
@@ -190,13 +190,43 @@ character_breakdown_mode=off
 character_breakdown_mode=on
 ],
 
-[10, 
+[10,
 [
 [[input,[['A',[1,2]],['B',[3,2]]]],[output,[['C',[2]]]]],
 [[input,[['A',[4,2]],['B',[5,2]]]],[output,[['C',[2]]]]]
 ],
 character_breakdown_mode=on
+],
+
+[11,
+[
+[[input,[['A',[[["aa,]",b,"c",[]],1]]]]],[output,[['B',["aa,]",b]]]]],%,
+[[input,[['A',[[["cc,]",d,"e",[]],1]]]]],[output,[['B',["cc,]",d]]]]]%,
+%[[input,[['A',[4,2]],['B',[5,2]]]],[output,[['B',[2]]]]]
+],
+character_breakdown_mode=off
+],
+% doesn't work with nested brackets in output yet
+% can work with multiple specs to form variables and constants
+% doesn't convert characters yet
+
+[12,
+[
+[[input,[['A',[a,is,1,"+",1]]]],[output,[['B',[
+[[n,"+"],[1,1,[v,a]]]]]]]],
+[[input,[['A',[b,is,3,"+",4]]]],[output,[['B',[
+[[n,"+"],[3,4,[v,b]]]]]]]],
+[[input,[['A',[a,is,1,"-",1]]]],[output,[['B',[
+[[n,"-"],[1,1,[v,a]]]]]]]],
+[[input,[['A',[b,is,3,"-",4]]]],[output,[['B',[
+[[n,"-"],[3,4,[v,b]]]]]]]]
+%[[input,[['A',[4,2]],['B',[5,2]]]],[output,[['B',[2]]]]]
+],
+character_breakdown_mode=off
 ]
+% actually a converter
+% decision trees, recursion with series of decision trees
+% can't recognise upper and lower case as the same character yet
 
 %*/
 

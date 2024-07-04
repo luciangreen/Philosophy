@@ -60,13 +60,16 @@ spec_to_algorithm(S,CBM,Alg) :-
 	
 	findall([[input,Input1],[output,Output1]],(member([[input,Input],[output,Output]],S),
 	findall([S10,RS],(member([S10,S11],Input),
-	(string(S11)->string_strings(S11,S12);S11=S12),
+	%(string(S11)->string_strings(S11,S12);S11=S12),
+	%trace,
+	characterise1(S11,S12),
 	strings_atoms_numbers(S12,S13),
 	term_to_brackets(S13,S14),
 	find_lists3b(S14,RS)
 	),Input1),
 	findall([S10,RS],(member([S10,S11],Output),
-	(string(S11)->string_strings(S11,S12);S11=S12),
+	%(string(S11)->string_strings(S11,S12);S11=S12),
+	characterise1(S11,S12),
 	strings_atoms_numbers(S12,S13),
 	term_to_brackets(S13,S14),
 	find_lists3b(S14,RS)
@@ -95,14 +98,16 @@ spec_to_algorithm(S,CBM,Alg) :-
 		
 	find_unique_variables(Input,UV),
 	findall([UV1,RS],(member([UV1,UV2],UV),
-	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
+	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
+	characterise1(UV2,UV3),
 	strings_atoms_numbers(UV3,UV31),
 	term_to_brackets(UV31,UV4),
 	find_lists3b(UV4,RS)
 	),Input1),
 	find_unique_variables(Output,UVo),
 	findall([UV1,RS],(member([UV1,UV2],UVo),
-	(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
+	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
+	characterise1(UV2,UV3),
 	strings_atoms_numbers(UV3,UV31),
 	term_to_brackets(UV31,UV4),
 	find_lists3b(UV4,RS)
@@ -334,7 +339,9 @@ algorithm(In_vars,
 Out_var) :-
 
 findall(Var1,(member(Var,In_vars),
-(string(Var)->string_strings(Var,Var2);Var=Var2),		strings_atoms_numbers(Var2,Var21),
+%(string(Var)->string_strings(Var,Var2);Var=Var2),
+characterise1(Var,Var2),
+strings_atoms_numbers(Var2,Var21),
 term_to_brackets(Var21,Var1)
 ),In_vars1),
 T1_old=",T31,",

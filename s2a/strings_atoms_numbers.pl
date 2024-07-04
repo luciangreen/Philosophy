@@ -34,6 +34,13 @@ characterise(A1,_,A2) :- string_strings(A1,A2),!.
 %characterise(A1,atom,A2) :- string_chars(A1,A2),!.
 %characterise(A1,number,A2) :- number_string(A1,A3),string_strings(A3,A21),findall(A4,(member(A5,A21),number_string(A4,A5)),A2),!.
 
+characterise1(A,A) :-!.
+% if convert term to strings destroys vars 
+% can't deal with strings, just lists until checked
+%trace,get_type(A,C), ((type_s2a1(C),not(C=compound)
+%)->(%term_to_atom(A,A1),
+%characterise(A,_,B));A=B),!.
+
 join_san(A,string,B) :- foldr(string_concat,A,B),!.
 join_san(A,atom,B) :- foldr(string_concat,A,B1),atom_string(B,B1),!.
 join_san(A,number,B) :- foldr(string_concat,A,B1),number_string(B,B1),!.

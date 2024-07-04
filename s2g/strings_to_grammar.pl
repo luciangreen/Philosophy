@@ -545,6 +545,15 @@ process_terms2(T1,T2,T3,R1,R2) :-
 	process_terms2(T51,T61,T3,R7,R2),!.
 */
 try(T45,T8) :-
+	(catch(call_with_time_limit(3.5,
+	try1(T45,T8)
+	),
+    _,
+    fail)->true;T45=T8).
+
+try1(T45,T8) :-
+
+
 	longest_to_shortest_substrings1(T45,T43),
 	%[T45]=T43,
 	%trace,
