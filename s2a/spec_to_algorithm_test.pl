@@ -223,11 +223,17 @@ character_breakdown_mode=off
 %[[input,[['A',[4,2]],['B',[5,2]]]],[output,[['B',[2]]]]]
 ],
 character_breakdown_mode=off
-]
+],
 % actually a converter
 % decision trees, recursion with series of decision trees
 % can't recognise upper and lower case as the same character yet
 
+[13,
+[
+[[input,[['A',[1,2]]]],[output,[['B',[21]]]]], [[input,[['A',[3,4]]]],[output,[['B',[43]]]]]
+],
+character_breakdown_mode=on
+]
 
 
 
