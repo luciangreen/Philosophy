@@ -184,8 +184,8 @@ character_breakdown_mode=off
 
 [9,
 [
-[[input,[['A',[11,aa]],['B',["B",aa]]]],[output,[['C',[aa]]]]],
-[[input,[['A',[4,aa]],['B',[5,aa]]]],[output,[['C',[aa]]]]]
+[[input,[['A',[11,aa]],['B',["B",aa]]]],[output,[['C',[a1]]]]],
+[[input,[['A',[44,aa]],['B',["C",aa]]]],[output,[['C',[a4]]]]]
 ],
 character_breakdown_mode=on
 ],
@@ -228,7 +228,7 @@ character_breakdown_mode=off
 % decision trees, recursion with series of decision trees
 % can't recognise upper and lower case as the same character yet
 
-%*/
+
 
 
 ]),

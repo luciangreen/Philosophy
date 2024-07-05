@@ -179,10 +179,26 @@ get_token(RS1,D1,D3,T1,T3) :-
 	not(only_item1(D1)))->
 	(get_val_s2a(RS1,D4),D2=D3,
 	append(T1,[D4],T3));
+
+((RS1=[Type1, Var1],type_s2a1(Type1),
+D1=[Type2, Val1],type_s2a1(Type2)),%->true;
+%[Var,Val]=[Var1,Val1]),
+%get_token(Var1,Val1,D3,T1,T3))->true;
+%trace,
+rs_and_data_to_term(Var1,Val1,D3,%RSa1,RSa2,
+[],T31,_T2_old3,true),
+append(T1,[[Type2,T31]],T3))->true;
+
 	(append(T1,[D1],T3),
 	get_val_s2a(RS1,D1),
-	append(T1,[D1],T3)),D3=[]).	
+	append(T1,[D1],T3),D3=[])).	
 
+/*get_val_s2a(Var,Val) :-
+((Var=[Type1, Var1],type_s2a1(Type1),
+Val=[Type2, Val1],type_s2a1(Type2))->true;
+[Var,Val]=[Var1,Val1]),
+get_val_s2a1(Var1,Val1).
+*/
 get_val_s2a(Var,Val) :-
 %trace,
 	(is_var_s2a(Var)->
@@ -204,6 +220,7 @@ is_var_s2a(Item) :-
 	
 only_item1(A) :- (character_breakdown_mode(on)->
 	only_item1_c(A);only_item2_c(A)).
+only_item1(A) :- only_item2_c(A).
 
 only_item1_c(A) :- (is_var_s2a(A)->true;(A=[A1,_],type_s2a1(A1))),not(type_s2a1(A)).
 only_item2_c(A):-only_item(A).

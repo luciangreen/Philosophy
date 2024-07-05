@@ -61,10 +61,11 @@ var_or_data1(A) :- only_item(A),(A=[A1,_]->not(type_s2a1(A1));true).
 %var_or_data2(A) :- is_var_s2a(A).
 var_or_data2(A) :- only_item(A).
 
-var_or_data_c(A) :- 
+var_or_data_c(A) :- %var_or_data(A).
 %trace,
 (character_breakdown_mode(on)->
-var_or_data1_c(A);
+var_or_data(A);%
+%var_or_data1_c(A);
 var_or_data2_c(A)),!.
 
 %var_or_data1(A) :- is_var_s2a(A).
