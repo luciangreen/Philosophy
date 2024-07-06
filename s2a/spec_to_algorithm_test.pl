@@ -240,7 +240,15 @@ character_breakdown_mode=on
 [[input,[['A',[1+2]]]],[output,[['B',[21]]]]], [[input,[['A',[3+4]]]],[output,[['B',[43]]]]]
 ],
 character_breakdown_mode=on
+],
+
+[15,
+[
+[[input,[['A',["1+2"]]]],[output,[['B',[21]]]]], [[input,[['A',["3+4"]]]],[output,[['B',[43]]]]]
+],
+character_breakdown_mode=on
 ]
+
 
 
 

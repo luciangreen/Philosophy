@@ -8,7 +8,7 @@ characterise1(Var,Var2),
 strings_atoms_numbers(Var2,Var21),
 term_to_brackets(Var21,Var1)
 ),In_vars1),
-T1_old=[[[[compound,['C1',"+",'C2']]],[output,[[[number,['C2','C1']]]]]]],
+T1_old=[[[[string,['C1',"+",'C2']]],[output,[[[number,['C2','C1']]]]]]],
 
 	%append([T1_old2],[[output,T2_old]],T1_old),
 	/*
