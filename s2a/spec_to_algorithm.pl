@@ -64,6 +64,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	%(string(S11)->string_strings(S11,S12);S11=S12),
 	%trace,
 	characterise1(S11,S12),
+	%trace,
 	strings_atoms_numbers(S12,S13),
 	term_to_brackets(S13,S14),
 	find_lists3b(S14,RS)

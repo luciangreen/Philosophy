@@ -344,8 +344,8 @@ test_sub_term_types_wa :-
 
 findall(_,(member([N,H,T,In],
 [
-[1,[string,atom,[],number,var], ["a",a,[],1,_],
- [[[1, 1], "a"], [[1, 2], a], [[1, 3], []], [[1, 4], 1], [[1, 5], _]]],
+[1,[string,atom,[],number,var,compound], ["a",a,[],1,_,1+1],
+ [[[1, 1], "a"], [[1, 2], a], [[1, 3], []], [[1, 4], 1], [[1, 5], _], [[1, 6], 1+1]]],
  
 [2,[[]], [],
  [[[1], []]]],
@@ -381,9 +381,10 @@ is_t(H,A,First0,First) :-
 	((member(atom,H),atom(A))->true;
 	((member([],H),not(var(A)),A=[])->true;
 	((member(number,H),number(A)->true;
+	((member(compound,H),not(is_list(A)),compound(A)->true;
 	((First0=true,First=true,member(all(K),H),
 	is_list(A),
 	forall(member(A1,A),is_t(K,A1,First0,false)));
 	((member(heuristic(He,Output),H),
 	Output=A,He)
-	)))))))),!.
+	)))))))))),!.

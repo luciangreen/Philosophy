@@ -30,6 +30,8 @@ type_s2a1(number).
 type_s2a1(compound).
 %type_s2a1(var).
 
+characterise(A1,compound,A2) :- term_to_atom(A1,A3),string_strings(A3,A2),!.
+
 characterise(A1,_,A2) :- string_strings(A1,A2),!.
 %characterise(A1,atom,A2) :- string_chars(A1,A2),!.
 %characterise(A1,number,A2) :- number_string(A1,A3),string_strings(A3,A21),findall(A4,(member(A5,A21),number_string(A4,A5)),A2),!.
