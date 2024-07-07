@@ -211,6 +211,8 @@ success
 
 * Use the query `spec_to_algorithm([[[input,[['A',[1,2]]]],[output,[['B',[21]]]]], [[input,[['A',[3,4]]]],[output,[['B',[43]]]]]],on,A),writeln1(A).` where `on` turns on breakdown of term elements to characters for recombination of characters in terms.
 
+* <a href="https://stackoverflow.com/questions/78707063/how-can-i-improve-the-accuracy-of-chatgpt-in-prolog/78707064#78707064">Stack Overflow Question about Spec to Algorithm</a>
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
