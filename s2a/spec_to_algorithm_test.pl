@@ -200,15 +200,14 @@ character_breakdown_mode=on
 
 [11,
 [
-[[input,[['A',[[["aa,]",b,"c",[]],1]]]]],[output,[['B',["aa,]",b]]]]],%,
-[[input,[['A',[[["cc,]",d,"e",[]],1]]]]],[output,[['B',["cc,]",d]]]]]%,
-%[[input,[['A',[4,2]],['B',[5,2]]]],[output,[['B',[2]]]]]
+[[input,[['A',[[["aa,]",b,"c",[]],1]]]]],[output,[['B',["aa,]",b]]]]],
+[[input,[['A',[[["cc,]",d,"e",[]],1]]]]],[output,[['B',["cc,]",d]]]]]
 ],
 character_breakdown_mode=off
 ],
 % doesn't work with nested brackets in output yet
 % can work with multiple specs to form variables and constants
-% doesn't convert characters yet
+% doesn't convert characters from upper to lower yet
 
 [12,
 [
@@ -220,12 +219,11 @@ character_breakdown_mode=off
 [[n,"-"],[1,1,[v,a]]]]]]]],
 [[input,[['A',[b,is,3,"-",4]]]],[output,[['B',[
 [[n,"-"],[3,4,[v,b]]]]]]]]
-%[[input,[['A',[4,2]],['B',[5,2]]]],[output,[['B',[2]]]]]
 ],
 character_breakdown_mode=off
 ],
 % actually a converter
-% decision trees, recursion with series of decision trees
+% decision trees as the alg being converted, recursion with series of decision trees in DFA
 % can't recognise upper and lower case as the same character yet
 
 [13,
