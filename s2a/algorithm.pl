@@ -8,7 +8,7 @@ characterise1(Var,Var2),
 strings_atoms_numbers(Var2,Var21),
 term_to_brackets(Var21,Var1)
 ),In_vars1),
-T1_old=[[[[number,['C1']],[number,['C2']]],[output,[[[number,['C2','C1']]]]]]],
+T1_old=[[['C1',3],['C2',3],[output,[[3]]]]],
 
 	%append([T1_old2],[[output,T2_old]],T1_old),
 	/*
@@ -40,11 +40,12 @@ T1_old=[[[[number,['C1']],[number,['C2']]],[output,[[[number,['C2','C1']]]]]]],
 %double_to_single_brackets(T22,T221),
 %findall(In_vars3,remove_nd(In_vars2,In_vars3),In_vars4),
 %member(T2_old4,T2_old3),
-member(Map2,[[[[1,1,2,1],[[1,2,2]]],[[1,2,2,1],[[1,2,1]]]]]),
+member(Map2,[[[[1,1,1],[]],[[1,2,1],[]]]]),
 %member(In_vars5,In_vars4),
 double_to_single_brackets(T2_old,T2_old3),
 move_vars(Map2,In_vars4,T2_old3,[],Out_var2),
 findall(Out_var3,remove_nd(Out_var2,Out_var3),Out_var4),
 member(Out_var5,Out_var4),
 test_n(Test_n),
-term_to_list(Out_var5,Out_var,Test_n).
+term_to_list(Out_var5,Out_var6,Test_n),
+[Out_var6]=Out_var.

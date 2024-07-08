@@ -410,7 +410,8 @@ move_vars(Map2,In_vars4,T2_old3,[],Out_var2),
 findall(Out_var3,remove_nd(Out_var2,Out_var3),Out_var4),
 member(Out_var5,Out_var4),
 test_n(Test_n),
-term_to_list(Out_var5,Out_var,Test_n)."],Alg),
+term_to_list(Out_var5,Out_var6,Test_n),
+[Out_var6]=Out_var."],Alg),
 
 
 save_file_s("algorithm.pl",Alg),
@@ -438,7 +439,12 @@ term_to_atom(A310,A41),
 
 %foldr(string_concat,A3,A4b),
 %trace,
-foldr(string_concat,["algorithm(",A4,",Out),(",A41,"=Out2),trim_brackets(Out2,Out3,_),trim_brackets(Out,Out3,_)."
+foldr(string_concat,["algorithm(",A4,",Out),(",A41,"=Out2),%,trim_brackets(Out2,Out3,N2o),
+%trim_brackets(Out,Out3,N3o),
+Out=Out2
+%,nl,writeln1(trim_brackets(Out2,Out3,N2o)),
+%writeln1(trim_brackets(Out,Out3,N3o))
+."
 ],Str2),
 
 term_to_atom(Term2,Str2),%trace,
