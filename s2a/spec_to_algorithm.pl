@@ -383,9 +383,7 @@ double_to_single_brackets(T2_old,T2_old3),
 move_vars(Map2,In_vars4,T2_old3,[],Out_var2),
 findall(Out_var3,remove_nd(Out_var2,Out_var3),Out_var4),
 member(Out_var5,Out_var4),
-%test_n(Test_n),
-term_to_list(Out_var5,Out_var6%,Test_n
-),
+term_to_list(Out_var5,Out_var6),
 [Out_var6]=Out_var."],Alg),
 
 
