@@ -9,8 +9,8 @@ find_mapping(T1,T2,Map) :-
 	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T15,In1),
 	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T2,In2),
 	findall([Ad1,In21],(member([Ad1,Item],In1),
-	findall(Ad2,member([Ad2,Item],In2),In21)%,
-	%(In21=[]->fail;true)
+	findall(Ad2,member([Ad2,Item],In2),In21),
+	(In21=[]->fail;true)
 	),T12)),Map).
 	
 
