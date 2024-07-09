@@ -374,17 +374,18 @@ group_non_lists([X11,C2|Xs], [X13|Ys],First) :-
 */
 longest_to_shortest_substrings1(A,B) :-
 	%findall(C,
-	%longest_to_shortest_substrings(A,%C),
-	%B).
-	findall([C,D],append(C,D,A),B),!.
+	longest_to_shortest_substrings(A,%C),
+	B).
+	%findall([C,D],append(C,D,A),B),!.
 	%sort(D,B1),
 	%reverse(B1,B).
 %longest_to_shortest_substrings([],A,A) :-!.
 longest_to_shortest_substrings(A0,C) :-
-	length(A0,L),L1 is L-3,(L1<3->L11=3;L11=L1),
+	%length(A0,L),L1 is L-3,(L1<3->L11=3;L11=L1),
 	%append(D,E,A),
 	%not(D=[]),
-	append1(L11,A0,[],A01),
+	append1(3%L11
+	,A0,[],A01),
 	delete(A01,[],C).
 	%longest_to_shortest_substrings(E1,[],F),
 	%flatten(D,D2),(D2=[]->D21=[];D21=[D2]),
