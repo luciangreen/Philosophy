@@ -374,8 +374,9 @@ group_non_lists([X11,C2|Xs], [X13|Ys],First) :-
 */
 longest_to_shortest_substrings1(A,B) :-
 	%findall(C,
-	longest_to_shortest_substrings(A,%C),
-	B).
+	%longest_to_shortest_substrings(A,%C),
+	%B).
+	findall([C,D],append(C,D,A),B),!.
 	%sort(D,B1),
 	%reverse(B1,B).
 %longest_to_shortest_substrings([],A,A) :-!.
@@ -545,11 +546,13 @@ process_terms2(T1,T2,T3,R1,R2) :-
 	process_terms2(T51,T61,T3,R7,R2),!.
 */
 try(T45,T8) :-
-	(catch(call_with_time_limit(3.5,
+	%
+	(%catch(call_with_time_limit(3.5,
 	try1(T45,T8)
-	),
-    _,
-    fail)->true;T45=T8).
+	%),
+    %_,
+    %fail)
+    ->true;T45=T8).
 
 try1(T45,T8) :-
 

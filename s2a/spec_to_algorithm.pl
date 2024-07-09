@@ -74,7 +74,8 @@ spec_to_algorithm(S,CBM,Alg) :-
 	characterise1(S11,S12),
 	strings_atoms_numbers(S12,S13),
 	term_to_brackets(S13,S14),
-	find_lists3b(S14,RS)
+	%find_lists3b(S14,RS)
+	S14=RS
 	),Output1)	
 	%change_var_base
 	%),RS2)
@@ -114,7 +115,8 @@ spec_to_algorithm(S,CBM,Alg) :-
 	characterise1(UV2,UV3),
 	strings_atoms_numbers(UV3,UV31),
 	term_to_brackets(UV31,UV4),
-	find_lists3b(UV4,RS)
+	%find_lists3b(UV4,RS)
+	UV4=RS
 	),Output1)
 	%change_var_base
 	%),RS2),
@@ -137,7 +139,8 @@ spec_to_algorithm(S,CBM,Alg) :-
 	strings_atoms_numbers(UV3,UV31),
 	find_unique_variables(UV31,UV32),		
 	term_to_brackets(UV32,UV4),
-	find_lists3b(UV4,RS)
+	%find_lists3b(UV4,RS)
+	UV4=RS
 	),Output1)
 	%change_var_base
 	%),RS2),
@@ -380,8 +383,9 @@ double_to_single_brackets(T2_old,T2_old3),
 move_vars(Map2,In_vars4,T2_old3,[],Out_var2),
 findall(Out_var3,remove_nd(Out_var2,Out_var3),Out_var4),
 member(Out_var5,Out_var4),
-test_n(Test_n),
-term_to_list(Out_var5,Out_var6,Test_n),
+%test_n(Test_n),
+term_to_list(Out_var5,Out_var6%,Test_n
+),
 [Out_var6]=Out_var."],Alg),
 
 

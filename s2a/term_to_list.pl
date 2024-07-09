@@ -3,13 +3,15 @@
 % * copy var vals to out
 % A1 is not always the same x
 
-term_to_list(T,L,N) :-
+term_to_list(T,L%,N
+) :-
 %trace,
 	%flatten(T,T1),
-	((N=4->true;N=6)%member(r,T1)
-	->
-	term_to_list2(T,L);
-	term_to_list1(T,L)).
+	%(false%(N=4->true;N=6)%member(r,T1)
+	%->
+	%term_to_list2(T,L);
+	term_to_list1(T,L)%)
+	.
 
 term_to_list1(T,L) :-
 	%catch(call_with_time_limit(3,
@@ -69,6 +71,7 @@ term_to_list1(T,L1,L2) :-
 	
 	term_to_list1(T2,L3,L2).
 */
+/* 
 term_to_list2(T,L) :-
 	%catch(call_with_time_limit(3,
 	term_to_list2(T,[],L).%),
@@ -106,7 +109,7 @@ term_to_list2(T,L1,L2) :-
 	term_to_list2(T2,L3,L2));
 	(no_rt(T1),append(L1,[T1],L3),
 	term_to_list2(T2,L3,L2)))))).
-	
+	*/ 
 	%term_to_list2(T2,L3,L2).
 
 no_rt(NR) :-flatten(NR,NR1),not(member(r,NR1)),type_s2a1(Type),not(member(Type,NR1)),!.

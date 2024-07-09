@@ -1,4 +1,4 @@
-:-dynamic test_n/1.
+%:-dynamic test_n/1.
 
 test_s2a :-
 
@@ -255,8 +255,8 @@ character_breakdown_mode=on
 
 	
 	
-((	retractall(test_n(_)),
-	assertz(test_n(N)),
+((	%retractall(test_n(_)),
+	%assertz(test_n(N)),
 
 	%catch(call_with_time_limit(10,
 	(spec_to_algorithm(S,CBM,_Alg1))
