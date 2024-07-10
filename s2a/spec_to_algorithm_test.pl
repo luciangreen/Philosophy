@@ -245,9 +245,25 @@ character_breakdown_mode=on
 [[input,[['A',["1+2"]]]],[output,[['B',[21]]]]], [[input,[['A',["3+4"]]]],[output,[['B',[43]]]]]
 ],
 character_breakdown_mode=on
+],
+
+
+[16,
+[
+[[input,[['A',["Ci"]]]],[output,[['B',[['C']]]]]],
+[[input,[['A',["Di"]]]],[output,[['B',[['D']]]]]]
+],
+character_breakdown_mode=on
+],
+
+
+[17,
+[
+[[input,[['A',["A is 1+2,B is A+3."]]]],[output,[['B',[[[+,[1,2,[lower,["A"]]]],[+,[[lower,["A"]],3,[lower,["B"]]]]]]]]]],
+[[input,[['A',["C is 3+4,D is C+3."]]]],[output,[['B',[[[+,[3,4,[lower,["C"]]]],[+,[[lower,["C"]],3,[lower,["D"]]]]]]]]]]
+],
+character_breakdown_mode=on
 ]
-
-
 
 
 
