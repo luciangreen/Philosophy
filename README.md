@@ -213,6 +213,10 @@ success
 
 * <a href="https://stackoverflow.com/questions/78707063/how-can-i-improve-the-accuracy-of-chatgpt-in-prolog/78707064#78707064">Stack Overflow Question about Spec to Algorithm</a>
 
+* <a href="https://t.co/EbMLOSVtHl">Dev.to Article about Spec to Algorithm</a>
+
+* <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Lucianpedia Article about Spec to Algorithm</a>
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
