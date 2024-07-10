@@ -250,8 +250,8 @@ character_breakdown_mode=on
 
 [16,
 [
-[[input,[['A',["Ci"]]]],[output,[['B',[['C']]]]]],
-[[input,[['A',["Di"]]]],[output,[['B',[['D']]]]]]
+[[input,[['A',"Ci"]]],[output,[['B','C']]]],
+[[input,[['A',"Di"]]],[output,[['B','D']]]]
 ],
 character_breakdown_mode=on
 ],

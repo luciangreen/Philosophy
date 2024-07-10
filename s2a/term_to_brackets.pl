@@ -1,5 +1,14 @@
 term_to_brackets(A,B) :-
- term_to_brackets2(A,[],B),!.
+ (is_list(A)->
+ ((A=[Word,_Args],type_s2a1(Word))->
+ (term_to_brackets2([A],[],[B])
+ %single_results(SR1),
+ %append(SR1,[A],SR2),
+ %retractall(single_results(_)),
+ %assertz(single_results(SR2))
+ );
+ (term_to_brackets2(A,[],B)));
+ A=B),!.
  %sub_term_wa([],B,In),
  %findall(Add,member([Add,_],In),In2),
  %delete_sub_term_wa(In2,B,C).
@@ -11,7 +20,7 @@ term_to_brackets2(A,B,C) :-
  (H=D,
  ((F=[Word,_Args],type_s2a1(Word))->
  (F=G1,Wrap=true);
- term_to_brackets2(F,[],G1),Wrap=false),
+ (term_to_brackets2(F,[],G1),Wrap=false)),
  term_to_brackets2(G,[],G2),
  (G1=G12),
  (H=H2),

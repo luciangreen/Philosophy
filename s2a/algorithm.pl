@@ -1,8 +1,18 @@
 :-include('auxiliary_s2a.pl').
 algorithm(In_vars,
 Out_var) :-
-findall(Var1,(member(Var,In_vars),
-characterise1(Var,Var2),
+retractall(single_results(_)),
+assertz(single_results([])),
+length(In_vars,In_vars_L),
+numbers(In_vars_L,1,[],Ns),
+findall(Var1,(member(N,Ns),get_item_n(In_vars,N,Var),
+(is_list(Var)->true;
+(single_results(SR1),
+append(SR1,[N],SR2),
+retractall(single_results(_)),
+assertz(single_results(SR2)))),
+term_to_brackets(Var,Var3),
+characterise1(Var3,Var2),
 strings_atoms_numbers(Var2,Var21),
 term_to_brackets(Var21,Var1)
 ),In_vars1),
@@ -18,4 +28,7 @@ move_vars(Map2,In_vars4,T2_old3,[],Out_var2),
 findall(Out_var3,remove_nd(Out_var2,Out_var3),Out_var4),
 member(Out_var5,Out_var4),
 term_to_list(Out_var5,Out_var6),
-[Out_var6]=Out_var.
+single_results(SR),
+(member(1,SR)->
+Out_var6=Out_var;
+[Out_var6]=Out_var).

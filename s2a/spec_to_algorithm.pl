@@ -16,12 +16,16 @@
 :-dynamic vars_table_s2a/1.
 :-dynamic optional_s2g/1.
 :-dynamic character_breakdown_mode/1.
+:-dynamic single_results/1.
 %:-dynamic ampersand_var_n_s2a/1.
 
 % spec_to_algorithm([[['A',[1,3]]],[['B',[1,2]]]],A)
 % A = 
 
 spec_to_algorithm(S,CBM,Alg) :-
+
+	retractall(single_results(_)),
+	assertz(single_results([])),
 
 	retractall(character_breakdown_mode(_)),
 	assertz(character_breakdown_mode(CBM)),
@@ -367,8 +371,18 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 foldr(string_concat,[":-include('auxiliary_s2a.pl').
 algorithm(In_vars,
 Out_var) :-
-findall(Var1,(member(Var,In_vars),
-characterise1(Var,Var2),
+retractall(single_results(_)),
+assertz(single_results([])),
+length(In_vars,In_vars_L),
+numbers(In_vars_L,1,[],Ns),
+findall(Var1,(member(N,Ns),get_item_n(In_vars,N,Var),
+(is_list(Var)->true;
+(single_results(SR1),
+append(SR1,[N],SR2),
+retractall(single_results(_)),
+assertz(single_results(SR2)))),
+term_to_brackets(Var,Var3),
+characterise1(Var3,Var2),
 strings_atoms_numbers(Var2,Var21),
 term_to_brackets(Var21,Var1)
 ),In_vars1),
@@ -384,7 +398,10 @@ move_vars(Map2,In_vars4,T2_old3,[],Out_var2),
 findall(Out_var3,remove_nd(Out_var2,Out_var3),Out_var4),
 member(Out_var5,Out_var4),
 term_to_list(Out_var5,Out_var6),
-[Out_var6]=Out_var."],Alg),
+single_results(SR),
+(member(1,SR)->
+Out_var6=Out_var;
+[Out_var6]=Out_var)."],Alg),
 
 
 save_file_s("algorithm.pl",Alg),
@@ -401,12 +418,14 @@ findall(_,%(member(Spec,S),
 	retractall(vars_table_s2a(_)),
 	assertz(vars_table_s2a([])),
 
-findall(A1,(member([_,A],In4),%term_to_atom
-term_to_brackets(A,A1)),A30),%foldr(append,A2,A3a),append(A3,[_],A3a),
+findall(A1,member([_,A1],In4)%,%term_to_atom
+%term_to_brackets(A,A1)
+,A30),%foldr(append,A2,A3a),append(A3,[_],A3a),
 %term_to_brackets(A30,A3),
 term_to_atom(A30,A4),%
 findall(A1,(member([_,A],Out4),%term_to_atom
-term_to_brackets(A,A1)),A310),%foldr(append,A21,A31a),append(A31,[_],A31a),
+term_to_brackets(A,A1))
+,A310),%foldr(append,A21,A31a),append(A31,[_],A31a),
 %term_to_brackets(A310,A31),
 term_to_atom(A310,A41),
 
