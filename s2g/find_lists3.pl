@@ -66,12 +66,12 @@ test that parts repeat, signal bracket or repeating list with smallest unit
 % find_lists3a([1,2,3,1,3],A).
 % A = [[1, [r, [2]], 3]].
 
-find_lists3a(L1,L32) :-
+find_lists3a(L1,L32,Rest) :-
 %writeln1(find_lists3a(L1,L3)),
 %trace,
 	%trace,
 	%findall(L91,
-	find_lists3(L1,[],L91),%,L100),
+	find_lists3(L1,[],L91,_Rest_a),%,L100),
 	%trace,
 	(fail%L91=[[r, L92]]
 	->(L4=_L92,Flag=true);
@@ -82,7 +82,9 @@ find_lists3a(L1,L32) :-
 	(L4=[L2|L31],
 	%trace,
 	
-	check14(L31,L2,[],L5),
+	check14(L31,L2,[],L5,Rest
+	),
+	%Rest=[],
 	(L5=[[r|_]|_]->L5=L3;
 	((L5=[L51]->true;L51=L5),
 	L3=[[r,L51]]))
@@ -97,9 +99,10 @@ find_lists3a(L1,L32) :-
 % find_lists3([1,2,3,2,3,1,2,3,2,3],[],L).
 % L = [[r, [1, [r, [2, 3]]]]]
 
-find_lists3([],L,L) :- !.
-find_lists3(L1,L2,L3) :-
-	repeating_unit(L1,U),
+find_lists3([],L,L,_) :- !.
+find_lists3(L1,L2,L3,Rest) :-
+%trace,
+	repeating_unit(L1,U,Rest),
 	(U=[r,U1]->
 	%find_lists3(U1,[],U2);
 	try(U1,U2);
@@ -112,34 +115,34 @@ match_char("(",")").
 match_char("{","}").
 match_char(A,A).
 
-find_lists3(L1,L2,L3) :-
+find_lists3(L1,L2,L3,Rest) :-
 	%reverse(L1,L11),
 	L1=[L4|L5],
 	match_char(L4,L41),
 	%reverse(L5,L511),
-	find_lists4(L2,L5,L4,L41,L3).
+	find_lists4(L2,L5,L4,L41,L3,Rest).
 
-find_lists4(L2,L5,L4,L41,L3) :-
+find_lists4(L2,L5,L4,L41,L3,Rest) :-
 	member(L4,L5),
 	sub_list(L5,Before_list,[L41],After_list),
 	Before_list1=[L4|Before_list],After_list1=[L41|After_list],
 	%Before_list1=[L4],After_list1=[])),
-	find_lists32(Before_list1,[],L6),
+	find_lists32(Before_list1,[],L6,_),
 	%(After_list=[]->L7=[];
 	%(%find_lists31([L4|After_list],[],L7)->true;
 	%split13(L6,After_list,L3),!.
-	find_lists3(After_list1,[],L7),
+	find_lists3(After_list1,[],L7,Rest),
 	%fail,
 	%trace,
 	foldr(append,[[L6,L7]],L8),
 	foldr(append,[L2,L8],L33),
 	L3=L33.
-find_lists4(L2,L5,L4,L41,L3) :-
+find_lists4(L2,L5,L4,L41,L3,Rest) :-
 	not((member(L41,L5),
 	sub_list(L5,_Before_list,[L4],_After_list))),	
 	%foldr(append,[L2,[L6,L7]],L3));
 	append(L2,[L4],L6),
-	find_lists3(L5,L6,L3).%find_lists3(L1,L2,L3) :-
+	find_lists3(L5,L6,L3,Rest).%find_lists3(L1,L2,L3) :-
 %	append(L1,L2,L3).
 
 /*find_lists3(L1,L2,L3) :-
@@ -153,50 +156,57 @@ find_lists32(L1,L2,L3) :-
 	repeating_unit(L1,U),
 	append(L2,[U],L3),!.
 */
-find_lists32(L1,L2,L3) :-
-	find_lists3(L1,L2,L3).
+find_lists32(L1,L2,L3,Rest) :-
+	find_lists3(L1,L2,L3,Rest).
 
 
 % repeating_unit([2,2],U).
 % U = [r,[2]]). or [2]
-repeating_unit(L1,U) :-
+repeating_unit(L1,U,Rest) :-
 	(only_item(L1)->fail;
 	(length(L1,L),
 	L2 is (floor(L/2)),
 	%L2 is L-1,
 	numbers(L2,1,[],Ns),
 	find_first((member(N,Ns),
-	split12(L1,N,[],A),
+	split12(L1,N,[],A,Rest),
 	maplist(=(_),A))),
 	(N=L->U=L1;
 	(length(L21,N),
 	append(L21,_,L1),
 	U=[r,L21])))),!.
 	
-split12([],_,A,A):-!.	
+split12([],_,A,A,[]):-!.	
 split12(L%
 %List
 ,L16,%N,N,
- A1,A2) :- length(L,LL),LL<L16,append(A1,L,A2),
+ A1,A2,_Rest) :- length(L,LL),LL<L16,%A1=A2,Rest=L,%
+ append(A1,L,A2),
  %L2 is L16*2,length(List,L3),L3=<L2,
  !.
 split12(Q2,L16,%N1,N2,
- L20,L17) :-
+ L20,L17,Rest) :-
 	%get_items_summing_to_l(Q2,L16,N1,N3,[],L2),
 	length(L18,L16),
 	append(L18,L19,Q2),
 	append(L20,[L18],L21),
-	split12(L19,L16,L21,L17),!.
-split12(_A,_B,C,C) :-!.
+	split12(L19,L16,L21,L17,Rest),!.
+split12(A,_B,C,C,A) :-!.
 
 % Checks that each item is a copy of the first item, and inserts optional items where necessary to make them the same.
 	
-check14([],_,A,A):-!.
-check14(A0,B,C,D1) :-
+check14([],_,A,A,[]
+):-!.
+check14(A0,B,C,D1,Rest
+) :-
 	A0=[A01|A02],
 	check141(A01,B,[],D),
 	append(C,[D],C1),
-	check14(A02,B,C1,D1),
+	%trace,
+	(check14(A02,B,C1,D1,Rest
+	)%->true;
+	%(A02=Rest,C1=D1)
+	),
 	%(D2=[])
 	!.
 check141([],[],A,A):-!.

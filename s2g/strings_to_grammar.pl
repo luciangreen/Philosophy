@@ -563,7 +563,7 @@ try1(T45,T8) :-
 	%trace,
 	%(find_first((T44=T43,%member(T44,T43),
 	findall(T52,(member(C1,T43),(%trace,
-	find_lists3a(C1,T52)->true;fail%
+	find_lists3a(C1,T52,_)->true;fail%
 	%C1=T52)
 	)
 	),T7),length(T7,T7L),(length(T43,T7L)->%(%trace,T7=T8);

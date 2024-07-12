@@ -4,15 +4,15 @@ strings_atoms_numbers(T1,T2) :-
 (character_breakdown_mode(off)->T1=T2;
 	(sub_term_types_wa([string,atom,number,compound],T1,In1),
 	%(length(In1,1)->T1=T2;
-	(findall([Ad,[Type,A2]],(member([Ad,A1],In1),
+	(findall([Ad,[Type,A21]],(member([Ad,A1],In1),
 	not(type_s2a1(A1)),
 	%not(is_var_s2a(A1)),
 	(is_var_s2a(A1)->(Type=var,fail%A2=A1
 	);
 	(get_type(A1,Type),
 	%try(A1,A2)
-	characterise(A1,Type,A2)%,A2=[A21]
-	
+	characterise(A1,Type,A2),%,A2=[A21]
+	try(A2,A21)
 	%(length(A2,1)->fail;true)
 	))
 	),In2),

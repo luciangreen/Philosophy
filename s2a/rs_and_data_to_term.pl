@@ -63,7 +63,8 @@ T1,T2,T2_old,First) :-
 	(%look ahead to char following r x if undefined, try repeating or going on
 	%(ro(RS3),rs_and_data_to_term(RS3,D1,D2,%RSa1,RSa2,
 %[],T3))->true;
-	try_r(RS3,D1,D2,[],T3,T2_old),%),
+	(D1=[r,D11]->true;D1=D11),
+	try_r(RS3,D11,D2,[],T3,T2_old),%),
 	
 	append(T1,[[r,T3%[RS3,T3]
 	]],T31)

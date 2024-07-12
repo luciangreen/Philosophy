@@ -1,3 +1,6 @@
+% swipl --goal=test_s2a --stand_alone=true -o s2a --stand_alone=true -c spec_to_algorithm.pl
+% ./s2a
+
 :-set_prolog_flag(stack_limit, 50000000000).
 
 :-include('../s2g/strings_to_grammar.pl').

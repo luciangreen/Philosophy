@@ -263,7 +263,16 @@ character_breakdown_mode=on
 [[input,[['A',["C is 3+4,D is C+3."]]]],[output,[['B',[[[+,[3,4,[lower,["C"]]]],[+,[[lower,["C"]],3,[lower,["D"]]]]]]]]]]
 ],
 character_breakdown_mode=on
+],
+
+[18,
+[
+[[input,[['A',"1232312323"]]],[output,[['B',"2"]]]],
+[[input,[['A',"1434314343"]]],[output,[['B',"4"]]]]
+],
+character_breakdown_mode=on
 ]
+
 
 
 
