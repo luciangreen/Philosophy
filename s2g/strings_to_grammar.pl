@@ -27,6 +27,7 @@ G = [[1,>,a,1]
 :-dynamic var_num/1.
 :-dynamic s2g_mode/1.
 :-dynamic optional_s2g/1.
+:-dynamic table_s2g/1.
 
 test_s2g :-
 
@@ -547,6 +548,30 @@ process_terms2(T1,T2,T3,R1,R2) :-
 	process_terms2(T51,T61,T3,R7,R2),!.
 */
 try(T45,T8) :-
+%trace,
+(catch(table_s2g(_),_,fail)->
+true;(%trace,
+retractall(table_s2g(_)),
+assertz(table_s2g([])))),
+%trace,
+	table_s2g(Table),
+	(member([T45,Value,Sign],Table)->
+	(Sign=positive->
+	(%trace,
+	T8=Value);
+	(Sign=negative->
+	(%trace,
+	T45=T8)));
+	(%trace,
+	((%repeating_item_heuristic(C1),
+	try1(T45,T8)%find_lists3a(C1,T52,_)
+	)->
+	true%add_to_table([T45,T8,positive])
+	;
+	(%trace,
+	%add_to_table([T45,T8,negative]),
+	T45=T8)))),!.
+/*
 	%
 	(%catch(call_with_time_limit(3.5,
 	try1(T45,T8)
@@ -554,23 +579,68 @@ try(T45,T8) :-
     %_,
     %fail)
     ->true;T45=T8).
-
+*/
 try1(T45,T8) :-
-
 
 	longest_to_shortest_substrings1(T45,T43),
 	%[T45]=T43,
 	%trace,
 	%(find_first((T44=T43,%member(T44,T43),
 	findall(T52,(member(C1,T43),(%trace,
-	find_lists3a(C1,T52,_)->true;fail%
+	%find_lists3a
+	try2(C1,T52,_)->true;fail%
 	%C1=T52)
 	)
 	),T7),length(T7,T7L),(length(T43,T7L)->%(%trace,T7=T8);
 	(%trace,
 	foldr(append,T7,T8));
 	fail),!.
+
+try2(C1,T52,_) :-%trace,
+	table_s2g(Table),
+	(member([C1,Value,Sign],Table)->
+	(Sign=positive->
+	T52=Value;
+	(Sign=negative->
+	fail));
+	(%trace,
+	((%
 	
+	%(repeating_item_heuristic(C1)->
+	%writeln1([repeating_item_heuristic(C1),true]);
+	%(writeln1([repeating_item_heuristic(C1),false]),fail)
+	%),
+	
+	find_lists3a(C1,T52,_))->
+	%writeln([find_lists3a(C1,T52,_),true]);%
+	true;%add_to_table([C1,T52,positive]);
+	(%add_to_table([C1,T52,negative]),
+	%writeln([find_lists3a(C1,T52,_),fail]),
+	fail)))),!.
+
+repeating_item_heuristic(C1) :-
+	not(C1=[_]),
+	sort(C1,C2),
+	not(C1=C2).
+/*	% item in first half is from 1/2-3/4
+	length(C1,L),
+	L2 is floor(L/2),
+	length(List,L2),
+	L3 is L2+1,
+	L4 is ceiling((3*L)/4),
+	numbers(L4,L3,[],Ns),
+	findall(X,(member(N,Ns),get_item_n(C1,N,X)),Xs),
+	%C1=[C2|C3],
+	append(List,_,C1),
+	intersection(List,Xs,A),not(A=[]),!.
+	*/
+	
+add_to_table(A) :-
+	table_s2g(Table1),
+	append(Table1,[A],Table2),
+	retractall(table_s2g(_)),
+	assertz(table_s2g(Table2)),!.
+
 %*/
 /*(find_repeating_structures(List,A11) :-
 	findall(A,member([_,A],List),A1),
