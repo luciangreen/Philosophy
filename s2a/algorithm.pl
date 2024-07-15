@@ -23,10 +23,8 @@ findall(ON,(member(ON,ONs),get_item_n(Output,ON,Output1),
 Output1=[Word,_Args],type_s2a1(Word)),SR3),
 retractall(single_results(_)),
 assertz(single_results(SR3)),
-%trace,
 sub_term_wa([output,_],T1_old,In2),
 get_n_item(In2,[_,[output,Output]],Map_n),
-
 double_to_single_brackets(In_vars2,In_vars21),
 append(In_vars41,[[output,T2_old]],In_vars21),
 double_to_single_brackets(In_vars41,In_vars4),
@@ -39,5 +37,4 @@ term_to_list(Out_var5,Out_var6),
 single_results(SR),
 (member(1,SR)->
 Out_var6=Out_var;
-(%trace,
-[Out_var6]=Out_var)).
+[Out_var6]=Out_var).
