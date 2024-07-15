@@ -365,7 +365,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	%double_to_single_brackets(In23,In233),
 	%double_to_single_brackets(Out23,Out233),
 	%find_mapping(In233,Out233,Map),
-	term_to_atom(Map,Map1),
+	term_to_atom(Map,Map1),!,
 
 %find_mapping(T3,ORSC,Map),
 
