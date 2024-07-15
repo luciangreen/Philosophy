@@ -548,6 +548,7 @@ process_terms2(T1,T2,T3,R1,R2) :-
 	process_terms2(T51,T61,T3,R7,R2),!.
 */
 try(T45,T8) :-
+%writeln1(try(T45,T8)),
 %trace,
 (catch(table_s2g(_),_,fail)->
 true;(%trace,
@@ -566,7 +567,8 @@ assertz(table_s2g([])))),
 	((%repeating_item_heuristic(C1),
 	try1(T45,T8)%find_lists3a(C1,T52,_)
 	)->
-	true%add_to_table([T45,T8,positive])
+	true%
+	%add_to_table([T45,T8,positive])
 	;
 	(%trace,
 	%add_to_table([T45,T8,negative]),
@@ -603,25 +605,45 @@ try2(C1,T52,_) :-%trace,
 	T52=Value;
 	(Sign=negative->
 	fail));
-	(%trace,
-	((%
+	((
 	
-	%(repeating_item_heuristic(C1)->
-	%writeln1([repeating_item_heuristic(C1),true]);
-	%(writeln1([repeating_item_heuristic(C1),false]),fail)
-	%),
+	(
+	/*not here
+	(repeating_item_heuristic(C1)->
+	writeln1([repeating_item_heuristic(C1),true]);
+	(writeln1([repeating_item_heuristic(C1),false]),fail)
+	)
+	*/
+	true
+	),%->
+	%trace,
+	((%
+	/*
+	(repeating_item_heuristic(C1)->
+	%true);%
+	writeln1([repeating_item_heuristic(C1),true]);
+	(%
+	writeln1([repeating_item_heuristic(C1),false])%,
+	%true%
+	,fail
+	))
+	,
+	*/
 	
 	find_lists3a(C1,T52,_))->
-	%writeln([find_lists3a(C1,T52,_),true]);%
-	true;%add_to_table([C1,T52,positive]);
-	(%add_to_table([C1,T52,negative]),
-	%writeln([find_lists3a(C1,T52,_),fail]),
-	fail)))),!.
+	(%writeln([find_lists3a(C1,T52,_),true]),%
+	true);%
+	%add_to_table([C1,T52,positive]));
+	(%add_to_table([C1,_T52,negative]),
+	%writeln([find_lists3a(C1,_T52,_),false]),
+	fail))%;C1=T52
+	))),!.
 
 repeating_item_heuristic(C1) :-
-	not(C1=[_]),
+	%not
+	((%not(C1=[_]),
 	sort(C1,C2),
-	not(C1=C2).
+	not(C1=C2))).
 /*	% item in first half is from 1/2-3/4
 	length(C1,L),
 	L2 is floor(L/2),
