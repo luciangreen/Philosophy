@@ -32,7 +32,7 @@ rs_and_data_to_term0(RS1,D1,D2,%RSa1,RSa2,
 (First=true->
 wrap_brackets(T2,T21,N1);
 T2=T21),
-append(T1,T21,T22),!.
+append(T1,T21,T22).
 
 
 rs_and_data_to_term0(A,D,D,%RSa,RSa,
@@ -123,7 +123,7 @@ T1,T2,T2_old,First) :-
 	%trace,
 	append(T1,T33,T31))))))
 	,
-	D2=D3,T2=T31,!.
+	D2=D3,T2=T31.
 
 
 ro([r,_]).
@@ -170,7 +170,8 @@ try_o(RS3,D1,D3,T1,T3) :-
 try_nd(RS3,D1,D2,T1,T3,T2_old) :-
 	RS3=[RS4|RS5],
 	(rs_and_data_to_term(RS4,D1,D2,%RSa1,RSa2,
-T1,T3,T2_old,true)->true;
+T1,T3,T2_old,true)%->true
+;
 	try_nd(RS5,D1,D2,T1,T3,T2_old)).
 
 get_token([],D,D,T,T) :- !.

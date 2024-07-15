@@ -1067,7 +1067,7 @@ wrap(A,B):-B=[A].
 % [[a,[[b,[[c,[]]]],[d,[[e,[]]]]]],[f,[[g,[[h,[]]]]]]]
 
 decision_tree(A0,B):-
-sort(A0,A),
+remove_dups(A0,A),
 	decision_tree1(A,C),(length(C,1)->B=C%((P=[]->P1=P;[P1]=P),append([G],P1,GKP)
 	;B=[[nd,C]]%foldr(append,[[G,[nd,%K1,
 	%P]]],GKP))
@@ -1075,7 +1075,7 @@ sort(A0,A),
 decision_tree1([],[]):-!.
 decision_tree1(A,B) :-
 	findall(C1,(member([C|_D],A),(C=[poss,C2]->member(C1,C2);C1=C)),E),
-	sort(E,K),
+	remove_dups(E,K),
 	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),
 	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree1(D2,P),((K1=1->true;length(P,1))->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
 	P]]],GKP))),B),!.

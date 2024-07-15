@@ -4,7 +4,7 @@
 
 find_mapping(T1,T2,Map) :-
 %trace,
-	findall(T12,(findall(T11,remove_nd(T1,T11),T13),sort(T13,T14),
+	findall(T12,(findall(T11,remove_nd(T1,T11),T13),remove_dups(T13,T14),
 	member(T15,T14),
 	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T15,In1),
 	sub_term_types_wa([heuristic(is_var_s2a(A),A)],T2,In2),
