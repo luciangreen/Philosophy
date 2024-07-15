@@ -20,12 +20,16 @@
 :-dynamic optional_s2g/1.
 :-dynamic character_breakdown_mode/1.
 :-dynamic single_results/1.
+:-dynamic san_no_rs/1.
 %:-dynamic ampersand_var_n_s2a/1.
 
 % spec_to_algorithm([[['A',[1,3]]],[['B',[1,2]]]],A)
 % A = 
 
 spec_to_algorithm(S,CBM,Alg) :-
+
+	retractall(san_no_rs(_)),
+	assertz(san_no_rs(false)),
 
 	retractall(single_results(_)),
 	assertz(single_results([])),
@@ -365,7 +369,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	%double_to_single_brackets(In23,In233),
 	%double_to_single_brackets(Out23,Out233),
 	%find_mapping(In233,Out233,Map),
-	term_to_atom(Map,Map1),!,
+	term_to_atom(Map,Map1),
 
 %find_mapping(T3,ORSC,Map),
 
@@ -376,6 +380,8 @@ algorithm(In_vars,
 Out_var) :-
 retractall(single_results(_)),
 assertz(single_results([])),
+retractall(san_no_rs(_)),
+assertz(san_no_rs(true)),
 length(In_vars,In_vars_L),
 numbers(In_vars_L,1,[],Ns),
 findall(Var1,(member(N,Ns),get_item_n(In_vars,N,Var),

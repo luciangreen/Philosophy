@@ -63,8 +63,8 @@ T1,T2,T2_old,First) :-
 	(%look ahead to char following r x if undefined, try repeating or going on
 	%(ro(RS3),rs_and_data_to_term(RS3,D1,D2,%RSa1,RSa2,
 %[],T3))->true;
-	(D1=[r,D11]->true;D1=D11),
-	try_r(RS3,D11,D2,[],T3,T2_old),%),
+	%(D1=[r,D11]->true;D1=D11),
+	try_r(RS3,D1,D2,[],T3,T2_old),%),
 	
 	append(T1,[[r,T3%[RS3,T3]
 	]],T31)
@@ -136,7 +136,7 @@ try_r(RS3,D1,D2,T1,T2,T2_old) :-
 	(D2=D3,T1=T2);
 	((T1=[]->(T3=T31,%[T31|_],
 	append(T1,T31,T4));T4=T1),
-	try_r(RS3,D3,D2,T4,T2,T2_old))),!.
+	try_r(RS3,D3,D2,T4,T2,T2_old))).
 
 try_r1([],D,D,T,T,_T2_old) :- !.
 try_r1(_,[],[],T,T,_T2_old) :- !.
@@ -159,13 +159,13 @@ try_r1(RS3,D1,D3,T1,T2,T2_old) :-
 	get_val_s2a(RS4,D4),
 	append(T1,[D4],T3),
 	%D5=D3,T3=T2.
-	try_r1(RS5,D5,D3,T3,T2,T2_old),!.
+	try_r1(RS5,D5,D3,T3,T2,T2_old).
 
 try_r1(_,D,D,T,T,_T2_old) :- !.
 
 try_o(RS3,D1,D3,T1,T3) :-
 	(try_r1(RS3,D1,D3,T1,T3);
-	(D1=D3,T1=T3)),!.
+	(D1=D3,T1=T3)).
 
 try_nd(RS3,D1,D2,T1,T3,T2_old) :-
 	RS3=[RS4|RS5],
@@ -211,21 +211,21 @@ get_val_s2a(Var,Val) :-
 	retractall(vars_table_s2a(_)),
 	assertz(vars_table_s2a(Vars2)))));
 	Var=Val
-	),!.
+	).
 	
 is_var_s2a(Item) :-
 	atom(Item),atom_concat(It,Em,Item),
 	atom_length(It,1),
 	is_upper(It),
 	atom_string(Em,Em1),
-	number_string(_N,Em1),!.
+	number_string(_N,Em1).
 	
 only_item1(A) :- (character_breakdown_mode(on)->
-	only_item1_c(A);only_item2_c(A)),!.
-only_item1(A) :- only_item2_c(A),!.
+	only_item1_c(A);only_item2_c(A)).
+only_item1(A) :- only_item2_c(A).
 
-only_item1_c(A) :- (is_var_s2a(A)->true;(A=[A1,_],type_s2a1(A1))),not(type_s2a1(A)),!.
-only_item2_c(A):-only_item(A),!.
+only_item1_c(A) :- (is_var_s2a(A)->true;(A=[A1,_],type_s2a1(A1))),not(type_s2a1(A)).
+only_item2_c(A):-only_item(A).
 only_item2_c([]).
 
 

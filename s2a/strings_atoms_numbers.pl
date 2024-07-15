@@ -12,7 +12,7 @@ strings_atoms_numbers(T1,T2) :-
 	(get_type(A1,Type),
 	%try(A1,A2)
 	characterise(A1,Type,A2),%,A2=[A21]
-	try(A2,A21)
+	(san_no_rs(false)->try(A2,A21);A2=A21)
 	%(length(A2,1)->fail;true)
 	))
 	),In2),

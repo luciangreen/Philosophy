@@ -105,15 +105,7 @@ find_lists3(L1,L2,L3,Rest) :-
 	repeating_unit(L1,U,Rest),
 	(U=[r,U1]->
 	%find_lists3(U1,[],U2);
-	%(table_s2g(Table),
-	%(%trace,
-	%member([U1,U2,_],Table)->
-	%true;
-	%(
-	try(U1,U2)
-	%writeln1(add_to_table([U1,U2,positive])),
-	%add_to_table([U1,U2,positive])))
-	;
+	try(U1,U2);
 	U2=U),
 	append(L2,[[r,U2]],L3).
 

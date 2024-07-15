@@ -111,7 +111,7 @@ test_spec_to_algorithm :-
 findall(_,(member([N,S,
 character_breakdown_mode=CBM],
 [
-%/*
+
 [1, 
 [
 [[input,[['A',[1,2]]]],[output,[['B',[2,1]]]]],
@@ -272,7 +272,7 @@ character_breakdown_mode=on
 ],
 character_breakdown_mode=on
 ]
-%*/
+
 
 
 

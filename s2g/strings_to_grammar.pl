@@ -28,7 +28,6 @@ G = [[1,>,a,1]
 :-dynamic s2g_mode/1.
 :-dynamic optional_s2g/1.
 :-dynamic table_s2g/1.
-:-dynamic table_s2g_v/1.
 
 test_s2g :-
 
@@ -548,44 +547,13 @@ process_terms2(T1,T2,T3,R1,R2) :-
 	append(R1,[R6],R7),
 	process_terms2(T51,T61,T3,R7,R2),!.
 */
-/*
-try(A,B) :-
-writeln1(try(A,B)),
+try(T45,T8) :-
+%writeln1(try(T45,T8)),
+%trace,
 (catch(table_s2g(_),_,fail)->
 true;(%trace,
 retractall(table_s2g(_)),
 assertz(table_s2g([])))),
-
-(catch(table_s2g_v(_),_,fail)->
-true;(%trace,
-retractall(table_s2g_v(_)),
-assertz(table_s2g_v(1)))),
-
-	% A = a, T45 = [a,b], V = [a1,b1], want to process [,b], put back a
-	findall([T45,L,R,A,Value],(table_s2g(Table),member([T45,Value,positive],Table),
-	sub_list(A,L,T45,R)),X),
-	sort(X,X1),reverse(X1,X2),
-	X2=[[T45,L,R,A,V]|_],
-	%In2=[Add,]
-	table_s2g_v(N),N2 is N+1,
-	retractall(table_s2g_v(_)),
-	assertz(table_s2g_v(N2)),
-
-	string_concat("&",N,N1),
-	%In2=[Add,_C],In3=[Add,N1],
-	%foldr(put_sub_term_wa_ae,In3,T,T21),
-	foldr(append,[L,[N1],R],T21),
-	try(T21,T22),
-	sub_list(T22,L1,[N1],R1),
-	%findall([Ad,V],member([Ad,_],In4),In5),
-	foldr(append,[L1,V,R1],B),
-	%foldr(put_sub_term_wa_ae,In5,T22,B),
-	!.
-	*/
-
-try(T45,T8) :-
-%writeln1(try(T45,T8)),
-%trace,
 %trace,
 	table_s2g(Table),
 	(member([T45,Value,Sign],Table)->
@@ -638,7 +606,7 @@ try2(C1,T52,_) :-%trace,
 	(Sign=negative->
 	fail));
 	((
-
+	
 	(
 	/*not here
 	(repeating_item_heuristic(C1)->
@@ -664,8 +632,8 @@ try2(C1,T52,_) :-%trace,
 	
 	find_lists3a(C1,T52,_))->
 	(%writeln([find_lists3a(C1,T52,_),true]),%
-	%true);%
-	add_to_table([C1,T52,positive]));
+	true);%
+	%add_to_table([C1,T52,positive]));
 	(%add_to_table([C1,_T52,negative]),
 	%writeln([find_lists3a(C1,_T52,_),false]),
 	fail))%;C1=T52
@@ -691,12 +659,9 @@ repeating_item_heuristic(C1) :-
 	
 add_to_table(A) :-
 	table_s2g(Table1),
-	(member(A,Table1)->true;
-	(append(Table1,[A],Table2),
+	append(Table1,[A],Table2),
 	retractall(table_s2g(_)),
-	assertz(table_s2g(Table2)))),!.
-
-	
+	assertz(table_s2g(Table2)),!.
 
 %*/
 /*(find_repeating_structures(List,A11) :-
