@@ -212,6 +212,8 @@ get_val_s2a(Var,Val) :-
 	assertz(vars_table_s2a(Vars2)))));
 	Var=Val
 	).
+	%writeln(not(is_var_s2a(Val))),
+	%not(is_var_s2a(Val)).
 	
 is_var_s2a(Item) :-
 	atom(Item),atom_concat(It,Em,Item),

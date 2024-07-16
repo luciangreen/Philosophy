@@ -218,7 +218,8 @@ spec_to_algorithm(S,CBM,Alg) :-
 %trace,
 	findall(RSC4,(member(A,Separated_by_shape),
 	findall(RSC,(member(B,A),
-	findall([IOa,IOb],(member([RS101,RS11],B),
+	findall([[Input_a,Input_b],[Output_a,Output_b]%IOa,IOb
+	],(member([RS101,RS11],B),
 	%findall(RSC,(member([RS101,RS11],Separated_by_shape),
 	%findall(RSC,(member(B%[_RS101,RS11]
 	%,A),
@@ -231,19 +232,51 @@ spec_to_algorithm(S,CBM,Alg) :-
 	%,(member(N1,Ns1),get_item_n(RS101,N1,
 	RS101=[[input,Input_a],[output,Output_a]],%),
 	%get_item_n(RS11,N1,
-	RS11=[[input,Input_b],[output,Output_b]],%),
+	RS11=[[input,Input_b],[output,Output_b]]%),
 	%member([[input,Input],[output,Output]],S),
 	%length(Input_a,Input_a_L),
 	%length(Input_c,Input_a_L),
-	
-append(Input_a,Output_a,IOa),
-append(Input_b,Output_b,IOb)),IOaIOb),
+		
+%append(Input_a,Output_a,IOa),
+%append(Input_b,Output_b,IOb)
+),IOaIOb),
+%trace,
+	% if Is are same, and different Os, make separate calls to find_constants
+findall(XY1,member([XY1,_],IOaIOb),XY2),
+remove_dups(XY2,XY3),
+%trace,
+findall(XY28,(member(XY21,XY3),findall(XY22,member([XY21,XY22],IOaIOb),XY23),remove_dups(XY23,XY24),findall([XY211,XY221],(member(XY221,XY24),member([XY211,XY221],IOaIOb)),XY231),findall(XY232,(member(XY26,XY24),findall([XY27,XY26],member([XY27,XY26],XY231),XY232)),XY28)),XY81),
+foldr(append,XY81,XY82),
+remove_dups(XY82,XY8),
+/*
+[]))
+findall(%[XY51,XY61]%
+XY7
+,(member(XY5,XY3),findall([XY5,XY6],
+member([XY5,XY6],IOaIOb)%,remove_dups(XY5,XY51),remove_dups(XY6,XY61)%
+,XY7)
+),XY8),
+*/
+/*
+findall([XY51,XY61]%XY7
+,(%member(XY5,XY3),%findall([XY5,XY6],
+member([XY5,XY6],IOaIOb),remove_dups(XY5,XY51),remove_dups(XY6,XY61)%XY7)
+),XY8),*/
+%trace,%remove_dups(XY8,XY81),
 
-findall(A0,member([A0,_],IOaIOb),Data),
-findall(A0,member([_,A0],IOaIOb),Vars3),
+findall(XY15,(member(XY10,XY8),findall([XY11_XY13,XY12_XY14],(member([[XY11,XY12],[XY13,XY14]],XY10),append(XY11,XY13,XY11_XY13),append(XY12,XY14,XY12_XY14)),XY15)%trace,remove_dups(XY15,XY151)
+),XY16),
+%sort(XY16,XY161),
 
 %trace,
-find_constants(Data,Vars3,RSC_a),
+findall(RSC3,(member(XY19,XY16),%member(XY19,XY18),
+findall(A0,member([A0,_],XY19),Data),
+findall(A0,member([_,A0],XY19),Vars3),
+
+%trace,
+remove_dups(Data,Data1),
+remove_dups(Vars3,Vars31),
+find_constants(Data1,Vars31,RSC_a),
 
 RS10=[[[input,Input_a],[output,Output_a]]|_],
 	length(Input_a,Input_a_L),
@@ -252,8 +285,10 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	append(Input_c,Output_d,%RSC_a)),
 	RSC_a),
 	
-	RSC=[[input,Input_c],[output,Output_d]])%,RSC3))
-	,RSC4)),
+	RSC3=[[input,Input_c],[output,Output_d]])
+	,RSC))
+	,RSC41),foldr(append,RSC41,RSC4)
+	),
 	RSC1),
 
 	%foldr(append,RSC1,RSC2),
