@@ -17,7 +17,7 @@ remove_nd(T,L1,L2) :-
 	append(L1,L32,L3));
 	(T1=[]->append(L1,[[]],L3);
 	((is_list(T1),remove_nd(T1,[],L32)),
-	(%not(L32=nd),
+	(fail,%not(L32=nd),
 	L31=[L32],append(L1,L31,L3));
 	(no_nds(T1),append(L1,[T1],L3))))),
 	

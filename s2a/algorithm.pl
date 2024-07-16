@@ -1,6 +1,14 @@
-:-include('auxiliary_s2a.pl').
+% Use if separated from s2a:
+% :-include('auxiliary_s2a_used.pl').
 algorithm(In_vars,
 Out_var) :-
+((catch(character_breakdown_mode(_),_,fail)->true;
+(retractall(character_breakdown_mode(_)),
+assertz(character_breakdown_mode(on)),
+print_message(information,"Warning: Character Breakdown Mode On.")))),
+((catch(vars_table_s2a(_),_,fail)->true;
+(retractall(vars_table_s2a(_)),
+assertz(vars_table_s2a([]))))),
 retractall(single_results(_)),
 assertz(single_results([])),
 retractall(san_no_rs(_)),

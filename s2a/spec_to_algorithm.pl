@@ -3,15 +3,9 @@
 
 :-set_prolog_flag(stack_limit, 50000000000).
 
-:-include('../s2g/strings_to_grammar.pl').
+:-include('auxiliary_s2a_used.pl').
 :-include('spec_to_algorithm_test.pl').
-:-include('rs_and_data_to_term.pl').
 %:-include('process_terms_s2a.pl').
-:-include('term_to_list.pl').
-:-include('auxiliary_s2a.pl').
-:-include('term_to_brackets.pl').
-:-include('remove_nd.pl').
-:-include('strings_atoms_numbers.pl').
 
 :-dynamic num_s2a/1.
 :-dynamic vars_s2a/1.
@@ -375,9 +369,17 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 
 	%writeln1([rSC,RSC,"\n",oRSC,ORSC,"\n",rS10,RS10,"\n",oRS10,ORS10,"\n",t3,T3]),
 % take input and mapping and produce output
-foldr(string_concat,[":-include('auxiliary_s2a.pl').
+foldr(string_concat,["% Use if separated from s2a:
+% :-include('auxiliary_s2a_used.pl').
 algorithm(In_vars,
 Out_var) :-
+((catch(character_breakdown_mode(_),_,fail)->true;
+(retractall(character_breakdown_mode(_)),
+assertz(character_breakdown_mode(on)),
+print_message(information,\"Warning: Character Breakdown Mode On.\")))),
+((catch(vars_table_s2a(_),_,fail)->true;
+(retractall(vars_table_s2a(_)),
+assertz(vars_table_s2a([]))))),
 retractall(single_results(_)),
 assertz(single_results([])),
 retractall(san_no_rs(_)),
