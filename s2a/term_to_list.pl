@@ -11,7 +11,7 @@ term_to_list(T,L%,N
 	%->
 	%term_to_list2(T,L);
 	term_to_list1(T,L)%)
-	.
+	,!.
 
 term_to_list1(T,L) :-
 	%catch(call_with_time_limit(3,
