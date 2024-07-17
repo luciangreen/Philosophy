@@ -217,6 +217,8 @@ success
 
 * <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Lucianpedia Article about Spec to Algorithm</a>
 
+* <a href="https://youtu.be/EOMc-FHqDWg?si=fTRC1lwpDGGWUWcB">Spec to Algorithm Youtube Video</a>
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
