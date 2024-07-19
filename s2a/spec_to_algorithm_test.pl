@@ -296,8 +296,11 @@ character_breakdown_mode=on
 ],
 character_breakdown_mode=on
 ]
-
-
+% A1 with & in strings
+% A1 or AA11
+% A1 doesn't merge in two specs
+% need 1 training, 1 testing spec
+% formulas such as [var,_]
 
 
 ]),
