@@ -287,8 +287,15 @@ character_breakdown_mode=on
 [[input,[['A',"4"]]],[output,[['B',"44"]]]]
 ],
 character_breakdown_mode=on
-]
+],
 
+[21,
+[
+[[input,[['A',["2",'A1']]]],[output,[['B',["22",'A1']]]]],
+[[input,[['A',["4",'A1']]]],[output,[['B',["44",'A1']]]]]
+],
+character_breakdown_mode=on
+]
 
 
 
