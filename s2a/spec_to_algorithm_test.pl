@@ -271,7 +271,24 @@ character_breakdown_mode=on
 [[input,[['A',"1434314343"]]],[output,[['B',"4"]]]]
 ],
 character_breakdown_mode=on
+],
+
+[19,
+[
+[[input,[['A',"2"]]],[output,[['B',[2,2]]]]],
+[[input,[['A',"4"]]],[output,[['B',[4,4]]]]]
+],
+character_breakdown_mode=on
+],
+
+[20,
+[
+[[input,[['A',"2"]]],[output,[['B',"22"]]]],
+[[input,[['A',"4"]]],[output,[['B',"44"]]]]
+],
+character_breakdown_mode=on
 ]
+
 
 
 

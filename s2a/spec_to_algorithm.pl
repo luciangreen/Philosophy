@@ -70,14 +70,14 @@ spec_to_algorithm(S,CBM,Alg) :-
 	%trace,
 	characterise1(S11,S12),
 	%trace,
-	strings_atoms_numbers(S12,S13),
+	strings_atoms_numbers(S12,S13,rs=on),
 	term_to_brackets(S13,S14),
 	find_lists3b(S14,RS)
 	),Input1),
 	findall([S10,RS],(member([S10,S11],Output),
 	%(string(S11)->string_strings(S11,S12);S11=S12),
 	characterise1(S11,S12),
-	strings_atoms_numbers(S12,S13),
+	strings_atoms_numbers(S12,S13,rs=off),
 	term_to_brackets(S13,S14),
 	%find_lists3b(S14,RS)
 	S14=RS
@@ -110,7 +110,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	findall([UV1,RS],(member([UV1,UV2],Input),
 	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
 	characterise1(UV2,UV3),
-	strings_atoms_numbers(UV3,UV31),
+	strings_atoms_numbers(UV3,UV31,rs=on),
 	term_to_brackets(UV31,UV4),
 	find_lists3b(UV4,RS)
 	),Input1),
@@ -118,7 +118,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	findall([UV1,RS],(member([UV1,UV2],Output),
 	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
 	characterise1(UV2,UV3),
-	strings_atoms_numbers(UV3,UV31),
+	strings_atoms_numbers(UV3,UV31,rs=off),
 	term_to_brackets(UV31,UV4),
 	%find_lists3b(UV4,RS)
 	UV4=RS
@@ -132,7 +132,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	findall([UV1,RS],(member([UV1,UV2],Input),
 	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
 	characterise1(UV2,UV3),
-	strings_atoms_numbers(UV3,UV32),
+	strings_atoms_numbers(UV3,UV32,rs=on),
 	%find_unique_variables(UV31,UV32),	
 	term_to_brackets(UV32,UV4),
 	find_lists3b(UV4,RS)
@@ -141,7 +141,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	findall([UV1,RS],(member([UV1,UV2],Output),
 	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
 	characterise1(UV2,UV3),
-	strings_atoms_numbers(UV3,UV32),
+	strings_atoms_numbers(UV3,UV32,rs=off),
 	%find_unique_variables(UV31,UV32),		
 	term_to_brackets(UV32,UV4),
 	%find_lists3b(UV4,RS)
@@ -459,7 +459,7 @@ numbers(In_vars_L,1,[],Ns),
 findall(Var1,(member(N,Ns),get_item_n(In_vars,N,Var),
 term_to_brackets(Var,Var3),
 characterise1(Var3,Var2),
-strings_atoms_numbers(Var2,Var1)
+strings_atoms_numbers(Var2,Var1,rs=on)
 ),In_vars1),
 T1_old=",T31,",
 append(In_vars1,[[output,_]],In_vars3),
