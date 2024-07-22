@@ -15,6 +15,8 @@
 :-dynamic character_breakdown_mode/1.
 :-dynamic single_results/1.
 :-dynamic san_no_rs/1.
+:-dynamic rec_join_n/1.
+:-dynamic rec_join_vars/1.
 %:-dynamic ampersand_var_n_s2a/1.
 
 % spec_to_algorithm([[['A',[1,3]]],[['B',[1,2]]]],A)
@@ -71,14 +73,14 @@ spec_to_algorithm(S,CBM,Alg) :-
 	characterise1(S11,S12),
 	%trace,
 	strings_atoms_numbers(S12,S13,rs=on),
-	term_to_brackets(S13,S14),
+	term_to_brackets(S13,S14,split=on),
 	find_lists3b(S14,RS)
 	),Input1),
 	findall([S10,RS],(member([S10,S11],Output),
 	%(string(S11)->string_strings(S11,S12);S11=S12),
 	characterise1(S11,S12),
 	strings_atoms_numbers(S12,S13,rs=off),
-	term_to_brackets(S13,S14),
+	term_to_brackets(S13,S14,split=off),
 	%find_lists3b(S14,RS)
 	S14=RS
 	),Output1)	
@@ -111,7 +113,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
 	characterise1(UV2,UV3),
 	strings_atoms_numbers(UV3,UV31,rs=on),
-	term_to_brackets(UV31,UV4),
+	term_to_brackets(UV31,UV4,split=on),
 	find_lists3b(UV4,RS)
 	),Input1),
 	%find_unique_variables(Output,UVo),
@@ -119,7 +121,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	%(string(UV2)->string_strings(UV2,UV3);UV2=UV3),
 	characterise1(UV2,UV3),
 	strings_atoms_numbers(UV3,UV31,rs=off),
-	term_to_brackets(UV31,UV4),
+	term_to_brackets(UV31,UV4,split=off),
 	%find_lists3b(UV4,RS)
 	UV4=RS
 	),Output1)
@@ -134,7 +136,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	characterise1(UV2,UV3),
 	strings_atoms_numbers(UV3,UV32,rs=on),
 	%find_unique_variables(UV31,UV32),	
-	term_to_brackets(UV32,UV4),
+	term_to_brackets(UV32,UV4,split=on),
 	find_lists3b(UV4,RS)
 	),Input1),
 	%find_unique_variables(Output,UVo),
@@ -143,7 +145,7 @@ spec_to_algorithm(S,CBM,Alg) :-
 	characterise1(UV2,UV3),
 	strings_atoms_numbers(UV3,UV32,rs=off),
 	%find_unique_variables(UV31,UV32),		
-	term_to_brackets(UV32,UV4),
+	term_to_brackets(UV32,UV4,split=off),
 	%find_lists3b(UV4,RS)
 	UV4=RS
 	),Output1)
@@ -356,7 +358,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	%double_to_single_brackets(C6,C8),
 	decision_tree(C6,In_Out24),
 	%double_to_single_brackets(C8,In_Out24),
-
+	%trim_brackets(In_Out241,In_Out24,_),
 %trace,
 	findall(C5,(member([[input,In2],[output,Out2]],RSC5),
 	findall(A00,member([_,A00],In2),In24),
@@ -457,7 +459,7 @@ assertz(san_no_rs(true)),
 length(In_vars,In_vars_L),
 numbers(In_vars_L,1,[],Ns),
 findall(Var1,(member(N,Ns),get_item_n(In_vars,N,Var),
-term_to_brackets(Var,Var3),
+term_to_brackets(Var,Var3,split=off),
 characterise1(Var3,Var2),
 strings_atoms_numbers(Var2,Var1,rs=on)
 ),In_vars1),
@@ -510,7 +512,7 @@ findall(A1,member([_,A1],In4)%,%term_to_atom
 %term_to_brackets(A30,A3),
 term_to_atom(A30,A4),%
 findall(A1,(member([_,A],Out4),%term_to_atom
-term_to_brackets(A,A1))
+term_to_brackets(A,A1,split=off))
 ,A310),%foldr(append,A21,A31a),append(A31,[_],A31a),
 %term_to_brackets(A310,A31),
 term_to_atom(A310,A41),
@@ -592,6 +594,12 @@ get_num_s2a(N) :-
 	retractall(num_s2a(_)),
 	assertz(num_s2a(N1)).
 
+get_rec_join_n(N) :-
+	rec_join_n(N),
+	N1 is N+1,
+	retractall(rec_join_n(_)),
+	assertz(rec_join_n(N1)).
+
 /*
 get_ampersand_var_s2a(N) :-
 	ampersand_var_n_s2a(N),
@@ -612,7 +620,60 @@ change_var_base :-
 
 
 find_lists3b(UV2,RS) :-
-	try(UV2,RS).
+% split on "[", "]", (",") rec'ly do nested brackets
+% - () turn [a,b,c] into [a,[b,[c]]]
+% later: split on delimiters in strings incl " " ,;.()[]
+% label [split,_]
+% [,]+[,]=[,,,]
+% [r,[r,a]]=[r,a]
+retractall(rec_join_n(_)),
+assertz(rec_join_n(1)),
+retractall(rec_join_vars(_)),
+assertz(rec_join_vars([])),
+
+%trace,
+rec_join(UV2,RS1),
+sub_into_rjv(RS1,RS).
+
+save_if_same(C,RS11,RS1) :-
+	(C=RS11->
+	(rec_join_vars(RJV),
+	(member([C,RS11,N],RJV)->
+	true;
+	(get_rec_join_n(N),
+	append(RJV,[[C,RS11,N]],RJV1),
+	retractall(rec_join_vars(_)),
+	assertz(rec_join_vars(RJV1)))),
+	RS1=[[rjv,N]]);
+	RS11=RS1),!.
+	
+sub_into_rjv(List1,List2) :-
+	rec_join_vars(RJV),
+	sub_term_wa([rjv,_],List1,In1),
+	findall([Ad,Item2],(member([Ad,[rjv,N]],In1),
+	member([_,Item2,N],RJV)),In2),
+	foldr(put_sub_term_wa_ae_smooth,In2,List1,List3),
+	((List1=List3)->List2=List1;
+	sub_into_rjv(List3,List2)),
+	!.
+	
+rec_join(UV2,RS) :-
+
+sub_term_types_wa([heuristic((A=[split,B],not(member([split,_],B))),A)],UV2,In1),
+
+%(In1=[]->rec_join(UV2,RS);
+
+findall([Ad,RS1],(member([Ad,[split,C]],In1),try(C,RS11),save_if_same(C,RS11,RS1)),In2),
+foldr(put_sub_term_wa_ae_smooth,In2,UV2,UV3),
+
+findall(RS2,(member(Y,UV3),(Y=[split,Z]->rec_join(Z,RS2);[Y]=RS2)),UV4),
+%trace,
+foldr(append,UV4,UV41),
+
+	%try(UV41,RS3),
+	UV41=RS3,
+	
+	(RS3=[r,[r,RS4]]->RS=[r,RS4];RS=RS3).
 
 find_unique_variables(S,UV) :-
 

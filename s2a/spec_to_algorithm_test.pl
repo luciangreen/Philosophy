@@ -295,12 +295,140 @@ character_breakdown_mode=on
 [[input,[['A',["4",'A1']]]],[output,[['B',["44",'A1']]]]]
 ],
 character_breakdown_mode=on
-]
+],
+
 % A1 with & in strings
 % A1 or AA11
 % A1 doesn't merge in two specs
 % need 1 training, 1 testing spec
 % formulas such as [var,_]
+
+% parse
+[22,
+[
+[[input,[['A',"C is A+B"]]],[output,[[n,+],[[v,[downcase,"A"]],[v,[downcase,"B"]],[v,[downcase,"C"]]]]]],
+[[input,[['A',"D is E+F"]]],[output,[[n,+],[[v,[downcase,"E"]],[v,[downcase,"F"]],[v,[downcase,"D"]]]]]]
+],
+character_breakdown_mode=on
+],
+
+% produce the abstract syntax tree
+[23,
+[
+[[input,[['A',"C is A+B"]]],[output,[['B',[[n, assign],[[v,[downcase,"C"]],[[n,+],[[v,[downcase,"A"]],[v,[downcase,"B"]]]]]]]]]],
+[[input,[['A',"D is E+F"]]],[output,[['B',[[n, assign],[[v,[downcase,"D"]],[[n,+],[[v,[downcase,"E"]],[v,[downcase,"F"]]]]]]]]]]
+],
+character_breakdown_mode=on
+],
+
+% translate
+[24,
+[
+[[input,[['A',"C is A-B"]]],[output,[['B',[[n,-],[[v,[downcase,"A"]],[v,[downcase,"B"]],[v,[downcase,"C"]]]]]]]],
+[[input,[['A',"D is E-F"]]],[output,[['B',[[n,-],[[v,[downcase,"E"]],[v,[downcase,"F"]],[v,[downcase,"D"]]]]]]]]
+],
+character_breakdown_mode=on
+],
+
+
+% split on "[", "]", (",") rec'ly do nested brackets
+% - () turn [a,b,c] into [a,[b,[c]]]
+% split on delimiters in strings incl " " ,;.()[]
+% label [split,_]
+% [,]+[,]=[,,,]
+% [r,[r,a]]=[r,a]
+
+% debug
+
+
+
+
+[25,
+[
+[[input,[['A',["A","B",[+,["A","B"]]]]]],[output,[['B',"C is A+B"]]]],
+[[input,[['A',["E","F",[+,["E","F"]]]]]],[output,[['B',"C is E+F"]]]]
+],
+character_breakdown_mode=on
+]
+
+,
+[26,
+[
+[[input,[['A',[[n,=],[[v,a],[v,b],[v,c]]]]]],[output,[['B',[[n,+],[[v,a],[v,b],[v,c]]]]]]],
+[[input,[['A',[[n,=],[[v,e],[v,f],[v,d]]]]]],[output,[['B',[[n,+],[[v,e],[v,f],[v,d]]]]]]]
+],
+character_breakdown_mode=off
+],
+
+% optimise
+[27,
+[
+[[input,[['A',[[[n,+],[[v,a],[v,b],[v,c]]],[[n,=],[[v,c],[v,d]]]]]]],[output,[['B',[[n,+],[[v,a],[v,b],[v,d]]]]]]],
+[[input,[['A',[[[n,+],[[v,e],[v,f],[v,g]]],[[n,=],[[v,g],[v,h]]]]]]],[output,[['B',[[n,+],[[v,e],[v,f],[v,h]]]]]]]
+],
+character_breakdown_mode=off
+],
+
+[28,
+[
+[[input,[['A',[[[n,=],[[v,a],[v,b]]],[[n,=],[[v,b],[v,c]]]]]]],[output,[['B',[[n,=],[[v,a],[v,c]]]]]]],
+[[input,[['A',[[[n,=],[[v,e],[v,f]]],[[n,=],[[v,f],[v,g]]]]]]],[output,[['B',[[n,=],[[v,e],[v,g]]]]]]]
+],
+character_breakdown_mode=off
+],
+
+% spreadsheet formula finder
+[29,
+[
+[[input,[['A',[["","Jan","Feb","TOTAL"],["$","1","2",[+,["1","2"]]]]]]],[output,[['B',[["","January","February","TOTAL"],["$","A","B",[+,["A","B"]]]]]]]],
+[[input,[['A',[["","Jan","Feb","TOTAL"],["$","2","3",[+,["2","3"]]]]]]],[output,[['B',[["","January","February","TOTAL"],["$","A","B",[+,["A","B"]]]]]]]]
+],
+character_breakdown_mode=off
+],
+
+
+% ssff 1+2->sum
+[30,
+[
+[[input,[['A',[["","Month1","Month2","TOTAL"],["$","1","2",[+,["1","2"]]]]]]],[output,[['B',[["","Month1","Month2","TOTAL"],["$",a,a,[month_sum,[a]]]]]]]],
+[[input,[['A',[["","Month1","Month2","Month3","TOTAL"],["$","3","4","5",[+,["3","4","5"]]]]]]],[output,[['B',[["","Month1","Month2","Month3","TOTAL"],["$",a,a,a,[month_sum,[a]]]]]]]]
+],
+character_breakdown_mode=off
+],
+
+
+% ssff sum->compressed
+[32,
+[
+[[input,[['A',[["","Month","Month","TOTAL"],["$",a,a,[month_sum,[a]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,[month_sum,[a]]]]]]]],
+[[input,[['A',[["","Month","Month","TOTAL"],["$",a,a,a,[month_sum,[a]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,[month_sum,[a]]]]]]]]
+],
+character_breakdown_mode=off
+],
+
+
+% ssff sum->compressed vertical
+[33,
+[
+[[input,[['A',[["","Month"],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]],[output,[['B',[["","Month"],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]]],
+[[input,[['A',[["","Month"],["$",a],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]],[output,[['B',[["","Month"],["$",a],["$",a],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]]]
+],
+character_breakdown_mode=off
+],
+
+% ssff sum->compressed horizontal, vertical
+[34,
+[
+[[input,[['A',[["","Month","Month","TOTAL"],["$",a,a,month_sum,[a]],["$",a,a,[month_sum,[a]]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,month_sum,[a]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]]],
+[[input,[['A',[["","Month","Month","Month","TOTAL"],["$",a,a,a,month_sum,[a]],["$",a,a,a,[month_sum,[a]]],["$",a,a,a,[month_sum,[a]]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,month_sum,[a]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]]]
+],
+character_breakdown_mode=off
+]
+
+
+
+
+
 
 
 ]),

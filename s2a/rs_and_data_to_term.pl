@@ -176,6 +176,7 @@ T1,T3,T2_old,true)%->true
 
 get_token([],D,D,T,T) :- !.
 get_token(RS1,D1,D3,T1,T3) :-
+%writeln1(get_token(RS1,D1,D3,T1,T3)),
 %trace,
 	((D1=[D4|D2],
 	not(only_item1(D1)))->
@@ -210,7 +211,7 @@ get_val_s2a(Var,Val) :-
 	(append(Vars,[[Var,Val]],Vars2),
 	retractall(vars_table_s2a(_)),
 	assertz(vars_table_s2a(Vars2)))));
-	Var=Val
+	(Var=Val->true;Val=[string, [Var]])
 	).
 	%writeln(not(is_var_s2a(Val))),
 	%not(is_var_s2a(Val)).
