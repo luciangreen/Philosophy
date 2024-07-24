@@ -5,3 +5,4 @@
 :-include('strings_atoms_numbers.pl').
 :-include('auxiliary_s2a.pl').
 :-include('remove_nd.pl').
+:-include('auxiliary_s2a2.pl').
