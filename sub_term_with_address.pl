@@ -7,11 +7,54 @@ Subterm - Subterm to find
 Term - Initial list to search
 Instances - List of addresses and subterms
 
-Subterm (with address) gives the "address" of a term in a term, such as [[[1], a]] for a in a, [[[1, 2], b]] for b in [a,b], etc, and put subterm with address puts an item into an address.
+Subterm (with address) gives the "address" of a term in a term, such as [[[1], a]] for a in a, [[[1, 2], b]] for b in [a,b], (where the column number is the dimension), and put subterm with address puts an item into an address.
 
 e.g.s of addresses: [1]=a,[1,1]=a in [a,b], [1,1,1]=a in [[a],[b],[c]]
 
 Please don't give a subterm with address terms with _ to find in; it will return results with the search term for each _.
+
+
+sub_term_wa(Subterm, Term, Instances)
+sub_term_wa([a,_], [[a,b], [a,c]], Instances).
+Instances = [[[1, 1], [a, b]], [[1, 2], [a, c]]]
+
+get_sub_term_wa(Term, Address, Item)
+get_sub_term_wa([[1,4],2,3], [1,1,2],Item).
+Item = 4
+
+put_sub_term_wa(Item, Address, Term1, Term2)
+put_sub_term_wa(88, [1,1], [[2,3],4], Term2).
+Term2 = [88, 4]
+
+put_sub_term_wa_smooth(Item, Address, Term1, Term2)
+put_sub_term_wa_smooth([88,1], [1,1], [[2,3],4], Term2).
+Term2 = [88, 1, 4]
+
+delete_sub_term_wa(Instances, Term1, Term2)
+delete_sub_term_wa([[1, 1], [1, 2]], [a, b], Term2).
+Term2 = []
+
+foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
+foldr(put_sub_term_wa_ae,[[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], [v, 2]], Term2).
+Term2 = [[v, 2], [v, 3]]
+
+foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2)
+foldr(put_sub_term_wa_ae_smooth, [[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], [v, 2]], Term2).
+Term2 = [v, 2, v, 3]
+
+sub_term_types_wa(Heuristic, Term, Instances)
+sub_term_types_wa([all([number,string])], [1,["a",3]], Instances)
+Instances = [[[1,2],["a",3]]]
+
+Possible heuristics:
+var
+string
+atom
+[]
+number
+compound (non-list compounds)
+all(Insert_more_heuristics) (all the items are of a type, used to select terminals)
+heuristic(Heuristic,Output_variable) (Heuristic may be for example A=a and Output_variable=A)
 
 */
 
