@@ -88,8 +88,8 @@ put_subterm_with_address(Item, Address, Term1, Term2) :-
 
 put_subterm_wa_smooth(Item, Address, Term1, Term2) :-
 	put_sub_term_wa_smooth(Item, Address, Term1, Term2).
-put_subterm_wa_smooth(Item, Address, Term1, Term2) :-
-	put_sub_term_with_address_smooth(Item, Address, Term1, Term2).
+put_subterm_with_address_smooth(Item, Address, Term1, Term2) :-
+	put_sub_term_wa_smooth(Item, Address, Term1, Term2).
 
 delete_subterm_wa(Instances, Term1, Term2) :-
 	delete_sub_term_wa(Instances, Term1, Term2).
