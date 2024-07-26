@@ -24,8 +24,10 @@ help(stwa) :-
 
 help(subterm_with_address) :-
 
+print_message(information,'Subterm With Address Help'),
+
 Message=
-"sub_term_wa(Subterm, Term, Instances)
+'sub_term_wa(Subterm, Term, Instances)
 sub_term_wa([a,_], [[a,b], [a,c]], Instances).
 Instances = [[[1, 1], [a, b]], [[1, 2], [a, c]]]
  
@@ -65,11 +67,9 @@ atom
 number
 compound (non-list compounds)
 all(Insert_more_heuristics) (all the items are of a type, can be used to select terminals)
-heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)",
+heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)',
 
-split_string(Message,"\n","\n",Lines),
-findall(_,(member(Line1,Lines),atom_string(Line2,Line1),print_message(information,Line2)),_).
-
+writeln(Message).
 
 subterm_wa(Subterm, Term, Instances) :-
 	sub_term_wa(Subterm, Term, Instances).
