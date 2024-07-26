@@ -68,7 +68,7 @@ all(Insert_more_heuristics) (all the items are of a type, can be used to select 
 heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)",
 
 split_string(Message,"\n","\n",Lines),
-findall(_,(member(Line,Lines),print_message(information,Line)),_).
+findall(_,(member(Line1,Lines),atom_string(Line2,Line1),print_message(information,Line2)),_).
 
 
 subterm_wa(Subterm, Term, Instances) :-
