@@ -13,39 +13,50 @@ e.g.s of addresses: [1]=a,[1,1]=a in [a,b], [1,1,1]=a in [[a],[b],[c]]
 
 Please don't give a subterm with address terms with _ to find in; it will return results with the search term for each _.
 
+*/
 
-sub_term_wa(Subterm, Term, Instances)
+help(sub_term_with_address) :-
+	help(subterm_with_address).
+help(sub_term_wa) :-
+	help(subterm_with_address).
+help(stwa) :-
+	help(subterm_with_address).
+
+help(subterm_with_address) :-
+
+Message=
+"sub_term_wa(Subterm, Term, Instances)
 sub_term_wa([a,_], [[a,b], [a,c]], Instances).
 Instances = [[[1, 1], [a, b]], [[1, 2], [a, c]]]
-
+ 
 get_sub_term_wa(Term, Address, Item)
 get_sub_term_wa([[1,4],2,3], [1,1,2],Item).
 Item = 4
-
+ 
 put_sub_term_wa(Item, Address, Term1, Term2)
 put_sub_term_wa(88, [1,1], [[2,3],4], Term2).
 Term2 = [88, 4]
-
+ 
 put_sub_term_wa_smooth(Item, Address, Term1, Term2)
 put_sub_term_wa_smooth([88,1], [1,1], [[2,3],4], Term2).
 Term2 = [88, 1, 4]
-
+ 
 delete_sub_term_wa(Instances, Term1, Term2)
 delete_sub_term_wa([[1, 1], [1, 2]], [a, b], Term2).
 Term2 = []
-
+ 
 foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
 foldr(put_sub_term_wa_ae,[[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], [v, 2]], Term2).
 Term2 = [[v, 2], [v, 3]]
-
+ 
 foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2)
 foldr(put_sub_term_wa_ae_smooth, [[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], [v, 2]], Term2).
 Term2 = [v, 2, v, 3]
-
+ 
 sub_term_types_wa(Heuristic, Term, Instances)
-sub_term_types_wa([all([number,string])], [1,["a",3]], Instances)
-Instances = [[[1,2],["a",3]]]
-
+sub_term_types_wa([all([number,string])], [1,[a,3]], Instances)
+Instances = [[[1,2], [a,3]]]
+ 
 Possible heuristics:
 var
 string
@@ -53,11 +64,53 @@ atom
 []
 number
 compound (non-list compounds)
-all(Insert_more_heuristics) (all the items are of a type, used to select terminals)
-heuristic(Heuristic,Output_variable) (Heuristic may be for example A=a and Output_variable=A)
+all(Insert_more_heuristics) (all the items are of a type, can be used to select terminals)
+heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)",
 
-*/
+split_string(Message,"\n","\n",Lines),
+findall(_,(member(Line,Lines),print_message(information,Line)),_).
 
+
+subterm_wa(Subterm, Term, Instances) :-
+	sub_term_wa(Subterm, Term, Instances).
+subterm_with_address(Subterm, Term, Instances) :-
+	sub_term_wa(Subterm, Term, Instances).
+
+get_subterm_wa(Term, Address, Item) :-
+	get_sub_term_wa(Term, Address, Item).
+get_subterm_with_address(Term, Address, Item) :-
+	get_sub_term_wa(Term, Address, Item).
+
+put_subterm_wa(Item, Address, Term1, Term2) :-
+	put_sub_term_wa(Item, Address, Term1, Term2).
+put_subterm_with_address(Item, Address, Term1, Term2) :-
+	put_sub_term_wa(Item, Address, Term1, Term2).
+
+put_subterm_wa_smooth(Item, Address, Term1, Term2) :-
+	put_sub_term_wa_smooth(Item, Address, Term1, Term2).
+put_subterm_wa_smooth(Item, Address, Term1, Term2) :-
+	put_sub_term_with_address_smooth(Item, Address, Term1, Term2).
+
+delete_subterm_wa(Instances, Term1, Term2) :-
+	delete_sub_term_wa(Instances, Term1, Term2).
+delete_subterm_with_address(Instances, Term1, Term2) :-
+	delete_sub_term_wa(Instances, Term1, Term2).
+
+foldr(put_subterm_wa_ae,Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
+foldr(put_subterm_with_address_ae,Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
+
+foldr(put_subterm_wa_ae_smooth, Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2).
+foldr(put_subterm_with_address_ae_smooth, Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2).
+
+subterm_types_wa(Heuristic, Term, Instances) :-
+	sub_term_types_wa(Heuristic, Term, Instances).
+subterm_types_with_address(Heuristic, Term, Instances) :-
+	sub_term_types_wa(Heuristic, Term, Instances).
+	
 % Requires
 %:-include('../listprologinterpreter/listprolog.pl').
 
