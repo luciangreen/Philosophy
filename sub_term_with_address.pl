@@ -32,11 +32,11 @@ sub_term_wa([a,_], [[a,b], [a,c]], Instances).
 Instances = [[[1, 1], [a, b]], [[1, 2], [a, c]]]
  
 get_sub_term_wa(Term, Address, Item)
-get_sub_term_wa([[1,4],2,3], [1,1,2],Item).
+get_sub_term_wa([[1, 4], 2, 3], [1, 1, 2], Item).
 Item = 4
  
 put_sub_term_wa(Item, Address, Term1, Term2)
-put_sub_term_wa(88, [1,1], [[2,3],4], Term2).
+put_sub_term_wa(88, [1,1], [[2, 3], 4], Term2).
 Term2 = [88, 4]
  
 put_sub_term_wa_smooth(Item, Address, Term1, Term2)
@@ -56,7 +56,7 @@ foldr(put_sub_term_wa_ae_smooth, [[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], 
 Term2 = [v, 2, v, 3]
  
 sub_term_types_wa(Heuristic, Term, Instances)
-sub_term_types_wa([all([number,string])], [1,[a,3]], Instances)
+sub_term_types_wa([all([number, string])], [1,[a,3]], Instances)
 Instances = [[[1,2], [a,3]]]
  
 Possible heuristics:
