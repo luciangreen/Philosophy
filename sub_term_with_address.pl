@@ -75,40 +75,72 @@ subterm_wa(Subterm, Term, Instances) :-
 	sub_term_wa(Subterm, Term, Instances).
 subterm_with_address(Subterm, Term, Instances) :-
 	sub_term_wa(Subterm, Term, Instances).
+sub_term_with_address(Subterm, Term, Instances) :-
+	sub_term_wa(Subterm, Term, Instances).
+stwa(Subterm, Term, Instances) :-
+	sub_term_wa(Subterm, Term, Instances).
 
 get_subterm_wa(Term, Address, Item) :-
 	get_sub_term_wa(Term, Address, Item).
 get_subterm_with_address(Term, Address, Item) :-
+	get_sub_term_wa(Term, Address, Item).
+get_sub_term_with_address(Term, Address, Item) :-
+	get_sub_term_wa(Term, Address, Item).
+get_stwa(Term, Address, Item) :-
 	get_sub_term_wa(Term, Address, Item).
 
 put_subterm_wa(Item, Address, Term1, Term2) :-
 	put_sub_term_wa(Item, Address, Term1, Term2).
 put_subterm_with_address(Item, Address, Term1, Term2) :-
 	put_sub_term_wa(Item, Address, Term1, Term2).
+put_sub_term_with_address(Item, Address, Term1, Term2) :-
+	put_sub_term_wa(Item, Address, Term1, Term2).
+put_stwa(Item, Address, Term1, Term2) :-
+	put_sub_term_wa(Item, Address, Term1, Term2).
 
 put_subterm_wa_smooth(Item, Address, Term1, Term2) :-
 	put_sub_term_wa_smooth(Item, Address, Term1, Term2).
 put_subterm_with_address_smooth(Item, Address, Term1, Term2) :-
+	put_sub_term_wa_smooth(Item, Address, Term1, Term2).
+put_sub_term_with_address_smooth(Item, Address, Term1, Term2) :-
+	put_sub_term_wa_smooth(Item, Address, Term1, Term2).
+put_stwa_smooth(Item, Address, Term1, Term2) :-
 	put_sub_term_wa_smooth(Item, Address, Term1, Term2).
 
 delete_subterm_wa(Instances, Term1, Term2) :-
 	delete_sub_term_wa(Instances, Term1, Term2).
 delete_subterm_with_address(Instances, Term1, Term2) :-
 	delete_sub_term_wa(Instances, Term1, Term2).
+delete_sub_term_with_address(Instances, Term1, Term2) :-
+	delete_sub_term_wa(Instances, Term1, Term2).
+delete_stwa(Instances, Term1, Term2) :-
+	delete_sub_term_wa(Instances, Term1, Term2).
 
 foldr(put_subterm_wa_ae,Instances, Term1, Term2) :-
 	foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
 foldr(put_subterm_with_address_ae,Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
+foldr(put_sub_term_with_address_ae,Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
+foldr(put_stwa_ae,Instances, Term1, Term2) :-
 	foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
 
 foldr(put_subterm_wa_ae_smooth, Instances, Term1, Term2) :-
 	foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2).
 foldr(put_subterm_with_address_ae_smooth, Instances, Term1, Term2) :-
 	foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2).
+foldr(put_sub_term_with_address_ae_smooth, Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2).
+foldr(put_stwa_ae_smooth, Instances, Term1, Term2) :-
+	foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2).
 
 subterm_types_wa(Heuristic, Term, Instances) :-
 	sub_term_types_wa(Heuristic, Term, Instances).
 subterm_types_with_address(Heuristic, Term, Instances) :-
+	sub_term_types_wa(Heuristic, Term, Instances).
+sub_term_types_with_address(Heuristic, Term, Instances) :-
+	sub_term_types_wa(Heuristic, Term, Instances).
+sttwa(Heuristic, Term, Instances) :-
 	sub_term_types_wa(Heuristic, Term, Instances).
 	
 % Requires
