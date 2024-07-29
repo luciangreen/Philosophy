@@ -56,7 +56,7 @@ foldr(put_sub_term_wa_ae_smooth, [[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], 
 Term2 = [v, 2, v, 3]
  
 sub_term_types_wa(Heuristic, Term, Instances)
-sub_term_types_wa([all([number, string])], [1,[a,3]], Instances)
+sub_term_types_wa([all([number, string])], [1,[a,3]], Instances).
 Instances = [[[1,2], [a,3]]]
  
 Possible heuristics:
