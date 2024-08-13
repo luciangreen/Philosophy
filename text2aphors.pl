@@ -11,7 +11,7 @@ What are the ratios of side lengths of the object in form x:y:z?
 |: 1:2:3
 What is one of the lengths, i.e. ':1:' for y=1cm?
 |: :4:
-If there is another shape in the object, please enter its name, otherwise press 'cancel'.
+If there is another shape in the object, please enter its name, otherwise enter 'cancel'.
 |: cancel
 [[a,[2,2,2]],[b,[2,4,6]]]
 A = [["a", [2, 2, 2]], ["b", [2, 4, 6]]].
