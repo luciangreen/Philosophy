@@ -53,6 +53,6 @@ findall(B1,(member(B,A2),(B=[N,[u,D5]]->B1 is D5*A5;(B=[N,[n,L4,A1]],B1=L4))),D1
 */
 
 more_objects(O) :-
-findall_until_fail([S2,D2],(repeat,writeln("If there is another shape in the object, please enter its name, otherwise press 'cancel'."),read_string(user_input,"\n","\n",_,S2),
+findall_until_fail([S2,D2],(repeat,writeln("If there is another shape in the object, please enter its name, otherwise enter 'cancel'."),read_string(user_input,"\n","\n",_,S2),
 (S2="cancel"->S3=fail;(S3=true,dim(D2)))),S3,O),!.
 
