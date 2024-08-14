@@ -23,7 +23,7 @@
 % spec_to_algorithm([[['A',[1,3]]],[['B',[1,2]]]],A)
 % A = 
 
-spec_to_algorithm(Predicate_name,S,CBM,Alg) :-
+spec_to_algorithm(Predicate_name,S0,CBM,Alg) :-
 
 	retractall(san_no_rs(_)),
 	assertz(san_no_rs(false)),
@@ -65,11 +65,22 @@ spec_to_algorithm(Predicate_name,S,CBM,Alg) :-
 	
 	%find_unique_variables(S1,UV),
 	%trace,
-	
+	%trace,
+findall(T1,(member([[input,In2],[output,Out2]],S0),
+	findall([A000,[A00]],member([A000,A00],In2),
+	%trace,
+	%remove_first_and_last_items(A00,A01)),%A00=["[",A01,"]"])
+	In24),
+	findall([A000,[A00]],member([A000,A00],Out2),%remove_first_and_last_items(A00,A01)),%=["[",A01,"]"])
+	Out24),
+	foldr(append,[[[input,In24]],[[output,Out24]]],T1)),S),
 
 	findall([[input,Input1],[output,Output1]],(member([[input,Input],[output,Output]],S),
 	findall([S10,RS],(member([S10,S11],Input),
 	%(string(S11)->string_strings(S11,S12);S11=S12),
+	%trace,
+	%length(S11,S11L),
+	%(S11L=1->true;(writeln(["Error: Variable",S10,"doesn't have length one."]),abort)),
 	%trace,
 	characterise1(S11,S12),
 	%trace,
@@ -78,6 +89,8 @@ spec_to_algorithm(Predicate_name,S,CBM,Alg) :-
 	find_lists3b(S14,RS)
 	),Input1),
 	findall([S10,RS],(member([S10,S11],Output),
+	%length(S11,S11L),
+	%(S11L=1->true;(writeln(["Error: Variable",S10,"doesn't have length one."]),abort)),	
 	%(string(S11)->string_strings(S11,S12);S11=S12),
 	characterise1(S11,S12),
 	strings_atoms_numbers(S12,S13,rs=off),
@@ -351,7 +364,16 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	*/
 	%trace,
 	
-	foldr(append,RSC1,RSC5),
+	foldr(append,RSC1,RSC51),
+	
+	findall(T1,(member([[input,In2],[output,Out2]],RSC51),
+	findall([A000,A01],(member([A000,A00],In2),
+	%trace,
+	remove_first_and_last_brackets(A00,A01)),%A00=["[",A01,"]"])
+	In24),
+	findall([A000,A01],(member([A000,A00],Out2),remove_first_and_last_brackets(A00,A01)),%=["[",A01,"]"])
+	Out24),
+	foldr(append,[[[input,In24]],[[output,Out24]]],T1)),RSC5),
 	findall(DT1,(member([[input,In2],[output,Out2]],RSC5),
 	findall(A00,member([_,A00],In2),In24),
 	findall(A00,member([_,A00],Out2),Out24),
@@ -458,7 +480,7 @@ assertz(algs(Algs1)),
 
 findall(_,%(member(Spec,S),
 %findall([A1,","]
-(member([[input,In4],[output,Out4]],S),
+(member([[input,In4],[output,Out4]],S0),
 
 	retractall(vars_table_s2a(_)),
 	assertz(vars_table_s2a([])),
@@ -969,4 +991,8 @@ test_formats(Vs,O,F1) :-
 
 	
 	
+remove_first_and_last_brackets(L1,L5) :-
+ ((append(["["],L4,L1),
+ append(L5,["]"],L4))->true;
+ L1=[L5]),!.
 	

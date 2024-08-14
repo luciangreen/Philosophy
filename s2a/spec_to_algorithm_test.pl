@@ -94,29 +94,7 @@ C1=C2)->R=success;R=fail),
  writeln([R,N,find_constants,test])),_),!.
 
 
-
-
-test_spec_to_algorithm :-
-/*
-	retractall(num_s2a(_)),
-	assertz(num_s2a(1)),
-
-	retractall(vars_s2a(_)),
-	assertz(vars_s2a([])),
-
-	retractall(vars_base_s2a(_)),
-	assertz(vars_base_s2a('A')),
-*/
-	(catch(algs(Algs),_,false)->
-	findall(_,(member(Alg,Algs),
-	retractall(algs(Alg))),_);
-	true),
-	retractall(algs(_)),
-	assertz(algs([])),
-
-findall(_,(member([N,Predicate_name,S,
-character_breakdown_mode=CBM,Alg2],
-[
+s2a_tests([
 
 [1,algorithm,
 [
@@ -132,7 +110,7 @@ character_breakdown_mode=CBM,Alg2],
 [[input,[['A',[1,2,4,2,4,1,2,4,2,4]]]],[output,[['B',[4]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[1,2,'C1',2,'C1',1,2,'C1',2,'C1'],[output,[['C1']]]]],[[[[1,3],[[1,1]]],[[1,5],[[1,1]]],[[1,8],[[1,1]]],[[1,10],[[1,1]]]]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[[r,[1,[r,[2,'C1']]]]],[output,[['C1']]]]],[[[[1,2,2,2,2],[[1,1]]]]],In_vars,Out_var)."
 ],
  
 [3,algorithm,
@@ -463,7 +441,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["","Month","Month","Month","TOTAL"],["$",a,a,a,month_sum,[a]],["$",a,a,a,[month_sum,[a]]],["$",a,a,a,[month_sum,[a]]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,month_sum,[a]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",a,a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",a,a,a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
 ],
 
 
@@ -477,11 +455,30 @@ character_breakdown_mode=off,
 ]
 
 
+]).
 
+test_spec_to_algorithm1(N) :-
+/*
+	retractall(num_s2a(_)),
+	assertz(num_s2a(1)),
 
+	retractall(vars_s2a(_)),
+	assertz(vars_s2a([])),
 
+	retractall(vars_base_s2a(_)),
+	assertz(vars_base_s2a('A')),
+*/
+	(catch(algs(Algs),_,false)->
+	findall(_,(member(Alg,Algs),
+	retractall(algs(Alg))),_);
+	true),
+	retractall(algs(_)),
+	assertz(algs([])),
 
-]),
+s2a_tests(Tests),
+member([N,Predicate_name,S,
+character_breakdown_mode=CBM,Alg2],
+Tests),
 
 	
 	
@@ -502,6 +499,60 @@ character_breakdown_mode=off,
 string_concat(Predicate_name1,Rest,Alg21)
 ,Alg21=Alg1
 )->R=success;R=fail),
- writeln([R,N,spec_to_algorithm,test])),_),!.
+ writeln([R,N,spec_to_algorithm,test]),!.
+
+
+
+test_spec_to_algorithm :-
+/*
+	retractall(num_s2a(_)),
+	assertz(num_s2a(1)),
+
+	retractall(vars_s2a(_)),
+	assertz(vars_s2a([])),
+
+	retractall(vars_base_s2a(_)),
+	assertz(vars_base_s2a('A')),
+*/
+	(catch(algs(Algs),_,false)->
+	findall(_,(member(Alg,Algs),
+	retractall(algs(Alg))),_);
+	true),
+	retractall(algs(_)),
+	assertz(algs([])),
+
+s2a_tests(Tests),
+
+findall([N,R],(member([N,Predicate_name,S,
+character_breakdown_mode=CBM,Alg2],
+Tests),
+
+	
+	
+((	%retractall(test_n(_)),
+	%assertz(test_n(N)),
+
+	string_concat(Predicate_name,N,Predicate_name1),
+	%catch(call_with_time_limit(10,
+	(spec_to_algorithm(Predicate_name1,S,CBM,Alg1))
+	%)%,
+    %time_limit_exceeded,
+    %fail)
+
+%,writeln1(Alg1)
+%,trace
+
+,string_concat(Predicate_name,Rest,Alg2),
+string_concat(Predicate_name1,Rest,Alg21)
+,Alg21=Alg1
+)->R=success;R=fail),
+ writeln([R,N,spec_to_algorithm,test]),
+ nl),R1),
+ findall(N,member([N,success],R1),R_success),
+ writeln("Successful Tests:"),
+ writeln(R_success),
+ findall(N,member([N,fail],R1),R_fail),
+ writeln("Failed Tests:"),
+ writeln(R_fail),!.
 
 
