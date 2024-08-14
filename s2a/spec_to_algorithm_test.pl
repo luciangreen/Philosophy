@@ -501,7 +501,9 @@ string_concat(Predicate_name1,Rest,Alg21)
 )->R=success;R=fail),
  writeln([R,N,spec_to_algorithm,test]),!.
 
-
+/*
+retractall(vars_table_s2a(_)),                                               assertz(vars_table_s2a([])),                                                    ['spec_to_algorithm'].
+*/
 
 test_spec_to_algorithm :-
 /*

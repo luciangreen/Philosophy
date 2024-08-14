@@ -18,7 +18,7 @@ numbers(In_vars_L,1,[],Ns),
 findall(Var1,(member(N,Ns),get_item_n(In_vars,N,Var),
 term_to_brackets(Var,Var3,split=off),
 characterise1(Var3,Var2),
-strings_atoms_numbers(Var2,Var1,rs=on)
+strings_atoms_numbers(Var2,Var1,rs=off)
 ),In_vars1),
 append(In_vars1,[[output,_]],In_vars3),
 findall(In_vars22,rs_and_data_to_term(T1_old,In_vars3,_,[],In_vars22,_T2_old,true),In_vars23),
