@@ -18,15 +18,23 @@
 :-dynamic rec_join_n/1.
 :-dynamic rec_join_vars/1.
 :-dynamic algs/1.
+:-dynamic tmp_join_n/1.
 %:-dynamic ampersand_var_n_s2a/1.
 
 % spec_to_algorithm([[['A',[1,3]]],[['B',[1,2]]]],A)
 % A = 
 
+% Spec = [[nd,[1,2]],[nd,[3,4]]]
+% => Spec [f1,f2]
+
+% don't have ^^ x need for strings
+% error checking
+
+
 spec_to_algorithm(Predicate_name,S0,CBM,Alg) :-
 
-	retractall(san_no_rs(_)),
-	assertz(san_no_rs(false)),
+	%retractall(san_no_rs(_)),
+	%assertz(san_no_rs(false)),
 
 	retractall(single_results(_)),
 	assertz(single_results([])),
@@ -574,6 +582,23 @@ get_rec_join_n(N) :-
 	retractall(rec_join_n(_)),
 	assertz(rec_join_n(N1)).
 
+get_tmp_join_n(N) :-
+	tmp_join_n(N),
+	N1 is N+1,
+	retractall(tmp_join_n(_)),
+	assertz(tmp_join_n(N1)).
+
+
+put_sub_term_wa_ae_smooth_cycle_s2a(RS3,RS4):-
+
+sub_term_wa([split1,_],RS3,In5),
+(In5=[[Ad,[split1,C]]|_]->(
+In6=[[Ad,C]],
+%findall([Ad,C],member([Ad,[split1,C]],In5),In6),%trace,
+foldr(put_sub_term_wa_ae_smooth,In6,RS3,RS41),
+put_sub_term_wa_ae_smooth_cycle_s2a(RS41,RS4));
+RS3=RS4).
+
 /*
 get_ampersand_var_s2a(N) :-
 	ampersand_var_n_s2a(N),
@@ -605,12 +630,54 @@ assertz(rec_join_n(1)),
 retractall(rec_join_vars(_)),
 assertz(rec_join_vars([])),
 
+retractall(tmp_join_n(_)),
+assertz(tmp_join_n(1)),
+
 %trace,
 rec_join(UV2,RS1),
-sub_into_rjv(RS1,RS).
+sub_into_rjv(RS1,RS2),
+%trace,
+remove_nested_tmps(RS2,RS3),
+
+put_sub_term_wa_ae_smooth_cycle_s2a(RS3,RS)
+
+%sub_term_wa([split1,_],RS3,In5),
+%findall([Ad,C],member([Ad,[split1,C]],In5),In6),%trace,
+%foldr(put_sub_term_wa_ae_smooth,In6,RS3,RS4),
+%trace,
+
+%flatten_join1(RS4,RS)
+%foldr(append,RS5,RS)
+.
+
+remove_nested_tmps_cycle(RS1,RS4):-
+
+sub_term_wa([[tmp,_],_],RS1,In5),
+(In5=[[Ad,[[tmp,_],C]]|_]->(
+In6=[[Ad,C]],
+%findall([Ad,C],member([Ad,[split1,C]],In5),In6),%trace,
+foldr(put_sub_term_wa_ae_smooth,In6,RS1,RS41),
+remove_nested_tmps_cycle(RS41,RS4));
+RS1=RS4).
+
+remove_nested_tmps(RS1,RS6) :-
+
+remove_nested_tmps_cycle(RS1,RS7),
+
+	%sub_term_wa([[tmp,_],_],RS1,In5),
+
+%(In1=[]->rec_join(UV2,RS);
+
+%findall([Ad,C],member([Ad,[[tmp,_],C]],In5),In6),%trace,
+%foldr(put_sub_term_wa_ae_smooth,In6,RS1,RS7),
+
+(RS1=RS7->RS6=RS7;remove_nested_tmps(RS7,RS6)),!.
+
 
 save_if_same(C,RS11,RS1) :-
-	(C=RS11->
+	(%true%
+	C=RS11
+	->
 	(rec_join_vars(RJV),
 	(member([C,RS11,N],RJV)->
 	true;
@@ -630,24 +697,63 @@ sub_into_rjv(List1,List2) :-
 	((List1=List3)->List2=List1;
 	sub_into_rjv(List3,List2)),
 	!.
+
+remove_first_outer_bracket_chars(A,B) :-
+ sub_term_types_wa([heuristic(outer_bracket_chars(A1),A1)],A,In),In=[[Ad,E]|_],append(["["],L4,E),
+ append(E1,["]"],L4),In2=[[Ad,E1]],%[findall([Ad,D],(member([Ad,E],In),E=[D]),In2),
+ foldr(put_sub_term_wa_ae,In2,A,B),!.
+ %(A=C->C=B;
+ %remove_first_outer_bracket_chars(C,B)),!.
+
+outer_bracket_chars(A) :- remove_first_and_last_items("[","]",A,_),!.
 	
-rec_join(UV2,RS) :-
+flatten_join1(A,B) :-
+ flatten_join2(A,[],B),!.
+ 
+flatten_join2([],B,B) :- !.
+flatten_join2(A,B,C) :-
+ (not(is_list(A))->append(B,[A],C);
+ ((A=[[Atom,[_]]],atom(Atom))->append(B,A,C);
+ ((A=[Atom,[_]],atom(Atom))->append(B,[A],C);
+ (A=[D|E],flatten_join2(D,B,F),
+ flatten_join2(E,F,C))))),!.
+
+	
+rec_join(UV21,RS) :-
+
+get_tmp_join_n(Tmp_join_n),
+
+
+
+sub_term_types_wa([heuristic(A=[split1,B],A)],UV21,In11),
+
+%(In1=[]->rec_join(UV2,RS);
+
+findall([Ad,[split1,RS1]],(member([Ad,[split1,C]],In11),try(C,RS11),save_if_same(C,RS11,RS1)),In21),
+foldr(put_sub_term_wa_ae,In21,UV21,UV2),
+
+
 
 sub_term_types_wa([heuristic((A=[split,B],not(member([split,_],B))),A)],UV2,In1),
 
 %(In1=[]->rec_join(UV2,RS);
 
-findall([Ad,RS1],(member([Ad,[split,C]],In1),try(C,RS11),save_if_same(C,RS11,RS1)),In2),
-foldr(put_sub_term_wa_ae_smooth,In2,UV2,UV3),
-
-findall(RS2,(member(Y,UV3),(Y=[split,Z]->rec_join(Z,RS2);[Y]=RS2)),UV4),
+findall([Ad,[[tmp,Tmp_join_n],RS1]],(member([Ad,[split,C]],In1),try(C,RS11),save_if_same(C,RS11,RS1)),In2),
+foldr(put_sub_term_wa_ae,In2,UV2,UV3),
+%trace,
+findall([[[tmp,Tmp_join_n],RS2]],(member(Y,UV3),(Y=[split,Z]->(rec_join(Z,RS2)%,foldr(append,RS21,RS2)
+);%[Y]
+[Y]=RS2)),UV4),
 %trace,
 foldr(append,UV4,UV41),
-
-	%try(UV41,RS3),
-	UV41=RS3,
+%trace,
+	try(UV41,RS3),
+	%UV41=RS3,
 	
-	(RS3=[r,[r,RS4]]->RS=[r,RS4];RS=RS3).
+	RS3=RS6,
+
+	
+	(RS6=[r,[r,RS4]]->RS=[r,RS4];RS=RS6).
 
 find_unique_variables(S,UV) :-
 
@@ -992,7 +1098,5 @@ test_formats(Vs,O,F1) :-
 	
 	
 remove_first_and_last_brackets(L1,L5) :-
- ((append(["["],L4,L1),
- append(L5,["]"],L4))->true;
+ (remove_first_outer_bracket_chars(L1,L5)->true;
  L1=[L5]),!.
-	

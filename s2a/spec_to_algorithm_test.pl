@@ -180,7 +180,7 @@ character_breakdown_mode=off,
 [[input,[['A',[44,aa]],['B',["C",aa]]]],[output,[['C',[a4]]]]]
 ],
 character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[[number,['C1','C1']],[atom,[\"a\",\"a\"]]],[[string,['C2']],[atom,[\"a\",\"a\"]]],[output,[[[atom,[\"a\",'C1']]]]]]],[[[[1,1,1,2,1],[[1,2,2]]],[[1,1,1,2,2],[[1,2,2]]]]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[[number,[[r,['C1']]]],[atom,[[r,[\"a\"]]]]],[[string,['C2']],[atom,[[r,[\"a\"]]]]],[output,[[[atom,[\"a\",'C1']]]]]]],[[[[1,1,1,2,2,1],[[1,2,2]]]]],In_vars,Out_var)."
 ],
 
 [10,algorithm,
@@ -273,7 +273,7 @@ character_breakdown_mode=on,
 [[input,[['A',"1434314343"]]],[output,[['B',"4"]]]]
 ],
 character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[\"1\",'C1',\"3\",'C1',\"3\",\"1\",'C1',\"3\",'C1',\"3\"]],[output,[[string,['C1']]]]]],[[[[1,2,2],[[1,2,1]]],[[1,2,4],[[1,2,1]]],[[1,2,7],[[1,2,1]]],[[1,2,9],[[1,2,1]]]]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,['C1',\"3\"]]]]]],[output,[[string,['C1']]]]]],[[[[1,2,2,2,2,1],[[1,2,1]]]]],In_vars,Out_var)."
 ],
 
 [19,algorithm,
@@ -419,7 +419,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["","Month","Month","TOTAL"],["$",a,a,a,[month_sum,[a]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,[month_sum,[a]]]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]],[[],[]],In_vars,Out_var)."
 ],
 
 
@@ -430,8 +430,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["","Month"],["$",a],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]],[output,[['B',[["","Month"],["$",a],["$",a],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
-
+"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",\"Month\",\"]\",[r,[\"[\",\"$\",a,\"]\"]],\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
 ],
 
 % ssff sum->compressed horizontal, vertical
@@ -441,7 +440,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["","Month","Month","Month","TOTAL"],["$",a,a,a,month_sum,[a]],["$",a,a,a,[month_sum,[a]]],["$",a,a,a,[month_sum,[a]]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,month_sum,[a]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",[r,[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",[r,[\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\"]],\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],month_sum,\"[\",a,\"]\",\"]\",\"[\",\"$\",[r,[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"$\",[r,[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",[r,[\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\"]],\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,month_sum,\"[\",a,\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
 ],
 
 
@@ -452,6 +451,15 @@ character_breakdown_mode=off,
 ],
 character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",'C1',[r,[\"b\",'C1']],\"]\"],[output,[['C1']]]]],[[[[1,2],[[1,1]]],[[1,3,2,2],[[1,1]]]]],In_vars,Out_var)."
+],
+
+
+[36,algorithm,
+[
+[[input,[['A',"1232312323,1232312323"]]],[output,[['B',"1"]]]]
+],
+character_breakdown_mode=on,
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,[\"2\",\"3\"]]]],\",\",[r,[\"1\",[r,[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
 ]
 
 
@@ -492,7 +500,8 @@ Tests),
     %time_limit_exceeded,
     %fail)
 
-%,writeln1(Alg1)
+,writeln1(S)
+,writeln1(Alg1)
 %,trace
 
 ,string_concat(Predicate_name,Rest,Alg2),
@@ -541,6 +550,7 @@ Tests),
     %time_limit_exceeded,
     %fail)
 
+%,writeln1(S)
 %,writeln1(Alg1)
 %,trace
 

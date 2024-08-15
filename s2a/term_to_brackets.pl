@@ -45,3 +45,19 @@ wrap_if_non_empty_s2a(A,B,split=Split) :-
 %trace,
  (A=[]->B=A;((Split=on->
  B=[[split,A]];B=[A]))),!.
+
+split_string_if_split(A,H,split=Split) :-
+%A=H.
+%/*
+%trace,
+ (Split=on
+ ->
+ %trace,
+ %findall(D,(member(D1,A),(
+ %string(A)->
+ (split_list_on_item(A,",",B),
+ (length(B,1)->B=[H];findall([split1,C],member(C,B),H)%,(H1=[[[split1,H]]]->true;H1=H)
+ ))%;H=A%[[[split1,A]]]
+ 
+ ;A=H),!.
+%*/
