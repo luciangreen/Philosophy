@@ -460,7 +460,17 @@ character_breakdown_mode=off,
 ],
 character_breakdown_mode=on,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,[\"2\",\"3\"]]]],\",\",[r,[\"1\",[r,[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
-]
+]/*,
+
+
+[37,algorithm,
+[
+[[input,[['A',"1232312323"%1,2,3,2,3,1,2,3,2,3"%11,22,33,22,33,11,22,33,22,33"%,11,22,33,22,33,11,22,33,22,33"
+]]],[output,[['B',"11"]]]]
+],
+character_breakdown_mode=on,
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,[\"2\",\"3\"]]]],\",\",[r,[\"1\",[r,[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
+]*/
 
 
 ]).
