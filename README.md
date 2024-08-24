@@ -141,6 +141,7 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 # Subterm with Address
 
+```
 sub_term_wa(Subterm, Term, Instances).\
 Subterm - Subterm to find\
 Term - Initial list to search\
@@ -189,7 +190,8 @@ number\
 compound (non-list compounds)\
 all(Insert_more_heuristics) (all the items are of a type, can be used to select terminals)\
 heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)\
-\
+```
+
 * <a href="https://m.youtube.com/watch?v=oV4TdABKOl4">Subterm with Address Youtube Video</a>
 
 # Strings to Grammar
