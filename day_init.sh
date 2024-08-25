@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd GitHub/private2/Text-to-Breasonings/
+cd GitHub/Text-to-Breasonings/
 
 swipl -f -q ./bag_tt1.pl
 

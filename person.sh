@@ -10,7 +10,7 @@ halt.
 
 # STOP - run at same time:
 
-cd Dropbox/GitHub/private2/Philosophy/
+cd Dropbox/GitHub/Philosophy/
 
 # Run swipl with flags:
 swipl --stack-limit=80G
