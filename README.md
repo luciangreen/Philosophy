@@ -149,7 +149,7 @@ Instances - List of addresses and subterms
 
 Subterm (with address) gives the "address" of a term in a term, such as [[[1], a]] for a in a, [[[1, 2], b]] for b in [a,b], (where the column number is the dimension), and put subterm with address puts an item into an address.
 
-sub_term_wa(Subterm, Term, Instances)\
+sub_term_wa(Subterm, Term, Instances)
 sub_term_wa([a,_], [[a,b], [a,c]], Instances).
 Instances = [[[1, 1], [a, b]], [[1, 2], [a, c]]]
 
