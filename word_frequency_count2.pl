@@ -16,7 +16,8 @@ word_frequency_count2([Type,String1],Freq) :-
 	%writeln(String3),
 	%length(String3,Words),
 	
-	word_frequency_count2(String3,Freq).
+	word_frequency_count2(String3,Freq1),
+	findall(A-B,member(B-A,Freq1),Freq),!.
 
 /*
 	sort(String3,String4),
