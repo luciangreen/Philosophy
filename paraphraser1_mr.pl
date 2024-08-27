@@ -6,7 +6,7 @@
 
 /*
 % place text to be paraphrased in file.txt
-cd Dropbox/GitHub/private2/Philosophy/
+cd Dropbox/GitHub-private2/Philosophy/
 swipl
 ['paraphraser1.pl'].
 paraphraser.
