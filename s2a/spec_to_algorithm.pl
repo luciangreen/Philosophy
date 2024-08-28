@@ -741,7 +741,8 @@ sub_term_types_wa([heuristic((A=[split,B],not(member([split,_],B))),A)],UV2,In1)
 findall([Ad,[[tmp,Tmp_join_n],RS1]],(member([Ad,[split,C]],In1),try(C,RS11),save_if_same(C,RS11,RS1)),In2),
 foldr(put_sub_term_wa_ae,In2,UV2,UV3),
 %trace,
-findall([[[tmp,Tmp_join_n],RS2]],(member(Y,UV3),(Y=[split,Z]->(rec_join(Z,RS2)%,foldr(append,RS21,RS2)
+findall([[[tmp,(*)%Tmp_join_n
+],RS2]],(member(Y,UV3),(Y=[split,Z]->(rec_join(Z,RS2)%,foldr(append,RS21,RS2)
 );%[Y]
 [Y]=RS2)),UV4),
 %trace,
