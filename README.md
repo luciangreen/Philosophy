@@ -247,6 +247,12 @@ test_s2g.
 ],
 ```
 
+This creates the following algorithm:
+```
+algorithm(In_vars,Out_var) :-
+  algorithm([[['C1','C2'],[output,[['C2','C1']]]]],[[[[1,1],[[1,2]]],[[1,2],[[1,1]]]]],In_vars,Out_var).
+```
+
 * To load Spec to Algorithm and run tests, enter:
 ```
 cd s2a
