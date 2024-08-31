@@ -460,6 +460,15 @@ character_breakdown_mode=off,
 ],
 character_breakdown_mode=on,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,[\"2\",\"3\"]]]],\",\",[r,[\"1\",[r,[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
+],
+
+[37,algorithm,
+
+[
+[[input,[['A',[["fulfilled", "plus"], ["fulfilled", "plus"], ["fulfilled", "plus"], ["disadvantages", "minus"], ["fulfilled", "plus"]]]]],[output,[['B',success]]]]
+],
+character_breakdown_mode=off,
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[[r,[\"[\",\"fulfilled\",\"plus\",\"]\"]],\"[\",\"disadvantages\",\"minus\",\"]\",\"[\",\"fulfilled\",\"plus\",\"]\"],[output,[success]]]],[[]],In_vars,Out_var)."
 ]/*,
 
 

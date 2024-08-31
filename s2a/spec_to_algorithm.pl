@@ -383,8 +383,15 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	Out24),
 	foldr(append,[[[input,In24]],[[output,Out24]]],T1)),RSC5),
 	findall(DT1,(member([[input,In2],[output,Out2]],RSC5),
-	findall(A00,member([_,A00],In2),In24),
-	findall(A00,member([_,A00],Out2),Out24),
+	%trace,
+	(not(is_list(In2))
+	->In2=In24;
+	(%trace,
+	findall(A00,member([_,A00],In2),In24))),
+	(not(is_list(Out2))
+	->Out2=Out24;
+	(%trace,
+	findall(A00,member([_,A00],Out2),Out24))),
 	foldr(append,[In24,[[output,Out24]]],DT1)),C6),
 	%double_to_single_brackets(C6,C8),
 	decision_tree_s2(C6,In_Out24),
@@ -741,7 +748,8 @@ sub_term_types_wa([heuristic((A=[split,B],not(member([split,_],B))),A)],UV2,In1)
 findall([Ad,[[tmp,Tmp_join_n],RS1]],(member([Ad,[split,C]],In1),try(C,RS11),save_if_same(C,RS11,RS1)),In2),
 foldr(put_sub_term_wa_ae,In2,UV2,UV3),
 %trace,
-findall([[[tmp,Tmp_join_n],RS2]],(member(Y,UV3),(Y=[split,Z]->(rec_join(Z,RS2)%,foldr(append,RS21,RS2)
+findall([[[tmp,(*)%Tmp_join_n
+],RS2]],(member(Y,UV3),(Y=[split,Z]->(rec_join(Z,RS2)%,foldr(append,RS21,RS2)
 );%[Y]
 [Y]=RS2)),UV4),
 %trace,
