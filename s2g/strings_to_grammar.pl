@@ -182,7 +182,7 @@ strings_to_grammar(L,G) :-
 	process_terms(T4,[],B,[],_R)
 	),Gs2),
 	%trace,
-	decision_tree(Gs2,T42),
+	decision_tree_s2(Gs2,T42),
 	%trace,
 	findall(B2,(member(T44,T42),find_g(T44,[],B2)),Gs),
 	%foldr(append,T41,T42)
@@ -993,7 +993,7 @@ find_g1(Items,G1,G2) :-
 	train tracks: any config can be accounted for, 
 	
 	()* do dec trees from Ts at same time - before gs
-	decision_tree(Items,T),
+	decision_tree_s2(Items,T),
 
 	%sub_term_wa(T,[_,[]],Insts), % find terminals
 	
@@ -1067,22 +1067,22 @@ wrap(A,B):-B=[A].
 
 % check simpler trees for recursive parts first, 	x
 
-% decision_tree([[a,b,c],[a,d,e],[f,g,h]],A),writeln(A).
+% decision_tree_s2([[a,b,c],[a,d,e],[f,g,h]],A),writeln(A).
 
 % [[a,[[b,[[c,[]]]],[d,[[e,[]]]]]],[f,[[g,[[h,[]]]]]]]
 
-decision_tree(A0,B):-
+decision_tree_s2(A0,B):-
 remove_dups(A0,A),
-	decision_tree1(A,C),(length(C,1)->B=C%((P=[]->P1=P;[P1]=P),append([G],P1,GKP)
+	decision_tree_s21(A,C),(length(C,1)->B=C%((P=[]->P1=P;[P1]=P),append([G],P1,GKP)
 	;B=[[nd,C]]%foldr(append,[[G,[nd,%K1,
 	%P]]],GKP))
 	),!.
-decision_tree1([],[]):-!.
-decision_tree1(A,B) :-
+decision_tree_s21([],[]):-!.
+decision_tree_s21(A,B) :-
 	findall(C1,(member([C|_D],A),(C=[poss,C2]->member(C1,C2);C1=C)),E),
 	remove_dups(E,K),
 	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),
-	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree1(D2,P),((K1=1->true;length(P,1))->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
+	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree_s21(D2,P),((K1=1->true;length(P,1))->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
 	P]]],GKP))),B),!.
 
 

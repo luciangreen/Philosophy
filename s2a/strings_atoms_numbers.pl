@@ -1,7 +1,11 @@
 strings_atoms_numbers(T1,T2,rs=RS) :-
 %trace,
 
-(character_breakdown_mode(off)->T1=T2;
+(character_breakdown_mode(off)->T1=T2;%((RS=on)->(
+	%split_string_if_split(T1,A3,split=RS),
+	%T1=A3,
+	%find_lists3b(A3,T2));A2=T2);
+
 	(sub_term_types_wa([string,atom,number,compound],T1,In1),
 	%(length(In1,1)->T1=T2;
 	(findall([Ad,[Type,A21]],(member([Ad,A1],In1),

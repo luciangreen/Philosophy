@@ -521,6 +521,9 @@ string_concat(Predicate_name1,Rest,Alg21)
  writeln([R,N,spec_to_algorithm,test]),!.
 
 /*
+
+Necessary to load before running s2a each time:
+
 retractall(vars_table_s2a(_)),                                               assertz(vars_table_s2a([])),                                                    ['spec_to_algorithm'].
 */
 

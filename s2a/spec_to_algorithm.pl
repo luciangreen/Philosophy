@@ -368,7 +368,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	rs_and_data_to_term(X2,X21,_,[],T2)),T21),
 	
 	
-	decision_tree(T21,T22)),T3),
+	decision_tree_s2(T21,T22)),T3),
 	*/
 	%trace,
 	
@@ -387,7 +387,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	findall(A00,member([_,A00],Out2),Out24),
 	foldr(append,[In24,[[output,Out24]]],DT1)),C6),
 	%double_to_single_brackets(C6,C8),
-	decision_tree(C6,In_Out24),
+	decision_tree_s2(C6,In_Out24),
 	%double_to_single_brackets(C8,In_Out24),
 	%trim_brackets(In_Out241,In_Out24,_),
 %trace,
@@ -402,7 +402,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	
 	%trace,
 	%remove_dups(Map2,Map),
-	%decision_tree(C6,C7),
+	%decision_tree_s2(C6,C7),
 
 	/*
 	RSC1=[[[[input,In1],[output,Out1]]|_]|_],
@@ -419,7 +419,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	findall(In222,(member(N,In1_Ns),
 	findall(In21,(member([[input,In2],[output,Out2]],RSC2),
 	get_item_n(In2,N,[VN,In21])),In22),
-	decision_tree(In22,In223),
+	decision_tree_s2(In22,In223),
 	foldr(append,In223,In2223)
 	,In222=In2223%[var,In2223]
 	),In232)
@@ -431,7 +431,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	findall(Out222,(member(N,Out1_Ns),
 	findall(Out21,(member([_,[output,Out2]],RSC2),
 	get_item_n(Out2,N,[VN,Out21])),Out22),
-	decision_tree(Out22,Out223),
+	decision_tree_s2(Out22,Out223),
 	foldr(append,Out223,Out222)
 	%,Out224=[output,Out222]
 	),Out232)
@@ -450,7 +450,7 @@ RS10=[[[input,Input_a],[output,Output_a]]|_],
 	
 	%foldr(append,In_Out23,In_Out231),
 	%trace,
-	decision_tree(In_Out23,In_Out241),*/
+	decision_tree_s2(In_Out23,In_Out241),*/
 
 	%T3=[[input,In_DTs],[output,Out_DTs]],
 
@@ -741,8 +741,7 @@ sub_term_types_wa([heuristic((A=[split,B],not(member([split,_],B))),A)],UV2,In1)
 findall([Ad,[[tmp,Tmp_join_n],RS1]],(member([Ad,[split,C]],In1),try(C,RS11),save_if_same(C,RS11,RS1)),In2),
 foldr(put_sub_term_wa_ae,In2,UV2,UV3),
 %trace,
-findall([[[tmp,(*)%Tmp_join_n
-],RS2]],(member(Y,UV3),(Y=[split,Z]->(rec_join(Z,RS2)%,foldr(append,RS21,RS2)
+findall([[[tmp,Tmp_join_n],RS2]],(member(Y,UV3),(Y=[split,Z]->(rec_join(Z,RS2)%,foldr(append,RS21,RS2)
 );%[Y]
 [Y]=RS2)),UV4),
 %trace,
