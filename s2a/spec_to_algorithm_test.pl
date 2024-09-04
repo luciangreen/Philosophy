@@ -110,7 +110,7 @@ s2a_tests([
 [[input,[['A',[1,2,4,2,4,1,2,4,2,4]]]],[output,[['B',[4]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[[r,[1,[r,[2,'C1']]]]],[output,[['C1']]]]],[[[[1,2,2,2,2],[[1,1]]]]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',[1,['&r',[2,'C1']]]]],[output,[['C1']]]]],[[[[1,2,2,2,2],[[1,1]]]]],In_vars,Out_var)."
 ],
  
 [3,algorithm,
@@ -171,7 +171,7 @@ character_breakdown_mode=off,
 [[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[1,3]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",'C1',\"]\"],[\"[\",'C2',\"]\"],[output,[[\"[\",'C1',\"]\"]]]],[[\"[\",[r,[1]],3,\"]\"],[\"[\",[r,[1]],4,\"]\"],[output,[[\"[\",3,\"]\"]]]],[[\"[\",[r,[1]],\"]\"],[\"[\",[r,[1]],2,\"]\"],[output,[[\"[\",1,\"]\"]]]],[[\"[\",1,3,\"]\"],[\"[\",1,4,\"]\"],[output,[[\"[\",1,3,\"]\"]]]]]]],[[[[1,1,2],[[1,2]]]],[],[],[],[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",'C1',\"]\"],[\"[\",'C2',\"]\"],[output,[[\"[\",'C1',\"]\"]]]],[[\"[\",['&r',[1]],3,\"]\"],[\"[\",['&r',[1]],4,\"]\"],[output,[[\"[\",3,\"]\"]]]],[[\"[\",['&r',[1]],\"]\"],[\"[\",['&r',[1]],2,\"]\"],[output,[[\"[\",1,\"]\"]]]],[[\"[\",1,3,\"]\"],[\"[\",1,4,\"]\"],[output,[[\"[\",1,3,\"]\"]]]]]]],[[[[1,1,2],[[1,2]]]],[],[],[],[]],In_vars,Out_var)."
 ],
 
 [9,algorithm,
@@ -180,7 +180,7 @@ character_breakdown_mode=off,
 [[input,[['A',[44,aa]],['B',["C",aa]]]],[output,[['C',[a4]]]]]
 ],
 character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[[number,[[r,['C1']]]],[atom,[[r,[\"a\"]]]]],[[string,['C2']],[atom,[[r,[\"a\"]]]]],[output,[[[atom,[\"a\",'C1']]]]]]],[[[[1,1,1,2,2,1],[[1,2,2]]]]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[[number,[['&r',['C1']]]],[atom,[['&r',[\"a\"]]]]],[[string,['C2']],[atom,[['&r',[\"a\"]]]]],[output,[[[atom,[\"a\",'C1']]]]]]],[[[[1,1,1,2,2,1],[[1,2,2]]]]],In_vars,Out_var)."
 ],
 
 [10,algorithm,
@@ -273,7 +273,7 @@ character_breakdown_mode=on,
 [[input,[['A',"1434314343"]]],[output,[['B',"4"]]]]
 ],
 character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,['C1',\"3\"]]]]]],[output,[[string,['C1']]]]]],[[[[1,2,2,2,2,1],[[1,2,1]]]]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[['&r',[\"1\",['&r',['C1',\"3\"]]]]]],[output,[[string,['C1']]]]]],[[[[1,2,2,2,2,1],[[1,2,1]]]]],In_vars,Out_var)."
 ],
 
 [19,algorithm,
@@ -345,7 +345,7 @@ character_breakdown_mode=on,
 % split on delimiters in strings incl " " ,;.()[]
 % label [split,_]
 % [,]+[,]=[,,,]
-% [r,[r,a]]=[r,a]
+% ['&r',['&r',a]]=['&r',a]
 
 % debug
 
@@ -419,7 +419,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["","Month","Month","TOTAL"],["$",a,a,a,[month_sum,[a]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,[month_sum,[a]]]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",[r,[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]],[[],[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",\"\",['&r',[\"Month\"]],\"TOTAL\",\"]\",\"[\",\"$\",['&r',[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]],[[],[]],In_vars,Out_var)."
 ],
 
 
@@ -430,7 +430,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["","Month"],["$",a],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]],[output,[['B',[["","Month"],["$",a],["$",a],["$",a],["TOTAL",[vertical_month_sum,[a]]]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",\"Month\",\"]\",[r,[\"[\",\"$\",a,\"]\"]],\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",\"Month\",\"]\",['&r',[\"[\",\"$\",a,\"]\"]],\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"$\",a,\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
 ],
 
 % ssff sum->compressed horizontal, vertical
@@ -440,7 +440,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["","Month","Month","Month","TOTAL"],["$",a,a,a,[month_sum,[a]]],["$",a,a,a,[month_sum,[a]]],["$",a,a,a,[month_sum,[a]]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]],[output,[['B',[["","Month","TOTAL"],["$",a,[month_sum,[a]]],["TOTAL",[vertical_month_sum,[a]],[vertical_month_sum,[month_sum,[a]]]]]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",\"\",[r,[\"Month\"]],\"TOTAL\",\"]\",[r,[\"[\",\"$\",[r,[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]],\"[\",\"TOTAL\",[r,[\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\"]],\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]]],[[],[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",\"\",['&r',[\"Month\"]],\"TOTAL\",\"]\",['&r',[\"[\",\"$\",['&r',[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]],\"[\",\"TOTAL\",['&r',[\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\"]],\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]]],[[],[]],In_vars,Out_var)."
 ],
 
 
@@ -450,7 +450,7 @@ character_breakdown_mode=off,
 [[input,[['A',[["c","b","c","b","c","b","c"]]]]],[output,[['B',["c"]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",'C1',[r,[\"b\",'C1']],\"]\"],[output,[['C1']]]]],[[[[1,2],[[1,1]]],[[1,3,2,2],[[1,1]]]]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",'C1',['&r',[\"b\",'C1']],\"]\"],[output,[['C1']]]]],[[[[1,2],[[1,1]]],[[1,3,2,2],[[1,1]]]]],In_vars,Out_var)."
 ],
 
 
@@ -459,7 +459,7 @@ character_breakdown_mode=off,
 [[input,[['A',"1232312323,1232312323"]]],[output,[['B',"1"]]]]
 ],
 character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,[\"2\",\"3\"]]]],\",\",[r,[\"1\",[r,[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[['&r',[\"1\",['&r',[\"2\",\"3\"]]]],\",\",['&r',[\"1\",['&r',[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
 ],
 
 [37,algorithm,
@@ -468,7 +468,7 @@ character_breakdown_mode=on,
 [[input,[['A',[["fulfilled", "plus"], ["fulfilled", "plus"], ["fulfilled", "plus"], ["disadvantages", "minus"], ["fulfilled", "plus"]]]]],[output,[['B',success]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[[r,[\"[\",\"fulfilled\",\"plus\",\"]\"]],\"[\",\"disadvantages\",\"minus\",\"]\",\"[\",\"fulfilled\",\"plus\",\"]\"],[output,[success]]]],[[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',[\"[\",\"fulfilled\",\"plus\",\"]\"]],\"[\",\"disadvantages\",\"minus\",\"]\",\"[\",\"fulfilled\",\"plus\",\"]\"],[output,[success]]]],[[]],In_vars,Out_var)."
 ]/*,
 
 
@@ -478,7 +478,7 @@ character_breakdown_mode=off,
 ]]],[output,[['B',"11"]]]]
 ],
 character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[[r,[\"1\",[r,[\"2\",\"3\"]]]],\",\",[r,[\"1\",[r,[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[['&r',[\"1\",['&r',[\"2\",\"3\"]]]],\",\",['&r',[\"1\",['&r',[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
 ]*/
 
 

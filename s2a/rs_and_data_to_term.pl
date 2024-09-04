@@ -1,11 +1,11 @@
-% rs_and_data_to_term([[r,['A1','A2']]],[2,3,2,3],[],T).
+% rs_and_data_to_term([['&r',['A1','A2']]],[2,3,2,3],[],T).
 
-% T = [[r, [['A1', 'A2'], [[2, 3]]]]]
+% T = [['&r', [['A1', 'A2'], [[2, 3]]]]]
 
 
-% rs_and_data_to_term([[r,['A1','A2']],[r,['A3','A4']]],[2,3,2,3,3,5],[],T).
+% rs_and_data_to_term([['&r',['A1','A2']],['&r',['A3','A4']]],[2,3,2,3,3,5],[],T).
 
-% T = [[r, [['A1', 'A2'], [[2, 3]]]], [r, [['A3', 'A4'], [[3, 5]]]]]
+% T = [['&r', [['A1', 'A2'], [[2, 3]]]], ['&r', [['A3', 'A4'], [[3, 5]]]]]
 
 
 %rs_and_data_to_term([[o,['A1']],1,[o,['A1']]],[2,1,2],[],T).
@@ -15,7 +15,7 @@
 %T = [[o, [['A1'], []]], 1, [o, [['A1'], []]]].
 
 
-% rs_and_data_to_term([[o,['A1']],[r,['A3','A4']]],[2,3,2,3],[],T).
+% rs_and_data_to_term([[o,['A1']],['&r',['A3','A4']]],[2,3,2,3],[],T).
 
 % use var values from elsewhere
 
@@ -50,25 +50,25 @@ T1,T2,T2_old,First) :-
 	
 	%RS=[RS1|RS2],
 	(RS=[output,RS3]->
-	(%look ahead to char following r x if undefined, try repeating or going on
+	(%look ahead to char following '&r' x if undefined, try repeating or going on
 	%trace,
 	%term_to_list(RS3,T32),
 	append(T1,[[output,RS3%[RS3,T3]
 	]],T31)
 
 
-	%append(RSa1,[['&',N,r,,T3]]],T31)
+	%append(RSa1,[['&',N,'&r',,T3]]],T31)
 	);
-	(RS=[r,RS3]->
-	(%look ahead to char following r x if undefined, try repeating or going on
+	(RS=['&r',RS3]->
+	(%look ahead to char following '&r' x if undefined, try repeating or going on
 	%(ro(RS3),rs_and_data_to_term(RS3,D1,D2,%RSa1,RSa2,
 %[],T3))->true;
-	%(D1=[r,D11]->true;D1=D11),
+	%(D1=['&r',D11]->true;D1=D11),
 	try_r(RS3,D1,D2,[],T3,T2_old),%),
 	
-	append(T1,[[r,T3%[RS3,T3]
+	append(T1,[['&r',T3%[RS3,T3]
 	]],T31)
-	%append(RSa1,[['&',N,r,,T3]]],T31)
+	%append(RSa1,[['&',N,'&r',,T3]]],T31)
 	);
 	
 	(RS=[nd,RS3]->
@@ -78,7 +78,7 @@ T1,T2,T2_old,First) :-
 	
 	%rs_and_data_to_term(RS1,D1,%RSa1,RSa2,
 %T1,T2),
-	%append(T1,[[r,[RS3,T3]]],T31)
+	%append(T1,[['&r',[RS3,T3]]],T31)
 	
 	(RS=[]->
 	append(T1,[[]],T31);
@@ -126,8 +126,8 @@ T1,T2,T2_old,First) :-
 	D2=D3,T2=T31.
 
 
-ro([r,_]).
-ro([o,_]).
+ro(['&r',_]).
+ro(['&o',_]).
 
 try_r(RS3,D1,D2,T1,T2,T2_old) :-
 
@@ -235,8 +235,8 @@ only_item2_c([]).
 %/*
 %*/
 
-ro([r,_]).
-ro([o,_]).
+ro(['&r',_]).
+ro(['&o',_]).
 
 rnd(A):-ro(A).
 rnd([nd,_]).

@@ -7,7 +7,7 @@ term_to_list(T,L%,N
 ) :-
 %trace,
 	%flatten(T,T1),
-	%(false%(N=4->true;N=6)%member(r,T1)
+	%(false%(N=4->true;N=6)%member('&r',T1)
 	%->
 	%term_to_list2(T,L);
 	term_to_list1(T,L)%)
@@ -28,7 +28,7 @@ term_to_list1(T,L1,L2) :-
 	L31=[L21],
 	append(L1,L31,L3));
 	
-	(T1=[r,[T3]],
+	(T1=['&r',[T3]],
 	(foldr(append,T3,L31),
 	append(L1,L31,L3));
 	/*numbers(9,0,[],Ns),
@@ -57,7 +57,7 @@ term_to_list1([],L1,L1) :-!.
 term_to_list1(T,L1,L2) :-
 
 	T=[T1|T2],
-	(T1=[r,[_V,T3]]->
+	(T1=['&r',[_V,T3]]->
 	(foldr(append,T3,T31),
 	append(L1,T31,L3));
 	%(T1=[nd,T3s]->
@@ -89,7 +89,7 @@ term_to_list2(T,L1,L2) :-
 	append(L3,L21,L22),
 	append(L1,L22,L2),no_rt(L2));
 	
-	(T1=[r,[T3]],
+	(T1=['&r',[T3]],
 	(%foldr(append,T3,T31),
 	numbers(9,0,[],Ns),
 	member(N,Ns),
@@ -112,5 +112,5 @@ term_to_list2(T,L1,L2) :-
 	*/ 
 	%term_to_list2(T2,L3,L2).
 
-no_rt(NR) :-flatten(NR,NR1),not(member(r,NR1)),type_s2a1(Type),not(member(Type,NR1)),!.
+no_rt(NR) :-flatten(NR,NR1),not(member('&r',NR1)),type_s2a1(Type),not(member(Type,NR1)),!.
 

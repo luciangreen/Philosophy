@@ -535,7 +535,7 @@ term_to_atom(Term2,Str2),%trace,
 	%* searches o term top down for parts
 	% It doesn't matter about brackets
 	
-	% 1 item that is a list or list with r,o xx [], brackets x
+	% 1 item that is a list or list with '&r',o xx [], brackets x
 	% do bottom level first, find fns to give result
 	
 	% use format model to transform data
@@ -631,7 +631,7 @@ find_lists3b(UV2,RS) :-
 % later: split on delimiters in strings incl " " ,;.()[]
 % label [split,_]
 % [,]+[,]=[,,,]
-% [r,[r,a]]=[r,a]
+% ['&r',['&r',a]]=['&r',a]
 retractall(rec_join_n(_)),
 assertz(rec_join_n(1)),
 retractall(rec_join_vars(_)),
@@ -761,7 +761,7 @@ foldr(append,UV4,UV41),
 	RS3=RS6,
 
 	
-	(RS6=[r,[r,RS4]]->RS=[r,RS4];RS=RS6).
+	(RS6=['&r',['&r',RS4]]->RS=['&r',RS4];RS=RS6).
 
 find_unique_variables(S,UV) :-
 
@@ -798,13 +798,13 @@ find_unique_variables(S,UV) :-
 		
 	%findall([Add,X4],(member([Add,Z1],In2),member([Z1,X2],UV2),Z1=[X1,X3],replace_term([X1,X3],X1,X2,X4)),UV).
 
-
+/*
 not_r_o_nd_types(A) :- not(r_o_nd_types(A)),!.
-r_o_nd_types(r).
+r_o_nd_types('&r').
 r_o_nd_types(o).
 r_o_nd_types(nd).
 r_o_nd_types(A) :- type_s2a1(A).
-
+*/
 	
 find_constants(S,RS2,C) :-
 

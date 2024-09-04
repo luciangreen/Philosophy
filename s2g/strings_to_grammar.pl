@@ -171,7 +171,7 @@ strings_to_grammar(L,G) :-
 	%findall
 	)), % off or findall
 	
-	findall(%[r,1,
+	findall(%['&r',1,
 	B%T41%]
 	,(member(S,L),%string_strings(S,L2),
 	term_to_atom(T1,S),
@@ -438,7 +438,7 @@ process_terms3(T1,T2,T3,R1,R2) :-
 	member(["[",T6,"]"],T1))->
 	((append(T4,B,T1),
 	append([["[",T6,"]"]],T51,B),
-	(process_terms3(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),T54=[T53],R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	(process_terms3(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),T54=[T53],R6=R3%get_var_num(N),T5=['&r',N],foldr(append,[R1,R5,[T52]],R6)
 	%)%;(fail%T51=[],R6=[]
 	)));
 	((%fail,%trace,
@@ -446,7 +446,7 @@ process_terms3(T1,T2,T3,R1,R2) :-
 	(append(T4,B,T1),
 	append([["[","]"]],T51,B),
 	(%process_terms(T6,[],T5,[],R3),
-	foldr(append,[["["],["]"]],T53),T54=[T53],R6=[]%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	foldr(append,[["["],["]"]],T53),T54=[T53],R6=[]%get_var_num(N),T5=['&r',N],foldr(append,[R1,R5,[T52]],R6)
 	%)%;(fail%T51=[],R6=[]
 	));
 	(T54=[],T4=T1,T51=[])))),
@@ -530,7 +530,7 @@ process_terms2(T1,T2,T3,R1,R2) :-
 	member(["[",T6,"]"],T1))->
 	((append(T4,B,T1),
 	append([["[",T6,"]"]],T51,B),
-	(process_terms2(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),T54=T53,R6=R3%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	(process_terms2(T6,[],T5,[],R3),foldr(append,[["["],T5,["]"]],T53),T54=T53,R6=R3%get_var_num(N),T5=['&r',N],foldr(append,[R1,R5,[T52]],R6)
 	%)%;(fail%T51=[],R6=[]
 	)));
 	((%fail,%trace,
@@ -538,7 +538,7 @@ process_terms2(T1,T2,T3,R1,R2) :-
 	(append(T4,B,T1),
 	append([["[","]"]],T51,B),
 	(%process_terms(T6,[],T5,[],R3),
-	foldr(append,[["["],["]"]],T53),T54=T53,R6=[]%get_var_num(N),T5=[r,N],foldr(append,[R1,R5,[T52]],R6)
+	foldr(append,[["["],["]"]],T53),T54=T53,R6=[]%get_var_num(N),T5=['&r',N],foldr(append,[R1,R5,[T52]],R6)
 	%)%;(fail%T51=[],R6=[]
 	));
 	(T54=[],T4=T1,T51=[])))),
@@ -679,16 +679,16 @@ add_to_table(A) :-
 	
 	% test for f>=2
 	% mark items' places with * x can include existing results
-	% flatten r structs xx where always same (no different dbcs compared with abcs) x if there is no d in the group of as
+	% flatten '&r' structs xx where always same (no different dbcs compared with abcs) x if there is no d in the group of as
 
-% L=[r,1,["a","b",[r,2,["c","d"]]]]
-% r means recursive struct, i.e. 1-->3,4, referred to elsewhere as [r,1]
-% L=[r,1,["a","b","c","d","e","f"]]
-% to L=[r,1,["a","b",[r,2,["c","d"]],"e","f"]]]]
+% L=['&r',1,["a","b",['&r',2,["c","d"]]]]
+% '&r' means recursive struct, i.e. 1-->3,4, referred to elsewhere as ['&r',1]
+% L=['&r',1,["a","b","c","d","e","f"]]
+% to L=['&r',1,["a","b",['&r',2,["c","d"]],"e","f"]]]]
 
-% eg2. L=[r,1,["a","b",[r,2,["c","d"]]]]
-% to L=[r,1,["a","b",[r,3,["e",[r,2,["c","d"]]]]]]
-% later [r,1,["a","b",[r,3,["e","c","d"]]]] if no non 7s before 3,4s
+% eg2. L=['&r',1,["a","b",['&r',2,["c","d"]]]]
+% to L=['&r',1,["a","b",['&r',3,["e",['&r',2,["c","d"]]]]]]
+% later ['&r',1,["a","b",['&r',3,["e","c","d"]]]] if no non 7s before 3,4s
 
 find_sl(List,Find,Result) :-
 	sub_term_types_wa([string],List,Inst1),
@@ -696,7 +696,7 @@ find_sl(List,Find,Result) :-
 	
 	%List=[L|Ls],
 	%flatten(List,List1),
-	%findall(A1,(member(A1,List1),not(A1=r),not(number(A1))),B).
+	%findall(A1,(member(A1,List1),not(A1='&r'),not(number(A1))),B).
 	append(C,D,X1),
 	append(Find,E,D),
 	length(C,L),
@@ -714,12 +714,12 @@ find_sl(List,Find,Result) :-
 	append(Before_list,L1,It2),
 	append(Sub_list,After_list,L1),
 	get_var_num(N),
-	foldr(append,[Before_list,[[r,N,Sub_list]],After_list],It3),
+	foldr(append,[Before_list,[['&r',N,Sub_list]],After_list],It3),
 	put_sub_term_wa(It3,Ad1,List,Result),!.
 	% check not cut off
-	% add r
+	% add '&r'
 	
-% find_g([r,1,["a","b",[r,2,["c","d"]]]],G).
+% find_g(['&r',1,["a","b",['&r',2,["c","d"]]]],G).
 
 % G = [[[n,1],"-->",[]],[[n,1],"-->",[["a"],["b"],[n,2],[n,1]]],[[n,2],"-->",[]],[[n,2],"-->",[["c"],["d"],[n,2]]]]
 
@@ -738,7 +738,7 @@ find_g2([],G,G) :-!.
 find_g2(T,G1,G2) :-
 
 %T=[T1|T2],
-T=[r,%N,
+T=['&r',%N,
 T3],
 get_var_num(N),
 
@@ -755,7 +755,7 @@ append(G1,G4,G2),
 find_g2(T,G1,G2) :-
 
 %T=[T1|T2],
-T=[o,%N,
+T=['&o',%N,
 T3],
 get_var_num(N),
 
@@ -800,7 +800,7 @@ append(G1,G42,G2),
 find_g2(T,G1,G2) :-
 
 %T=[T1|T2],
-not(T=[r,%N,
+not(T=['&r',%N,
 T3]),
 T3=T,
 get_var_num(N),
@@ -822,7 +822,7 @@ find_g1(T,G1,G2,R1,R2) :-
 %trace,
 T=[T1|T2],
 ((T1=[L,%N,
-_T4],(L=r->true;L=o))->
+_T4],(L='&r'->true;L='&o'))->
 (find_g2(T1,[],R3),
 R3=[[[n, N]|_]|_],
 %get_var_num(N),
@@ -870,13 +870,13 @@ find_g1(T2,G3,G2,R4,R2).
 /*
 find_g(T,G%,G2]
 )	:-
-	T=[r,N0,T1],
-	sub_term_wa([r,_,_],T1,In),
+	T=['&r',N0,T1],
+	sub_term_wa(['&r',_,_],T1,In),
 	findall([X3,[Ad,X]],
 	(member([Ad,X1],In),
-	X1=[r,N,A],
-	sub_term_wa([r,_,_],A,In1),
-	findall([Ad1,N1],(member([Ad1,Y1],In1),Y1=[r,N1,A1]),Y2),
+	X1=['&r',N,A],
+	sub_term_wa(['&r',_,_],A,In1),
+	findall([Ad1,N1],(member([Ad1,Y1],In1),Y1=['&r',N1,A1]),Y2),
 	foldr(put_sub_term_wa_ae,Y2,A,X21),
 	X1=[_,_,X31],
 	%trace,
@@ -950,9 +950,9 @@ is_t(H,A,First0,First) :-
 	%member(K1,K)),
 	is_list(A),
 	%writeln1(A),
-	%(A=["e", [r, 1, ["a"]]]->trace;true),
-	member([r,_N,_A],A),
-	sub_term_wa([r,_N,_A],A,Inst2),
+	%(A=["e", ['&r', 1, ["a"]]]->trace;true),
+	member(['&r',_N,_A],A),
+	sub_term_wa(['&r',_N,_A],A,Inst2),
 	findall([Ad,A3],(member([Ad,_A4],Inst2),A3=0),Inst3),
 	foldr(put_sub_term_wa_ae,Inst3,A,A2),
 	%trace,

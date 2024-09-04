@@ -31,7 +31,7 @@ find all repeating units of selections in each string
 - dec tree for other terms from s2l
 
 * fl3a with non repeating parts
-- not r but optional in fl3
+- not '&r' but optional in fl3
 
 - takes a long time unless short data so do a part of the grammar at a time
 
@@ -53,18 +53,18 @@ test that parts repeat, signal bracket or repeating list with smallest unit
 */
 
 % find_lists3a([1,2,2,1,2],A).
-% A = [[1, [r, [2]]]].
+% A = [[1, ['&r', [2]]]].
 
 % find_lists3a([1,2,3,2,3,1,2,3,2,3],L).
-% L = [[r, [1, [r, [2, 3]]]]]
+% L = [['&r', [1, ['&r', [2, 3]]]]]
 
 % includes [] and recurse. structs when inserted
 
 % find_lists3a([1,2,1,3,2],A).
-% A = [[1, [r, [3]], 2]].
+% A = [[1, ['&r', [3]], 2]].
 
 % find_lists3a([1,2,3,1,3],A).
-% A = [[1, [r, [2]], 3]].
+% A = [[1, ['&r', [2]], 3]].
 
 find_lists3a(L1,L32,Rest) :-
 %writeln1(find_lists3a(L1,L3)),
@@ -73,7 +73,7 @@ find_lists3a(L1,L32,Rest) :-
 	%findall(L91,
 	find_lists3(L1,[],L91,_Rest_a),%,L100),
 	%trace,
-	(fail%L91=[[r, L92]]
+	(fail%L91=[['&r', L92]]
 	->(L4=_L92,Flag=true);
 	(L4=L91,Flag=false)),
 	%trace,
@@ -85,29 +85,29 @@ find_lists3a(L1,L32,Rest) :-
 	check14(L31,L2,[],L5,Rest
 	),
 	%Rest=[],
-	(L5=[[r|_]|_]->L5=L3;
+	(L5=[['&r'|_]|_]->L5=L3;
 	((L5=[L51]->true;L51=L5),
-	L3=[[r,L51]]))
+	L3=[['&r',L51]]))
 	))),
 
-	(Flag=true->L32=[[r,L3]];L32=L3),
+	(Flag=true->L32=[['&r',L3]];L32=L3),
 	!.
 
 % find_lists3([1,2,2,1,2],[],L2).
-% L2 = [[1, [r, [2]]], [1, 2]]
+% L2 = [[1, ['&r', [2]]], [1, 2]]
 
 % find_lists3([1,2,3,2,3,1,2,3,2,3],[],L).
-% L = [[r, [1, [r, [2, 3]]]]]
+% L = [['&r', [1, ['&r', [2, 3]]]]]
 
 find_lists3([],L,L,_) :- !.
 find_lists3(L1,L2,L3,Rest) :-
 %trace,
 	repeating_unit(L1,U,Rest),
-	(U=[r,U1]->
+	(U=['&r',U1]->
 	%find_lists3(U1,[],U2);
 	try(U1,U2);
 	U2=U),
-	append(L2,[[r,U2]],L3).
+	append(L2,[['&r',U2]],L3).
 
 
 match_char("[","]").
@@ -161,7 +161,7 @@ find_lists32(L1,L2,L3,Rest) :-
 
 
 % repeating_unit([2,2],U).
-% U = [r,[2]]). or [2]
+% U = ['&r',[2]]). or [2]
 repeating_unit(L1,U,Rest) :-
 	(only_item(L1)->fail;
 	(length(L1,L),
@@ -174,7 +174,7 @@ repeating_unit(L1,U,Rest) :-
 	(N=L->U=L1;
 	(length(L21,N),
 	append(L21,_,L1),
-	U=[r,L21])))),!.
+	U=['&r',L21])))),!.
 	
 split12([],_,A,A,[]):-!.	
 split12(L%
@@ -231,16 +231,16 @@ append(A41,B4,B),append([B1],B2,B4),
 (A31=[],not(A41=[]))->A51=A41;
 (not(A31=[]),A41=[])->A51=A31),
 
-%(A1z=[[r,A1z1]]->A1=[r,A1z1];A1=A1z),
-%(B1z=[[r,B1z1]]->B1=[r,B1z1];B1=B1z),
+%(A1z=[['&r',A1z1]]->A1=['&r',A1z1];A1=A1z),
+%(B1z=[['&r',B1z1]]->B1=['&r',B1z1];B1=B1z),
 	%A=[A1|A2],
 	%B=[B1|B2],
 	(A1=B1->(A3=A1,A2=A22,B2=B22
 	);
-	((not(A1=[r,_]),not(B1=[r,_]))->fail;
+	((not(A1=['&r',_]),not(B1=['&r',_]))->fail;
 	(
-	((A1=[r,A11]->true;A1=A11),
-	(B1=[r,B11]->true;B1=B11),
+	((A1=['&r',A11]->true;A1=A11),
+	(B1=['&r',B11]->true;B1=B11),
 	(not(is_list(A11))->(A11=A13%,A14=[]
 	,(append([A21],A22,A2)->append([A13],[A21],A23);(A22=[],A23=[A13])%
 	));(A11=A23,%[A13|A14],
@@ -253,13 +253,13 @@ append(A41,B4,B),append([B1],B2,B4),
 	)),
 	%append(A14,A2,A21),
 	%append(B14,B2,B21),
-	check141(A23,B23,[],D),A3=[r,D])))),
-	%((A1=[r,A11],B1=->(check141(A1,B1,[],D),A3=[r,D]);
-	%(B1=[r,A1]->(check141(A1,B1,[],D),A3=[r,D]);
-	%(A1=[r,[B1]]->(check141(A1,[B1],[],D),A3=[r,D]);
-	%(B1=[r,[A1]]->(check141([A1],B1,[],D),A3=[r,D])))))),
+	check141(A23,B23,[],D),A3=['&r',D])))),
+	%((A1=['&r',A11],B1=->(check141(A1,B1,[],D),A3=['&r',D]);
+	%(B1=['&r',A1]->(check141(A1,B1,[],D),A3=['&r',D]);
+	%(A1=['&r',[B1]]->(check141(A1,[B1],[],D),A3=['&r',D]);
+	%(B1=['&r',[A1]]->(check141([A1],B1,[],D),A3=['&r',D])))))),
 	(optional_s2g(on)->
-	(A51=[]->A52=[];A52=[[o,A51]]
+	(A51=[]->A52=[];A52=[['&o',A51]]
 	);
 	(A51=[]->A52=[];fail
 	)),

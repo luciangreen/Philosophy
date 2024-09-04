@@ -6,7 +6,7 @@ remove_nd([],L1,L1) :-!.
 remove_nd(T,L1,L2) :-
 
 	T=[T1|T2],
-	%(T1=[r,[_V,T3]]->
+	%(T1=['&r',[_V,T3]]->
 	%(foldr(append,T3,T31),
 	%append(L1,T31,L3));
 	(T1=[nd,T3s],

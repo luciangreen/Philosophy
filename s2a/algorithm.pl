@@ -20,7 +20,7 @@ term_to_brackets(Var,Var3,split=off),
 characterise1(Var3,Var2),
 strings_atoms_numbers(Var2,Var1,rs=on)
 ),In_vars1),
-T1_old=[[["[",'C1',[r,["b",'C1']],"]"],[output,[['C1']]]]],
+T1_old=[[["[",'C1',['&r',["b",'C1']],"]"],[output,[['C1']]]]],
 append(In_vars1,[[output,_]],In_vars3),
 findall(In_vars22,rs_and_data_to_term(T1_old,In_vars3,_,[],In_vars22,_T2_old,true),In_vars23),
 member(In_vars2,In_vars23),
