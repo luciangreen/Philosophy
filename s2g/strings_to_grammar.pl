@@ -1080,10 +1080,20 @@ remove_dups(A0,A),
 decision_tree_s21([],[]):-!.
 decision_tree_s21(A,B) :-
 	findall(C1,(member([C|_D],A),(C=[poss,C2]->member(C1,C2);C1=C)),E),
-	remove_dups(E,K),
-	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),
+
+frequency_list1_s2(E,L),
 	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree_s21(D2,P),((K1=1->true;length(P,1))->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
 	P]]],GKP))),B),!.
+
+
+frequency_list_s2(A,B) :-
+
+frequency_list1_s2(A,C),sort(C,D),reverse(D,B),!.
+
+frequency_list1_s2(E,L) :-
+
+	remove_dups(E,K),
+	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
 
 
 check_grammar(Strings0,A0) :-

@@ -5,6 +5,16 @@
 decision_tree([],[]) :- !.
 decision_tree(A,B) :-
 	findall(C,(member([C|_D],A)),E),
-	sort(E,K),
-	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),
+	
+	frequency_list1(E,L),
+	
 	findall([G,K1,P],(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree(D2,P)),B).
+
+frequency_list(A,B) :-
+
+frequency_list1(A,C),sort(C,D),reverse(D,B),!.
+
+frequency_list1(E,L) :-
+
+	sort(E,K),
+	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
