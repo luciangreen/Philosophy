@@ -1093,7 +1093,7 @@ frequency_list1_s2(A,C),sort(C,D),reverse(D,B),!.
 frequency_list1_s2(E,L) :-
 
 	remove_dups(E,K),
-	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
+	findall([J,G],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
 
 
 check_grammar(Strings0,A0) :-

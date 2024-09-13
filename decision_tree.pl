@@ -17,4 +17,4 @@ frequency_list1(A,C),sort(C,D),reverse(D,B),!.
 frequency_list1(E,L) :-
 
 	sort(E,K),
-	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
+	findall([J,G],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
