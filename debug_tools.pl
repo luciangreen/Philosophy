@@ -6,7 +6,8 @@
 test_p(A) :- (catch(call_with_time_limit(10,A),_,(writeln1(["Predicate timed out:",A]),abort))->true;(writeln1(["Predicate failed:",A]),fail%abort
 )),!.
 
-test_p_woto(A) :- (catch(A,_,fail)->true;(writeln1(["Predicate failed:",A]),fail%abort
+test_p_woto(A) :- (catch(A,_,fail)->true;(writeln1(["Predicate failed:",A]),%fail,
+abort
 )),!.
 
 test_r(A,B) :-
