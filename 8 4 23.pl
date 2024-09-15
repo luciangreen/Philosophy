@@ -2,7 +2,7 @@
 
 % 27 done so far today
 
-:-include('big_connections_with_bag3_and_mr_short_books-rel.pl').
+:-include('../Text-to-Breasonings/big_connections_with_bag3_and_mr_short_books-rel.pl').
 
 % How can the program cope with real variation? 2 of 4
 
