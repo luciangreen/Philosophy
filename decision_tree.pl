@@ -16,10 +16,24 @@ frequency_list1(A,C),sort(C,D),reverse(D,B),!.
 
 frequency_list1(E,L) :-
 
+sort(E, Sorted),
+clumped(Sorted, Freq1),	findall([A,B],member(B-A,Freq1),L),!.
+
+/*
+frequency_list1a(E,L) :-
+
 	sort(E,K),
 	findall([J,G],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
+*/
 
 frequency_list2(E,L) :-
 
+sort(E, Sorted),
+clumped(Sorted, Freq1),	findall([B,A],member(B-A,Freq1),L),!.
+
+/*
+frequency_list2a(E,L) :-
+
 	sort(E,K),
 	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
+*/

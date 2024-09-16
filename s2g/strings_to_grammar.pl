@@ -1090,6 +1090,7 @@ frequency_list_s2(A,B) :-
 
 frequency_list1_s2(A,C),sort(C,D),reverse(D,B),!.
 
+/*
 frequency_list1_s2(E,L) :-
 
 	remove_dups(E,K),
@@ -1099,6 +1100,23 @@ frequency_list1_s3(E,L) :-
 
 	remove_dups(E,K),
 	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
+*/
+frequency_list1_s2(E,L) :-
+
+msort(E, Sorted),
+clumped(Sorted, Freq1),	findall([A,B],member(B-A,Freq1),L),!.
+
+/*
+frequency_list1a(E,L) :-
+
+	sort(E,K),
+	findall([J,G],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
+*/
+
+frequency_list1_s3(E,L) :-
+
+msort(E, Sorted),
+clumped(Sorted, Freq1),	findall([B,A],member(B-A,Freq1),L),!.
 
 check_grammar(Strings0,A0) :-
 	term_to_atom(Strings0,Strings),
