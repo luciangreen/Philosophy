@@ -24,6 +24,7 @@ G = [[1,>,a,1]
 :-include('minimise_alg.pl').
 :-include('optimise_alg.pl').
 :-include('flatten_keep_brackets.pl').
+:-include('../decision_tree.pl').
 :-dynamic var_num/1.
 :-dynamic s2g_mode/1.
 :-dynamic optional_s2g/1.
@@ -1081,14 +1082,16 @@ decision_tree_s21([],[]):-!.
 decision_tree_s21(A,B) :-
 	findall(C1,(member([C|_D],A),(C=[poss,C2]->member(C1,C2);C1=C)),E),
 
-frequency_list1_s3(E,L),
+frequency_list2(E,L),
 	findall(GKP,(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree_s21(D2,P),((K1=1->true;length(P,1))->((P=[]->P1=P;[P1]=P),append([G],P1,GKP));foldr(append,[[G,[nd,%K1,
 	P]]],GKP))),B),!.
 
 
 frequency_list_s2(A,B) :-
 
-frequency_list1_s2(A,C),sort(C,D),reverse(D,B),!.
+%frequency_list1_s2
+frequency_list1(A,B).
+%frequency_list1_s2(A,C),sort(C,D),reverse(D,B),!.
 
 /*
 frequency_list1_s2(E,L) :-
@@ -1101,10 +1104,14 @@ frequency_list1_s3(E,L) :-
 	remove_dups(E,K),
 	findall([G,J],(member(G,K),findall(G,member(G,E),H),length(H,J)),L),!.
 */
-frequency_list1_s2(E,L) :-
+%frequency_list1_s2(E,L) :-
 
+%frequency_list1(E,L).
+
+/*
 msort(E, Sorted),
 clumped(Sorted, Freq1),	findall([A,B],member(B-A,Freq1),L),!.
+*/
 
 /*
 frequency_list1a(E,L) :-
