@@ -11,7 +11,7 @@
 :-include('../SSI/ssi.pl').
 :-include('paraphraser1_pl.pl').
 
-%:- include('files/listprolog.pl').
+%:-include('files/listprolog.pl').
 
 paraphraser_server(Port) :-
         http_server(http_dispatch, [port(Port)]).

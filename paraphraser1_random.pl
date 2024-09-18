@@ -40,8 +40,8 @@ paraphraser.
 
 :-dynamic auto/1.
 
-:- include('../listprologinterpreter/listprolog').
-%:- include('../Music-Composer/mindreadtestmusiccomposer-unusual-mr-tree.pl').
+:-include('../listprologinterpreter/listprolog').
+%:-include('../Music-Composer/mindreadtestmusiccomposer-unusual-mr-tree.pl').
 
 paraphraser(Parameters,File_list_a,Auto) :-
 	retractall(auto(_)),

@@ -1,4 +1,4 @@
-:- include('../listprologinterpreter/listprolog').
+:-include('../listprologinterpreter/listprolog').
 
 phil2alg :-
 	

@@ -7,9 +7,9 @@
 % this version: one user without login creates, edits or deletes messages - can port from pl to ssiws (lp) later
 
 %:-include('../')
-:- include('../listprologinterpreter/listprolog.pl').
-:- include('../private/la_com_ssi1.pl').
-:- include('../private/la_com_ssi1_run_in_prolog.pl').
+:-include('../listprologinterpreter/listprolog.pl').
+:-include('../private/la_com_ssi1.pl').
+:-include('../private/la_com_ssi1_run_in_prolog.pl').
 
 messager :- display_messages(Messages), nl, writeln("Enter (0 - Exit, 1 - New message, 2 - Edit a message, 3 - Delete a message):"),
 read_string(S),(number_string(N,S)->go_messager_option(N,Messages);messager),!.

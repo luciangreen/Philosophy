@@ -453,7 +453,7 @@ light_where_people_are(A,A).
 
 % 25. The brainworks participant wrote breasonings  (thought of X, Y and Z dimensions for objects) for a 'seen-as' essay based directly on secondary literature, and handed in an essay of his design.
 
-:- include('word_frequency_count.pl').
+:-include('word_frequency_count.pl').
 
 % lower_freq_essay("a  a a aa  a b b c c d e f g",A),writeln(A).      
 % A = [[aa,d],[aa,e],[aa,f],[aa,g],[d,aa],[d,e],[d,f],[d,g],[e,aa],[e,d],[e,f],[e,g],[f,aa],[f,d],[f,e],[f,g],[g,aa],[g,d],[g,e],[g,f]]

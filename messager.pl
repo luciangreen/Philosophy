@@ -9,9 +9,9 @@
 :- use_module(library(http/http_client)).
 :- http_handler('/', web_form, []).
 
-%:- include('files/listprolog.pl').
-:- include('../listprologinterpreter/listprolog.pl').
-:- include('../listprologinterpreter/la_files.pl').
+%:-include('files/listprolog.pl').
+:-include('../listprologinterpreter/listprolog.pl').
+:-include('../listprologinterpreter/la_files.pl').
 
 % server(8000).
 

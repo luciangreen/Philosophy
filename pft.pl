@@ -134,7 +134,7 @@ x
 **/
 
 :- dynamic get_data_n1/1.
-:- include('pft_expand_types.pl').
+:-include('pft_expand_types.pl').
 
 %data_to_types22(Data,Types4,VD) :-
 %	retractall(get_data_n1(_)),

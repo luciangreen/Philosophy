@@ -9,8 +9,8 @@
 :- use_module(library(http/http_client)).
 :- http_handler('/webeditor', get_pw, []).
 
-:- include('../listprologinterpreter/listprolog.pl').
-:- include('web-editor-pw.pl').
+:-include('../listprologinterpreter/listprolog.pl').
+:-include('web-editor-pw.pl').
 
 web_editor_server(Port) :-
         http_server(http_dispatch, [port(Port)]).

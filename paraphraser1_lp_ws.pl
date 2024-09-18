@@ -11,7 +11,7 @@
 :-include('../SSI/ssi.pl').
 :-include('paraphraser1_lp.pl').
 
-%:- include('files/listprolog.pl').
+%:-include('files/listprolog.pl').
 
 paraphraser_server :- paraphraser_server(8000).
 

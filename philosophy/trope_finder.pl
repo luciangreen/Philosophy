@@ -1,6 +1,6 @@
 % trope_finder.pl
 
-:-include('../../listprologinterpreter/la_strings').
+:-include('../../listprologinterpreter/la_strings.pl').
 
 % ?- trope_finder(add,A),writeln1(A).
 % A = [[add, ["hat", "hat"]], [add, ["hat", "cape"]], [add, ["cape", "hat"]], [add, ["cape", "cape"]]].

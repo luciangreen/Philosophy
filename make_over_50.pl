@@ -1,4 +1,4 @@
-:- include('../listprologinterpreter/listprolog').
+:-include('../listprologinterpreter/listprolog').
 
 make_over_50 :-
 	phrase_from_file_s(string(Codes), "1.txt"),

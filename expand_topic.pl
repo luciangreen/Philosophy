@@ -35,8 +35,8 @@ In 4, the first sentence is the use and the second sentence is the topic sentenc
 
 */
 
-:- include('../listprologinterpreter/listprolog').
-:- include('paraphraser1.pl').
+:-include('../listprologinterpreter/listprolog').
+:-include('paraphraser1.pl').
 
 % write file.txt as "a\nb c\nd" (no numbers)
 

@@ -15,7 +15,7 @@ paraphraser([file,"file.txt"],_).
 
 :-dynamic auto/1.
 
-:- include('../listprologinterpreter/listprolog').
+:-include('../listprologinterpreter/listprolog').
 
 paraphraser(Parameters,File_list_a,Auto) :-
 	retractall(auto(_)),

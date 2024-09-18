@@ -3,7 +3,7 @@
 [["p1", ":", a, "p2"], ["p2", ":", "p3", b], ["p3", ":", c]]
 */
 
-:- include('find_lists.pl').
+:-include('find_lists.pl').
 
 :- dynamic p_name/1.
 :- dynamic v_name/1.

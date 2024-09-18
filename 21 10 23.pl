@@ -131,7 +131,7 @@ qa_tt1 :-
 findall(_,(qa_tt(Q,A),writeln(Q),writeln("(y/n)?"),read_string(user_input,"\n\r","\n\r",_,S),
 (S="y"->writeln(A);abort)),_),!.
 
-:- include('../listprologinterpreter/listprolog.pl').
+:-include('../listprologinterpreter/listprolog.pl').
 
 /*
 ?- qa_tt2(2).

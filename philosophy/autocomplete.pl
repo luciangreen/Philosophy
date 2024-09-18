@@ -13,7 +13,6 @@ true.
 */
 
 :-include('../../listprologinterpreter/listprolog.pl').
-
 traverse_tree(N1,Tree) :-
 	%member([N1,Item,_],Tree),
 	%writeln(Item),

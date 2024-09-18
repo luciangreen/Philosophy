@@ -27,12 +27,12 @@ Please choose the correction to "testee", <return> for no correction or type a r
 
 **/
 
-%:- include('../listprologinterpreter/listprolog').
-:- include('../listprologinterpreter/la_strings').
-:- include('../listprologinterpreter/la_strings_string').
-:- include('../listprologinterpreter/la_maths').
-:- include('../mindreader/make_mind_reading_tree4 working1.pl').
-:- include('../Text-to-Breasonings/texttobrall2_reading.pl').
+%:-include('../listprologinterpreter/listprolog').
+:-include('../listprologinterpreter/la_strings.pl').
+:-include('../listprologinterpreter/la_string_strings.pl').
+:-include('../listprologinterpreter/la_maths.pl').
+:-include('../mindreader/make_mind_reading_tree4 working1.pl').
+:-include('../Text-to-Breasonings/texttobrall2_reading.pl').
 
 spell_checker_dict_setup :- %% run this first
 	%SepandPad="&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789",	 % No '

@@ -6,8 +6,8 @@
 
 :-include('../listprologinterpreter/la_maths.pl').
 
-:- include('../listprologinterpreter/la_strings').
-:- include('../Music-Composer/mindreadtestmusiccomposer-unusual-mr-tree.pl').
+:-include('../listprologinterpreter/la_strings.pl').
+:-include('../Music-Composer/mindreadtestmusiccomposer-unusual-mr-tree.pl').
 
 % remove_and_find_item_number([a,b,c],2,c,N2).
 % N2 = 2

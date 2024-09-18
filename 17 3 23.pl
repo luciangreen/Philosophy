@@ -1,7 +1,7 @@
 % 17 3 23
 
-:- include('../listprologinterpreter/listprolog.pl').
-:- include('replace1.pl').
+:-include('../listprologinterpreter/listprolog.pl').
+:-include('replace1.pl').
 
 n_breasonings(N) :- N is 80.
 

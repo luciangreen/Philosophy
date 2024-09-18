@@ -1,6 +1,6 @@
 % Replace
 
-:- include('../listprologinterpreter/listprolog').
+:-include('../listprologinterpreter/listprolog').
 :-include('replace2.pl').
 
 % replace words within entire words, after breaking by white space

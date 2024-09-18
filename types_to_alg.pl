@@ -1,18 +1,18 @@
 % types_to_alg.pl
 
-:- include('find_lists.pl').
-:- include('collect_simplify_types.pl').
-:- include('data_to_alg3.pl').
-%:- include('data_to_alg4.pl').
-:- include('data_to_alg5.pl').
-:- include('gen_alg.pl').
-:- include('simplify_types_with_n.pl').
-:- include('../Prolog-to-List-Prolog/p2lpconverter.pl').
-:- include('collect_ga_parts.pl').
-:- include('replace_v_with_nothing.pl').
-:- include('replace_nothing_with_v.pl').
-:- include('flatten_var_term.pl').
-:- include('replace_in_term3.pl').
+:-include('find_lists.pl').
+:-include('collect_simplify_types.pl').
+:-include('data_to_alg3.pl').
+%:-include('data_to_alg4.pl').
+:-include('data_to_alg5.pl').
+:-include('gen_alg.pl').
+:-include('simplify_types_with_n.pl').
+:-include('../Prolog-to-List-Prolog/p2lpconverter.pl').
+:-include('collect_ga_parts.pl').
+:-include('replace_v_with_nothing.pl').
+:-include('replace_nothing_with_v.pl').
+:-include('flatten_var_term.pl').
+:-include('replace_in_term3.pl').
 
 :- dynamic p_name/1.
 :- dynamic v_name/1.

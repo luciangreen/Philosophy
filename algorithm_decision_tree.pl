@@ -32,12 +32,12 @@
 */
 :-include('../listprologinterpreter/listprolog.pl').
 
-:- include('../listprologinterpreter/la_strings').
-:- include('../listprologinterpreter/la_strings_string').
-:- include('../listprologinterpreter/la_maths').
-:- include('../mindreader/make_mind_reading_tree4 working1.pl').
-:- include('../Text-to-Breasonings/texttobrall2_reading.pl').
-:- include('../listprologinterpreter/lpiverify4.pl').
+:-include('../listprologinterpreter/la_strings.pl').
+:-include('../listprologinterpreter/la_string_strings.pl').
+:-include('../listprologinterpreter/la_maths.pl').
+:-include('../mindreader/make_mind_reading_tree4 working1.pl').
+:-include('../Text-to-Breasonings/texttobrall2_reading.pl').
+:-include('../listprologinterpreter/lpiverify4.pl').
 :-include('replace_vars.pl').
 
 algorithm_decision_tree_dict_setup :- %% run this first

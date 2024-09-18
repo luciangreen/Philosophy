@@ -22,7 +22,7 @@
 
 %:-include('test_form1.pl').
 
-%:- include('files/listprolog.pl').
+%:-include('files/listprolog.pl').
 
 run_lp_server(Port) :-
         http_server(http_dispatch, [port(Port)]).

@@ -14,8 +14,8 @@ paraphraser.
 
 :-dynamic auto/1.
 
-:- include('../listprologinterpreter/listprolog').
-%:- include('14 10 23.pl').
+:-include('../listprologinterpreter/listprolog').
+%:-include('14 10 23.pl').
 
 paraphraser2(Parameters,File_list_a,Auto) :-
 	Auto=on,

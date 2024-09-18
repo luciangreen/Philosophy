@@ -8,8 +8,8 @@ medicine prob and sol
 sim's medit, medic, tt have enough As
 */
 
-:- include('../listprologinterpreter/listprolog.pl').
-:- include('../Text-to-Breasonings/text_to_breasonings.pl').
+:-include('../listprologinterpreter/listprolog.pl').
+:-include('../Text-to-Breasonings/text_to_breasonings.pl').
 %:-include('21 10 23.pl').
 
 /*

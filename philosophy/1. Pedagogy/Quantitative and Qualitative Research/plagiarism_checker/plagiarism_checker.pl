@@ -3,8 +3,8 @@
 %% detects percentage of >=5 word sentences over 80% same
 
 
-:- include('../../../../../listprologinterpreter/la_strings.pl').
-:- include('../../../../../Essay-Helper/short_essay_helper3.1_chicago.pl').
+:-include('../../../../../listprologinterpreter/la_strings.pl').
+:-include('../../../../../Essay-Helper/short_essay_helper3.1_chicago.pl').
 
 string(String) --> list(String).
 
