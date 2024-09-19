@@ -12,7 +12,7 @@
 ]
 ]
 */
-:-include('../listprologinterpreter/listprolog.pl').
+%:-include('../listprologinterpreter/listprolog.pl').
 
 pretty_print_table(B3,S6) :-
  findall([S6,','],(member(A00,B3),
