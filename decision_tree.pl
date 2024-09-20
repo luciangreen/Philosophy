@@ -9,7 +9,29 @@ decision_tree(A,B) :-
 
     frequency_list2(E,L),
 
-    findall([G,K1,P],(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree(D2,P)),B).
+    decision_tree1(A,L,[],B).
+    
+    decision_tree1(_,[],B,B) :- !.
+    decision_tree1(A,L,B1,B2) :-
+
+	L=[[G,K1]|Ls],
+    decision_tree2(A,G,[],B3),
+	decision_tree(B3,P),
+	append(B1,[[G,K1,P]],B4),
+    decision_tree1(A,Ls,B4,B2),!.
+
+    decision_tree2([],_,B,B) :- !.
+    decision_tree2(A,G,B1,B2) :-
+    
+   	A=[[G1|D]|As],
+   	(G1=G->append(B1,[D],B3);
+   	B1=B3),
+    decision_tree2(As,G,B3,B2).
+
+    decision_tree2(A,G,B1,B2) :-
+    
+   	A=[[]|As],
+    decision_tree2(As,G,B1,B2).
 
 frequency_list2(E,L) :-
 
