@@ -5,25 +5,16 @@ A = [[a, 2, [[a, 1, []], [b, 1, []]]], [b, 1, [[b, 1, []]]]].
 
 decision_tree([],[]) :- !.
 decision_tree(A,B) :-
-	foldl(decision_tree0,A,[],E),
-	
-	frequency_list2(E,L),
-	
-	maplist(decision_tree1(A),L,B),!.
+    findall(C,(member([C|_D],A)),E),
 
-decision_tree0(A,D1,C1) :-
-	((A=[C|_D],append(D1,[C],C1))->true;D1=C1),!.
-	
-decision_tree1(A,L,P1) :-
-	L=[G,K1],foldl(decision_tree2(G), A, [],D1),decision_tree(D1,P),P1=[G,K1,P],!.
-	
-decision_tree2(G,A,D1,D2) :-
-	((A=[G|D],append(D1,[D],D2))->true;D1=D2),!.
-	
+    frequency_list2(E,L),
+
+    findall([G,K1,P],(member([G,K1],L),findall(D,member([G|D],A),D2),decision_tree(D2,P)),B).
+
 frequency_list2(E,L) :-
 
 msort(E, Sorted),
-clumped(Sorted, Freq1),	findall([B,A],member(B-A,Freq1),L),!.
+clumped(Sorted, Freq1), findall([B,A],member(B-A,Freq1),L),!.
 
 /*
 frequency_list([a,a,b],A).
