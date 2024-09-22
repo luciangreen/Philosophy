@@ -36,7 +36,7 @@ decision_tree(A,B) :-
 frequency_list2(E,L) :-
 
 msort(E, Sorted),
-clumped(Sorted, Freq1), findall([B,A],member(B-A,Freq1),L),!.
+clumped1(Sorted, Freq1), findall([B,A],member(B-A,Freq1),L),!.
 
 /*
 frequency_list([a,a,b],A).
