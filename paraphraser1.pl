@@ -44,7 +44,8 @@ paraphraser([file,File1],File_list_a
 
 paraphraser1(Codes,File_list_a) :-
 	SepandPad=%".",%
-	"&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
+
+"—⁃&#@~%`$?-+*^,()|.:;=_/[]<>{}\n\r\s\t\\\"!0123456789", % doesn't have "'" xx
 	%string_codes(String1,Codes),
 	%string_to_list2(SepandPad,[],SepandPad1),
 	string_codes(SepandPad,SepandPad1),
