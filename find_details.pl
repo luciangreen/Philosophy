@@ -67,7 +67,7 @@ find_db :-
 
 % a b
 
- 	phrase_from_file_s(string(Codes_cve), "connectives.txt"),
+ 	phrase_from_file_s(string(Codes_cve), "../Text-to-Breasonings/connectives.txt"),
 	string_codes(String_cve,Codes_cve),
 	atom_to_term(String_cve,Connectives,_),
 

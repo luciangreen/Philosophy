@@ -24,7 +24,7 @@ T6) :-
  SepandPad=%".",%
  "&#@~%`$-+*^,()|:;=_/[]<>{}\s\t\\\"0123456789", % doesn't have "'" xx
  split_string(Text,SepandPad,SepandPad,Words),
- open_file_s("connectives.txt",Conn),
+ open_file_s("../Text-to-Breasonings/connectives.txt",Conn),
 % subtract(Words,Conn,T1),
 
  findall([T12," "],(member(T11,Words),downcase_atom(T11,T12),

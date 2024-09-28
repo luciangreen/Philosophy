@@ -25,7 +25,7 @@ alg_gen :-
  split_string(File_string1,".\n\r",".\n\r",File_string3),
  
  % to delete connectives such as and, the
- open_file_s("connectives.txt",Connectives),
+ open_file_s("../Text-to-Breasonings/connectives.txt",Connectives),
 
  open_file_s("tech_dict.txt",Tech_dict1),
 
