@@ -281,7 +281,7 @@ success
 
 * <a href="https://youtu.be/EOMc-FHqDWg?si=fTRC1lwpDGGWUWcB">Spec to Algorithm Youtube Video</a>
 
-* <img width="101" alt="Starlog" src="https://github.com/user-attachments/assets/c4b11146-adb6-46a1-80ef-dfcc499ede0a"> Starlog is part Haskell, part Prolog and allows simple editing of patterns and code in S2A specs.
+* <img width="101" alt="Starlog" src="https://github.com/user-attachments/assets/6e80445c-cced-41a4-9389-2980155ff9a7"> Starlog is part Haskell, part Prolog and allows simple editing of patterns and code in S2A specs.
 
 # Authors
 
