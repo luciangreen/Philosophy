@@ -281,6 +281,8 @@ success
 
 * <a href="https://youtu.be/EOMc-FHqDWg?si=fTRC1lwpDGGWUWcB">Spec to Algorithm Youtube Video</a>
 
+* <a href="https://lucianacademy.hashnode.dev/spec-to-algorithm-intro-and-upcoming-features">Spec to Algorithm Intro and Upcoming Features</a>
+
 * <img width="101" alt="Starlog" src="https://github.com/user-attachments/assets/6e80445c-cced-41a4-9389-2980155ff9a7"> Starlog is part Haskell, part Prolog and allows simple editing of patterns and code in S2A specs.
 
 # Authors
