@@ -50,7 +50,7 @@ frequency_list1(A,C),sort(C,D),reverse(D,B),!.
 frequency_list1(E,L) :-
 
 msort(E, Sorted),
-clumped(Sorted, Freq1),	findall([A,B],member(B-A,Freq1),L),!.
+clumped1(Sorted, Freq1),	findall([A,B],member(B-A,Freq1),L),!.
 
 /*
 frequency_list1a(E,L) :-
