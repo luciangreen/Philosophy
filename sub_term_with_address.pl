@@ -39,6 +39,7 @@ put_sub_term_wa(Item, Address, Term1, Term2)
 put_sub_term_wa(88, [1,1], [[2, 3], 4], Term2).
 Term2 = [88, 4]
  
+% *1 Smooth changes the addresses, so needs to be done recursively, rather than at the same time.
 put_sub_term_wa_smooth(Item, Address, Term1, Term2)
 put_sub_term_wa_smooth([88,1], [1,1], [[2,3],4], Term2).
 Term2 = [88, 1, 4]
@@ -51,6 +52,7 @@ foldr(put_sub_term_wa_ae,Instances, Term1, Term2).
 foldr(put_sub_term_wa_ae,[[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], [v, 2]], Term2).
 Term2 = [[v, 2], [v, 3]]
  
+% See note *1 above
 foldr(put_sub_term_wa_ae_smooth, Instances, Term1, Term2)
 foldr(put_sub_term_wa_ae_smooth, [[[1, 1], [v, 2]], [[1, 2], [v, 3]]], [[v, 1], [v, 2]], Term2).
 Term2 = [v, 2, v, 3]
