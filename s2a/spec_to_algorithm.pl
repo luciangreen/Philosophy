@@ -266,6 +266,7 @@ findall(T1,(member([[input,In2],[output,Out2]],S0),
 ),IOaIOb),
 %trace,
 	% if Is are same, and different Os, make separate calls to find_constants
+	% so they have different nondeterministic results
 findall(XY1,member([XY1,_],IOaIOb),XY2),
 remove_dups(XY2,XY3),
 %trace,
