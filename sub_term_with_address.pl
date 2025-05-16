@@ -15,6 +15,9 @@ Please don't give a subterm with address terms with _ to find in; it will return
 
 */
 
+% Note: You should load this file with
+% ['../listprologinterpreter/listprolog.pl'].
+
 help(sub_term_with_address) :-
 	help(subterm_with_address).
 help(sub_term_wa) :-
@@ -69,7 +72,13 @@ atom
 number
 compound (non-list compounds)
 all(Insert_more_heuristics) (all the items are of a type, can be used to select terminals)
-heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)',
+heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)
+
+get_put_stwa([v,_],[[v,1],[v,2]],O_stwa_i_code,findall([Ad,[v,A1]],(member([Ad,[v,A2]],O_stwa_i_code),A1 is A2+1),O_code_i_foldr),O_code_i_foldr,Term2).
+
+O_stwa_i_code = [[[1, 1], [v, 1]], [[1, 2], [v, 2]]],
+O_code_i_foldr = [[[1, 1], [v, 2]], [[1, 2], [v, 3]]],
+Term2 = [[v, 2], [v, 3]]',
 
 writeln(Message).
 
@@ -429,6 +438,21 @@ delete_sub_term_wa2([A|D],Find,B,[A1|C]):-
 
 /*
 
+get_put_stwa([v,_],[[v,1],[v,2]],O_stwa_i_code,findall([Ad,[v,A1]],(member([Ad,[v,A2]],O_stwa_i_code),A1 is A2+1),O_code_i_foldr),O_code_i_foldr,Term2).
+
+O_stwa_i_code = [[[1, 1], [v, 1]], [[1, 2], [v, 2]]],
+O_code_i_foldr = [[[1, 1], [v, 2]], [[1, 2], [v, 3]]],
+Term2 = [[v, 2], [v, 3]].
+
+*/
+
+get_put_stwa(Subterm, Term1, O_stwa_i_code, Code, O_code_i_foldr, Term2) :-
+sub_term_wa(Subterm,Term1,O_stwa_i_code),
+Code,
+foldr(put_sub_term_wa_ae,O_code_i_foldr,Term1,Term2),!.
+
+/*
+
 A5=[[v,1],[v,2]],sub_term_wa([v,_],A5,A),findall([Ad,[v,A1]],(member([Ad,[v,A2]],A),A1 is A2+1),A3),foldr(put_sub_term_wa_ae,A3,A5,A4).
 A5 = [[v, 1], [v, 2]],
 A = [[[1, 1], [v, 1]], [[1, 2], [v, 2]]],
@@ -518,3 +542,5 @@ is_t(H,A,First0,First) :-
 	((member(heuristic(He,Output),H),
 	Output=A,He)
 	)))))))))),!.
+	
+
