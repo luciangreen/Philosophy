@@ -74,8 +74,8 @@ compound (non-list compounds)
 all(Insert_more_heuristics) (all the items are of a type, can be used to select terminals)
 heuristic(Heuristic, Output_variable) (Heuristic may be for example A=a and Output_variable=A)
 
+A sequential term replacer using STWA:
 get_put_stwa([v,_],[[v,1],[v,2]],O_stwa_i_code,findall([Ad,[v,A1]],(member([Ad,[v,A2]],O_stwa_i_code),A1 is A2+1),O_code_i_foldr),O_code_i_foldr,Term2).
-
 O_stwa_i_code = [[[1, 1], [v, 1]], [[1, 2], [v, 2]]],
 O_code_i_foldr = [[[1, 1], [v, 2]], [[1, 2], [v, 3]]],
 Term2 = [[v, 2], [v, 3]]',
