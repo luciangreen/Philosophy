@@ -201,17 +201,27 @@ classify_clause((Head :- Body), Algorithm, Form) :- !,
         Form = base_case(Head)
     ;   has_recursion((Head :- Body), Algorithm) ->
         Form = inductive_step(Head, Body)
-    ;   Form = base_case(Head)
+    ;   Form = derived_rule(Head, Body)  % Non-recursive, non-base facts
     ).
 classify_clause(Head, _Algorithm, base_case(Head)).
 
 % Helper: Check if this is a base case
 is_base_case(Head, Body) :-
-    Head =.. [_|Args],
-    (   member([], Args)     % Empty list base case
-    ;   member(0, Args)      % Zero base case  
-    ;   Body = true          % Simple fact
-    ), !.
+    % Create a fresh copy to avoid variable binding issues
+    copy_term((Head, Body), (HeadCopy, BodyCopy)),
+    HeadCopy =.. [_|Args],
+    (   exact_member([], Args) ->
+        !
+    ;   exact_member(0, Args) ->
+        !  
+    ;   BodyCopy = true ->
+        !
+    ;   fail
+    ).
+
+% Helper: Exact member check without unification
+exact_member(X, [Y|_]) :- X == Y, !.
+exact_member(X, [_|T]) :- exact_member(X, T).
 
 %% pattern_unfold(+InductiveForm, -UnfoldedForm)
 %  Expand all predicate calls to inline definitions (pattern unfolding).
