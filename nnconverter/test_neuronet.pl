@@ -38,7 +38,28 @@ test_neuronet :-
     writeln('Conversion completed successfully!'),
     nl,
     
+    writeln('--- Mathematical Formulas ---'),
+    (   get_dict(formulas, Neuronet, Formulas) ->
+        maplist(writeln, Formulas)
+    ;   writeln('No formulas generated')
+    ),
+    nl,
+    
+    writeln('--- Formula Verification ---'),
+    test_formula_verification(Neuronet),
+    nl,
+    
     writeln('Neuronet structure:'),
     writeln(Neuronet),
     
     writeln('Test completed successfully!').
+
+% Helper to test formula verification
+test_formula_verification(Neuronet) :-
+    (   get_dict(formulas, Neuronet, [Formula|_]) ->
+        % Test with some sample inputs
+        TestInputs = [[1,2,3], [1,2,3,4,5], []],
+        verify_formula(Formula, TestInputs, VerificationResult),
+        format('Verification result: ~w~n', [VerificationResult])
+    ;   writeln('No formulas to verify')
+    ).
