@@ -17,10 +17,11 @@ The converter implements seven core modules:
 1. **Complexity Finder** (`complexity_finder/2`) - Analyzes computational complexity (O(1), O(n), O(n²), etc.)
 2. **Type Finder** (`type_finder/2`) - Infers data types (list, atom, string, number, compound term)
 3. **Inductive Transformation Engine** (`inductive_transform/2`) - Converts recursive predicates to base + inductive step form
-4. **Pattern Unfolding Module** (`pattern_unfold/2`) - Expands predicate calls to inline definitions
+4. **Pattern Unfolding Module** (`pattern_unfold/2`) - **COMPLETED**: Expands predicate calls to inline definitions, showing explicit call relationships
 5. **Grammar Generator** (`grammar_generate/2`) - Creates CFG-like grammars for lists, atoms, and strings
-6. **Mathematical Formula Generator** (`formula_generate/2`) - **NEW**: Extracts mathematical patterns and formulas
-7. **Inductive Proof System** (`inductive_proof/3`) - **NEW**: Generates mathematical induction proofs
+6. **Mathematical Formula Generator** (`formula_generate/2`) - **COMPLETED**: Extracts mathematical patterns and formulas
+7. **Inductive Proof System** (`inductive_proof/3`) - **COMPLETED**: Generates mathematical induction proofs
+8. **Inductive Insertion Module** (`inductive_insert/3`) - **COMPLETED**: Optimizes code by replacing patterns with inductive equivalents
 
 ## Installation
 
@@ -78,6 +79,11 @@ swipl -q -t "demo, halt" comprehensive_demo.pl
 swipl -q -t "test_sum_formula, halt" test_sum_formula.pl
 swipl -q -t "test_factorial_formula, halt" test_factorial_formula.pl
 
+# Run enhanced feature tests (NEW)
+swipl -q -t "test_additional_algorithms, halt" test_additional_algorithms.pl
+swipl -q -t "test_enhanced_features, halt" test_enhanced_features.pl
+swipl -q -t "demo_workflow, halt" test_enhanced_features.pl
+
 # Run original neuronet examples
 swipl -q -t "test_neuronet, halt" test_neuronet.pl
 swipl -q -t "example_conversion, halt" neuronet_example.pl
@@ -114,8 +120,10 @@ Verification Result: verification_result(all_tests_passed,5,5)
 - `comprehensive_demo.pl` - **NEW**: Complete demonstration of mathematical formula capabilities
 
 **Examples and Tests:**
-- `test_sum_formula.pl` - **NEW**: Test sum of first n natural numbers formula (1+2+...+n = n(n+1)/2)
-- `test_factorial_formula.pl` - **NEW**: Test factorial formula generation and proof
+- `test_sum_formula.pl` - Test sum of first n natural numbers formula (1+2+...+n = n(n+1)/2)
+- `test_factorial_formula.pl` - Test factorial formula generation and proof
+- `test_additional_algorithms.pl` - **NEW**: Test list length, append, reverse, and fibonacci algorithms
+- `test_enhanced_features.pl` - **NEW**: Test pattern unfolding and inductive insertion capabilities
 - `neuronet_example.pl` - Worked examples with sum_list/2 and reverse/2  
 - `neuronet_demo.pl` - Multiple algorithm demonstrations
 - `test_neuronet.pl` - Basic functionality tests
@@ -162,8 +170,10 @@ The system has been tested with and generates formulas for:
 1. **Sum List** - O(n) list summation → **Formula**: `sum(1+2+...+n) = n(n+1)/2`
 2. **Factorial** - O(n) recursive factorial → **Formula**: `factorial(n) = n * factorial(n-1)`
 3. **List Length** - O(n) list length calculation
-4. **List Append** - O(n) list concatenation
-5. **List Reverse** - O(n²) naive list reversal
+5. **List Append** - O(n) list concatenation → **Formula**: `append([], L, L)` and `append([H|T], L, [H|R]) :- append(T, L, R)`
+6. **List Reverse** - O(n²) naive list reversal → **Formula**: Complex recursive pattern with append operations
+7. **Fibonacci** - O(2^n) exponential recursive sequence → **Formula**: `fib(n) = fib(n-1) + fib(n-2)`
+8. **Power Function** - O(n) exponentiation → **Formula**: `power(x, n) = x * power(x, n-1)`
 
 ## Mathematical Induction Proofs
 
@@ -184,12 +194,13 @@ The system generates complete inductive proofs:
 2. **Complexity Analysis**: Detect recursion patterns and classify complexity
 3. **Type Inference**: Infer argument types for each predicate
 4. **Inductive Transformation**: Convert to base case + inductive step form
-5. **Pattern Unfolding**: Expand all predicate calls inline
+5. **Pattern Unfolding**: Expand all predicate calls inline with cross-predicate relationships
 6. **Grammar Generation**: Create CFG-like grammar rules
 7. **Mathematical Formula Generation**: Extract mathematical patterns and formulas
-8. **Inductive Proof Generation**: Create mathematical induction proofs
-9. **Formula Verification**: Test formulas against algorithm execution
-10. **Output**: Structured neuronet representation with proven mathematical formulas
+8. **Inductive Insertion**: Optimize code by replacing patterns with inductive equivalents
+9. **Inductive Proof Generation**: Create mathematical induction proofs
+10. **Formula Verification**: Test formulas against algorithm execution
+11. **Output**: Structured neuronet representation with proven mathematical formulas
 
 ## Applications
 
