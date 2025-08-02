@@ -109,7 +109,7 @@ analyze_complexity(Clause, Algorithm, Complexity) :-
     ).
 
 % Helper: Check if clause has recursion
-has_recursion((Head :- Body), Algorithm) :- !,
+has_recursion((Head :- Body), _Algorithm) :- !,
     functor(Head, Name, _),
     contains_call_to(Body, Name).
 has_recursion(_, _) :- fail.
@@ -241,9 +241,64 @@ exact_member(X, [_|T]) :- exact_member(X, T).
 %  @param InductiveForm Original inductive form
 %  @param UnfoldedForm  Expanded form with inlined definitions
 pattern_unfold(InductiveForm, UnfoldedForm) :-
-    % For now, keep the inductive form as-is
-    % TODO: Implement full unfolding of predicate calls
-    UnfoldedForm = InductiveForm.
+    % Create an expanded form where predicate calls are unfolded
+    findall(UnfoldedForm,
+            (member(Form, InductiveForm),
+             unfold_single_form(Form, InductiveForm, UnfoldedForm)),
+            TempUnfolded),
+    flatten(TempUnfolded, UnfoldedForm).
+
+% Helper: Unfold a single form (base case or inductive step)
+unfold_single_form(base_case(Head), _InductiveForm, [base_case(Head)]) :- !.
+
+unfold_single_form(inductive_step(Head, Body), InductiveForm, [inductive_step(Head, UnfoldedBody)]) :-
+    unfold_body(Body, InductiveForm, UnfoldedBody).
+
+unfold_single_form(derived_rule(Head, Body), InductiveForm, [derived_rule(Head, UnfoldedBody)]) :-
+    unfold_body(Body, InductiveForm, UnfoldedBody).
+
+% Helper: Unfold predicate calls in a body
+unfold_body((Goal, Rest), InductiveForm, (UnfoldedGoal, UnfoldedRest)) :- !,
+    unfold_single_goal(Goal, InductiveForm, UnfoldedGoal),
+    unfold_body(Rest, InductiveForm, UnfoldedRest).
+
+unfold_body(Goal, InductiveForm, UnfoldedGoal) :-
+    unfold_single_goal(Goal, InductiveForm, UnfoldedGoal).
+
+% Helper: Unfold a single goal
+unfold_single_goal(Goal, InductiveForm, UnfoldedGoal) :-
+    % Check if this goal matches a predicate we can unfold
+    (   can_unfold_goal(Goal, InductiveForm, UnfoldedGoal) ->
+        true
+    ;   % If we can't unfold it, keep it as-is
+        UnfoldedGoal = Goal
+    ).
+
+% Helper: Check if a goal can be unfolded and do the unfolding
+can_unfold_goal(Goal, InductiveForm, UnfoldedGoal) :-
+    functor(Goal, PredName, Arity),
+    % Look for a definition of this predicate in the inductive form
+    (   member(base_case(BaseHead), InductiveForm),
+        functor(BaseHead, PredName, Arity),
+        unify_with_base_case(Goal, BaseHead, UnfoldedGoal)
+    ;   member(inductive_step(StepHead, StepBody), InductiveForm),
+        functor(StepHead, PredName, Arity),
+        unify_with_inductive_step(Goal, StepHead, StepBody, UnfoldedGoal)
+    ).
+
+% Helper: Unify goal with base case
+unify_with_base_case(Goal, BaseHead, expanded_base_case(Goal, BaseHead)) :-
+    % For pattern unfolding, we create an expanded representation
+    % that shows the relationship between the goal and its base case
+    functor(Goal, Name, _),
+    functor(BaseHead, Name, _).
+
+% Helper: Unify goal with inductive step  
+unify_with_inductive_step(Goal, StepHead, StepBody, expanded_inductive_step(Goal, StepHead, StepBody)) :-
+    % For pattern unfolding, we create an expanded representation
+    % that shows the relationship between the goal and its inductive step
+    functor(Goal, Name, _),
+    functor(StepHead, Name, _).
 
 %% grammar_generate(+UnfoldedForm, -Grammar)
 %  Generate grammars for lists, atoms, strings with constants & variables.
@@ -289,10 +344,78 @@ extract_grammar_rule(inductive_step(Head, _Body), Rule) :-
 %  @param UnfoldedForm  Unfolded algorithm representation
 %  @param Grammar       Generated grammar rules
 %  @param OptimisedForm Final optimized form with inductive patterns
-inductive_insert(UnfoldedForm, _Grammar, OptimisedForm) :-
-    % For now, return the unfolded form as-is
-    % TODO: Implement optimization using inductive patterns
-    OptimisedForm = UnfoldedForm.
+inductive_insert(UnfoldedForm, Grammar, OptimisedForm) :-
+    % Apply inductive optimizations to each form
+    findall(OptimizedForm,
+            (member(Form, UnfoldedForm),
+             optimize_single_form(Form, Grammar, OptimizedForm)),
+            TempOptimized),
+    flatten(TempOptimized, OptimisedForm).
+
+% Helper: Optimize a single form using grammar and inductive patterns
+optimize_single_form(base_case(Head), _Grammar, [base_case(Head)]) :- !.
+
+optimize_single_form(inductive_step(Head, Body), Grammar, [inductive_step(Head, OptimizedBody)]) :-
+    optimize_body_with_patterns(Body, Grammar, OptimizedBody).
+
+optimize_single_form(derived_rule(Head, Body), Grammar, [derived_rule(Head, OptimizedBody)]) :-
+    optimize_body_with_patterns(Body, Grammar, OptimizedBody).
+
+optimize_single_form(expanded_base_case(Goal, BaseHead), _Grammar, [optimized_base_case(Goal, BaseHead)]) :- !.
+
+optimize_single_form(expanded_inductive_step(Goal, StepHead, StepBody), Grammar, [optimized_inductive_step(Goal, StepHead, OptimizedBody)]) :-
+    optimize_body_with_patterns(StepBody, Grammar, OptimizedBody).
+
+optimize_single_form(Form, _Grammar, [Form]).
+
+% Helper: Optimize body using inductive patterns
+optimize_body_with_patterns((Goal, Rest), Grammar, (OptimizedGoal, OptimizedRest)) :- !,
+    optimize_single_goal_with_patterns(Goal, Grammar, OptimizedGoal),
+    optimize_body_with_patterns(Rest, Grammar, OptimizedRest).
+
+optimize_body_with_patterns(Goal, Grammar, OptimizedGoal) :-
+    optimize_single_goal_with_patterns(Goal, Grammar, OptimizedGoal).
+
+% Helper: Optimize a single goal using patterns
+optimize_single_goal_with_patterns(Goal, Grammar, OptimizedGoal) :-
+    % Check if this goal matches a known inductive pattern
+    (   match_inductive_pattern(Goal, Grammar, OptimizedGoal) ->
+        true
+    ;   % If no pattern matches, keep goal as-is
+        OptimizedGoal = Goal
+    ).
+
+% Helper: Match goal against known inductive patterns
+match_inductive_pattern(Goal, Grammar, Pattern) :-
+    % Pattern 1: List processing patterns
+    (   Goal =.. [is, Result, Expression],
+        contains_list_operation(Expression),
+        Pattern = inductive_arithmetic_pattern(Result, Expression)
+    ;   % Pattern 2: Recursive list operations
+        functor(Goal, PredName, _),
+        member([PredName -> _], Grammar),
+        Pattern = inductive_list_pattern(Goal)
+    ;   % Pattern 3: Generic inductive pattern
+        is_recursive_pattern(Goal),
+        Pattern = generic_inductive_pattern(Goal)
+    ).
+
+% Helper: Check if expression contains list operations
+contains_list_operation(Expr) :-
+    compound(Expr),
+    Expr =.. [Op|_],
+    member(Op, [+, -, *, /, append, length]).
+
+% Helper: Check if goal follows a recursive pattern
+is_recursive_pattern(Goal) :-
+    compound(Goal),
+    functor(Goal, Name, Arity),
+    Arity > 0,
+    Goal =.. [Name|Args],
+    % Check if any argument is a list with head/tail pattern
+    member(Arg, Args),
+    compound(Arg),
+    Arg = [_|_].
 
 %% formula_generate(+InductiveForm, -Formulas)
 %  Generate mathematical formulas that describe the output for input of size n.
@@ -332,7 +455,7 @@ analyze_base_case(PredName, Args, generic_base(PredName, Args)).
 analyze_inductive_step(sum_list, [[_|_], _], Body, sum(list_n) = sum(list_n_minus_1) + head_element) :-
     contains_arithmetic_operation(Body, is), 
     contains_recursive_call(Body, sum_list), !.
-analyze_inductive_step(factorial, [N, _], Body, factorial(n) = n * factorial(n-1)) :-
+analyze_inductive_step(factorial, [_N, _], Body, factorial(n) = n * factorial(n-1)) :-
     contains_arithmetic_operation(Body, is),
     contains_recursive_call(Body, factorial), !.
 analyze_inductive_step(length, [[_|_], _], Body, length(list_n) = length(list_n_minus_1) + 1) :-

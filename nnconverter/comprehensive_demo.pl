@@ -122,7 +122,7 @@ demo_inductive_proof :-
     get_dict(formulas, Neuronet, [Formula|_]),
     
     % Generate proof
-    inductive_proof(Formula, BaseProof, StepProof),
+    inductive_proof(Formula, _BaseProof, _StepProof),
     
     writeln('PROOF BY MATHEMATICAL INDUCTION:'),
     writeln('Formula: sum(1+2+...+n) = n(n+1)/2'),
@@ -166,7 +166,7 @@ test_sum_formula_examples :-
     forall(member((List, Expected), Examples),
            test_sum_example(List, Expected)).
 
-test_sum_example(List, Expected) :-
+test_sum_example(List, _Expected) :-
     length(List, N),
     simulate_sum_list(List, ActualSum),
     FormulaSum is N * (N + 1) // 2,
