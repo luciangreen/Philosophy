@@ -22,7 +22,7 @@ finds path through maze of commands
 */
 :- dynamic var1/1.
 
-:-include('../listprologinterpreter/listprolog.pl').
+:-include('minimal_listprolog.pl').
 % *** test1(off,1,A).
 
 % data_to_alg5(a:b,a,c:d,A).
@@ -30,9 +30,30 @@ finds path through maze of commands
 % A=[c]
 
 type(append,[a,b],a:b).
-%type(append1,[a,a:b],b).
-%type(member,[[a,b]],b).
-%type(member,[[a,b]],a).
+type(append1,[a,a:b],b).
+type(member,[[a,b]],b).
+type(member,[[a,b]],a).
+
+% Additional neural network style type patterns
+type(reverse,[a:b],b:a).
+type(length,[[a:b]],n).
+type(head,[a:b],a).
+type(tail,[a:b],b).
+type(concat,[a,b:c],a:b:c).
+type(split,[a:b:c],[a,b:c]).
+type(map,[f,a:b],f(a):f(b)).
+type(filter,[p,a:b],subset(a:b)).
+type(fold,[f,acc,a:b],result).
+type(sum,[n:m],total).
+type(product,[n:m],product).
+type(max,[n:m],maximum).
+type(min,[n:m],minimum).
+type(sort,[a:b],sorted(a:b)).
+type(unique,[a:b],unique(a:b)).
+type(zip,[[a:b],[c:d]],[(a,c):(b,d)]).
+type(unzip,[[(a,c):(b,d)]],[[a:b],[c:d]]).
+type(flatten,[nested_list],flat_list).
+type(transpose,[matrix],transposed_matrix).
 
 % induct([c,d],c:d,[],C).
 % C = [[append, [c, d], c:d]].
@@ -73,43 +94,139 @@ induct(In,Out,Commands1,Commands2) :-
  interpret_induct(Command,In,Out,Alg14),
  append(Commands1,[[Command,Alg14,Out]],Commands2).
 
-/*
-induct(In,Out,Commands1,Commands2) :-
- %type(Command,In1,Out1),
- interpret_induct(Command,In,Out1,Alg14),
- append(Commands1,[[Command,Alg14,Out1]],Commands3),
- induct(Out1,Out2,Commands3,Commands2),
- 
- %data_to_alg41(Out2,[],_,[],O31),
- %data_to_alg41(Out,[],_,[],O11),
- %append(O31,O32,O11),
+% Enhanced multi-step induction with chain learning
+induct_chain(In, Out, Commands1, Commands2, MaxDepth) :-
+    MaxDepth > 0,
+    induct(In, Intermediate, Commands1, Commands3),
+    NextDepth is MaxDepth - 1,
+    (Intermediate = Out ->
+        Commands2 = Commands3
+    ;
+        induct_chain(Intermediate, Out, Commands3, Commands2, NextDepth)
+    ).
 
- %(O32=[]->Commands4=Commands2;
- %induct(O32,Out2,Commands4,Commands2)),
- 
- Out=Out2.
-*/
+induct_chain(In, Out, Commands1, Commands2, 0) :-
+    % Base case: try direct match
+    induct(In, Out, Commands1, Commands2).
+
+% Enhanced induction with better pattern matching
+induct_enhanced(In, Out, Commands1, Commands2) :-
+    findall(Command-Alg14-IntermediateOut, 
+            (type(Command, In1, IntermediateOut),
+             interpret_induct(Command, In, IntermediateOut, Alg14)),
+            PossibleCommands),
+    member(Command-Alg14-Out, PossibleCommands),
+    append(Commands1, [[Command, Alg14, Out]], Commands2).
+
+% Pattern discovery for neural network style learning
+discover_patterns(Examples, Patterns) :-
+    findall(Pattern,
+            (member([Input,Output], Examples),
+             analyze_transformation(Input, Output, Pattern)),
+            RawPatterns),
+    remove_duplicates(RawPatterns, Patterns).
+
+analyze_transformation(Input, Output, pattern(Type, Params)) :-
+    (is_list(Input), is_list(Output) ->
+        analyze_list_transformation(Input, Output, Type, Params)
+    ;
+        analyze_atom_transformation(Input, Output, Type, Params)
+    ).
+
+analyze_list_transformation(Input, Output, reverse, []) :-
+    reverse(Input, Output).
+
+analyze_list_transformation(Input, Output, append, [Suffix]) :-
+    append(Input, Suffix, Output).
+
+analyze_list_transformation(Input, Output, head, []) :-
+    Input = [Output|_].
+
+analyze_list_transformation(Input, Output, tail, []) :-
+    Input = [_|Output].
+
+analyze_atom_transformation(Input, Output, identity, []) :-
+    Input = Output.
+
+analyze_atom_transformation(Input, Output, constant, [Output]) :-
+    Input \= Output.
+
+remove_duplicates([], []).
+remove_duplicates([H|T], [H|T2]) :-
+    \+ member(H, T),
+    remove_duplicates(T, T2).
+remove_duplicates([H|T], T2) :-
+    member(H, T),
+    remove_duplicates(T, T2).
 % interpret_induct(Command,[c,d],O).
 
 interpret_induct(Command,In,O,Alg14) :-
  type(Command,In1,O1),
- %length(In1,L),
- %numbers(L,1,[],N),
- % c d, a b ->
- %findall(O2,(member(N1,N),
- %get_item_n(In1,N1,In2),
- %get_item_n(In,N1,In3),
- %member(In2,In1),
- %member(In3,In),
- data_to_alg5(In1,O1,In,O2,Alg14),%),O3),
+ data_to_alg5(In1,O1,In,O2,Alg14),
  flatten(O2,O21),
  list_to_compound(O21,[],O).
 
-get_var(V1) :-
- var1(V),
- retractall(var1(_)),
- V1 is V+1,
- assertz(var1(V1)).
+% Neural network style weight learning for command selection
+:- dynamic command_weight/3.
+
+% Initialize weights for commands
+init_weights :-
+    findall(type(Cmd,In,Out), type(Cmd,In,Out), Types),
+    maplist(init_command_weight, Types).
+
+init_command_weight(type(Cmd,In,Out)) :-
+    (command_weight(Cmd,In,Out) -> true ; assertz(command_weight(Cmd,In,Out,0.5))).
+
+% Update weights based on success/failure
+update_weight(Command, Input, Output, Success) :-
+    (Success = true ->
+        Delta = 0.1
+    ;
+        Delta = -0.05
+    ),
+    (retract(command_weight(Command, Input, Output, OldWeight)) ->
+        NewWeight is max(0.0, min(1.0, OldWeight + Delta)),
+        assertz(command_weight(Command, Input, Output, NewWeight))
+    ;
+        init_command_weight(type(Command, Input, Output))
+    ).
+
+% Neural network style command selection using weights
+select_best_command(Input, Output, Commands, BestCommand) :-
+    findall(Weight-Command-Alg,
+            (member([Command, Alg, Output], Commands),
+             (command_weight(Command, Input, Output, Weight) ->
+                 true
+             ;
+                 Weight = 0.5
+             )),
+            WeightedCommands),
+    sort(WeightedCommands, SortedCommands),
+    reverse(SortedCommands, [_-BestCommand-_|_]).
+
+% Training function that learns from examples
+train_network(Examples) :-
+    init_weights,
+    maplist(train_example, Examples).
+
+train_example([Input, Output]) :-
+    (induct(Input, ActualOutput, [], Commands) ->
+        (ActualOutput = Output ->
+            % Success: reinforce successful commands
+            maplist(reinforce_success(Input, Output), Commands)
+        ;
+            % Failure: penalize unsuccessful commands  
+            maplist(penalize_failure(Input, Output), Commands)
+        )
+    ;
+        true  % No commands found
+    ).
+
+reinforce_success(Input, Output, [Command, _, _]) :-
+    update_weight(Command, Input, Output, true).
+
+penalize_failure(Input, Output, [Command, _, _]) :-
+    update_weight(Command, Input, Output, false).
 % a:b c a:b:c 
  
 %data_to_alg5(In,Alg1,Alg2) :-
@@ -221,3 +338,97 @@ list_to_compound(Data1,Compound1,Compound2) :-
  Compound3=..[:,Compound1,Data2]),
  list_to_compound(Data3,Compound3,Compound2),!.
 */
+
+% Original get_var predicate
+get_var(V1) :-
+ var1(V),
+ retractall(var1(_)),
+ V1 is V+1,
+ assertz(var1(V1)).
+
+% Advanced pattern matching with fuzzy matching
+fuzzy_match_types(Input, Output, SimilarTypes) :-
+    findall(Similarity-type(Cmd,In,Out),
+            (type(Cmd,In,Out),
+             calculate_similarity(Input, In, InSim),
+             calculate_similarity(Output, Out, OutSim),
+             Similarity is (InSim + OutSim) / 2),
+            Matches),
+    sort(Matches, SortedMatches),
+    reverse(SortedMatches, SimilarTypes).
+
+calculate_similarity(Term1, Term2, Similarity) :-
+    (Term1 = Term2 ->
+        Similarity = 1.0
+    ; (is_list(Term1), is_list(Term2)) ->
+        list_similarity(Term1, Term2, Similarity)
+    ; (atom(Term1), atom(Term2)) ->
+        atom_similarity(Term1, Term2, Similarity)  
+    ;
+        Similarity = 0.0
+    ).
+
+list_similarity([], [], 1.0) :- !.
+list_similarity([], _, 0.0) :- !.
+list_similarity(_, [], 0.0) :- !.
+list_similarity([H1|T1], [H2|T2], Similarity) :-
+    calculate_similarity(H1, H2, HSim),
+    list_similarity(T1, T2, TSim),
+    length([H1|T1], L1),
+    length([H2|T2], L2),
+    MaxLen is max(L1, L2),
+    Similarity is (HSim + TSim) / MaxLen.
+
+atom_similarity(A1, A2, Similarity) :-
+    atom_codes(A1, C1),
+    atom_codes(A2, C2),
+    longest_common_subsequence(C1, C2, LCS),
+    length(C1, L1),
+    length(C2, L2),
+    length(LCS, LLCS),
+    MaxLen is max(L1, L2),
+    Similarity is LLCS / MaxLen.
+
+longest_common_subsequence([], _, []).
+longest_common_subsequence(_, [], []).
+longest_common_subsequence([H|T1], [H|T2], [H|LCS]) :-
+    longest_common_subsequence(T1, T2, LCS).
+longest_common_subsequence([H1|T1], [H2|T2], LCS) :-
+    H1 \= H2,
+    longest_common_subsequence([H1|T1], T2, LCS1),
+    longest_common_subsequence(T1, [H2|T2], LCS2),
+    (length(LCS1, L1), length(LCS2, L2) ->
+        (L1 >= L2 -> LCS = LCS1 ; LCS = LCS2)
+    ;
+        LCS = LCS1
+    ).
+
+% Ensemble learning - combine multiple approaches
+ensemble_induct(Input, Output, Commands) :-
+    findall(Cmds, 
+            (induct_method(Method),
+             call(Method, Input, Output, [], Cmds)),
+            AllCommands),
+    flatten(AllCommands, FlatCommands),
+    vote_on_commands(FlatCommands, Commands).
+
+induct_method(induct).
+induct_method(induct_enhanced).
+
+vote_on_commands(AllCommands, BestCommands) :-
+    count_occurrences(AllCommands, Counts),
+    sort(Counts, SortedCounts),
+    reverse(SortedCounts, [_-BestCommands|_]).
+
+count_occurrences([], []).
+count_occurrences([H|T], [Count-H|Rest]) :-
+    select_all(H, [H|T], Selected, Remaining),
+    length(Selected, Count),
+    count_occurrences(Remaining, Rest).
+
+select_all(_, [], [], []).
+select_all(X, [X|T], [X|Selected], Remaining) :-
+    select_all(X, T, Selected, Remaining).
+select_all(X, [Y|T], Selected, [Y|Remaining]) :-
+    X \= Y,
+    select_all(X, T, Selected, Remaining).
