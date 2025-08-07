@@ -1,12 +1,29 @@
-/* nns alg writer
+/* nns alg writer - Neural Network Style Algorithm Writer
 
+MAIN PREDICATES:
+- induct/4: induct(Input, Output, CommandsIn, CommandsOut)
+  Primary induction predicate that transforms input to output using learned patterns
+  
+- type/3: type(Command, InputPattern, OutputPattern)  
+  Defines transformation patterns for various operations
+
+- train_network/1 & train_network/2: Neural network style training from examples
+
+KEY FEATURES:
 - learns types of commands
 - 2+ commands together
+- non-nn connects types
+- finds path through maze of commands
 
-non-nn
-- connects types
-:
+USAGE:
+To use induct/4 and other predicates from another file:
+  :- ensure_loaded('nns_alg_writer.pl').
+  
+  ?- induct([c,d], Output, [], Commands).
+  Output = c:d,
+  Commands = [[append,[c,d],c:d]].
 
+EXAMPLES:
 append list any a + list any b = list any a:b
 
 any xxx, list xx
@@ -15,9 +32,6 @@ any xxx, list xx
 other modes
 
 x examples x
-
-
-finds path through maze of commands
 
 */
 :- dynamic var1/1.
