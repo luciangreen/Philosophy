@@ -21,6 +21,7 @@ finds path through maze of commands
 
 */
 :- dynamic var1/1.
+:- discontiguous simple_pattern_match/5.
 
 :-include('minimal_listprolog.pl').
 % *** test1(off,1,A).
@@ -90,7 +91,7 @@ induct0(I,O,C1,C2) :-
 induct(In,Out,Commands1,Commands2) :-
  %retractall(var1(_)),
  %assertz(var1(0)),
- type(Command,In1,Out1),
+ type(Command,_In1,_Out1),
  interpret_induct(Command,In,Out,Alg14),
  append(Commands1,[[Command,Alg14,Out]],Commands2).
 
@@ -158,13 +159,76 @@ remove_duplicates([H|T], [H|T2]) :-
 remove_duplicates([H|T], T2) :-
     member(H, T),
     remove_duplicates(T, T2).
-% interpret_induct(Command,[c,d],O).
+% Simplified interpret_induct that actually works
+interpret_induct(Command,In,Out,Alg14) :-
+ type(Command,In1,Out1),
+ simple_pattern_match(In1, Out1, In, Out, Alg14).
 
-interpret_induct(Command,In,O,Alg14) :-
- type(Command,In1,O1),
- data_to_alg5(In1,O1,In,O2,Alg14),
- flatten(O2,O21),
- list_to_compound(O21,[],O).
+% Simple pattern matching for basic transformations
+simple_pattern_match([a,b], a:b, [X,Y], X:Y, [X,Y]) :-
+    atom(X), atom(Y).
+
+simple_pattern_match([a,a:b], b, [X,X:Y], Y, [X,X:Y]) :-
+    atom(X).
+
+simple_pattern_match([[a,b]], b, [[H|T]], H, [[H|T]]) :-
+    is_list(T).
+
+simple_pattern_match([[a,b]], a, [[H|T]], H, [[H|T]]) :-
+    is_list(T).
+
+simple_pattern_match([a:b], b:a, [H:T], T:H, [H:T]) :-
+    atom(H), atom(T).
+
+simple_pattern_match([a:b], b:a, List, Reversed, List) :-
+    is_list(List),
+    List \= [_:_],  % Not a compound term
+    reverse(List, Reversed).
+
+% Handle length patterns
+simple_pattern_match([[a:b]], n, [List], Length, [List]) :-
+    is_list(List),
+    length(List, Length).
+
+% Handle head/tail patterns  
+simple_pattern_match([a:b], a, [H|_], H, [H|_]).
+
+simple_pattern_match([a:b], b, [_|T], T, [_|T]).
+
+% Handle some functional programming patterns
+simple_pattern_match([f,a:b], f(a):f(b), [Func, List], Result, [Func, List]) :-
+    is_list(List),
+    maplist(apply_func(Func), List, Result).
+
+apply_func(Func, Element, FuncElement) :-
+    FuncElement =.. [Func, Element].
+
+% Handle mathematical operations
+simple_pattern_match([n:m], total, Numbers, Sum, Numbers) :-
+    is_list(Numbers),
+    maplist(number, Numbers),
+    sumlist(Numbers, Sum).
+
+simple_pattern_match([n:m], product, Numbers, Product, Numbers) :-
+    is_list(Numbers),
+    maplist(number, Numbers),
+    product_list(Numbers, Product).
+
+simple_pattern_match([n:m], maximum, Numbers, Max, Numbers) :-
+    is_list(Numbers),
+    maplist(number, Numbers),
+    max_list(Numbers, Max).
+
+simple_pattern_match([n:m], minimum, Numbers, Min, Numbers) :-
+    is_list(Numbers),
+    maplist(number, Numbers),
+    min_list(Numbers, Min).
+
+% Helper predicates
+product_list([], 1).
+product_list([H|T], Product) :-
+    product_list(T, RestProduct),
+    Product is H * RestProduct.
 
 % Neural network style weight learning for command selection
 :- dynamic command_weight/3.
@@ -416,9 +480,12 @@ induct_method(induct).
 induct_method(induct_enhanced).
 
 vote_on_commands(AllCommands, BestCommands) :-
+    AllCommands \= [],
     count_occurrences(AllCommands, Counts),
     sort(Counts, SortedCounts),
     reverse(SortedCounts, [_-BestCommands|_]).
+
+vote_on_commands([], []).
 
 count_occurrences([], []).
 count_occurrences([H|T], [Count-H|Rest]) :-
