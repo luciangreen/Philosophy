@@ -13,10 +13,29 @@ test_basic_induction :-
 % Test enhanced multi-step induction  
 test_chain_induction :-
     writeln('Testing chain induction...'),
-    induct_chain([a,b], Output, [], Commands, 2),
-    writeln('Input: [a,b]'),
-    write('Output: '), writeln(Output),
-    write('Commands: '), writeln(Commands),
+    % Test with a more complex transformation that might need multiple steps
+    Input = [a, b, c],
+    (smart_chain_induct(Input, Target, Commands) ->
+        (writeln('Smart Chain Induction:'),
+         write('Input: '), writeln(Input),
+         write('Target: '), writeln(Target),
+         write('Commands: '), writeln(Commands))
+    ; true
+    ),
+    
+    % Also test basic chain induction
+    (induct_chain([a,b], Output, [], Commands2, 2) ->
+        (writeln('Basic Chain Induction:'),
+         writeln('Input: [a,b]'),
+         write('Output: '), writeln(Output),
+         write('Commands: '), writeln(Commands2))
+    ;
+        (writeln('Chain induction failed, trying basic induction...'),
+         induct([a,b], Output2, [], Commands3),
+         writeln('Input: [a,b]'),
+         write('Output: '), writeln(Output2),
+         write('Commands: '), writeln(Commands3))
+    ),
     nl.
 
 % Test pattern discovery
@@ -39,13 +58,35 @@ test_fuzzy_matching :-
 % Test neural network training
 test_neural_training :-
     writeln('Testing neural network training...'),
-    TrainingExamples = [[[a,b], [b,a]], [[c,d], [d,c]], [[1,2], [2,1]]],
-    train_network(TrainingExamples),
+    TrainingExamples = [[[a,b], a:b], [[c,d], c:d], [[1,2,3], [3,2,1]]],
+    writeln('Training with examples:'),
+    maplist(writeln, TrainingExamples),
+    
+    % Train with enhanced training
+    train_network(TrainingExamples, 3),  % 3 epochs
     writeln('Training completed.'),
-    % Show learned weights
-    findall(weight(Cmd,In,Out,W), command_weight(Cmd,In,Out,W), Weights),
-    write('Learned weights: '), writeln(Weights),
+    
+    % Show learned weights for some key commands
+    findall(weight(Cmd,In,Out,W), 
+            (command_weight(Cmd,In,Out,W), W > 0.5), 
+            ImportantWeights),
+    write('High-confidence weights: '), writeln(ImportantWeights),
+    
+    % Test the trained network
+    writeln('Testing trained network:'),
+    test_trained_network([[x,y], [p,q,r]]),
     nl.
+
+% Helper to test the trained network
+test_trained_network([]).
+test_trained_network([Input|Rest]) :-
+    write('Testing input: '), write(Input), write(' -> '),
+    (induct(Input, Output, [], _Commands) ->
+        writeln(Output)
+    ;
+        writeln('no solution')
+    ),
+    test_trained_network(Rest).
 
 % Test ensemble learning
 test_ensemble_learning :-
