@@ -1,4 +1,6 @@
 % Final comprehensive demo of nnconverter functionality
+% Automatically loads required dependencies
+:- ensure_loaded('nns_alg_writer.pl').
 
 demo_nnconverter :-
     writeln('====================================================='),

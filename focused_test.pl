@@ -1,4 +1,6 @@
 % Focused test for nnconverter core functionality
+% Automatically loads required dependencies
+:- ensure_loaded('nns_alg_writer.pl').
 
 test_basic_functionality :-
     writeln('=== Testing Core Functionality ==='),
