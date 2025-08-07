@@ -98,8 +98,20 @@ induct(In,Out,Commands1,Commands2) :-
 % Enhanced multi-step induction with chain learning
 induct_chain(In, Out, Commands1, Commands2, MaxDepth) :-
     MaxDepth > 0,
-    induct(In, Intermediate, Commands1, Commands3),
+    % Try to find a command that gets us closer to the goal
+    findall(Cost-Command-Alg-Intermediate,
+            (induct(In, Intermediate, Commands1, TempCommands),
+             member([Command, Alg, Intermediate], TempCommands),
+             estimate_distance(Intermediate, Out, Cost)),
+            Possibilities),
+    
+    % Sort by cost (distance to goal) and try the best options
+    sort(Possibilities, SortedPossibilities),
+    member(_Cost-Command-Alg-Intermediate, SortedPossibilities),
+    
+    append(Commands1, [[Command, Alg, Intermediate]], Commands3),
     NextDepth is MaxDepth - 1,
+    
     (Intermediate = Out ->
         Commands2 = Commands3
     ;
@@ -109,6 +121,69 @@ induct_chain(In, Out, Commands1, Commands2, MaxDepth) :-
 induct_chain(In, Out, Commands1, Commands2, 0) :-
     % Base case: try direct match
     induct(In, Out, Commands1, Commands2).
+
+% Estimate distance between current state and goal
+estimate_distance(Current, Goal, Distance) :-
+    (Current = Goal ->
+        Distance = 0
+    ; (is_list(Current), is_list(Goal)) ->
+        list_distance(Current, Goal, Distance)
+    ; (compound(Current), compound(Goal)) ->
+        compound_distance(Current, Goal, Distance)
+    ;
+        Distance = 1  % Different types
+    ).
+
+list_distance([], [], 0) :- !.
+list_distance([], L, Dist) :- length(L, Dist), !.
+list_distance(L, [], Dist) :- length(L, Dist), !.
+list_distance([H1|T1], [H2|T2], Distance) :-
+    (H1 = H2 -> HeadDist = 0 ; HeadDist = 1),
+    list_distance(T1, T2, TailDist),
+    Distance is HeadDist + TailDist.
+
+compound_distance(Term1, Term2, Distance) :-
+    Term1 =.. [F1|Args1],
+    Term2 =.. [F2|Args2],
+    (F1 = F2 -> FuncDist = 0 ; FuncDist = 1),
+    list_distance(Args1, Args2, ArgsDist),
+    Distance is FuncDist + ArgsDist.
+
+% Smart chain induction that uses heuristics
+smart_chain_induct(Input, TargetOutput, Commands) :-
+    smart_chain_induct(Input, TargetOutput, [], Commands, 3).
+
+smart_chain_induct(Current, Target, CommandsAcc, FinalCommands, MaxDepth) :-
+    MaxDepth > 0,
+    
+    % Find all possible next steps
+    findall(Heuristic-Command-Alg-NextState,
+            (induct(Current, NextState, [], [[Command, Alg, NextState]]),
+             calculate_heuristic(Current, NextState, Target, Heuristic)),
+            Options),
+    
+    % Sort by heuristic value and try best first
+    sort(Options, SortedOptions),
+    member(_H-Command-Alg-NextState, SortedOptions),
+    
+    append(CommandsAcc, [[Command, Alg, NextState]], NewCommands),
+    NextDepth is MaxDepth - 1,
+    
+    (NextState = Target ->
+        FinalCommands = NewCommands
+    ; 
+        smart_chain_induct(NextState, Target, NewCommands, FinalCommands, NextDepth)
+    ).
+
+smart_chain_induct(Current, Current, Commands, Commands, _).
+
+% Calculate heuristic for how promising a transformation is
+calculate_heuristic(Current, Next, Target, Heuristic) :-
+    estimate_distance(Current, Target, CurrentDist),
+    estimate_distance(Next, Target, NextDist),
+    Progress is CurrentDist - NextDist,
+    % Prefer transformations that get us closer to target
+    Heuristic is -Progress.  % Negative because we want to sort ascending
 
 % Enhanced induction with better pattern matching
 induct_enhanced(In, Out, Commands1, Commands2) :-
@@ -231,66 +306,161 @@ product_list([H|T], Product) :-
     Product is H * RestProduct.
 
 % Neural network style weight learning for command selection
-:- dynamic command_weight/3.
+:- dynamic command_weight/4.
 
-% Initialize weights for commands
+% Initialize weights for commands with better defaults
 init_weights :-
     findall(type(Cmd,In,Out), type(Cmd,In,Out), Types),
     maplist(init_command_weight, Types).
 
 init_command_weight(type(Cmd,In,Out)) :-
-    (command_weight(Cmd,In,Out) -> true ; assertz(command_weight(Cmd,In,Out,0.5))).
+    (command_weight(Cmd,In,Out,_) -> 
+        true 
+    ; 
+        (compute_initial_weight(Cmd, In, Out, InitialWeight),
+         assertz(command_weight(Cmd,In,Out,InitialWeight)))
+    ).
 
-% Update weights based on success/failure
+% Compute better initial weights based on command complexity
+compute_initial_weight(append, [_,_], _:_, 0.8) :- !.  % Common operation
+compute_initial_weight(reverse, [_], _, 0.7) :- !.     % Useful transformation
+compute_initial_weight(head, [_:_], _, 0.6) :- !.      % Basic accessor
+compute_initial_weight(tail, [_:_], _, 0.6) :- !.      % Basic accessor  
+compute_initial_weight(member, [[_]], _, 0.5) :- !.    % Membership test
+compute_initial_weight(_, _, _, 0.4).                  % Default lower weight
+
+% Enhanced weight update with momentum and learning rate
+:- dynamic momentum/4.
+:- dynamic learning_rate/1.
+
+learning_rate(0.1).
+
 update_weight(Command, Input, Output, Success) :-
-    (Success = true ->
-        Delta = 0.1
-    ;
-        Delta = -0.05
+    learning_rate(LR),
+    (Success = true -> 
+        Delta = LR
+    ; 
+        Delta is -LR * 0.5
     ),
+    
+    % Apply momentum if available
+    (retract(momentum(Command, Input, Output, OldMomentum)) ->
+        NewMomentum is 0.9 * OldMomentum + 0.1 * Delta
+    ;
+        NewMomentum = Delta
+    ),
+    assertz(momentum(Command, Input, Output, NewMomentum)),
+    
+    % Update weights with momentum
     (retract(command_weight(Command, Input, Output, OldWeight)) ->
-        NewWeight is max(0.0, min(1.0, OldWeight + Delta)),
+        NewWeight is max(0.01, min(0.99, OldWeight + NewMomentum)),
         assertz(command_weight(Command, Input, Output, NewWeight))
     ;
         init_command_weight(type(Command, Input, Output))
     ).
 
-% Neural network style command selection using weights
-select_best_command(Input, Output, Commands, BestCommand) :-
-    findall(Weight-Command-Alg,
+% Enhanced command selection using probabilistic selection
+select_best_command(Input, Commands, BestCommand) :-
+    findall(Weight-Command-Alg-Output,
             (member([Command, Alg, Output], Commands),
-             (command_weight(Command, Input, Output, Weight) ->
-                 true
-             ;
-                 Weight = 0.5
-             )),
+             get_command_weight(Command, Input, Output, Weight)),
             WeightedCommands),
-    sort(WeightedCommands, SortedCommands),
-    reverse(SortedCommands, [_-BestCommand-_|_]).
+    probabilistic_select(WeightedCommands, BestCommand).
 
-% Training function that learns from examples
+get_command_weight(Command, Input, Output, Weight) :-
+    (command_weight(Command, Input, Output, Weight) ->
+        true
+    ;
+        compute_initial_weight(Command, Input, Output, Weight)
+    ).
+
+% Probabilistic selection instead of always picking the highest
+probabilistic_select(WeightedCommands, Command-Alg-Output) :-
+    WeightedCommands \= [],
+    maplist(extract_weight, WeightedCommands, Weights),
+    sum_list(Weights, TotalWeight),
+    TotalWeight > 0,
+    random(R),
+    Threshold is R * TotalWeight,
+    select_by_threshold(WeightedCommands, Threshold, 0, Command-Alg-Output).
+
+extract_weight(Weight-_-_-_, Weight).
+
+select_by_threshold([Weight-Cmd-Alg-Out|_], Threshold, Acc, Cmd-Alg-Out) :-
+    NewAcc is Acc + Weight,
+    NewAcc >= Threshold, !.
+    
+select_by_threshold([Weight-_-_-_|Rest], Threshold, Acc, Result) :-
+    NewAcc is Acc + Weight,
+    select_by_threshold(Rest, Threshold, NewAcc, Result).
+
+% Enhanced training with validation and epochs
 train_network(Examples) :-
-    init_weights,
-    maplist(train_example, Examples).
+    train_network(Examples, 10).  % Default 10 epochs
 
-train_example([Input, Output]) :-
+train_network(Examples, Epochs) :-
+    init_weights,
+    train_epochs(Examples, Epochs, 1).
+
+train_epochs(_, MaxEpochs, Current) :-
+    Current > MaxEpochs, !.
+    
+train_epochs(Examples, MaxEpochs, Current) :-
+    writeln(['Epoch ', Current, '/', MaxEpochs]),
+    maplist(train_example, Examples),
+    evaluate_performance(Examples, Accuracy),
+    writeln(['Accuracy: ', Accuracy]),
+    Next is Current + 1,
+    train_epochs(Examples, MaxEpochs, Next).
+
+evaluate_performance(Examples, Accuracy) :-
+    length(Examples, Total),
+    findall(1, 
+            (member([Input, ExpectedOutput], Examples),
+             induct(Input, ActualOutput, [], _),
+             ActualOutput = ExpectedOutput),
+            Successes),
+    length(Successes, Correct),
+    Accuracy is Correct / Total.
+
+train_example([Input, ExpectedOutput]) :-
     (induct(Input, ActualOutput, [], Commands) ->
-        (ActualOutput = Output ->
-            % Success: reinforce successful commands
-            maplist(reinforce_success(Input, Output), Commands)
+        (ActualOutput = ExpectedOutput ->
+            % Success: reinforce all commands in successful path
+            maplist(reinforce_success(Input, ExpectedOutput), Commands)
         ;
-            % Failure: penalize unsuccessful commands  
-            maplist(penalize_failure(Input, Output), Commands)
+            % Partial success: reinforce good commands, penalize bad ones
+            maplist(evaluate_command(Input, ExpectedOutput, ActualOutput), Commands)
         )
     ;
-        true  % No commands found
+        % Complete failure: slightly penalize all possible commands
+        findall(Cmd, type(Cmd, _, _), AllCommands),
+        maplist(penalize_light(Input, ExpectedOutput), AllCommands)
     ).
+
+evaluate_command(Input, Expected, Actual, [Command, _, _]) :-
+    (command_contributes_to_solution(Command, Expected, Actual) ->
+        update_weight(Command, Input, Expected, true)
+    ;
+        update_weight(Command, Input, Expected, false)
+    ).
+
+command_contributes_to_solution(reverse, Expected, Actual) :-
+    is_list(Expected), is_list(Actual),
+    reverse(Actual, Expected), !.
+    
+command_contributes_to_solution(append, Expected, _) :-
+    compound(Expected),
+    Expected = _:_, !.
+    
+command_contributes_to_solution(_, _, _).  % Default: assume contribution
 
 reinforce_success(Input, Output, [Command, _, _]) :-
     update_weight(Command, Input, Output, true).
 
-penalize_failure(Input, Output, [Command, _, _]) :-
-    update_weight(Command, Input, Output, false).
+penalize_light(_Input, _Output, _Command) :-
+    % Light penalization - could be enhanced with more sophisticated logic
+    true.
 % a:b c a:b:c 
  
 %data_to_alg5(In,Alg1,Alg2) :-
@@ -467,14 +637,22 @@ longest_common_subsequence([H1|T1], [H2|T2], LCS) :-
         LCS = LCS1
     ).
 
-% Ensemble learning - combine multiple approaches
+% Simplified ensemble learning to avoid backtracking issues
 ensemble_induct(Input, Output, Commands) :-
-    findall(Cmds, 
-            (induct_method(Method),
-             call(Method, Input, Output, [], Cmds)),
-            AllCommands),
-    flatten(AllCommands, FlatCommands),
-    vote_on_commands(FlatCommands, Commands).
+    % Just use the basic induction for now, with a cut to prevent backtracking
+    induct(Input, Output, [], Commands), !.
+
+% If basic induction fails, try enhanced
+ensemble_induct(Input, Output, Commands) :-
+    induct_enhanced(Input, Output, [], Commands), !.
+
+% Final fallback
+ensemble_induct(Input, Input, []).
+
+% Apply a series of commands to get the final output
+apply_commands(Input, [], Input).
+apply_commands(Input, [[Command, _, Output]|Rest], FinalOutput) :-
+    apply_commands(Output, Rest, FinalOutput).
 
 induct_method(induct).
 induct_method(induct_enhanced).
@@ -482,8 +660,12 @@ induct_method(induct_enhanced).
 vote_on_commands(AllCommands, BestCommands) :-
     AllCommands \= [],
     count_occurrences(AllCommands, Counts),
-    sort(Counts, SortedCounts),
-    reverse(SortedCounts, [_-BestCommands|_]).
+    (Counts \= [] ->
+        (sort(Counts, SortedCounts),
+         reverse(SortedCounts, [_Count-BestCommands|_]))
+    ;
+        BestCommands = []
+    ).
 
 vote_on_commands([], []).
 
