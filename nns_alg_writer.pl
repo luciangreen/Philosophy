@@ -90,7 +90,7 @@ induct0(I,O,C1,C2) :-
 induct(In,Out,Commands1,Commands2) :-
  %retractall(var1(_)),
  %assertz(var1(0)),
- %type(Command,In1,Out1),
+ type(Command,In1,Out1),
  interpret_induct(Command,In,Out,Alg14),
  append(Commands1,[[Command,Alg14,Out]],Commands2).
 
@@ -112,7 +112,7 @@ induct_chain(In, Out, Commands1, Commands2, 0) :-
 % Enhanced induction with better pattern matching
 induct_enhanced(In, Out, Commands1, Commands2) :-
     findall(Command-Alg14-IntermediateOut, 
-            (type(Command, In1, IntermediateOut),
+            (type(Command, _In1, IntermediateOut),
              interpret_induct(Command, In, IntermediateOut, Alg14)),
             PossibleCommands),
     member(Command-Alg14-Out, PossibleCommands),
