@@ -67,13 +67,11 @@ test that parts repeat, signal bracket or repeating list with smallest unit
 % A = [[1, ['&r', [2]], 3]].
 
 find_lists3a(L1,L32,Rest) :-
-% Optimized bottom-up version for improved speed
-% Key improvement: process smaller patterns first to avoid redundant recursive calls
 %writeln1(find_lists3a(L1,L3)),
 %trace,
 	%trace,
 	%findall(L91,
-	find_lists3_optimized(L1,[],L91,_Rest_a),%,L100),
+	find_lists3(L1,[],L91,_Rest_a),%,L100),
 	%trace,
 	(fail%L91=[['&r', L92]]
 	->(L4=_L92,Flag=true);
@@ -295,88 +293,3 @@ split13(_A,_B,C,C) :-!.
 */
 	
 %find_lists3()
-
-% Optimized find_lists3 functions for bottom-up processing
-% These improve speed by trying smaller patterns first
-
-% Optimized find_lists3 - bottom-up pattern detection
-find_lists3_optimized([], L, L, _) :- !.
-find_lists3_optimized(L1, L2, L3, Rest) :-
-    % Use optimized repeating_unit that tries smallest patterns first
-    repeating_unit_optimized(L1, U, Rest),
-    (U=['&r',U1] ->
-        try(U1, U2);
-        U2=U
-    ),
-    append(L2, [['&r',U2]], L3).
-
-find_lists3_optimized(L1, L2, L3, Rest) :-
-    L1=[L4|L5],
-    match_char(L4, L41),
-    find_lists4_optimized(L2, L5, L4, L41, L3, Rest).
-
-% Optimized find_lists4 - reduce redundant processing
-find_lists4_optimized(L2, L5, L4, L41, L3, Rest) :-
-    member(L4, L5),
-    sub_list(L5, Before_list, [L41], After_list),
-    Before_list1=[L4|Before_list], After_list1=[L41|After_list],
-    find_lists32_optimized(Before_list1, [], L6, _),
-    find_lists3_optimized(After_list1, [], L7, Rest),
-    foldr(append, [[L6,L7]], L8),
-    foldr(append, [L2,L8], L33),
-    L3=L33.
-find_lists4_optimized(L2, L5, L4, L41, L3, Rest) :-
-    not((member(L41, L5),
-    sub_list(L5, _Before_list, [L4], _After_list))),    
-    append(L2, [L4], L6),
-    find_lists3_optimized(L5, L6, L3, Rest).
-
-find_lists32_optimized(L1, L2, L3, Rest) :-
-    find_lists3_optimized(L1, L2, L3, Rest).
-
-% Optimized repeating_unit - bottom-up approach
-% Key optimization: try patterns starting from length 1 (bottom-up)
-repeating_unit_optimized(L1, U, Rest) :-
-    (only_item(L1) -> fail;
-    (length(L1, L),
-    L2 is (floor(L/2)),
-    % Bottom-up: try patterns starting from length 1
-    try_pattern_lengths_bottomup(L1, 1, L2, U, Rest))), !.
-
-% Try pattern lengths from 1 up to max (bottom-up approach)
-try_pattern_lengths_bottomup(L1, CurrentLen, MaxLen, U, Rest) :-
-    CurrentLen =< MaxLen,
-    (try_pattern_length(L1, CurrentLen, U, Rest) ->
-        true  % Found pattern at this length
-    ;   NextLen is CurrentLen + 1,
-        try_pattern_lengths_bottomup(L1, NextLen, MaxLen, U, Rest)
-    ).
-
-% Try a specific pattern length
-try_pattern_length(L1, N, U, Rest) :-
-    split12_optimized(L1, N, [], A, Rest),
-    maplist(=(_), A),  % Check if all parts are the same
-    (N=L1 -> 
-        length(L1, L1Len),
-        (N=L1Len -> U=L1;
-        (length(L21, N),
-        append(L21, _, L1),
-        U=['&r', L21]))
-    ; 
-        (length(L21, N),
-        append(L21, _, L1),
-        U=['&r', L21])
-    ).
-
-% Optimized split12 - more efficient splitting
-split12_optimized([], _, A, A, []) :- !.    
-split12_optimized(L, L16, A1, A2, _Rest) :- 
-    length(L, LL), 
-    LL < L16,
-    append(A1, L, A2), !.
-split12_optimized(Q2, L16, L20, L17, Rest) :-
-    length(L18, L16),
-    append(L18, L19, Q2),
-    append(L20, [L18], L21),
-    split12_optimized(L19, L16, L21, L17, Rest), !.
-split12_optimized(A, _B, C, C, A) :- !.
