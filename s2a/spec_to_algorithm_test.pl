@@ -28,6 +28,7 @@ findall(_,(member([N,S,UV2],
 [
 [1,[['A', [1, 3]]],
  [['A', ['A1', 'A2']]]],
+ % A1 represents 1 and A2 represents 3
 
 [2,[['A',[1,3,1]]],
  [['A',['A1','A2','A1']]]]
@@ -57,12 +58,15 @@ findall(_,(member([N,S1,C2],
 
 [1, [[['A',[3]],['B',[3]]],[['A',[4]],['B',[6]]]],
 [['A',['C1']],['B',['C2']]]],
+% These are not the same constant because not(3=3) and not(4=6), they are not 3 and 3, and 4 and 6 because a single pair of variables/values needs to replace them (note: this is just a find constants test), and they are different variables because not((3,4)=(3,6)).
 
 [2, [[['A',[1]],['B',[1]]],[['A',[1]],['B',[1]]]],
 [['A',[1]],['B',[1]]]],
+% The value 1 recurs because it recurs in the different cases, it is not the constant instances C1, C1 because A=1,B=1 and A=1,B=1 are the same (not e.g. A=1,B=1 and A=2,B=2).
 
 [3, [[['A',[1,3]],['B',[1,3]]],[['A',[1,4]],['B',[1,6]]]],
 [['A',[1,'C1']],['B',[1,'C2']]]],
+% 1 recurs because it recurs in the different cases
 
 [4,
 [[['A',[1,3]],['B',[2,3]]],[['A',[5,4]],['B',[5,6]]]],
@@ -112,7 +116,9 @@ s2a_tests([
 character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',[1,['&r',[2,'C1']]]]],[output,[['C1']]]]],[[[[1,2,2,2,2],[[1,1]]]]],In_vars,Out_var)."
 ],
- 
+
+% r(2,C1) is 2,3,2,3 and 2,4,2,4, where C1 is either 3 or 4. r(1,(r(2,C1))) is 1,2,3,2,3,1,2,3,2,3, or 1,2,4,2,4,1,2,4,2,4, where 1 and 2,3,2,3 are repeated, etc.
+
 [3,algorithm,
 [
 [[input,[['A',[1]],['B',[2]]]],[output,[['C',[1]]]]],
@@ -140,6 +146,8 @@ character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[['C1',3],['C2',3],[output,[[3]]]]],[[]],In_vars,Out_var)."
 ],
 
+% The value 3, rather than a variable is used because variations were not detected.
+
 [6,algorithm,
 [
 [[input,[['A',[[1]]],['B',[[2]]]]],[output,[['C',[[1,[[]]]]]]]],
@@ -155,11 +163,13 @@ character_breakdown_mode=off,
 [[input,[['A',[[1]]],['B',[[2]]]]],[output,[['C',[[1]]]]]],
 [[input,[['A',[[3]]],['B',[[4]]]]],[output,[['C',[[3]]]]]],
 [[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[1]]]]]],
-[[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[3]]]]]] % separate for find_constants
+[[input,[['A',[[1,3]]],['B',[[1,4]]]]],[output,[['C',[[3]]]]]] % separate outputs for find_constants, even though the inputs ((1,3),(1,4))=((1,3),(1,4))
 ],
 character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",1,3,\"]\"],[\"[\",1,4,\"]\"],[nd,[[[output,[[\"[\",1,\"]\"]]]],[[output,[[\"[\",3,\"]\"]]]]]]],[[\"[\",'C1',\"]\"],[\"[\",'C2',\"]\"],[output,[[\"[\",'C1',\"]\"]]]]]]],[[],[],[[[1,1,2],[[1,2]]]]],In_vars,Out_var)."
 ],
+
+% nd=non-deterministic and means that A,B and C in nd(A,B,C) are different cases. nd([1],[3]) in output means the same input can have multiple outputs.
 
 [8,algorithm,
 [
@@ -173,6 +183,7 @@ character_breakdown_mode=off,
 character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",1,3,\"]\"],[\"[\",1,4,\"]\"],[output,[[\"[\",1,3,\"]\"]]]],[[\"[\",'C1',\"]\"],[\"[\",'C2',\"]\"],[output,[[\"[\",'C1',\"]\"]]]],[[\"[\",['&r',[1]],3,\"]\"],[\"[\",['&r',[1]],4,\"]\"],[output,[[\"[\",3,\"]\"]]]],[[\"[\",['&r',[1]],\"]\"],[\"[\",['&r',[1]],2,\"]\"],[output,[[\"[\",1,\"]\"]]]]]]],[[[[1,1,2],[[1,2]]]],[],[],[],[]],In_vars,Out_var)."
 ],
+% nd splits the decision tree at each point. 
 
 [9,algorithm,
 [
