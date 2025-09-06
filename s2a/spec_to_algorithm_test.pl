@@ -323,11 +323,11 @@ character_breakdown_mode=on,
 % parse
 [22,algorithm,
 [
-[[input,[['A',"C is A+B"]]],[output,[[n,+],[[v,[downcase,"A"]],[v,[downcase,"B"]],[v,[downcase,"C"]]]]]],
-[[input,[['A',"D is E+F"]]],[output,[[n,+],[[v,[downcase,"E"]],[v,[downcase,"F"]],[v,[downcase,"D"]]]]]]
+[[input,[['A',"C is A+B"]]],[output,[['B',[[n,+],[[v,[downcase,"A"]],[v,[downcase,"B"]],[v,[downcase,"C"]]]]]]]],
+[[input,[['A',"D is E+F"]]],[output,[['B',[[n,+],[[v,[downcase,"E"]],[v,[downcase,"F"]],[v,[downcase,"D"]]]]]]]]
 ],
 character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,['C1',\" \",\"i\",\"s\",\" \",'C2',\"+\",'C3']],[output,[[atom,[\"+\"]]]]]],[[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,['C1',\" \",\"i\",\"s\",\" \",'C2',\"+\",'C3']],[output,[[\"[\",[atom,[\"n\"]],[atom,[\"+\"]],\"]\",\"[\",\"[\",[atom,[\"v\"]],\"[\",[atom,[\"d\",\"o\",\"w\",\"n\",\"c\",\"a\",\"s\",\"e\"]],[string,['C2']],\"]\",\"]\",\"[\",[atom,[\"v\"]],\"[\",[atom,[\"d\",\"o\",\"w\",\"n\",\"c\",\"a\",\"s\",\"e\"]],[string,['C3']],\"]\",\"]\",\"[\",[atom,[\"v\"]],\"[\",[atom,[\"d\",\"o\",\"w\",\"n\",\"c\",\"a\",\"s\",\"e\"]],[string,['C1']],\"]\",\"]\",\"]\"]]]]],[[[[1,2,1],[[1,24,2,1]]],[[1,2,6],[[1,10,2,1]]],[[1,2,8],[[1,17,2,1]]]]],In_vars,Out_var)."
 ],
 
 % produce the abstract syntax tree
@@ -422,6 +422,9 @@ character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",\"Month1\",\"Month2\",\"Month3\",\"TOTAL\",\"]\",\"[\",\"$\",\"3\",\"4\",\"5\",\"[\",+,\"[\",\"3\",\"4\",\"5\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month1\",\"Month2\",\"Month3\",\"TOTAL\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",\"Month1\",\"Month2\",\"TOTAL\",\"]\",\"[\",\"$\",\"1\",\"2\",\"[\",+,\"[\",\"1\",\"2\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month1\",\"Month2\",\"TOTAL\",\"]\",\"[\",\"$\",a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
 ],
 
+% to trigger CFG, separate grammars to be compared, group by type instead of same character in test 30
+
+% too long (>14) to trigger CFG?
 
 % ssff sum->compressed
 [32,algorithm,
