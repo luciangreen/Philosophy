@@ -273,7 +273,7 @@ test_s2g.
 
 * These give the test number. The first result is that the output matches the test output. The second result is the strings being substituted back into the found grammar working.
 
-* <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Lucianpedia Philosophy and Strings to * Page</a>.
+* <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Lucianpedia Philosophy Page</a>.
 
 *
 ```
