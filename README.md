@@ -273,7 +273,15 @@ test_s2g.
 
 * These give the test number. The first result is that the output matches the test output. The second result is the strings being substituted back into the found grammar working.
 
-* <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Further instructions</a> to change to input ordinary strings.
+* <a href="https://lucianpedia.fandom.com/wiki/Philosophy">Lucianpedia Philosophy Page</a>.
+
+*
+```
+To convert ordinary strings:
+Change e.g. "[1,2,3,2,3,1,2,3,2,3]" to "1232312323".
+Change term_to_atom(T1,S) to string_strings(S,T1).
+Change term_to_atom(S2,S),flatten_keep_brackets(S2,S1),append([_],S4,S1),append(S3,[_],S4) to string_strings(S,S3).
+```
 
 # Spec to Algorithm
 
