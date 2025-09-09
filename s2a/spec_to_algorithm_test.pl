@@ -422,9 +422,7 @@ character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",\"\",\"Month1\",\"Month2\",\"Month3\",\"TOTAL\",\"]\",\"[\",\"$\",\"3\",\"4\",\"5\",\"[\",+,\"[\",\"3\",\"4\",\"5\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month1\",\"Month2\",\"Month3\",\"TOTAL\",\"]\",\"[\",\"$\",a,a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]],[[\"[\",\"\",\"Month1\",\"Month2\",\"TOTAL\",\"]\",\"[\",\"$\",\"1\",\"2\",\"[\",+,\"[\",\"1\",\"2\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month1\",\"Month2\",\"TOTAL\",\"]\",\"[\",\"$\",a,a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]]]]]]],[[],[]],In_vars,Out_var)."
 ],
 
-% to trigger CFG, separate grammars to be compared, group by type instead of same character in test 30
-
-% too long (>14) to trigger CFG?
+% to form CFG, separate grammars to be compared, group by type instead of same character in test 30
 
 % ssff sum->compressed
 [32,algorithm,
