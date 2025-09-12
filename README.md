@@ -339,7 +339,7 @@ success
 
 * Run generated algorithms by uncommenting a line in <a href="https://github.com/luciangreen/Philosophy/blob/master/s2a/auxiliary_s2a2.pl">auxiliary_s2a2.pl</a> and calling `algorithm(In_vars,Out_var).` Please check the name of the algorithm.
 
-* <a href="https://github.com/luciangreen/Time_Machine/blob/main/mrs2a_binary5.pl">Mind-Reading S2A</a> uses S2A to generate algorithms. See for an example of generating S2A generated algorithms.
+* <a href="https://github.com/luciangreen/Time_Machine/blob/main/mrs2a_binary5.pl">Mind-Reading S2A</a> uses S2A to generate algorithms. See for an example of generating S2A algorithms.
 
 # Authors
 
