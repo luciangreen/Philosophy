@@ -321,7 +321,7 @@ success
 [success,1,spec_to_algorithm,test]
 ```
 
-* The first results are from testing the produced algorithm. The third result gives the test number.
+* The first result is from producing the algorithm and the second test is from testing the produced algorithm matches the correct result. The third result gives the test number.
 
 * Use the query `spec_to_algorithm(algorithm,[[[input,[['A',[1,2]]]],[output,[['B',[21]]]]], [[input,[['A',[3,4]]]],[output,[['B',[43]]]]]],on,A),writeln1(A).` where `on` turns on breakdown of term elements to characters for recombination of characters in terms.
 
