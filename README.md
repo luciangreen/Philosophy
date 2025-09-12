@@ -337,7 +337,9 @@ success
 
 * <img width="101" alt="Starlog" src="https://github.com/user-attachments/assets/6e80445c-cced-41a4-9389-2980155ff9a7"> Starlog is part Haskell, part Prolog and allows simple editing of patterns and code in S2A specs.
 
-* <a href="https://github.com/luciangreen/Time_Machine/blob/main/mrs2a_binary5.pl">Mind-Reading S2A</a> uses S2A to generate algorithms. See for an example of using S2A generated algorithms.
+* Run generated algorithms by uncommenting a line in <a href="https://github.com/luciangreen/Philosophy/blob/master/s2a/auxiliary_s2a2.pl">auxiliary_s2a2.pl</a> and calling `algorithm(In_vars,Out_var).` Please check the name of the algorithm.
+
+* <a href="https://github.com/luciangreen/Time_Machine/blob/main/mrs2a_binary5.pl">Mind-Reading S2A</a> uses S2A to generate algorithms. See for an example of generating S2A generated algorithms.
 
 # Authors
 
