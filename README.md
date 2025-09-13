@@ -287,7 +287,7 @@ Change term_to_atom(S2,S),flatten_keep_brackets(S2,S1),append([_],S4,S1),append(
 
 * Starry Sunshine (a play on words on "subterm with address" and "spec to algorithm")  <img width="580" alt="Starry Sunshine" src="https://github.com/luciangreen/Philosophy/assets/15845542/505f3e18-00b4-4075-bf6f-6f09ee1f6eca">
 
-* Enter possible specs to convert to a pattern-matching algorithm in `s2a/spec_to_algorithm.pl`.
+* Enter possible specs to convert to a pattern-matching algorithm using a Context-Free Grammar Generator in `s2a/spec_to_algorithm.pl`.
 
 * For example, test 1 below takes the following spec and tests the outputted algorithm.
 
@@ -305,6 +305,8 @@ This creates the following algorithm:
 algorithm(In_vars,Out_var) :-
   algorithm([[['C1','C2'],[output,[['C2','C1']]]]],[[[[1,1],[[1,2]]],[[1,2],[[1,1]]]]],In_vars,Out_var).
 ```
+
+* The mappings ([1,1] to [1,2], etc.) represent the term addresses of the variables in input and output.
 
 * To load Spec to Algorithm and run tests, enter:
 ```
