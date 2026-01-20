@@ -481,17 +481,17 @@ character_breakdown_mode=on,
 ],
 character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',[\"[\",\"fulfilled\",\"plus\",\"]\"]],\"[\",\"disadvantages\",\"minus\",\"]\",\"[\",\"fulfilled\",\"plus\",\"]\"],[output,[success]]]],[[]],In_vars,Out_var)."
-]/*,
-
-
-[37,algorithm,
-[
-[[input,[['A',"1232312323"%1,2,3,2,3,1,2,3,2,3"%11,22,33,22,33,11,22,33,22,33"%,11,22,33,22,33,11,22,33,22,33"
-]]],[output,[['B',"11"]]]]
 ],
-character_breakdown_mode=on,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[string,[['&r',[\"1\",['&r',[\"2\",\"3\"]]]],\",\",['&r',[\"1\",['&r',[\"2\",\"3\"]]]]]],[output,[[string,[\"1\"]]]]]],[[]],In_vars,Out_var)."
-]*/
+
+
+[38,algorithm,
+[
+[[input,[['A',[11,22,33,22,33,11,22,33,22,33]%,11,22,33,22,33,11,22,33,22,33"
+]]],[output,[['B',[11]]]]]
+],
+character_breakdown_mode=off,
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',[11,['&r',[22,33]]]]],[output,[[11]]]]],[[]],In_vars,Out_var)."
+]
 
 
 ]).
@@ -539,7 +539,9 @@ Tests),
 string_concat(Predicate_name1,Rest,Alg21)
 ,Alg21=Alg1
 )->R=success;R=fail),
- writeln([R,N,spec_to_algorithm,test]),!.
+ writeln([R,N,spec_to_algorithm,test]),
+ 
+ writeln([Predicate_name1,not,Predicate_name,above]),!.
 
 /*
 
