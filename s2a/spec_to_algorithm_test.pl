@@ -487,10 +487,12 @@ character_breakdown_mode=off,
 [38,algorithm,
 [
 [[input,[['A',[11,22,33,22,33,11,22,33,22,33]%,11,22,33,22,33,11,22,33,22,33"
-]]],[output,[['B',[11]]]]]
+]]],[output,[['B',[11]]]]],
+[[input,[['A',[41,42,43,42,43,41,42,43,42,43]%,41,42,43,42,43,41,42,43,42,43"
+]]],[output,[['B',[41]]]]]
 ],
 character_breakdown_mode=off,
-"algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',[11,['&r',[22,33]]]]],[output,[[11]]]]],[[]],In_vars,Out_var)."
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',['C1',['&r',['C2','C3']]]]],[output,[['C1']]]]],[[[[1,2,1],[[1,1]]]]],In_vars,Out_var)."
 ]
 
 
