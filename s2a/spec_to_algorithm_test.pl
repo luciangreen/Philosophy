@@ -455,6 +455,16 @@ character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",\"\",['&r',[\"Month\"]],\"TOTAL\",\"]\",['&r',[\"[\",\"$\",['&r',[a]],\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\"]],\"[\",\"TOTAL\",['&r',[\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\"]],\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"],[output,[[\"[\",\"\",\"Month\",\"TOTAL\",\"]\",\"[\",\"$\",a,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"[\",\"TOTAL\",\"[\",vertical_month_sum,\"[\",a,\"]\",\"]\",\"[\",vertical_month_sum,\"[\",month_sum,\"[\",a,\"]\",\"]\",\"]\",\"]\"]]]]],[[],[]],In_vars,Out_var)."
 ],
 
+% starlog sum (...,S) or S=sum(..)
+% r Month where Month becomes variable when in two specs or ds x a variable - in this case a new variable each time it is used as an instance ie nv a_n...m, a_n..m,p..q where n..m usually replaced with a constant (maybe a hidden row number xx use vars n,m,p,q, x given by a_1..m, where these can be referenced using a_1,2 etc.)
+% m is determined by the data length
+% month to val, subtract first month val from each+1, or leave
+% only need a hidden row number if it is needed - need it anyway - this increases from 1..m x just 1..m
+%parse this 
+% 'C_VN,1,2,...' as var format
+% 'C_VN2_Y' is sum 'C_VN_1..m,...'
+% total
+% possibly decreasing counters
 
 [35,algorithm,
 [
