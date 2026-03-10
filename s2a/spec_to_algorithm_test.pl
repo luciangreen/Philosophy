@@ -461,8 +461,8 @@ character_breakdown_mode=off,
 % month to val, subtract first month val from each+1, or leave
 % only need a hidden row number if it is needed - need it anyway - this increases from 1..m x just 1..m
 %parse this 
-% 'CVN,1,2,...' as var format
-% 'CVN2_Y' is sum 'CVN_1..m,...'
+% 'CX,1,2,...' as var format
+% 'C2_Y' is sum 'C_1..m_1..n_...'
 % total
 % possibly decreasing counters
 
