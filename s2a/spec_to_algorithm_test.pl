@@ -526,7 +526,15 @@ character_breakdown_mode=off,
 character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",'&r',\"[\",'C1',\"[\",'&r',\"[\",'C2',\"[\",'&r',\"[\",'C3',\"[\",['&r',[11,['&r',[22,33]]]],\"]\",\"]\",\"]\",\"]\",\"]\",\"]\",\"]\"],[output,[['C1']]]]],[[[[1,4],[[1,1]]]]],In_vars,Out_var)."
 ]
+/*,
 
+[41,algorithm,
+[
+[[input,[['A',[A=B+1, f(A), (4-3)/A, sin(x+1)]]]],[output,[['B',[A=B+1, f(A), (4-3)/A, sin(x+1)]]]]]
+],
+character_breakdown_mode=off,
+"algorithm(In_vars,Out_var) :-\nalgorithm([[[\"[\",'&r',\"[\",'C1',\"[\",'&r',\"[\",'C2',\"[\",'&r',\"[\",'C3',\"[\",['&r',[11,['&r',[22,33]]]],\"]\",\"]\",\"]\",\"]\",\"]\",\"]\",\"]\"],[output,[['C1']]]]],[[[[1,4],[[1,1]]]]],In_vars,Out_var)."
+]*/
 
 ]).
 
