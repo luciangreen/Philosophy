@@ -144,6 +144,10 @@ A = [[[n,function],[[v,a],[v,b]],":-",[[n,+],[[v,a],[v,b]]]]]
 
 * In `swipl`, `['web-editor1.pl'].` `web_editor_server(8000).` Go to <a href="http://localhost:8000/webeditor">http://localhost:8000/webeditor</a> or http://***your IP address***:8000 to access files online.
 
+# Mist (Web)
+
+* Open `/mist_web.html` in a web browser to play the JavaScript web version of `mist.pl`.
+
 # Paraphraser
 
 * Enter text to paraphrase in `Philosophy/file.txt` while reading the text in another window and the paraphrased file `file2.txt` will be produced.
@@ -350,4 +354,3 @@ Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Luc
 # License
 
 I licensed this project under the BSD3 License - see the <a href="LICENSE">LICENSE.md</a> file for details
-
