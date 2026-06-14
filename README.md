@@ -347,6 +347,8 @@ success
 
 * <a href="https://github.com/luciangreen/Time_Machine/blob/main/mrs2a_binary5.pl">Mind-Reading S2A</a> uses S2A to generate algorithms. See for an example of generating S2A algorithms.
 
+* <a href="https://github.com/luciangreen/Philosophy/blob/master/S2A-Caveats.md">S2A Caveats</a>.
+
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
