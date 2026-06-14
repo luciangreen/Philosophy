@@ -1,0 +1,19 @@
+# Runs and breasons out a high distinction with H1A.pl
+
+cd Dropbox/GitHub-private2/Philosophy/
+# Copy and paste this and run in Terminal (Mac) (not a shell script)
+# Replace path with the correct path
+
+swipl
+
+['h1a.pl'].
+['../Text-to-Breasonings/text_to_breasonings.pl'],
+FileName2="./gl2a.txt",
+FileName3="gl2a.txt",
+protocol(FileName2).
+notrace.
+time(main_h1a).
+noprotocol,
+N=u,M=u,texttobr2(N,"./gl2a.txt",u,M,[auto,on]).
+N=u,M=u,texttobr(N,"./gl2a.txt",u,M).
+halt.
