@@ -58,8 +58,10 @@ writeln(Out),
 
 term_to_atom(Alg,G2),
 
-writeln(G2)
+writeln(G2),
 
+foldr(string_concat,["N=u,M=u,texttobr2(N,u,\"",G2,"\",M,[auto,on]),texttobr(N,u,\"",G2,"\",M)"],S4),
+container2("../Text-to-Breasonings/text_to_breasonings.pl",S4,_)
 ),_)
 
 ),_),!.
