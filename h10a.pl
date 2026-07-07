@@ -3,7 +3,7 @@
 :-include('../Philosophy/word_frequency_count2-1.pl').
 
 main_h1a :- 
-h1a(file,"../Text-to-Breasonings/file.txt"),!.
+h1a(file,"../Text-to-Breasonings/file4.txt"),!.
 
 h1a(File_or_string,Infile) :-
 (File_or_string=file->
