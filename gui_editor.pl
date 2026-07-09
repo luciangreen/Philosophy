@@ -1,5 +1,6 @@
 :- use_module(library(pce)).
 :- dynamic pixel/3. % Tracks pixel(X, Y, Color)
+:- dynamic selected_color/1.
 
 % ==========================================
 % 1. GLOBAL CONFIGURATION CONSTANTS
@@ -57,6 +58,7 @@ read_facts(Stream) :-
 
 start :-
     init_pixel_db,
+    set_selected_color(red),
     
     canvas_size(GridSize),
     pixel_display_size(PxSize),
@@ -74,19 +76,16 @@ start :-
     % 2. Create control panel dialog toolbar
     new(Dialog, dialog('Toolbar')),
     
-    % Active drawing color tracking register variable
-    new(@current_paint_color, var(value := red)),
-    
     % Build Palette row buttons explicitly to guarantee distinct code blocks
     send(Dialog, append, label(palette_lbl, 'Color Palette: ')),
-    send(Dialog, append, button(red,     message(@current_paint_color, value, red))),
-    send(Dialog, append, button(green,   message(@current_paint_color, value, green))),
-    send(Dialog, append, button(blue,    message(@current_paint_color, value, blue))),
-    send(Dialog, append, button(yellow,  message(@current_paint_color, value, yellow))),
-    send(Dialog, append, button(magenta, message(@current_paint_color, value, magenta))),
-    send(Dialog, append, button(cyan,    message(@current_paint_color, value, cyan))),
-    send(Dialog, append, button(black,   message(@current_paint_color, value, black))),
-    send(Dialog, append, button(white,   message(@current_paint_color, value, white))),
+    send(Dialog, append, button(red,     message(@prolog, set_selected_color, red))),
+    send(Dialog, append, button(green,   message(@prolog, set_selected_color, green))),
+    send(Dialog, append, button(blue,    message(@prolog, set_selected_color, blue))),
+    send(Dialog, append, button(yellow,  message(@prolog, set_selected_color, yellow))),
+    send(Dialog, append, button(magenta, message(@prolog, set_selected_color, magenta))),
+    send(Dialog, append, button(cyan,    message(@prolog, set_selected_color, cyan))),
+    send(Dialog, append, button(black,   message(@prolog, set_selected_color, black))),
+    send(Dialog, append, button(white,   message(@prolog, set_selected_color, white))),
     
     % Control Options 
     send(Dialog, append, label(io_lbl, ' | File Actions: ')),
@@ -124,10 +123,20 @@ start :-
 % ==========================================
 
 click_pixel_action(BoxObj, X, Y) :-
-    get(@current_paint_color, value, SelectedColor),
+    get_selected_color(SelectedColor),
     retractall(pixel(X, Y, _)),
     assertz(pixel(X, Y, SelectedColor)),
     send(BoxObj, fill, colour(SelectedColor)).
+
+set_selected_color(Color) :-
+    retractall(selected_color(_)),
+    assertz(selected_color(Color)).
+
+get_selected_color(Color) :-
+    (   selected_color(Color0)
+    ->  Color = Color0
+    ;   Color = red
+    ).
 
 % ==========================================
 % 6. COMPLETE INTERFACE MATRIX REFRESHERS
