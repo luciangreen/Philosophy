@@ -24,33 +24,87 @@ init_pixel_db :-
 % 3. SAVE / LOAD FUNCTIONS
 % ==========================================
 save_canvas(Filename) :-
-    open(Filename, write, Stream),
-    with_output_to(Stream, (
-        forall(pixel(X, Y, Color), 
-               format('pixel(~q, ~q, ~q).~n', [X, Y, Color]))
-    )),
-    close(Stream),
-    send(@sandbox, inform, string('Canvas successfully saved to %s', Filename)).
+    (   normalize_filename(Filename, NormalizedFilename)
+    ->  catch(
+            setup_call_cleanup(
+                open(NormalizedFilename, write, Stream),
+                with_output_to(Stream, (
+                    forall(pixel(X, Y, Color),
+                           format('pixel(~q, ~q, ~q).~n', [X, Y, Color]))
+                )),
+                close(Stream)
+            ),
+            _,
+            (report_gui_error('Unable to save canvas to %s', NormalizedFilename), fail)
+        ),
+        gui_inform('Canvas successfully saved to %s', NormalizedFilename)
+    ;   report_gui_error('Please enter a file name.', '')
+    ).
 
 load_canvas(Filename, Frame) :-
-    exists_file(Filename),
+    normalize_filename(Filename, NormalizedFilename),
+    exists_file(NormalizedFilename),
     !,
-    retractall(pixel(_, _, _)),
-    open(Filename, read, Stream),
-    read_facts(Stream),
-    close(Stream),
-    send(@sandbox, inform, string('Canvas loaded from %s', Filename)),
-    refresh_all_ui_boxes(Frame).
+    catch(
+        setup_call_cleanup(
+            open(NormalizedFilename, read, Stream),
+            read_facts(Stream, Pixels),
+            close(Stream)
+        ),
+        _,
+        (report_gui_error('Unable to load canvas from %s', NormalizedFilename), fail)
+    ),
+    replace_pixels(Pixels),
+    gui_inform('Canvas loaded from %s', NormalizedFilename),
+    catch(refresh_all_ui_boxes(Frame), _, true).
 load_canvas(Filename, _) :-
-    send(@sandbox, report, error, string('File %s not found!', Filename)).
+    (   normalize_filename(Filename, NormalizedFilename)
+    ->  report_gui_error('File %s not found!', NormalizedFilename)
+    ;   report_gui_error('Please enter a file name.', '')
+    ).
 
-read_facts(Stream) :-
+read_facts(Stream, Pixels) :-
     read(Stream, Term),
     (   Term == end_of_file
-    ->  true
-    ;   assertz(Term),
-        read_facts(Stream)
+    ->  Pixels = []
+    ;   valid_pixel_fact(Term),
+        Pixels = [Term|Rest],
+        read_facts(Stream, Rest)
     ).
+
+valid_pixel_fact(pixel(X, Y, _)) :-
+    integer(X),
+    integer(Y),
+    !.
+valid_pixel_fact(Term) :-
+    throw(error(type_error(pixel_fact, Term), _)).
+
+replace_pixels(Pixels) :-
+    retractall(pixel(_, _, _)),
+    forall(member(Pixel, Pixels), assertz(Pixel)).
+
+normalize_filename(Filename, NormalizedFilename) :-
+    filename_value(Filename, FilenameValue),
+    FilenameValue \== '',
+    NormalizedFilename = FilenameValue.
+
+filename_value(Filename, Filename) :-
+    string(Filename),
+    !.
+filename_value(Filename, FilenameString) :-
+    atom(Filename),
+    !,
+    atom_string(Filename, FilenameString).
+filename_value(Filename, FilenameValue) :-
+    catch(get(Filename, value, Value), _, fail),
+    !,
+    filename_value(Value, FilenameValue).
+
+gui_inform(Format, Value) :-
+    catch(send(@sandbox, inform, string(Format, Value)), _, true).
+
+report_gui_error(Format, Value) :-
+    catch(send(@sandbox, report, error, string(Format, Value)), _, true).
 
 % ==========================================
 % 4. XPCE GRAPHICAL GUI ENGINE
@@ -158,7 +212,7 @@ refresh_all_ui_boxes(Frame) :-
 % ==========================================
 gui_save_prompt :-
     new(D, dialog('Save File As')),
-    send(D, append, new(F, text_item(filename, 'my_art.txt'))),
+    send(D, append, new(F, text_item(filename, 'my_art.pl'))),
     send(D, append, button(ok, message(D, return, F?selection))),
     send(D, append, button(cancel, message(D, return, @nil))),
     get(D, confirm, Answer),
@@ -168,7 +222,7 @@ gui_save_prompt :-
 
 gui_load_prompt(Frame) :-
     new(D, dialog('Load Art File')),
-    send(D, append, new(F, text_item(filename, 'my_art.txt'))),
+    send(D, append, new(F, text_item(filename, 'my_art.pl'))),
     send(D, append, button(ok, message(D, return, F?selection))),
     send(D, append, button(cancel, message(D, return, @nil))),
     get(D, confirm, Answer),
