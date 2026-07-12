@@ -39,6 +39,7 @@ paraphraser.
 */
 
 :-dynamic auto/1.
+:-dynamic cs_so/1.
 
 :-include('../listprologinterpreter/listprolog').
 :-include('trim_to_unique.pl').
@@ -47,12 +48,24 @@ paraphraser.
 paraphraser(Parameters,File_list_a,Auto) :-
 	retractall(auto(_)),
 	assertz(auto(Auto)),
+	retractall(cs_so(_)),
+	assertz(cs_so(off)),
+	paraphraser(Parameters,File_list_a),!.
+
+paraphraser(Parameters,File_list_a,Auto,Cs_so) :-
+	retractall(auto(_)),
+	assertz(auto(Auto)),
+	retractall(cs_so(_)),
+	assertz(cs_so(Cs_so)),
 	paraphraser(Parameters,File_list_a),!.
 
 paraphraser([string,String],File_list_a) :-
 	(not(catch(auto(_),_,false))->
 	(retractall(auto(_)),
 	assertz(auto(off)));true),
+	(not(catch(cs_so(_),_,false))->
+	(retractall(cs_so(_)),
+	assertz(cs_so(off)));true),
 	%File1="test1.pl",
 	string_codes(String,Codes),
 	paraphraser1(Codes,File_list_a),!.
@@ -62,6 +75,9 @@ paraphraser([file,File1],File_list_a
 	(not(catch(auto(_),_,false))->
 	(retractall(auto(_)),
 	assertz(auto(off)));true),
+	(not(catch(cs_so(_),_,false))->
+	(retractall(cs_so(_)),
+	assertz(cs_so(off)));true),
 	%File1="test1.pl",
 	phrase_from_file_s(string(Codes), File1),
 	paraphraser1(Codes,File_list_a),
@@ -89,7 +105,8 @@ paraphrase1(File_list,[],File_list2a,Synonym_list,Synonym_list2),
 	concat_list(File_list2a,File_list_a),
 	
 trim_to_unique(Synonym_list2, Unique_list),
-term_to_atom(Unique_list, Synonym_list_a),
+clean_synonym_list(Unique_list, Clean_list),
+term_to_atom(Clean_list, Synonym_list_a),
 	
 	(open_s("thesaurus.txt",write,Stream2),
 	write(Stream2,Synonym_list_a),
@@ -104,6 +121,47 @@ string_to_list2(A,B,C) :-
 	string_length(D,1),
 	append(B,[D],F),
 	string_to_list2(E,F,C).
+
+find_synonym(File_list3,Synonym_list,Synonym) :-
+	member([File_list3,Synonym],Synonym_list),
+	synonym_entry_allowed(File_list3,Synonym),!.
+find_synonym(File_list3,Synonym_list,Synonym) :-
+	member([Synonym,File_list3],Synonym_list),
+	synonym_entry_allowed(Synonym,File_list3),!.
+
+synonym_entry_allowed(Word,Synonym) :-
+	(cs_so(on)->
+	(\+ contains_spaces(Word),
+	\+ contains_spaces(Synonym));
+	true).
+
+contains_spaces(String) :-
+	string_codes(String,Codes),
+	member(Code,Codes),
+	char_type(Code,white),
+	!.
+
+clean_synonym_list([],[]).
+clean_synonym_list([[Word,Synonym]|Synonym_list],[[Word1,Synonym1]|Synonym_list1]) :-
+	clean_synonym_text(Word,Word1),
+	clean_synonym_text(Synonym,Synonym1),
+	Word1\="",
+	Synonym1\="",
+	clean_synonym_list(Synonym_list,Synonym_list1),!.
+clean_synonym_list([_|Synonym_list],Synonym_list1) :-
+	clean_synonym_list(Synonym_list,Synonym_list1).
+
+clean_synonym_text(Text,Text1) :-
+	string_codes(Text,Codes),
+	findall(Code1,
+	(member(Code,Codes),
+	((char_type(Code,alpha),Code1=Code);
+	(char_type(Code,white),Code1=32))),
+	Codes1),
+	string_codes(Text2,Codes1),
+	split_string(Text2," "," ",Text3),
+	atomic_list_concat(Text3,' ',Text4),
+	atom_string(Text4,Text1).
 	
 	paraphrase1([""],File_list,File_list,Synonym_list,Synonym_list) :- !.
 	paraphrase1([],File_list,File_list,Synonym_list,Synonym_list) :- !.
@@ -124,8 +182,7 @@ paraphrase1(File_list,File_list1,File_list2,Synonym_list,Synonym_list2) :-
 	%letters(File_list5),
 	string_codes(File_list5,File_list5_c),
 	phrase(word1(File_list5_c),_),
-	(((member([File_list3,Synonym],Synonym_list)->true;
-	member([Synonym,File_list3],Synonym_list))->
+	((find_synonym(File_list3,Synonym_list,Synonym)->
 	(random_member(Synonym_a,[Synonym,File_list3]),
 	append(File_list1,[Synonym_a],File_list6),
 	Synonym_list=Synonym_list1);
