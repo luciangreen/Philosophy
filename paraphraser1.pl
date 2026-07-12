@@ -80,7 +80,8 @@ paraphrase1(File_list,[],File_list2a,Synonym_list,Synonym_list2),
 	concat_list(File_list2a,File_list_a),
 	
 trim_to_unique(Synonym_list2, Unique_list),
-clean_synonym_list(Unique_list, Clean_list),
+clean_synonym_list(Unique_list, Clean_list1),
+trim_to_unique(Clean_list1, Clean_list),
 term_to_atom(Clean_list, Synonym_list_a),
 	
 	(open_s("thesaurus.txt",write,Stream2),
