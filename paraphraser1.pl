@@ -9,12 +9,14 @@
 cd Philosophy/
 swipl
 ['paraphraser1.pl'].
-paraphraser([file,"file.txt"],_).
+paraphraser([file,"file.txt"],_,Auto_on_or_off,CS_on_or_off).
+% Auto_on_or_off=if asks for synonyms or not
+% CS_on_or_off=if items should have spaces in them
 % Find paraphrased file in file2.txt
 */
 
 :-dynamic auto/1.
-:-dynamic cs_so/1.
+:-dynamic cs/1.
 
 :-include('../listprologinterpreter/listprolog').
 :-include('trim_to_unique.pl').
@@ -22,24 +24,24 @@ paraphraser([file,"file.txt"],_).
 paraphraser(Parameters,File_list_a,Auto) :-
 	retractall(auto(_)),
 	assertz(auto(Auto)),
-	retractall(cs_so(_)),
-	assertz(cs_so(off)),
+	retractall(cs(_)),
+	assertz(cs(off)),
 	paraphraser(Parameters,File_list_a),!.
 
-paraphraser(Parameters,File_list_a,Auto,Cs_so) :-
+paraphraser(Parameters,File_list_a,Auto,CS) :-
 	retractall(auto(_)),
 	assertz(auto(Auto)),
-	retractall(cs_so(_)),
-	assertz(cs_so(Cs_so)),
+	retractall(cs(_)),
+	assertz(cs(CS)),
 	paraphraser(Parameters,File_list_a),!.
 
 paraphraser([string,String],File_list_a) :-
 	(not(catch(auto(_),_,false))->
 	(retractall(auto(_)),
 	assertz(auto(off)));true),
-	(not(catch(cs_so(_),_,false))->
-	(retractall(cs_so(_)),
-	assertz(cs_so(off)));true),
+	(not(catch(cs(_),_,false))->
+	(retractall(cs(_)),
+	assertz(cs(off)));true),
 	%File1="test1.pl",
 	string_codes(String,Codes),
 	paraphraser1(Codes,File_list_a),!.
@@ -49,9 +51,9 @@ paraphraser([file,File1],File_list_a
 	(not(catch(auto(_),_,false))->
 	(retractall(auto(_)),
 	assertz(auto(off)));true),
-	(not(catch(cs_so(_),_,false))->
-	(retractall(cs_so(_)),
-	assertz(cs_so(off)));true),
+	(not(catch(cs(_),_,false))->
+	(retractall(cs(_)),
+	assertz(cs(off)));true),
 	%File1="test1.pl",
 	phrase_from_file_s(string(Codes), File1),
 	paraphraser1(Codes,File_list_a),
@@ -106,7 +108,7 @@ find_synonym(File_list3,Synonym_list,Synonym) :-
 	synonym_entry_allowed(Synonym,File_list3),!.
 
 synonym_entry_allowed(Word,Synonym) :-
-	(cs_so(on)->
+	(cs(on)->
 	(\+ contains_spaces(Word),
 	\+ contains_spaces(Synonym));
 	true).
