@@ -16,6 +16,7 @@ paraphraser([file,"file.txt"],_).
 :-dynamic auto/1.
 
 :-include('../listprologinterpreter/listprolog').
+:-include('trim_to_unique.pl').
 
 paraphraser(Parameters,File_list_a,Auto) :-
 	retractall(auto(_)),
@@ -62,7 +63,8 @@ paraphrase1(File_list,[],File_list2a,Synonym_list,Synonym_list2),
 	
 	concat_list(File_list2a,File_list_a),
 	
-	term_to_atom(Synonym_list2,Synonym_list_a),
+trim_to_unique(Synonym_list2, Unique_list),
+term_to_atom(Unique_list, Synonym_list_a),
 	
 	(open_s("thesaurus.txt",write,Stream2),
 	write(Stream2,Synonym_list_a),

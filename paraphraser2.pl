@@ -15,6 +15,7 @@ paraphraser.
 :-dynamic auto/1.
 
 :-include('../listprologinterpreter/listprolog').
+:-include('trim_to_unique.pl').
 %:-include('14 10 23.pl').
 
 paraphraser2(Parameters,File_list_a,Auto) :-
