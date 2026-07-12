@@ -59,12 +59,23 @@ paraphraser1(Codes,File_list_a) :-
 	string_codes(String2,Codes2),
 	atom_to_term(String2,Synonym_list,_),
 	
-paraphrase1(File_list,[],File_list2a,Synonym_list,Synonym_list2),
+	% In CS mode, filter thesaurus to only entries with no spaces in words
+	(auto(cs) ->
+		include(thesaurus_no_spaces, Synonym_list, Synonym_list_cs)
+	;
+		Synonym_list_cs = Synonym_list
+	),
+	
+paraphrase1(File_list,[],File_list2a,Synonym_list_cs,Synonym_list2),
 	
 	concat_list(File_list2a,File_list_a),
 	
 trim_to_unique(Synonym_list2, Unique_list),
-term_to_atom(Unique_list, Synonym_list_a),
+
+	% When saving, keep only entries where both words are alpha+space only
+	include(thesaurus_alpha_space, Unique_list, Save_list),
+
+term_to_atom(Save_list, Synonym_list_a),
 	
 	(open_s("thesaurus.txt",write,Stream2),
 	write(Stream2,Synonym_list_a),
@@ -117,6 +128,19 @@ paraphrase1(File_list,File_list1,File_list2,Synonym_list,Synonym_list2) :-
 	append(File_list1,[Synonym2],File_list6)),
 	paraphrase1(File_list4,File_list6,File_list2,Synonym_list1,Synonym_list2).
 
+% True if a thesaurus entry has no spaces in either word (used for CS mode)
+thesaurus_no_spaces([W1,W2]) :-
+	\+ sub_string(W1,_,_,_," "),
+	\+ sub_string(W2,_,_,_," ").
+
+% True if a thesaurus entry has only alpha and space characters in both words
+thesaurus_alpha_space([W1,W2]) :-
+	word_alpha_space(W1),
+	word_alpha_space(W2).
+
+word_alpha_space(W) :-
+	string_codes(W, Codes),
+	forall(member(C, Codes), (code_type(C, alpha) ; C =:= 32)).
 
 
 	
