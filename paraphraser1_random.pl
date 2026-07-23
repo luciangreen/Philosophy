@@ -157,7 +157,7 @@ clean_synonym_text(Text,Text1) :-
 	findall(Code1,
 	(member(Code,Codes),
 	((char_type(Code,alpha),Code1=Code);
-	(char_type(Code,white),Code1=32))),
+	((Code=39,Code1=39);(char_type(Code,white),Code1=32)))),
 	Codes1),
 	string_codes(Text2,Codes1),
 	split_string(Text2," "," ",Text3),
