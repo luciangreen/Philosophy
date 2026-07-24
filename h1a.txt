@@ -8,7 +8,5 @@ swipl
 
 ['h1a.pl'].
 ['../Text-to-Breasonings/text_to_breasonings.pl'],
-time(main_h1a).
-time(main_h1a).
-time(main_h1a).
+repeat(16,time(main_h1a)). % 0.25 thoughts, *4 for MUH1
 halt.
