@@ -25,6 +25,7 @@ G = [[1,>,a,1]
 :-include('optimise_alg.pl').
 :-include('flatten_keep_brackets.pl').
 :-include('../decision_tree.pl').
+:-include('normalise.pl').
 :-dynamic var_num/1.
 :-dynamic s2g_mode/1.
 :-dynamic optional_s2g/1.
