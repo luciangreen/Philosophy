@@ -154,6 +154,25 @@ strings_to_grammar_words(L, G) :-
     strings_to_grammar(L1, G5),
     decode_grammar(G5, G).
 
+% strings_to_grammar_words_covering(+Strings, -Grammar, -Added)
+%   As strings_to_grammar_words/2, but the grammar always parses every input.
+%   strings_to_grammar can leave out a case that is optional in the data, e.g.
+%     ["n1,l2,s1", "n1,l2", "n1,n1,l2,s1", "s1,n1,l2"]
+%   gives a grammar that requires the trailing s1, so it does not parse "n1,l2".
+%   Each input that check_grammar/2 rejects is added as an alternative of the
+%   start symbol; Added lists those inputs (as word strings), [] if none.
+strings_to_grammar_words_covering(L, G, Added) :-
+    strings_to_symbols(L, L1, Lw),
+    strings_to_grammar(L1, G5),
+    decode_grammar(G5, G0),
+    findall(W, ( member(W, Lw), \+ catch(check_grammar([W], G0), _, fail) ), Added),
+    G0 = [[Start, Arrow, _]|_],
+    findall([Start, Arrow, Items],
+            ( member(W, Added), term_string(T, W), maplist(ws_item, T, Items) ), Extra),
+    append(G0, Extra, G).
+
+ws_item(X, [X]).
+
 % strings_to_symbols(+Strings, -SymbolStrings, -WordStrings)
 %   SymbolStrings: input for strings_to_grammar   "AA,AB" -> "[a,b]"
 %   WordStrings:   input for check_grammar        "AA,AB" -> "['AA','AB']"
@@ -319,7 +338,10 @@ ws_fresh(Case, st(N0, U0, L0), Used, S, St) :-
     ->  C is 0x100 + 2*U0, U1 is U0 + 1, St1 = st(N0, U1, L0)   % even
     ;   C is 0x101 + 2*L0, L1 is L0 + 1, St1 = st(N0, U0, L1)   % odd
     ),
-    (   ws_usable(C, Used)
+    (   C > 0x10FFFF                    % no symbols left for this case:
+    ->  throw(error(resource_error(s2g_symbols(Case)),     % stop, never loop
+                    context(ws_fresh/5, 'more distinct words than Unicode symbols for this case (555,904 each)')))
+    ;   ws_usable(C, Used)
     ->  S = C, St = St1
     ;   ws_fresh(Case, St1, Used, S, St)
     ).
@@ -328,3 +350,18 @@ ws_usable(C, Used) :-
     C =< 0x10FFFF,
     \+ between(0xD800, 0xDFFF, C),
     \+ memberchk(C, Used).
+
+% test_s2gn_covering: the covering grammar parses every input, and running out of
+% symbols raises an error instead of looping.
+test_s2gn_covering :-
+    L = ["n1,l2,s1", "n1,l2", "n1,n1,l2,s1", "s1,n1,l2"],
+    strings_to_symbols(L, _, Lw),
+    strings_to_grammar_words_covering(L, G, Added),
+    ( (check_grammar(Lw, G), Added == ["[n1,l2]"]) -> R1 = success ; R1 = fail ),
+    writeln([R1, 1, strings_to_grammar_words_covering, test]),
+    strings_to_grammar_words_covering(["AA,AB,AC,AB,AC"], _, Added2),
+    ( Added2 == [] -> R2 = success ; R2 = fail ),
+    writeln([R2, 2, strings_to_grammar_words_covering, test]),
+    catch(( ws_fresh(upper, st(26, 556930, 0), [], _, _), R3 = fail ),
+          error(resource_error(s2g_symbols(upper)), _), R3 = success),
+    writeln([R3, 3, ws_fresh_out_of_symbols, test]).
