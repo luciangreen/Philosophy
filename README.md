@@ -287,6 +287,46 @@ Change term_to_atom(T1,S) to string_strings(S,T1).
 Change term_to_atom(S2,S),flatten_keep_brackets(S2,S1),append([_],S4,S1),append(S3,[_],S4) to string_strings(S,S3).
 ```
 
+## S2GN: grammars from strings of words (`s2g/normalise.pl`)
+
+* `strings_to_grammar` works on single symbols. S2GN lets it work on whole words (`AA`, `n1`, `red`, `12`): each word becomes one symbol, and the grammar's symbols are turned back into the words afterwards.
+
+```
+cd s2g
+['strings_to_grammar.pl'].
+strings_to_grammar_words(["AA,AB,AC,AB,AC"], G).
+G = [[[n,a1],"->",[['AA'],[[n,a2]]]],[[n,a2],"->",[[]]],[[n,a2],"->",[['AB'],['AC'],[[n,a2]]]]]
+```
+
+* `strings_to_grammar_words_covering(Strings, Grammar, Added)` always parses every input. Each input the grammar does not parse is added as an alternative, and `Added` lists those inputs. For example, `["n1,l2,s1", "n1,l2", "n1,n1,l2,s1", "s1,n1,l2"]` gives a grammar that requires the trailing `s1`, so `"[n1,l2]"` is added.
+
+* Symbols run out after 555,904 distinct words of each case (capitalised, lower-case). S2GN then stops with a `resource_error`; it never loops.
+
+* **The grammar is never empty.** `strings_to_grammar` returns `[]`, a grammar that parses nothing, in some cases, and can run for a very long time in others:
+    * a single word gives `[]`, e.g. `["n1"]`;
+    * some sets of strings with repeated words give `[]`, e.g. `["99,99,7,99", "99,99,7", "99,99,99,7,99"]`, and the covering version then failed;
+    * some inputs give no answer for a long time, e.g. `"k9,k9,k9,k9,k9,k9,k9,k9,l2"`.
+
+    In those cases S2GN now uses a grammar with one alternative per distinct input, which parses every input:
+
+```
+strings_to_grammar_words(["n1"], G).
+G = [[[n,a1],"->",[[n1]]]]
+```
+
+* The time allowed is the flag `s2g_time_limit` (seconds, default 20), e.g. `set_prolog_flag(s2g_time_limit, 60).`
+
+* To run the S2GN tests:
+
+```
+cd s2g
+['strings_to_grammar.pl'].
+test_s2gn.
+test_s2gn_covering.
+```
+
+* [`io_pairs/io_pairs.md`](io_pairs/io_pairs.md) has 200 input/output pairs for S2GN, each produced by running the code (`swipl -q -g main -t halt io_pairs/generate.pl` from the repository root).
+
 # Spec to Algorithm
 
 * Starry Sunshine (a play on words on "subterm with address" and "spec to algorithm")  <img width="580" alt="Starry Sunshine" src="https://github.com/luciangreen/Philosophy/assets/15845542/505f3e18-00b4-4075-bf6f-6f09ee1f6eca">
