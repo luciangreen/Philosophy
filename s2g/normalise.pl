@@ -150,8 +150,8 @@ findall(_,(member([N,L,G2],
 :- dynamic ws_symbol_word/2.
 
 strings_to_grammar_words(L, G) :-
-    strings_to_symbols(L, L1, _),
-    strings_to_grammar(L1, G5),
+    strings_to_symbols(L, L1, Lw),
+    strings_to_grammar_safe(L1, Lw, G5),
     decode_grammar(G5, G).
 
 % strings_to_grammar_words_covering(+Strings, -Grammar, -Added)
@@ -163,15 +163,32 @@ strings_to_grammar_words(L, G) :-
 %   start symbol; Added lists those inputs (as word strings), [] if none.
 strings_to_grammar_words_covering(L, G, Added) :-
     strings_to_symbols(L, L1, Lw),
-    strings_to_grammar(L1, G5),
+    strings_to_grammar_safe(L1, Lw, G5),
     decode_grammar(G5, G0),
     findall(W, ( member(W, Lw), \+ catch(check_grammar([W], G0), _, fail) ), Added),
-    G0 = [[Start, Arrow, _]|_],
+    ( G0 = [[Start, Arrow, _]|_] -> true ; Start = [n, a1], Arrow = "->" ),
     findall([Start, Arrow, Items],
             ( member(W, Added), term_string(T, W), maplist(ws_item, T, Items) ), Extra),
     append(G0, Extra, G).
 
 ws_item(X, [X]).
+
+% strings_to_grammar_safe(+SymbolStrings, +WordStrings, -Grammar)
+%   strings_to_grammar returns an empty grammar (which parses nothing) for a single word,
+%   e.g. ["[a]"], and for some sets of strings with repeated words, e.g.
+%   ["[a,a,b,a]", "[a,a,b]", "[a,a,a,b,a]"]; on others it can run for a very long time,
+%   e.g. "[a,a,a,a,a,a,a,a,b]". In those cases this falls back to one alternative of
+%   the start symbol per distinct input, which parses every input. The time allowed is
+%   the flag s2g_time_limit (seconds, default 20).
+strings_to_grammar_safe(L1, Lw, G) :-
+    ( current_prolog_flag(s2g_time_limit, T) -> true ; T = 20 ),
+    (   catch(call_with_time_limit(T, strings_to_grammar(L1, G0)), _, fail), G0 \== []
+    ->  G = G0
+    ;   sort(L1, Distinct),
+        findall([[n, a1], "->", Items], ( member(S, Distinct), term_string(Tm, S), maplist(ws_item, Tm, Items) ), G),
+        ignore(Lw = Lw)
+    ).
+:- create_prolog_flag(s2g_time_limit, 20, [type(integer), keep(true)]).
 
 % strings_to_symbols(+Strings, -SymbolStrings, -WordStrings)
 %   SymbolStrings: input for strings_to_grammar   "AA,AB" -> "[a,b]"
