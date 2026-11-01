@@ -62,7 +62,7 @@ findall(_,(member([N,S1,C2],
 
 [2, [[['A',[1]],['B',[1]]],[['A',[1]],['B',[1]]]],
 [['A',[1]],['B',[1]]]],
-% The value 1 recurs because it recurs in the different cases, it is not the constant instances C1, C1 because A=1,B=1 and A=1,B=1 are the same (not e.g. A=1,B=1 and A=2,B=2).
+% The value 1 recurs because it recurs in the different cases, it is not the constant instances C1, C1 because A=1,B=1 and A=1,B=1 are the same (not e.g. A=1,B=1 and A=2,B=2). To be the constant instances C1, the values must change together over at least two specs.
 
 [3, [[['A',[1,3]],['B',[1,3]]],[['A',[1,4]],['B',[1,6]]]],
 [['A',[1,'C1']],['B',[1,'C2']]]],
@@ -117,7 +117,7 @@ character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[[['&r',[1,['&r',[2,'C1']]]]],[output,[['C1']]]]],[[[[1,2,2,2,2],[[1,1]]]]],In_vars,Out_var)."
 ],
 
-% r(2,C1) is 2,3,2,3 and 2,4,2,4, where C1 is either 3 or 4. r(1,(r(2,C1))) is 1,2,3,2,3,1,2,3,2,3, or 1,2,4,2,4,1,2,4,2,4, where 1 and 2,3,2,3 are repeated, etc.
+% r(2,C1) is 2,3,2,3 and 2,4,2,4, where C1 is either 3 or 4. r(1,(r(2,C1))) is 1,2,3,2,3,1,2,3,2,3, or 1,2,4,2,4,1,2,4,2,4, where 1 and 2,3,2,3 are repeated, etc. and C1 is 3 or 4.
 
 [3,algorithm,
 [
@@ -146,7 +146,7 @@ character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[['C1',3],['C2',3],[output,[[3]]]]],[[]],In_vars,Out_var)."
 ],
 
-% The value 3, rather than a variable is used because variations were not detected.
+% The value 3, rather than a variable, is used because variations were not detected.
 
 [6,algorithm,
 [
@@ -169,7 +169,7 @@ character_breakdown_mode=off,
 "algorithm(In_vars,Out_var) :-\nalgorithm([[nd,[[[\"[\",1,3,\"]\"],[\"[\",1,4,\"]\"],[nd,[[[output,[[\"[\",1,\"]\"]]]],[[output,[[\"[\",3,\"]\"]]]]]]],[[\"[\",'C1',\"]\"],[\"[\",'C2',\"]\"],[output,[[\"[\",'C1',\"]\"]]]]]]],[[],[],[[[1,1,2],[[1,2]]]]],In_vars,Out_var)."
 ],
 
-% nd=non-deterministic and means that A,B and C in nd(A,B,C) are different cases. nd([1],[3]) in output means the same input can have multiple outputs.
+% nd=non-deterministic and means that A,B and C in nd([A,B,C]) are different cases. nd([[1],[3]]) in output means the same input can have multiple outputs.
 
 [8,algorithm,
 [
