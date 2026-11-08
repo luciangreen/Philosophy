@@ -1,0 +1,32 @@
+name: proofgame inputs and outputs
+
+on:
+  push:
+    paths: [proofgame.pl, "proofgame_io/**", .github/workflows/proofgame-ios.yml]
+  pull_request:
+    paths: [proofgame.pl, "proofgame_io/**", .github/workflows/proofgame-ios.yml]
+  workflow_dispatch:
+
+jobs:
+  ios:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SWI-Prolog
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes swi-prolog-nox
+      - name: Run the 200 inputs again
+        run: |
+          swipl --version
+          swipl proofgame_io/make_ios.pl
+          if git diff --quiet --exit-code -- proofgame_io/ && [ -z "$(git status --porcelain -- proofgame_io/)" ]; then
+            echo "All 200 inputs give the outputs in proofgame_io/ios.txt."
+          else
+            git diff --stat -- proofgame_io/ || true
+            git diff -- proofgame_io/ios.txt | head -60 || true
+            # the new files, packed into one line, to commit if the change is meant
+            echo "IOS-FILES-BEGIN $(tar czf - proofgame_io/ios.txt proofgame_io/ios.pl | base64 -w0) IOS-FILES-END"
+            echo "::error::Outputs differ from proofgame_io/ios.txt. If the change is meant, run swipl proofgame_io/make_ios.pl and commit proofgame_io/."
+            exit 1
+          fi
