@@ -186,13 +186,25 @@ optimise1(Start,Tests,Algorithm1,Algorithm2) :-
 optimise1(_,_,Algorithm,Algorithm).
 
 % Use the original algorithm if it fits the player's types,
-% otherwise find one that fits the types and data.
+% otherwise find one that fits the types and data. Algorithms with a
+% step that changes nothing (such as reverse before min_list) are only
+% used if no other algorithm fits.
 algorithm_for_types(Types,_,Algorithm,Algorithm) :-
 	types_alg(Types,Algorithm),!.
 algorithm_for_types(Types,[Input,Output],_,Algorithm) :-
 	findall(Algorithm1,(types_alg(Types,Algorithm1),
 	run(Algorithm1,Input,Output)),Algorithms),
-	random_member(Algorithm,Algorithms).
+	Types=[Start|_],
+	include(no_needless_step(Start,Input),Algorithms,Useful),
+	(Useful=[_|_]->random_member(Algorithm,Useful);
+	random_member(Algorithm,Algorithms)).
+
+% no_needless_step(+Start_type,+Input,+Algorithm) - no step can be
+% dropped without changing the output, on Input and ten random inputs.
+no_needless_step(Start,Input,Algorithm) :-
+	findall(Data,(between(1,10,_),random_data(Start,Data)),Tests),
+	optimise1(Start,[Input|Tests],Algorithm,Algorithm2),
+	Algorithm2==Algorithm.
 
 % Replace 1 or 2 parts with '_' blanks.
 replace_parts_with_tabs_sometimes(Items,Template) :-
