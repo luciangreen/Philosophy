@@ -1,4 +1,0 @@
-assertz(auto(Auto)),
-paraphrase1(File_list1,[],File_list,Synonym_list1,Synonym_list),
-term_to_atom([File_list,Synonym_list],A),write(A).
-:-include('paraphraser1.pl').
