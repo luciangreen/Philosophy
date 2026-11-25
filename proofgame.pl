@@ -350,10 +350,10 @@ var_name(N,Name) :-
 
 /*
 
-enabled
-contributes
-sculptor
-smp
+enabled - The Proof Game identified and filled in parts of types and algorithms first given data, losing one point for needing a hint for multiple choices for a command.
+sculptor - The idea that it is a good idea to take a known type and copy it to an unknown related variable is given by the example of working out a specification for an algorithm by giving it enough information to imply the rest of the information, for example, enough to set the problem, declare what work is remaining and define the alphabetic symbols required to achieve 100% correctness in the algorithm's results. Similar here may be left out. Rather, "similar types" could be interpreted as being in a topologically equivalent position, qualified by whether some or a subconfiguration of the configuration is necessary for the type to be transferred.
+contributes - Perhaps the types not only are the same given a link, but they have the same relation, such as an operator or equivalent state given a structure, or similar relation (for example, there is a bug in data or rules and they also have the same type as a previously defined variable) given they are linked. Where a rune stone with the tops and bottoms of characters cut off, a link carries both the type and the role, and wherever the role doesn’t hold, the cut-off part of the character is showing you the error.
+smp - One can enter the types of the input and output because they are known.
 salesperson
 uphold
 vars
