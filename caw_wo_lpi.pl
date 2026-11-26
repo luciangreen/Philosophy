@@ -1,0 +1,1 @@
+a:-A=true,B=true,C=(b:-A,B),retractall(b),assertz(C),b.	

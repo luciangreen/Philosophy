@@ -1,0 +1,94 @@
+%% pedagogy_lineup.pl
+%% https://lucianpedia.fandom.com/wiki/About_Breathsonings_Theory 32
+%% Give the student recognition for each time point they know
+
+test :-
+	writeln("What is today's date?"),
+	read_string(user_input, "\n", "\r", _End1, _String1),
+	
+	writeln("What is the student's name?"),
+	read_string(user_input, "\n", "\r", _End2, Name),
+	
+	test_time_point(Name,"two uses",_String2),
+	
+	test_time_point(Name,"future",_String3),
+	
+	test_time_point(Name,"two types",_String4),
+	
+	test_time_point(Name,"breasonings as x, y and z dimensions",_String5),
+	
+	test_time_point(Name,"rebreasonings",_String6),
+	
+	test_time_point(Name,"breathsonings",_String7),
+	
+	test_time_point(Name,"rebreathsonings",_String8),
+	
+	test_time_point(Name,"room",_String9),
+	
+	test_time_point(Name,"part of room",_String10),
+	
+	test_time_point(Name,"direction",_String11),
+	
+	test_time_point(Name,"time to prepare",_String12),
+	
+	test_time_point(Name,"time to do",_String13),
+	
+	test_time_point(Name,"time to finish",_String14),
+	
+	test_time_point(Name,"Aigs",_String15),
+	
+	test_time_point(Name,"Breason out Arguments Twice When in Large Class",_String16),
+	
+	test_time_point(Name,"Lecturer Argument",_String17),
+	
+	test_time_point(Name,"Recordings Argument",_String18),
+	
+	test_time_point(Name,"Delegate Workloads",_String19),
+	
+	test_time_point(Name,"Turn off muscle aches and pains",_String20),
+	
+	test_time_point(Name,"Quantum box",_String21),
+	
+	test_time_point(Name,"No headaches on trains",_String22),
+	
+	test_time_point(Name,"No headaches in cars",_String23),
+	
+	test_time_point(Name,"No headaches in the sun",_String24),
+	
+	test_time_point(Name,"Head of State helping no headaches",_String241),
+	
+	test_time_point(Name,"No depression",_String25),
+	
+	test_time_point(Name,"No hallucinations",_String26),
+	
+	test_time_point(Name,"Theology 50 As",_String27),
+	
+	test_time_point(Name,"Meditation 50 As",_String28),
+	
+	test_time_point(Name,"Pedagogy 50 As",_String29),
+	
+	test_time_point(Name,"Pranayama",_String30),
+	
+	test_time_point(Name,"Soma",_String31),
+	
+	test_time_point(Name,"Mantra argument",_String32),
+	
+	test_time_point(Name,"Sutra argument",_String33),
+	
+	test_time_point(Name,"Medicine 50 As",_String34).
+	
+
+	
+test_time_point(Name,Item,String2) :-
+	concat_list(["Is ",Name," with it about ",Item,"?"],String1),
+	writeln(String1),
+	read_string(user_input, "\n", "\r", _End, String2).
+
+concat_list(A,B):-
+	concat_list("",A,B).
+
+concat_list(A,[],A):-!.
+concat_list(A,List,B) :-
+	List=[Item|Items],
+	string_concat(A,Item,C),
+	concat_list(C,Items,B).

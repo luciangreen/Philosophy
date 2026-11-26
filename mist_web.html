@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mist (Web)</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #0b0e13; color: #e6edf3; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 16px; display: grid; gap: 12px; }
+    .panel { background: #111826; border: 1px solid #2c3b53; border-radius: 8px; padding: 12px; }
+    h1 { margin: 0 0 8px 0; font-size: 1.2rem; }
+    #status p { margin: 4px 0; }
+    #options { display: flex; flex-wrap: wrap; gap: 8px; }
+    button { border: 1px solid #3b4d68; background: #192435; color: #e6edf3; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #23344a; }
+    #log { max-height: 45vh; overflow: auto; white-space: pre-wrap; line-height: 1.35; }
+    .line { margin-bottom: 7px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>Mist (JavaScript Web Version)</h1>
+      <div id="intro"></div>
+    </div>
+    <div class="panel" id="status"></div>
+    <div class="panel">
+      <strong>Options</strong>
+      <div id="options"></div>
+    </div>
+    <div class="panel">
+      <strong>Log</strong>
+      <div id="log"></div>
+    </div>
+  </div>
+
+  <script>
+    const GAME = {
+      allGates: ["jetty", "headquarters", "vineyard", "thinmaze", "alienmaze"],
+      roomText: {
+        jetty_jetty: "You stand on the jetty hub. Sea mist drifts over black water. Five routes branch into dreamlike mazes.",
+        jetty_store: "This rope shed leans over the water. Something once flew wide here and was never recovered.",
+        jetty_gate: "A wet timber gate waits for the jetty stack. The final sea path lies beyond it.",
+        hq_lobby: "The headquarters lobby hums faintly. Old consoles blink like half-finished thoughts.",
+        hq_archive: "The archive stores dry notebooks, punched cards, and nearly-implemented features.",
+        hq_gate: "A steel iris gate seals headquarters. It will only open for the correct stack.",
+        vineyard_low: "Rows of vines rise vertically like a green wall. The mission goes upward, not forward.",
+        vineyard_mid: "You are halfway up the vertical vineyard. Wind moves between the leaves.",
+        vineyard_gate: "A glass gate hangs impossibly among the vines. It waits for the vineyard stack.",
+        thin_1: "A long thin corridor stretches through the mist. This maze thinks linearly.",
+        thin_2: "The corridor continues. A faded formula mentions 23*250 breasonings.",
+        thin_gate: "A narrow gate stands at the corridor end with a checksum dial.",
+        alien_outer: "A maze shaped like an alien symbol curves around you in ritual geometry.",
+        alien_inner: "Luminous marks pulse at the inner node like a forgotten checksum language.",
+        alien_gate: "A stone gate shaped like the final stroke of the symbol blocks the way."
+      },
+      exits: {
+        jetty_jetty: { east: "jetty_store", north: "hq_lobby", south: "vineyard_low", west: "thin_1", in: "alien_outer" },
+        jetty_store: { west: "jetty_jetty", east: "jetty_gate" },
+        jetty_gate: { west: "jetty_store" },
+        hq_lobby: { south: "jetty_jetty", east: "hq_archive" },
+        hq_archive: { west: "hq_lobby", north: "hq_gate" },
+        hq_gate: { south: "hq_archive" },
+        vineyard_low: { north: "jetty_jetty", up: "vineyard_mid" },
+        vineyard_mid: { down: "vineyard_low", up: "vineyard_gate" },
+        vineyard_gate: { down: "vineyard_mid" },
+        thin_1: { east: "jetty_jetty", west: "thin_2" },
+        thin_2: { east: "thin_1", west: "thin_gate" },
+        thin_gate: { east: "thin_2" },
+        alien_outer: { out: "jetty_jetty", clockwise: "alien_inner" },
+        alien_inner: { anticlockwise: "alien_outer", inward: "alien_gate" },
+        alien_gate: { outward: "alien_inner" }
+      },
+      gateRoom: { jetty: "jetty_gate", headquarters: "hq_gate", vineyard: "vineyard_gate", thinmaze: "thin_gate", alienmaze: "alien_gate" },
+      itemsAt: {
+        jetty_store: ["missed_projectile", "jetty_rune"],
+        jetty_gate: ["salt_checksum"],
+        hq_lobby: ["missed_feature"],
+        hq_archive: ["pl2js_note", "steel_checksum"],
+        vineyard_low: ["missed_opportunity"],
+        vineyard_mid: ["vine_rune", "glass_checksum"],
+        thin_1: ["breasoning_counter"],
+        thin_2: ["linear_rune", "thin_checksum"],
+        alien_outer: ["symbol_shard"],
+        alien_inner: ["spiral_rune", "alien_checksum"]
+      },
+      requiredStack: {
+        jetty: ["missed_projectile", "jetty_rune", "salt_checksum"],
+        headquarters: ["missed_feature", "pl2js_note", "steel_checksum"],
+        vineyard: ["missed_opportunity", "vine_rune", "glass_checksum"],
+        thinmaze: ["breasoning_counter", "linear_rune", "thin_checksum"],
+        alienmaze: ["symbol_shard", "spiral_rune", "alien_checksum"]
+      },
+      targetChecksum: { jetty: 611, headquarters: 967, vineyard: 821, thinmaze: 575, alienmaze: 733 },
+      checksumValue: {
+        missed_projectile: 101, jetty_rune: 203, salt_checksum: 307,
+        missed_feature: 211, pl2js_note: 313, steel_checksum: 443,
+        missed_opportunity: 109, vine_rune: 211, glass_checksum: 501,
+        breasoning_counter: 125, linear_rune: 175, thin_checksum: 275,
+        symbol_shard: 131, spiral_rune: 251, alien_checksum: 351
+      },
+      complexityCost: {
+        missed_projectile: 1400, jetty_rune: 2100, salt_checksum: 900,
+        missed_feature: 1300, pl2js_note: 1900, steel_checksum: 700,
+        missed_opportunity: 1500, vine_rune: 1700, glass_checksum: 800,
+        breasoning_counter: 2200, linear_rune: 1800, thin_checksum: 700,
+        symbol_shard: 1600, spiral_rune: 2000, alien_checksum: 900
+      },
+      breasoningLimit: 5750
+    };
+
+    const state = { room: "jetty_jetty", inventory: [], cleared: [] };
+    const intro = [
+      "Mist",
+      "----",
+      "An ASCII adventure in the spirit of Myst.",
+      "Clear five maze gates: jetty, headquarters, vineyard, thinmaze, alienmaze.",
+      "To clear a gate: explore, collect three missed pieces, reach the gate room, stack correctly.",
+      "Each successful stack must checksum correctly and fit within 23*250 breasonings."
+    ];
+
+    const introEl = document.getElementById("intro");
+    const statusEl = document.getElementById("status");
+    const optionsEl = document.getElementById("options");
+    const logEl = document.getElementById("log");
+    intro.forEach(line => {
+      const p = document.createElement("p");
+      p.textContent = line;
+      introEl.appendChild(p);
+    });
+
+    function log(message) {
+      const line = document.createElement("div");
+      line.className = "line";
+      line.textContent = message;
+      logEl.appendChild(line);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function remainingGates() {
+      return GAME.allGates.filter(g => !state.cleared.includes(g));
+    }
+
+    function visibleItems(room) {
+      return (GAME.itemsAt[room] || []).filter(item => !state.inventory.includes(item));
+    }
+
+    function roomGate(room) {
+      return Object.entries(GAME.gateRoom).find(([, gateRoom]) => gateRoom === room)?.[0] ?? null;
+    }
+
+    function movementOptions() {
+      return Object.keys(GAME.exits[state.room] || {}).map(dir => ({ kind: "go", value: dir }));
+    }
+
+    function takeOptions() {
+      return visibleItems(state.room).map(item => ({ kind: "take", value: item }));
+    }
+
+    function stackOptions() {
+      const level = roomGate(state.room);
+      return level ? [{ kind: "stack", value: level }] : [];
+    }
+
+    function getOptions() {
+      return [...movementOptions(), ...takeOptions(), ...stackOptions(), { kind: "inventory" }, { kind: "goal" }];
+    }
+
+    function checksum(stack) {
+      return stack.reduce((sum, item) => sum + GAME.checksumValue[item], 0);
+    }
+
+    function complexityOk(stack) {
+      const total = stack.reduce((sum, item) => sum + GAME.complexityCost[item], 0);
+      return total <= GAME.breasoningLimit;
+    }
+
+    function won() {
+      return GAME.allGates.every(g => state.cleared.includes(g));
+    }
+
+    function applyChoice(option) {
+      if (option.kind === "inventory") {
+        log(`Inventory: [${state.inventory.join(", ")}]`);
+        return;
+      }
+      if (option.kind === "goal") {
+        log(`Still to clear: [${remainingGates().join(", ")}]`);
+        return;
+      }
+      if (option.kind === "go") {
+        const next = GAME.exits[state.room]?.[option.value];
+        if (!next) return;
+        state.room = next;
+        log(`You move ${option.value}.`);
+        return;
+      }
+      if (option.kind === "take") {
+        if (!visibleItems(state.room).includes(option.value)) return;
+        state.inventory.unshift(option.value);
+        log(`Captured: ${option.value}`);
+        return;
+      }
+      if (option.kind === "stack") {
+        const stack = GAME.requiredStack[option.value];
+        const hasAll = stack.every(item => state.inventory.includes(item));
+        if (!hasAll) {
+          log(`Missing required pieces for ${option.value}.`);
+          return;
+        }
+        const sum = checksum(stack);
+        if (sum !== GAME.targetChecksum[option.value]) {
+          log(`Checksum rejected for ${option.value}.`);
+          return;
+        }
+        if (!complexityOk(stack)) {
+          log(`Stack too complex for ${option.value}.`);
+          return;
+        }
+        if (!state.cleared.includes(option.value)) {
+          state.cleared.unshift(option.value);
+        }
+        log(`Correct stack for ${option.value}: [${stack.join(", ")}]`);
+        log(`Checksum accepted: ${sum}`);
+        log("The gate unlocks.");
+      }
+    }
+
+    function renderStatus() {
+      statusEl.innerHTML = "";
+      const lines = [
+        GAME.roomText[state.room],
+        `Visible here: ${visibleItems(state.room).length ? "[" + visibleItems(state.room).join(", ") + "]" : "none"}`,
+        `Inventory: [${state.inventory.join(", ")}]`,
+        `Cleared gates: [${state.cleared.join(", ")}]`,
+        `Goal: clear all five gates.`,
+        `Remaining gates: [${remainingGates().join(", ")}]`
+      ];
+      lines.forEach(text => {
+        const p = document.createElement("p");
+        p.textContent = text;
+        statusEl.appendChild(p);
+      });
+    }
+
+    function label(option) {
+      if (option.kind === "go") return `go(${option.value})`;
+      if (option.kind === "take") return `take(${option.value})`;
+      if (option.kind === "stack") return `stack(${option.value})`;
+      return option.kind;
+    }
+
+    function renderOptions() {
+      optionsEl.innerHTML = "";
+      const options = getOptions();
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = label(option);
+        btn.addEventListener("click", () => {
+          if (won()) return;
+          applyChoice(option);
+          render();
+        });
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function render() {
+      renderStatus();
+      renderOptions();
+      if (won()) {
+        log("All five gates are clear.");
+        log("The mist thins into deliberate light.");
+        log("What was missed has been captured, stacked, and checksummed.");
+        log("You have clocked Mist.");
+        Array.from(optionsEl.querySelectorAll("button")).forEach(btn => (btn.disabled = true));
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
