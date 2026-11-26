@@ -1,0 +1,235 @@
+:- use_module(library(pce)).
+:- dynamic pixel/3. % Tracks pixel(X, Y, Color)
+:- dynamic selected_color/1.
+
+% ==========================================
+% 1. GLOBAL CONFIGURATION CONSTANTS
+% ==========================================
+canvas_size(16).        % 16x16 Grid
+pixel_display_size(30). % Each virtual pixel is a 30x30 screen pixel
+default_color(white).   % Default blank canvas color
+
+% ==========================================
+% 2. STATE INITIALISATION
+% ==========================================
+init_pixel_db :-
+    retractall(pixel(_, _, _)),
+    canvas_size(Size),
+    default_color(DefColor),
+    forall(between(1, Size, X),
+           forall(between(1, Size, Y),
+                  assertz(pixel(X, Y, DefColor)))).
+
+% ==========================================
+% 3. SAVE / LOAD FUNCTIONS
+% ==========================================
+save_canvas(Filename) :-
+    (   normalize_filename(Filename, NormalizedFilename)
+    ->  catch(
+            setup_call_cleanup(
+                open(NormalizedFilename, write, Stream),
+                with_output_to(Stream, (
+                    forall(pixel(X, Y, Color),
+                           format('pixel(~q, ~q, ~q).~n', [X, Y, Color]))
+                )),
+                close(Stream)
+            ),
+            _,
+            (report_gui_error('Unable to save canvas to %s', NormalizedFilename), fail)
+        ),
+        gui_inform('Canvas successfully saved to %s', NormalizedFilename)
+    ;   report_gui_error('Please enter a file name.', '')
+    ).
+
+load_canvas(Filename, Frame) :-
+    normalize_filename(Filename, NormalizedFilename),
+    exists_file(NormalizedFilename),
+    !,
+    catch(
+        setup_call_cleanup(
+            open(NormalizedFilename, read, Stream),
+            read_facts(Stream, Pixels),
+            close(Stream)
+        ),
+        _,
+        (report_gui_error('Unable to load canvas from %s', NormalizedFilename), fail)
+    ),
+    replace_pixels(Pixels),
+    gui_inform('Canvas loaded from %s', NormalizedFilename),
+    catch(refresh_all_ui_boxes(Frame), _, true).
+load_canvas(Filename, _) :-
+    (   normalize_filename(Filename, NormalizedFilename)
+    ->  report_gui_error('File %s not found!', NormalizedFilename)
+    ;   report_gui_error('Please enter a file name.', '')
+    ).
+
+read_facts(Stream, Pixels) :-
+    read(Stream, Term),
+    (   Term == end_of_file
+    ->  Pixels = []
+    ;   valid_pixel_fact(Term),
+        Pixels = [Term|Rest],
+        read_facts(Stream, Rest)
+    ).
+
+valid_pixel_fact(pixel(X, Y, _)) :-
+    integer(X),
+    integer(Y),
+    !.
+valid_pixel_fact(Term) :-
+    throw(error(type_error(pixel_fact, Term), _)).
+
+replace_pixels(Pixels) :-
+    retractall(pixel(_, _, _)),
+    forall(member(Pixel, Pixels), assertz(Pixel)).
+
+normalize_filename(Filename, NormalizedFilename) :-
+    filename_value(Filename, FilenameValue),
+    FilenameValue \== '',
+    NormalizedFilename = FilenameValue.
+
+filename_value(Filename, Filename) :-
+    string(Filename),
+    !.
+filename_value(Filename, FilenameString) :-
+    atom(Filename),
+    !,
+    atom_string(Filename, FilenameString).
+filename_value(Filename, FilenameValue) :-
+    catch(get(Filename, value, Value), _, fail),
+    !,
+    filename_value(Value, FilenameValue).
+
+gui_inform(Format, Value) :-
+    catch(send(@sandbox, inform, string(Format, Value)), _, true).
+
+report_gui_error(Format, Value) :-
+    catch(send(@sandbox, report, error, string(Format, Value)), _, true).
+
+% ==========================================
+% 4. XPCE GRAPHICAL GUI ENGINE
+% ==========================================
+
+start :-
+    init_pixel_db,
+    set_selected_color(red),
+    
+    canvas_size(GridSize),
+    pixel_display_size(PxSize),
+    CanvasWidth is GridSize * PxSize,
+    CanvasHeight is GridSize * PxSize,
+    
+    % 1. Create main window structure
+    new(Frame, frame('Prolog Fine Arts Mouse Editor')),
+    send(Frame, name, sandbox), 
+    
+    new(Canvas, window('Canvas', size(CanvasWidth, CanvasHeight))),
+    send(Canvas, name, canvas_view), 
+    send(Canvas, scrollbars, none),
+
+    % 2. Create control panel dialog toolbar
+    new(Dialog, dialog('Toolbar')),
+    
+    % Build Palette row buttons explicitly to guarantee distinct code blocks
+    send(Dialog, append, label(palette_lbl, 'Color Palette: ')),
+    send(Dialog, append, button(red,     message(@prolog, set_selected_color, red))),
+    send(Dialog, append, button(green,   message(@prolog, set_selected_color, green))),
+    send(Dialog, append, button(blue,    message(@prolog, set_selected_color, blue))),
+    send(Dialog, append, button(yellow,  message(@prolog, set_selected_color, yellow))),
+    send(Dialog, append, button(magenta, message(@prolog, set_selected_color, magenta))),
+    send(Dialog, append, button(cyan,    message(@prolog, set_selected_color, cyan))),
+    send(Dialog, append, button(black,   message(@prolog, set_selected_color, black))),
+    send(Dialog, append, button(white,   message(@prolog, set_selected_color, white))),
+    
+    % Control Options 
+    send(Dialog, append, label(io_lbl, ' | File Actions: ')),
+    send(Dialog, append, button(save, message(@prolog, gui_save_prompt))),
+    send(Dialog, append, button(load, message(@prolog, gui_load_prompt, Frame))),
+    send(Dialog, append, button(clear, message(@prolog, gui_clear_canvas, Frame))),
+
+    % 3. Build the clickable grid squares matrix layout dynamically
+    forall(pixel(X, Y, Color), (
+        PosX is (X - 1) * PxSize,
+        PosY is (Y - 1) * PxSize,
+        
+        new(Box, box(PxSize, PxSize)),
+        send(Box, fill, colour(Color)),
+        send(Box, pen, 1),
+        send(Box, colour, colour(dark_grey)),
+        
+        format(atom(BoxName), 'box_~w_~w', [X, Y]),
+        send(Box, name, BoxName),
+        
+        send(Box, recogniser, 
+             new(click_gesture(left, '', single, 
+                               message(@prolog, click_pixel_action, Box, X, Y)))),
+        
+        send(Canvas, display, Box, point(PosX, PosY))
+    )),
+
+    % 4. Lock geometry layers into position frames
+    send(Frame, append, Dialog),
+    send(Canvas, below, Dialog),
+    send(Frame, open).
+
+% ==========================================
+% 5. CLICK HANDLER ACTION ROUTINES
+% ==========================================
+
+click_pixel_action(BoxObj, X, Y) :-
+    get_selected_color(SelectedColor),
+    retractall(pixel(X, Y, _)),
+    assertz(pixel(X, Y, SelectedColor)),
+    send(BoxObj, fill, colour(SelectedColor)).
+
+set_selected_color(Color) :-
+    retractall(selected_color(_)),
+    assertz(selected_color(Color)).
+
+get_selected_color(Color) :-
+    (   selected_color(Color0)
+    ->  Color = Color0
+    ;   Color = red
+    ).
+
+% ==========================================
+% 6. COMPLETE INTERFACE MATRIX REFRESHERS
+% ==========================================
+
+refresh_all_ui_boxes(Frame) :-
+    get(Frame, member, canvas_view, Canvas),
+    forall(pixel(X, Y, Color), (
+        format(atom(BoxName), 'box_~w_~w', [X, Y]),
+        get(Canvas, member, BoxName, BoxObj),
+        (   BoxObj \== @nil
+        ->  send(BoxObj, fill, colour(Color))
+        ;   true
+        )
+    )).
+
+% ==========================================
+% 7. GUI DIALOG BOX INTERFACE ACTION WRAPPERS
+% ==========================================
+gui_save_prompt :-
+    new(D, dialog('Save File As')),
+    send(D, append, new(F, text_item(filename, 'my_art.pl'))),
+    send(D, append, button(ok, message(D, return, F?selection))),
+    send(D, append, button(cancel, message(D, return, @nil))),
+    get(D, confirm, Answer),
+    send(D, destroy),
+    Answer \== @nil,
+    save_canvas(Answer).
+
+gui_load_prompt(Frame) :-
+    new(D, dialog('Load Art File')),
+    send(D, append, new(F, text_item(filename, 'my_art.pl'))),
+    send(D, append, button(ok, message(D, return, F?selection))),
+    send(D, append, button(cancel, message(D, return, @nil))),
+    get(D, confirm, Answer),
+    send(D, destroy),
+    Answer \== @nil,
+    load_canvas(Answer, Frame).
+
+gui_clear_canvas(Frame) :-
+    init_pixel_db,
+    refresh_all_ui_boxes(Frame).

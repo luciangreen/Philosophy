@@ -1,0 +1,96 @@
+vetusia
+
+5,14,16 start
+
+s1 scroll-r rope
+rope-m machete
+
+machete-s2 scuba diving equipment
+
+sde-k key
+
+key-c crystal statuette
+
+
+rainforest floor 5
+
+15x19
+         *****
+         * s1*
+         ** ***
+          *  0*
+         ** * *
+         *    *
+         * **m*
+         *r**A*
+|  F     ******
+           B  |
+              |
+          C   |
+       E      |
+              |
+              |
+              |
+       D      |
+              |
+              |
+rainforest canopy 7
+
+   ***
+   *A*
+ *** *
+ *B  *
+ *** *
+   * *
+   ***
+ 
+ rainforest canopy 9
+ 
+ ****
+ *sB*s is s2
+ ** *
+ *C *
+ ****
+ 
+ underwater maze 7
+ 
+ *******
+ *   C *
+ *** ***   
+ *k*   *
+ *   * *
+ *** * *
+ *D    *
+ *******
+ 
+ underwater maze 5
+
+ *******
+ *     *
+ *E* ***   
+ ***   *
+ *   * *
+ * *** *
+ *D*   *
+ *******
+ 
+ underground pyramid 3
+ 
+ *********
+ *       *
+ * *** * *
+ * *F  ***
+ * *** * *
+ *   *   *
+ * *** * *
+ *   * *E*
+ *********
+
+ underground pyramid 1
+ 
+ *****
+ *F  *
+ * ***
+ *  c*
+ *****
+ 

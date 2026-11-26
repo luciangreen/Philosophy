@@ -1,0 +1,4 @@
+vclb_version(1.0).
+status(initialized).
+source_file('/Users/lg3/Dropbox/GitHub/Philosophy/lucianpl.pl').
+source_predicate(lucianpl/1).
